@@ -14,12 +14,12 @@
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Normalization in Deep Learning">
-<meta property="og:url" content="http://sxiazr.github.io/2019/07/16/normalization-in-deep-learning/index.html">
+<meta property="og:url" content="http://sxiazr.github.io/2019/10/14/normalization-in-deep-learning/index.html">
 <meta property="og:site_name" content="DeepBlog">
 <meta property="og:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-14T22:54:16.160Z">
+<meta property="og:updated_time" content="2019-10-14T23:08:01.138Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Normalization in Deep Learning">
 <meta name="twitter:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-16T09:57:38.311Z">2019-07-16</time>
+                <time class="level-item has-text-grey" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    17 minutes read (About 2607 words)
+                    17 minutes read (About 2608 words)
                 </span>
                 
                 
@@ -187,6 +187,7 @@
 <p>Make optimization well-conditioned.</p>
 </blockquote>
 <p>The rough intuition is that the cost function will be more round and easier to optimize when features are all on similar scales. </p>
+<a id="more"></a>
 <p>Cost function of the unnormalized features can be a very elongated bowl, whereas if we normalize the features, then the cost function will look more symmetric. Having an elongated cost function, we might have to use a very small learning rate and gradient descent might need a lot of steps to oscillate back and forth before it finally gets to the minimum. If we have more spherical contours, then gradient descent can pretty much go straight to the minimum and we can take much larger steps with gradient descent without much oscillation.</p>
 <p align="center">
   <img src="../images/normalization-in-deep-learning/why-normalize-inputs.jpg" alt="Why normalize inputs" width="500px">
@@ -325,13 +326,13 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/08/22/hello-world/">
-                <i class="level-item fas fa-chevron-left"></i>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/22/hello-world/">
                 <span class="level-item">Hello World</span>
+                <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
-        
         
     </div>
 </div>
@@ -545,6 +546,25 @@
         
         <article class="media">
             
+            <a href="/2019/10/14/normalization-in-deep-learning/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time></div>
+                    <a href="/2019/10/14/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/08/22/hello-world/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
@@ -555,25 +575,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time></div>
                     <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/16/normalization-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-16T09:57:38.311Z">2019-07-16</time></div>
-                    <a href="/2019/07/16/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -594,9 +595,9 @@
         <ul class="menu-list">
         
         <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
+            <a class="level is-marginless" href="/archives/2019/10/">
                 <span class="level-start">
-                    <span class="level-item">August 2019</span>
+                    <span class="level-item">October 2019</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
@@ -605,9 +606,9 @@
         </li>
         
         <li>
-            <a class="level is-marginless" href="/archives/2019/07/">
+            <a class="level is-marginless" href="/archives/2019/08/">
                 <span class="level-start">
-                    <span class="level-item">July 2019</span>
+                    <span class="level-item">August 2019</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
@@ -653,6 +654,25 @@
         
         <article class="media">
             
+            <a href="/2019/10/14/normalization-in-deep-learning/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time></div>
+                    <a href="/2019/10/14/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/08/22/hello-world/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
@@ -663,25 +683,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time></div>
                     <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/16/normalization-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-16T09:57:38.311Z">2019-07-16</time></div>
-                    <a href="/2019/07/16/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -702,9 +703,9 @@
         <ul class="menu-list">
         
         <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
+            <a class="level is-marginless" href="/archives/2019/10/">
                 <span class="level-start">
-                    <span class="level-item">August 2019</span>
+                    <span class="level-item">October 2019</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
@@ -713,9 +714,9 @@
         </li>
         
         <li>
-            <a class="level is-marginless" href="/archives/2019/07/">
+            <a class="level is-marginless" href="/archives/2019/08/">
                 <span class="level-start">
-                    <span class="level-item">July 2019</span>
+                    <span class="level-item">August 2019</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
