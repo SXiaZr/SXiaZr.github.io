@@ -7,21 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Archives - DeepBlog</title>
+<title>Normalization in Deep Learning - DeepBlog</title>
 
 
-    <meta name="description" content="The deep learning related knowledge repository">
+    <meta name="description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DeepBlog">
-<meta property="og:url" content="http://sxiazr.github.io/archives/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Normalization in Deep Learning">
+<meta property="og:url" content="http://sxiazr.github.io/2019/07/16/normalization-in-deep-learning/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="The deep learning related knowledge repository">
+<meta property="og:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-10-14T22:54:16.160Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DeepBlog">
-<meta name="twitter:description" content="The deep learning related knowledge repository">
+<meta name="twitter:title" content="Normalization in Deep Learning">
+<meta name="twitter:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -97,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                <img src="/images/logo.svg" alt="Normalization in Deep Learning" height="28">
             
             </a>
         </div>
@@ -108,7 +109,7 @@
                 <a class="navbar-item"
                 href="/">Home</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/archives">Archives</a>
                 
                 <a class="navbar-item"
@@ -147,50 +148,218 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
         
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="tag is-link">
-        2019
-        </h3>
-        <div class="timeline">
-        
-            <article class="media">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-16T09:57:38.311Z">2019-07-16</time>
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time>
-                        <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-07-16T09:57:38.311Z">2019-07-16</time>
-                        <a href="/2019/07/16/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 minutes read (About 2607 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Normalization in Deep Learning
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://en.wikipedia.org/wiki/Normalization_(statistics)" target="_blank" rel="noopener">Normalization</a> refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bring the entire probability distributions of adjusted values into alignment. Normalization in deep learning can make the model to train efficiently.</p>
+<h1 id="Why-does-Normalization-work"><a href="#Why-does-Normalization-work" class="headerlink" title="Why does Normalization work?"></a>Why does Normalization work?</h1><h2 id="Intuition-1-Input-Normalization-frac-X-mu-sigma"><a href="#Intuition-1-Input-Normalization-frac-X-mu-sigma" class="headerlink" title="Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$"></a>Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$</h2><blockquote>
+<p>Make training less sensitive to the scale of features.</p>
+</blockquote>
+<p>After optimization, the feature with a large scale will always be weighted with a small value ($\omega_{small}$), and vise versa ($\omega_{large}$). Because of the large scale of the feature, a tiny change in the small weight ($\omega_{small}$) will change the prediction by a lot compared to the same change in the large weight ($\omega_{large}$). It means that setting $\omega_{small}$ correctly might dominate the optimization process and the feature with a large scale is of more importance which actually makes no sense.</p>
+<blockquote>
+<p>Make optimization well-conditioned.</p>
+</blockquote>
+<p>The rough intuition is that the cost function will be more round and easier to optimize when features are all on similar scales. </p>
+<p>Cost function of the unnormalized features can be a very elongated bowl, whereas if we normalize the features, then the cost function will look more symmetric. Having an elongated cost function, we might have to use a very small learning rate and gradient descent might need a lot of steps to oscillate back and forth before it finally gets to the minimum. If we have more spherical contours, then gradient descent can pretty much go straight to the minimum and we can take much larger steps with gradient descent without much oscillation.</p>
+<p align="center">
+  <img src="../images/normalization-in-deep-learning/why-normalize-inputs.jpg" alt="Why normalize inputs" width="500px">
+</p>
+
+<h2 id="Intuition-2-Covariate-Shift"><a href="#Intuition-2-Covariate-Shift" class="headerlink" title="Intuition 2: Covariate Shift"></a>Intuition 2: Covariate Shift</h2><blockquote>
+<p>Covariate shift refers to the problem that the distribution of the input values changes, but the concept (model) being learned remains stationary.</p>
+</blockquote>
+<p>In deep learning, the basic idea behind normalization is to limit the covariate shift, which allows the model to learn on a more stable distribution, and would thus accelerate the training of the network.</p>
+<h1 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h1><p>In deep learning, we are particularly concerned with the change in the distribution of the inputs to the hidden nodes within a network. A neural network changes the weights of each layer over the training, which means that the activations of each layer change as well. Since the activations of a previous layer are the inputs of the next layer, each layer in the neural network is faced with a situation where the input distribution changes with each step. </p>
+<ol>
+<li><p>什么是covariate shift</p>
+<ul>
+<li>定义</li>
+<li>举例</li>
+</ul>
+</li>
+<li><p>In deep learning</p>
+<ul>
+<li>统一分布</li>
+</ul>
+</li>
+<li><p>Mathematic</p>
+<ul>
+<li>scale and</li>
+<li>to better take advantage of the nonlinearity of the activation(sigmoid function) rather than have all the value be in the linear regime </li>
+<li>Parameteraztion wb the parameter b will be zeroed out</li>
+</ul>
+</li>
+<li><p>Advantage</p>
+<ul>
+<li>为什么用normalization统一</li>
+<li>视屏：椭圆变圆</li>
+</ul>
+</li>
+<li><p>加在什么地方存在争议</p>
+</li>
+<li><p>Why Data Normalization is necessary </p>
+</li>
+<li><p>why batch normalization works<br>to take on a similar range of values that can speed up learning</p>
+</li>
+</ol>
+<p>A second reason why batch norm works, is it makes weights, later or deeper than your network, say the weight on layer 10, more robust to changes to weights in earlier layers of the neural network, say, in layer one</p>
+<p>So, this idea of your data distribution changing goes by the somewhat fancy name, covariate shift. And the idea is that, if you’ve learned some X to Y mapping, if the distribution of X changes, then you might need to retrain your learning algorithm.</p>
+<p>But what this does is, it limits the amount to which updating the parameters in the earlier layers can affect the distribution of values that the third layer now sees and therefore has to learn on. </p>
+<p>And so, batch norm reduces the problem of the input values changing, it really causes these values to become more stable, so that the later layers of the neural network has more firm ground to stand on.</p>
+<p>And even though the input distribution changes a bit, it changes less, and what this does is, even as the earlier layers keep learning, the amounts that this forces the later layers to adapt to as early as layer changes is reduced or, if you will, it weakens the coupling between what the early layers parameters has to do and what the later layers parameters have to do. </p>
+<p>a little bit more independently of other layers,</p>
+<p>but the takeaway is that batch norm means that, especially from the perspective of one of the later layers of the neural network, the earlier layers don’t get to shift around as much, because they’re constrained to have the same mean and variance</p>
+<p>It turns out batch norm has a second effect, it has a slight regularization effect.<br>So because the mean and variance is a little bit noisy because it’s estimated with just a relatively small sample of data, the scaling process, going from Z_l to Z_2_l, that process is a little bit noisy as well, because it’s computed, using a slightly noisy </p>
+<p>So similar to dropout, it adds some noise to each hidden layer’s activations.</p>
+<p>whereas batch norm has multiples of noise because of scaling by the standard deviation, as well as additive noise because it’s subtracting the mean.</p>
+<p>And so similar to dropout, it adds noise to the hidden layers and therefore has a very slight regularization effect.</p>
+<p>Because the noise added is quite small, this is not a huge regularization effect, and you might choose to use batch norm together with dropout, and you might use batch norm together with dropouts if you want the more powerful regularization effect of dropout</p>
+<p>But, really, don’t turn to batch norm as a regularization. Use it as a way to normalize your hidden units activations and therefore speed up learning. </p>
+<ol start="8">
+<li>Batch Normalization at test time<br>But that test time, you might need to process a single example at a time. So, the way to do that is to estimate mu and sigma squared from your training set and there are many ways to do that.</li>
+</ol>
+<p>So you keep a running average of the mu and the sigma squared that you’re seeing for each layer as you train the neural network across different mini batches.</p>
+<p>You could in theory run your whole training set through your final network to get mu and sigma squared. But in practice, what people usually do is implement and exponentially weighted average where you just keep track of the mu and sigma squared values you’re seeing during training and use and exponentially the weighted average, also sometimes called the running average,</p>
+<ol start="9">
+<li><p>exponentially weighted averages (exponentially weighted moving averages)<br>when you compute this you can think of VT as approximately averaging over, something like one over one minus beta, day’s temperature.</p>
+<p>So, notice a couple of things with this very high value of beta. The plot you get is much smoother because you’re now averaging over more days of temperature. </p>
+<p>but on the flip side the curve has now shifted further to the right because you’re now averaging over a much larger window of temperatures</p>
+<p>And by averaging over a larger window, this formula, this exponentially weighted average formula. It adapts more slowly, when the temperature changes. So, there’s just a bit more latency. </p>
+<p>And the reason for that is when Beta 0.98 then it’s giving a lot of weight to the previous value and a much smaller weight just 0.02, to whatever you’re seeing right now.</p>
+<p>(2 days)But this adapts much more quickly to what the temperature changes.</p>
+<p>So you have this exponentially decaying function.</p>
+<p>So it’s really taking the daily temperature, multiply with this exponentially decaying function, and then summing it up. </p>
+<p>add up to one or add up to very close to one, </p>
+<p>Because it’s after 10 days that the weight decays to less than about a third of the weight of the current day. </p>
+<p>So one of the advantages of this exponentially weighted average formula, is that it takes very little memory. </p>
+<p>. But the disadvantage of that, of explicitly keeping all the temperatures around and sum of the last 10 days is it requires more memory, and it’s just more complicated to implement and is computationally more expensive.</p>
+<p>where you need to compute averages of a lot of variables. This is a very efficient way to do so both from computation and memory efficiency point. This is a very efficient way to do so both from computation and memory efficiency point of view which is why it’s used in a lot of machine learning. </p>
+</li>
+</ol>
+<p>There’s one technical detail called biased correction<br>  You actually get the purple curve here. And you notice that the purple curve starts off really low. So let’s see how it affects that. When you’re implementing a moving average, you initialize it with v0 = 0, </p>
+<p>So it turns out that there is a way to modify this estimate that makes it much better, that makes it more accurate, especially during this initial phase of your estimate;Which is that, instead of taking Vt, take Vt divided by 1- Beta to the power of t where </p>
+<p>approach 0 which is why when t is large enough, the bias correction makes almost no difference. This is why when t is large, the purple line and the green line pretty much overlap</p>
+<ol start="4">
+<li>References</li>
+</ol>
+<p>Y = weight_1 * (Age) + weight_2 * (Income) + some_constant<br>Just for sake of explanation let Age be usually in range of [0,120] and let us assume Income in range of [10000, 100000]. The scale of Age and Income are very different. If you consider them as is then weights weight_1 and weight_2 may be assigned biased weights.  weight_2 might bring more importance to Income as a feature than to what weight_1 brings importance to Age. To scale them to a common level, we can normalize them. For example, we can bring all the ages in range of [0,1] and all incomes in range of [0,1]. Now we can say that Age and Income are given equal importance as a feature.</p>
+<p>Does Normalization always increase the accuracy?</p>
+<p>Apparently, No. It is not necessary that normalization always increases accuracy. It may or might not, you never really know until you implement. Again it depends on at which stage in you training you apply normalization, on whether you apply normalization after every activation, etc.</p>
+<p>As the range of the values of the features gets narrowed down to a particular range because of normalization, its easy to perform computations over a smaller range of values. So, usually the model gets trained a bit faster.</p>
+<p>Regarding the number of epochs, accuracy usually increases with number of epochs provided that your model doesn’t start over-fitting.</p>
+<p>()[<a href="https://www.quora.com/Why-do-we-normalize-the-data]" target="_blank" rel="noopener">https://www.quora.com/Why-do-we-normalize-the-data]</a></p>
+<p>[<a href="https://www.coursera.org/learn/deep-neural-network/lecture/lXv6U/normalizing-inputs]" target="_blank" rel="noopener">https://www.coursera.org/learn/deep-neural-network/lecture/lXv6U/normalizing-inputs]</a></p>
+<ol start="9">
+<li>The limitations of batch normalization</li>
+</ol>
+<ol start="10">
+<li>gradient descent with momentum</li>
+</ol>
+<p>In one sentence, the basic idea is to compute an exponentially weighted average of your gradients, and then use that gradient to update your weights instead.</p>
+<p>So what this does is smooth out the steps of gradient descent.</p>
+<p>If you average out these gradients, you find that the oscillations in the vertical direction will tend to average out to something closer to zero. So, in the vertical direction, where you want to slow things down, this will average out positive and negative numbers, so the average will be close to zero.</p>
+<p>you find that the gradient descent with momentum ends up eventually just taking steps that are much smaller oscillations in the vertical direction, but are more directed to just moving quickly in the horizontal direction.</p>
+<p>And so this allows your algorithm to take a more straightforward path, or to damp out the oscillations in this path to the minimum.</p>
+<p>They kind of minimize this type of bowl shaped function then these derivative terms you can think of as providing acceleration to a ball that you’re rolling down hill. And these momentum terms you can think of as representing the velocity.<br>And data, because this number a little bit less than one, displays a row of friction and it prevents your ball from speeding up without limit. </p>
+<p>The most common value for Beta is 0.9. We’re averaging over the last ten days temperature. So it is averaging of the last ten iteration’s gradients. </p>
+<p>Well, and how about bias correction, right? So do you want to take vdW and vdb and divide it by 1 minus beta to the t. In practice, people don’t usually do this because after just ten iterations, your moving average will have warmed up and is no longer a bias estimate. So in practice, I don’t really see people bothering with bias correction when implementing gradient descent or momentum. </p>
+<ol start="11">
+<li>RMSprop, which stands for root mean square prop<br>. So for clarity, this squaring operation is an element-wise squaring operation. So what this is doing is really keeping an exponentially weighted average of the squares of the derivatives.</li>
+</ol>
+<p>So with this terms SdW an Sdb, what we’re hoping is that SdW will be relatively small, so that here we’re dividing by relatively small number. Whereas Sdb will be relatively large, so that here we’re dividing yt relatively large number in order to slow down the updates on a vertical dimension. And indeed if you look at the derivatives, these derivatives are much larger in the vertical direction than in the horizontal direction. So the net effect of this is that your up days in the vertical direction are divided by a much larger number, and so that helps damp out the oscillations. Whereas the updates in the horizontal direction are divided by a smaller number. </p>
+<p>And one effect of this is also that you can therefore use a larger learning rate alpha, and get faster learning without diverging in the vertical direction. (改变了相对比例)</p>
+<p>but your intuition is that in dimensions where you’re getting these oscillations, you end up computing a larger sum. </p>
+<p>A weighted average for these squares and derivatives, and so you end up dumping ] out the directions in which there are these oscillations.</p>
+<p>Just to ensure numerical stability, when you implement this in practice you add a very, very small epsilon to the denominator. 10 to the -8 would be a reasonable default, but this just ensures slightly greater numerical stability that for numerical round off or whatever reason, </p>
+<p>So that’s RMSprop, and similar to momentum, has the effects of damping out the oscillations in gradient descent, in mini-batch gradient descent. and allowing you to maybe use a larger learning rate alpha. And certainly speeding up the learning speed of your algorithm.</p>
+<ol start="12">
+<li>Adam</li>
+</ol>
+<p>In the typical implementation of Adam, you do implement bias correction.</p>
+<p>So, this algorithm has a number of hyper parameters. The learning with hyper parameter alpha is still important and usually needs to be tuned. So you just have to try a range of values and see what works. A common choice really the default choice for ß1 is 0.9. So this is a moving average, weighted average of dw right this is the momentum light term. The hyper parameter for ß2, the authors of the Adam paper, inventors of the Adam algorithm recommend 0.999. </p>
+<p>And then Epsilon, the choice of epsilon doesn’t matter very much. But the authors of the Adam paper recommended it 10 to the minus 8. </p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
     </div>
 </div>
 
-    
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/08/22/hello-world/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Hello World</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -584,7 +753,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                    <img src="/images/logo.svg" alt="Normalization in Deep Learning" height="28">
                 
                 </a>
                 <p class="is-size-7">
