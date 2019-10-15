@@ -19,7 +19,7 @@
 <meta property="og:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-15T21:43:21.652Z">
+<meta property="og:updated_time" content="2019-10-15T21:58:01.264Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Normalization in Deep Learning">
 <meta name="twitter:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1647 words)
+                    11 minutes read (About 1649 words)
                 </span>
                 
                 
@@ -190,7 +190,7 @@
 <a id="more"></a>
 <p>Cost function of the unnormalized features can be a very elongated bowl, whereas if we normalize the features, then the cost function will look more symmetric. Having an elongated cost function, we might have to use a very small learning rate and gradient descent might need a lot of steps to oscillate back and forth before it finally gets to the minimum. If we have more spherical contours, then gradient descent can pretty much go straight to the minimum and we can take much larger steps with gradient descent without much oscillation.</p>
 <p align="center">
-  <img src="/.io//why-normalize-inputs.jpg" alt="Why normalize inputs" width="500px">
+  <img src="./why-normalize-inputs.jpg" alt="Why normalize inputs" width="500px">
 </p>
 
 <h2 id="Intuition-2-Covariate-Shift"><a href="#Intuition-2-Covariate-Shift" class="headerlink" title="Intuition 2: Covariate Shift"></a>Intuition 2: Covariate Shift</h2><blockquote>
@@ -222,26 +222,26 @@
 <p>In practice, the moving average people usually use here is exponentially weighted average.</p>
 </blockquote>
 <p>An <strong>exponential moving average (EMA)</strong>, also known as an exponentially weighted moving average (EWMA), is a first-order filter that applies weighting factors which decrease exponentially.</p>
-<p>The EMA for a series <strong>Y</strong> is calculated recursively:</p>
+<p>The EMA for a series $Y$ is calculated recursively:</p>
 <p>$$<br>S_t = \begin{cases}<br> \alpha \cdot Y_1,                                           &amp; t = 1 \<br> \alpha \cdot Y_t + (1 - \alpha) \cdot S_{t-1}, &amp; t &gt; 1<br>\end{cases}<br>$$</p>
 <p>Where:</p>
 <ul>
 <li>$\alpha$ represents the degree of weighting decrease, a constant smoothing factor between 0 and 1. </li>
-<li><strong>Y<sub>t</sub></strong> and <strong>S<sub>t</sub></strong> are the values at a time period <strong>t</strong> respectively.</li>
+<li>$Y_t$ and $S_t$ are the values at a time period $t$ respectively.</li>
 </ul>
 <p>This formula can also be expressed in technical analysis terms as follows:</p>
 <ul>
 <li>How the EMA steps towards the latest datum point:<br>$$\text{EMA}_\text{today} = \text{EMA}_\text{yesterday} + \alpha \left[\text{price}_\text{today} - \text{EMA}_\text{yesterday}\right]$$</li>
-<li>How the weighting factor on each data point <strong>p<sub>1</sub></strong>, <strong>p<sub>2</sub></strong>, etc., decreases exponentially by expanding out $\text{EMA}_\text{yesterday}$ :<br>$$<br>\begin{aligned}<br>\text{EMA}_\text{today}<br>= &amp; { \alpha \left[p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots \right] } \<br>= &amp;\frac{p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots}{1 + (1 - \alpha) + (1 - \alpha)^2 + (1 - \alpha)^3 + \cdots}<br>\end{aligned}<br>$$since $1/\alpha = 1 + (1 - \alpha) + (1 - \alpha)^2 + \cdots$ (<strong>weighted average</strong>).</li>
+<li>How the weighting factor on each data point $p_1$, $p_2$, etc., decreases exponentially by expanding out $\text{EMA}_\text{yesterday}$ :<br>$$<br>\begin{aligned}<br>\text{EMA}_\text{today}<br>= &amp; { \alpha \left[p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots \right] } \<br>= &amp;\frac{p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots}{1 + (1 - \alpha) + (1 - \alpha)^2 + (1 - \alpha)^3 + \cdots}<br>\end{aligned}<br>$$since $1/\alpha = 1 + (1 - \alpha) + (1 - \alpha)^2 + \cdots$ (<strong>weighted average</strong>).</li>
 </ul>
 <p>A couple of things about choosing $\alpha$:</p>
 <ul>
 <li>A higher $\alpha$ discounts older observations faster so that the EMA will adapt more quickly to the current changes.</li>
-<li>When compute EMA,  we can think of  $S_t$ as approximately averaging over $\frac{1}{\alpha}$ number of data. So with a low value of $\alpha$, the EMA is much <strong>smoother</strong> and also has more <strong>latency</strong>.  (Always set to <strong>0.1</strong> in deep learning)<blockquote>
-<p> Bias correction is a technical modification that makes EMA estimate more accurate, especially during its initial phase.</p>
-</blockquote>
-</li>
+<li>When compute EMA,  we can think of  $S_t$ as approximately averaging over $\frac{1}{\alpha}$ number of data. So with a low value of $\alpha$, the EMA is much <strong>smoother</strong> and also has more <strong>latency</strong>.  (Always set to <strong>0.1</strong> in deep learning)</li>
 </ul>
+<blockquote>
+<p>Bias correction is a technical modification that makes EMA estimate more accurate, especially during its initial phase.</p>
+</blockquote>
 <p>The EMA is very low when the iteration just starts off and we will get a much lower value that is not a very good estimate of the first data. In order to fix the problem, we could instead of taking $S_t$, take $\frac{S_t}{1-(1-a)^t}$, namely bias correction. It will make the EMA larger when $t$ is small and make almost no difference when $t$ is large enough.</p>
 <h1 id="Weight-Normalization"><a href="#Weight-Normalization" class="headerlink" title="Weight Normalization"></a>Weight Normalization</h1><h2 id="The-Limitations-of-Batch-Normalization"><a href="#The-Limitations-of-Batch-Normalization" class="headerlink" title="The Limitations of Batch Normalization"></a>The Limitations of Batch Normalization</h2><p>The key limitation of batch normalization is that it is <strong>dependent on the mini-batch</strong>.</p>
 <blockquote>
@@ -256,8 +256,8 @@
 <h2 id="Theory-of-Weight-Normalization"><a href="#Theory-of-Weight-Normalization" class="headerlink" title="Theory of Weight Normalization"></a>Theory of Weight Normalization</h2><blockquote>
 <p>What weight normalization does is it <strong>separates the norm of the weight vector from its direction</strong>. </p>
 </blockquote>
-<p>In an effort to speed up the convergence of optimization procedure, it proposes to reparameterize each weight vector $\omega$ in terms of a parameter vector $\bold{v}$ and a scalar parameter $g$ in the following way:</p>
-<p>$$\omega = \frac{g}{||\bold{v}||}\bold{v}$$It then optimizes both$\bold{v}$ and $g$ using gradient descent. This reparameterization has the effect of fixing the Euclidean norm of the weight vector $\omega$: we now have $||\omega||=g$, independent of the parameters $\bold{v}$. We, therefore, call this reparameterization weight normalization.</p>
+<p>In an effort to speed up the convergence of optimization procedure, it proposes to reparameterize each weight vector $\omega$ in terms of a parameter vector $\boldsymbol{v}$ and a scalar parameter $g$ in the following way:</p>
+<p>$$\omega = \frac{g}{||\boldsymbol{v}||}\boldsymbol{v}$$It then optimizes both$\boldsymbol{v}$ and $g$ using gradient descent. This reparameterization has the effect of fixing the Euclidean norm of the weight vector $\omega$: we now have $||\omega||=g$, independent of the parameters $\boldsymbol{v}$. We, therefore, call this reparameterization weight normalization.</p>
 <h1 id="Layer-Normalization"><a href="#Layer-Normalization" class="headerlink" title="Layer Normalization"></a>Layer Normalization</h1><h2 id="Theory-of-Layer-Normalization"><a href="#Theory-of-Layer-Normalization" class="headerlink" title="Theory of Layer Normalization"></a>Theory of Layer Normalization</h2><blockquote>
 <p>The key feature of layer normalization is that it <strong>normalizes the inputs across the features</strong>.</p>
 </blockquote>
