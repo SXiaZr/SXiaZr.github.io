@@ -19,7 +19,7 @@
 <meta property="og:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-14T23:32:16.743Z">
+<meta property="og:updated_time" content="2019-10-15T21:43:21.652Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Normalization in Deep Learning">
 <meta name="twitter:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    17 minutes read (About 2608 words)
+                    11 minutes read (About 1647 words)
                 </span>
                 
                 
@@ -190,122 +190,79 @@
 <a id="more"></a>
 <p>Cost function of the unnormalized features can be a very elongated bowl, whereas if we normalize the features, then the cost function will look more symmetric. Having an elongated cost function, we might have to use a very small learning rate and gradient descent might need a lot of steps to oscillate back and forth before it finally gets to the minimum. If we have more spherical contours, then gradient descent can pretty much go straight to the minimum and we can take much larger steps with gradient descent without much oscillation.</p>
 <p align="center">
-  <img src="./why-normalize-inputs.jpg" alt="Why normalize inputs" width="500px">
+  <img src="/.io//why-normalize-inputs.jpg" alt="Why normalize inputs" width="500px">
 </p>
 
 <h2 id="Intuition-2-Covariate-Shift"><a href="#Intuition-2-Covariate-Shift" class="headerlink" title="Intuition 2: Covariate Shift"></a>Intuition 2: Covariate Shift</h2><blockquote>
 <p>Covariate shift refers to the problem that the distribution of the input values changes, but the concept (model) being learned remains stationary.</p>
 </blockquote>
 <p>In deep learning, the basic idea behind normalization is to limit the covariate shift, which allows the model to learn on a more stable distribution, and would thus accelerate the training of the network.</p>
-<h1 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h1><p>In deep learning, we are particularly concerned with the change in the distribution of the inputs to the hidden nodes within a network. A neural network changes the weights of each layer over the training, which means that the activations of each layer change as well. Since the activations of a previous layer are the inputs of the next layer, each layer in the neural network is faced with a situation where the input distribution changes with each step. </p>
-<ol>
-<li><p>什么是covariate shift</p>
+<h1 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h1><p>In deep learning, we are particularly concerned with the change in the distribution of the inputs to the hidden nodes within a network. A neural network changes the weights of each layer over the training, which means that the activations of each layer change as well. Since the activations of a previous layer are the inputs of the next layer, each layer in the neural network is faced with a situation where the input distribution changes with each step (<strong>covariate shift</strong>). </p>
+<h2 id="Batch-Normalization-at-Training-Time"><a href="#Batch-Normalization-at-Training-Time" class="headerlink" title="Batch Normalization at Training Time"></a>Batch Normalization at Training Time</h2><blockquote>
+<p>What batch normalization does is, especially from the perspective of the later layers of the neural network, it limits the earlier layers to not get to shift around much, by restricting them to have the same mean and variance.  It weakens the coupling between what the early layers and the later layers.</p>
+</blockquote>
+<p>For a layer of the network with d-dimensional input, $x = (x^{(1)},…,x^{(d)})$, each dimension is then normalized separately as following:</p>
+<p>$$\hat{x}_i^{(k)} = \frac{x_i^{(k)}-\mu_B^{(k)}}{\sqrt{\sigma_B^{(k)^2}+\epsilon}}$$where $\mu_B^{(k)}$ and $\sigma_B^{(k)^2}$ are the per-dimension mean and variance, respectively. $\epsilon$ is added in the denominator for numerical stability and is an arbitrarily small constant. </p>
+<p>The resulting normalized $\hat{x}^{(k)}$ have zero mean and unit variance, to restore the representation power of the network or better take advantage of the nonlinearity (if activations are normalized), a transformation step then follows as:<br>$$y_i^{(k)} = \gamma^{(k)} \hat{x}_{i}^{(k)} +\beta^{(k)}$$where the parameters $\gamma^{(k)}$and $\beta^{(k)}$ are subsequently learnt in the optimization process and can convert the mean and variance to any value that the network desires.</p>
+<p>Formally, the transform $BN_{\gamma^{(k)},\beta^{(k)}}: x^{(k)}<em>{1…m} \rightarrow y^{(k)}</em>{1…m}$ is denoted as the Batch Normalizing Transform.</p>
+<blockquote>
+<p>There are some debates in deep learning about whether we<br>should normalize the value before the activation function or after it. </p>
+</blockquote>
+<p>In practice, normalizing before the activation function is done much more often.</p>
+<blockquote>
+<p>Regularization can be motivated as a technique to improve the generalizability of a learned model. Batch normalization has a slight regularization effect.  </p>
+</blockquote>
+<p>The mean and variance are a little bit noisy because they are estimated on a mini-batch. Similar to dropout, batch normalization adds small noise to the hidden layers and therefore has a very slight regularization effect.</p>
+<p>We don’t particularly use to batch normalization as a regularization but use it as a way to speed up learning.</p>
+<h2 id="Batch-Normalization-at-Test-Time"><a href="#Batch-Normalization-at-Test-Time" class="headerlink" title="Batch Normalization at Test Time"></a>Batch Normalization at Test Time</h2><blockquote>
+<p>At the test time, we use the $\gamma$ and $\beta$ learned from training, the $\mu$ and $\sigma^2$ are estimated from the training set.</p>
+</blockquote>
+<p>Running the whole training set to get $\mu$ and $\sigma^2$ could be memory-consuming. So we keep a running average of the $\mu$ and $\sigma^2$ for each layer as we train the neural network across different mini-batches to get an estimation of them. </p>
+<blockquote>
+<p>In practice, the moving average people usually use here is exponentially weighted average.</p>
+</blockquote>
+<p>An <strong>exponential moving average (EMA)</strong>, also known as an exponentially weighted moving average (EWMA), is a first-order filter that applies weighting factors which decrease exponentially.</p>
+<p>The EMA for a series <strong>Y</strong> is calculated recursively:</p>
+<p>$$<br>S_t = \begin{cases}<br> \alpha \cdot Y_1,                                           &amp; t = 1 \<br> \alpha \cdot Y_t + (1 - \alpha) \cdot S_{t-1}, &amp; t &gt; 1<br>\end{cases}<br>$$</p>
+<p>Where:</p>
 <ul>
-<li>定义</li>
-<li>举例</li>
+<li>$\alpha$ represents the degree of weighting decrease, a constant smoothing factor between 0 and 1. </li>
+<li><strong>Y<sub>t</sub></strong> and <strong>S<sub>t</sub></strong> are the values at a time period <strong>t</strong> respectively.</li>
 </ul>
-</li>
-<li><p>In deep learning</p>
+<p>This formula can also be expressed in technical analysis terms as follows:</p>
 <ul>
-<li>统一分布</li>
+<li>How the EMA steps towards the latest datum point:<br>$$\text{EMA}_\text{today} = \text{EMA}_\text{yesterday} + \alpha \left[\text{price}_\text{today} - \text{EMA}_\text{yesterday}\right]$$</li>
+<li>How the weighting factor on each data point <strong>p<sub>1</sub></strong>, <strong>p<sub>2</sub></strong>, etc., decreases exponentially by expanding out $\text{EMA}_\text{yesterday}$ :<br>$$<br>\begin{aligned}<br>\text{EMA}_\text{today}<br>= &amp; { \alpha \left[p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots \right] } \<br>= &amp;\frac{p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots}{1 + (1 - \alpha) + (1 - \alpha)^2 + (1 - \alpha)^3 + \cdots}<br>\end{aligned}<br>$$since $1/\alpha = 1 + (1 - \alpha) + (1 - \alpha)^2 + \cdots$ (<strong>weighted average</strong>).</li>
 </ul>
-</li>
-<li><p>Mathematic</p>
+<p>A couple of things about choosing $\alpha$:</p>
 <ul>
-<li>scale and</li>
-<li>to better take advantage of the nonlinearity of the activation(sigmoid function) rather than have all the value be in the linear regime </li>
-<li>Parameteraztion wb the parameter b will be zeroed out</li>
+<li>A higher $\alpha$ discounts older observations faster so that the EMA will adapt more quickly to the current changes.</li>
+<li>When compute EMA,  we can think of  $S_t$ as approximately averaging over $\frac{1}{\alpha}$ number of data. So with a low value of $\alpha$, the EMA is much <strong>smoother</strong> and also has more <strong>latency</strong>.  (Always set to <strong>0.1</strong> in deep learning)<blockquote>
+<p> Bias correction is a technical modification that makes EMA estimate more accurate, especially during its initial phase.</p>
+</blockquote>
+</li>
 </ul>
-</li>
-<li><p>Advantage</p>
-<ul>
-<li>为什么用normalization统一</li>
-<li>视屏：椭圆变圆</li>
-</ul>
-</li>
-<li><p>加在什么地方存在争议</p>
-</li>
-<li><p>Why Data Normalization is necessary </p>
-</li>
-<li><p>why batch normalization works<br>to take on a similar range of values that can speed up learning</p>
-</li>
-</ol>
-<p>A second reason why batch norm works, is it makes weights, later or deeper than your network, say the weight on layer 10, more robust to changes to weights in earlier layers of the neural network, say, in layer one</p>
-<p>So, this idea of your data distribution changing goes by the somewhat fancy name, covariate shift. And the idea is that, if you’ve learned some X to Y mapping, if the distribution of X changes, then you might need to retrain your learning algorithm.</p>
-<p>But what this does is, it limits the amount to which updating the parameters in the earlier layers can affect the distribution of values that the third layer now sees and therefore has to learn on. </p>
-<p>And so, batch norm reduces the problem of the input values changing, it really causes these values to become more stable, so that the later layers of the neural network has more firm ground to stand on.</p>
-<p>And even though the input distribution changes a bit, it changes less, and what this does is, even as the earlier layers keep learning, the amounts that this forces the later layers to adapt to as early as layer changes is reduced or, if you will, it weakens the coupling between what the early layers parameters has to do and what the later layers parameters have to do. </p>
-<p>a little bit more independently of other layers,</p>
-<p>but the takeaway is that batch norm means that, especially from the perspective of one of the later layers of the neural network, the earlier layers don’t get to shift around as much, because they’re constrained to have the same mean and variance</p>
-<p>It turns out batch norm has a second effect, it has a slight regularization effect.<br>So because the mean and variance is a little bit noisy because it’s estimated with just a relatively small sample of data, the scaling process, going from Z_l to Z_2_l, that process is a little bit noisy as well, because it’s computed, using a slightly noisy </p>
-<p>So similar to dropout, it adds some noise to each hidden layer’s activations.</p>
-<p>whereas batch norm has multiples of noise because of scaling by the standard deviation, as well as additive noise because it’s subtracting the mean.</p>
-<p>And so similar to dropout, it adds noise to the hidden layers and therefore has a very slight regularization effect.</p>
-<p>Because the noise added is quite small, this is not a huge regularization effect, and you might choose to use batch norm together with dropout, and you might use batch norm together with dropouts if you want the more powerful regularization effect of dropout</p>
-<p>But, really, don’t turn to batch norm as a regularization. Use it as a way to normalize your hidden units activations and therefore speed up learning. </p>
-<ol start="8">
-<li>Batch Normalization at test time<br>But that test time, you might need to process a single example at a time. So, the way to do that is to estimate mu and sigma squared from your training set and there are many ways to do that.</li>
-</ol>
-<p>So you keep a running average of the mu and the sigma squared that you’re seeing for each layer as you train the neural network across different mini batches.</p>
-<p>You could in theory run your whole training set through your final network to get mu and sigma squared. But in practice, what people usually do is implement and exponentially weighted average where you just keep track of the mu and sigma squared values you’re seeing during training and use and exponentially the weighted average, also sometimes called the running average,</p>
-<ol start="9">
-<li><p>exponentially weighted averages (exponentially weighted moving averages)<br>when you compute this you can think of VT as approximately averaging over, something like one over one minus beta, day’s temperature.</p>
-<p>So, notice a couple of things with this very high value of beta. The plot you get is much smoother because you’re now averaging over more days of temperature. </p>
-<p>but on the flip side the curve has now shifted further to the right because you’re now averaging over a much larger window of temperatures</p>
-<p>And by averaging over a larger window, this formula, this exponentially weighted average formula. It adapts more slowly, when the temperature changes. So, there’s just a bit more latency. </p>
-<p>And the reason for that is when Beta 0.98 then it’s giving a lot of weight to the previous value and a much smaller weight just 0.02, to whatever you’re seeing right now.</p>
-<p>(2 days)But this adapts much more quickly to what the temperature changes.</p>
-<p>So you have this exponentially decaying function.</p>
-<p>So it’s really taking the daily temperature, multiply with this exponentially decaying function, and then summing it up. </p>
-<p>add up to one or add up to very close to one, </p>
-<p>Because it’s after 10 days that the weight decays to less than about a third of the weight of the current day. </p>
-<p>So one of the advantages of this exponentially weighted average formula, is that it takes very little memory. </p>
-<p>. But the disadvantage of that, of explicitly keeping all the temperatures around and sum of the last 10 days is it requires more memory, and it’s just more complicated to implement and is computationally more expensive.</p>
-<p>where you need to compute averages of a lot of variables. This is a very efficient way to do so both from computation and memory efficiency point. This is a very efficient way to do so both from computation and memory efficiency point of view which is why it’s used in a lot of machine learning. </p>
-</li>
-</ol>
-<p>There’s one technical detail called biased correction<br>  You actually get the purple curve here. And you notice that the purple curve starts off really low. So let’s see how it affects that. When you’re implementing a moving average, you initialize it with v0 = 0, </p>
-<p>So it turns out that there is a way to modify this estimate that makes it much better, that makes it more accurate, especially during this initial phase of your estimate;Which is that, instead of taking Vt, take Vt divided by 1- Beta to the power of t where </p>
-<p>approach 0 which is why when t is large enough, the bias correction makes almost no difference. This is why when t is large, the purple line and the green line pretty much overlap</p>
-<ol start="4">
-<li>References</li>
-</ol>
-<p>Y = weight_1 * (Age) + weight_2 * (Income) + some_constant<br>Just for sake of explanation let Age be usually in range of [0,120] and let us assume Income in range of [10000, 100000]. The scale of Age and Income are very different. If you consider them as is then weights weight_1 and weight_2 may be assigned biased weights.  weight_2 might bring more importance to Income as a feature than to what weight_1 brings importance to Age. To scale them to a common level, we can normalize them. For example, we can bring all the ages in range of [0,1] and all incomes in range of [0,1]. Now we can say that Age and Income are given equal importance as a feature.</p>
-<p>Does Normalization always increase the accuracy?</p>
-<p>Apparently, No. It is not necessary that normalization always increases accuracy. It may or might not, you never really know until you implement. Again it depends on at which stage in you training you apply normalization, on whether you apply normalization after every activation, etc.</p>
-<p>As the range of the values of the features gets narrowed down to a particular range because of normalization, its easy to perform computations over a smaller range of values. So, usually the model gets trained a bit faster.</p>
-<p>Regarding the number of epochs, accuracy usually increases with number of epochs provided that your model doesn’t start over-fitting.</p>
-<p>()[<a href="https://www.quora.com/Why-do-we-normalize-the-data]" target="_blank" rel="noopener">https://www.quora.com/Why-do-we-normalize-the-data]</a></p>
-<p>[<a href="https://www.coursera.org/learn/deep-neural-network/lecture/lXv6U/normalizing-inputs]" target="_blank" rel="noopener">https://www.coursera.org/learn/deep-neural-network/lecture/lXv6U/normalizing-inputs]</a></p>
-<ol start="9">
-<li>The limitations of batch normalization</li>
-</ol>
-<ol start="10">
-<li>gradient descent with momentum</li>
-</ol>
-<p>In one sentence, the basic idea is to compute an exponentially weighted average of your gradients, and then use that gradient to update your weights instead.</p>
-<p>So what this does is smooth out the steps of gradient descent.</p>
-<p>If you average out these gradients, you find that the oscillations in the vertical direction will tend to average out to something closer to zero. So, in the vertical direction, where you want to slow things down, this will average out positive and negative numbers, so the average will be close to zero.</p>
-<p>you find that the gradient descent with momentum ends up eventually just taking steps that are much smaller oscillations in the vertical direction, but are more directed to just moving quickly in the horizontal direction.</p>
-<p>And so this allows your algorithm to take a more straightforward path, or to damp out the oscillations in this path to the minimum.</p>
-<p>They kind of minimize this type of bowl shaped function then these derivative terms you can think of as providing acceleration to a ball that you’re rolling down hill. And these momentum terms you can think of as representing the velocity.<br>And data, because this number a little bit less than one, displays a row of friction and it prevents your ball from speeding up without limit. </p>
-<p>The most common value for Beta is 0.9. We’re averaging over the last ten days temperature. So it is averaging of the last ten iteration’s gradients. </p>
-<p>Well, and how about bias correction, right? So do you want to take vdW and vdb and divide it by 1 minus beta to the t. In practice, people don’t usually do this because after just ten iterations, your moving average will have warmed up and is no longer a bias estimate. So in practice, I don’t really see people bothering with bias correction when implementing gradient descent or momentum. </p>
-<ol start="11">
-<li>RMSprop, which stands for root mean square prop<br>. So for clarity, this squaring operation is an element-wise squaring operation. So what this is doing is really keeping an exponentially weighted average of the squares of the derivatives.</li>
-</ol>
-<p>So with this terms SdW an Sdb, what we’re hoping is that SdW will be relatively small, so that here we’re dividing by relatively small number. Whereas Sdb will be relatively large, so that here we’re dividing yt relatively large number in order to slow down the updates on a vertical dimension. And indeed if you look at the derivatives, these derivatives are much larger in the vertical direction than in the horizontal direction. So the net effect of this is that your up days in the vertical direction are divided by a much larger number, and so that helps damp out the oscillations. Whereas the updates in the horizontal direction are divided by a smaller number. </p>
-<p>And one effect of this is also that you can therefore use a larger learning rate alpha, and get faster learning without diverging in the vertical direction. (改变了相对比例)</p>
-<p>but your intuition is that in dimensions where you’re getting these oscillations, you end up computing a larger sum. </p>
-<p>A weighted average for these squares and derivatives, and so you end up dumping ] out the directions in which there are these oscillations.</p>
-<p>Just to ensure numerical stability, when you implement this in practice you add a very, very small epsilon to the denominator. 10 to the -8 would be a reasonable default, but this just ensures slightly greater numerical stability that for numerical round off or whatever reason, </p>
-<p>So that’s RMSprop, and similar to momentum, has the effects of damping out the oscillations in gradient descent, in mini-batch gradient descent. and allowing you to maybe use a larger learning rate alpha. And certainly speeding up the learning speed of your algorithm.</p>
-<ol start="12">
-<li>Adam</li>
-</ol>
-<p>In the typical implementation of Adam, you do implement bias correction.</p>
-<p>So, this algorithm has a number of hyper parameters. The learning with hyper parameter alpha is still important and usually needs to be tuned. So you just have to try a range of values and see what works. A common choice really the default choice for ß1 is 0.9. So this is a moving average, weighted average of dw right this is the momentum light term. The hyper parameter for ß2, the authors of the Adam paper, inventors of the Adam algorithm recommend 0.999. </p>
-<p>And then Epsilon, the choice of epsilon doesn’t matter very much. But the authors of the Adam paper recommended it 10 to the minus 8. </p>
+<p>The EMA is very low when the iteration just starts off and we will get a much lower value that is not a very good estimate of the first data. In order to fix the problem, we could instead of taking $S_t$, take $\frac{S_t}{1-(1-a)^t}$, namely bias correction. It will make the EMA larger when $t$ is small and make almost no difference when $t$ is large enough.</p>
+<h1 id="Weight-Normalization"><a href="#Weight-Normalization" class="headerlink" title="Weight Normalization"></a>Weight Normalization</h1><h2 id="The-Limitations-of-Batch-Normalization"><a href="#The-Limitations-of-Batch-Normalization" class="headerlink" title="The Limitations of Batch Normalization"></a>The Limitations of Batch Normalization</h2><p>The key limitation of batch normalization is that it is <strong>dependent on the mini-batch</strong>.</p>
+<blockquote>
+<p>It puts a  <strong>lower limit on the batch size</strong>.</p>
+</blockquote>
+<p>Ideally, we want to use the <strong>global</strong> mean and variance to normalize the inputs to a layer. However, it’s too costly and the mean and variance are simply estimates on mini-batch, which means that they contain a certain amount of noises.</p>
+<p>Smaller mini-batch sizes increase the variance of these estimates. It can be a problem in settings such as online learning and reinforcement learning which is highly sensitive to noise.</p>
+<blockquote>
+<p>It is <strong>difficult to apply to recurrent connections</strong> in recurrent neural network.</p>
+</blockquote>
+<p>In a recurrent neural network, the recurrent activations of each time-step will have different statistics. This means that we have to fit a separate batch normalization layer for each time-step and it forces us to store the statistics for each time-step during training.</p>
+<h2 id="Theory-of-Weight-Normalization"><a href="#Theory-of-Weight-Normalization" class="headerlink" title="Theory of Weight Normalization"></a>Theory of Weight Normalization</h2><blockquote>
+<p>What weight normalization does is it <strong>separates the norm of the weight vector from its direction</strong>. </p>
+</blockquote>
+<p>In an effort to speed up the convergence of optimization procedure, it proposes to reparameterize each weight vector $\omega$ in terms of a parameter vector $\bold{v}$ and a scalar parameter $g$ in the following way:</p>
+<p>$$\omega = \frac{g}{||\bold{v}||}\bold{v}$$It then optimizes both$\bold{v}$ and $g$ using gradient descent. This reparameterization has the effect of fixing the Euclidean norm of the weight vector $\omega$: we now have $||\omega||=g$, independent of the parameters $\bold{v}$. We, therefore, call this reparameterization weight normalization.</p>
+<h1 id="Layer-Normalization"><a href="#Layer-Normalization" class="headerlink" title="Layer Normalization"></a>Layer Normalization</h1><h2 id="Theory-of-Layer-Normalization"><a href="#Theory-of-Layer-Normalization" class="headerlink" title="Theory of Layer Normalization"></a>Theory of Layer Normalization</h2><blockquote>
+<p>The key feature of layer normalization is that it <strong>normalizes the inputs across the features</strong>.</p>
+</blockquote>
+<p>The equations of layer normalization and batch normalization are similar:$$\hat{x}_i^{(k)} = \frac{x_i^{(k)}-\mu_L}{\sqrt{\sigma_L^2+\epsilon}}$$where $\mu_L$ and $\sigma_L^2$ are the mean and variance across the features, respectively. </p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://arxiv.org/pdf/1502.03167.pdf" target="_blank" rel="noopener">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a><br><a href="https://arxiv.org/pdf/1602.07868.pdf" target="_blank" rel="noopener">Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks</a><br><a href="https://www.quora.com/Why-do-we-normalize-the-data" target="_blank" rel="noopener">Quora: Why do we normalize the data</a><br><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" target="_blank" rel="noopener">Blog: An Intuitive Explanation of Why Batch Normalization Really Works</a><br><a href="https://mlexplained.com/2018/01/13/weight-normalization-and-layer-normalization-explained-normalization-in-deep-learning-part-2/" target="_blank" rel="noopener">Blog: Weight Normalization and Layer Normalization Explained</a><br><a href="https://mlexplained.com/2018/11/30/an-overview-of-normalization-methods-in-deep-learning/" target="_blank" rel="noopener">Blog: An Overview of Normalization Methods in Deep Learning</a></p>
 
         </div>
         
