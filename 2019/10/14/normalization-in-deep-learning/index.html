@@ -19,7 +19,7 @@
 <meta property="og:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-15T21:58:01.264Z">
+<meta property="og:updated_time" content="2019-10-16T09:56:21.379Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Normalization in Deep Learning">
 <meta name="twitter:description" content="Normalization refers to a process that makes something more normal or regular. In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bri">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1649 words)
+                    11 minutes read (About 1634 words)
                 </span>
                 
                 
@@ -199,18 +199,18 @@
 <p>In deep learning, the basic idea behind normalization is to limit the covariate shift, which allows the model to learn on a more stable distribution, and would thus accelerate the training of the network.</p>
 <h1 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h1><p>In deep learning, we are particularly concerned with the change in the distribution of the inputs to the hidden nodes within a network. A neural network changes the weights of each layer over the training, which means that the activations of each layer change as well. Since the activations of a previous layer are the inputs of the next layer, each layer in the neural network is faced with a situation where the input distribution changes with each step (<strong>covariate shift</strong>). </p>
 <h2 id="Batch-Normalization-at-Training-Time"><a href="#Batch-Normalization-at-Training-Time" class="headerlink" title="Batch Normalization at Training Time"></a>Batch Normalization at Training Time</h2><blockquote>
-<p>What batch normalization does is, especially from the perspective of the later layers of the neural network, it limits the earlier layers to not get to shift around much, by restricting them to have the same mean and variance.  It weakens the coupling between what the early layers and the later layers.</p>
+<p>What <a href="(https://arxiv.org/pdf/1502.03167.pdf">batch normalization</a> does is, especially from the perspective of the later layers of the neural network, it limits the earlier layers to not get to shift around much, by restricting them to have the same mean and variance.  It weakens the coupling between what the early layers and the later layers.</p>
 </blockquote>
 <p>For a layer of the network with d-dimensional input, $x = (x^{(1)},…,x^{(d)})$, each dimension is then normalized separately as following:</p>
 <p>$$\hat{x}_i^{(k)} = \frac{x_i^{(k)}-\mu_B^{(k)}}{\sqrt{\sigma_B^{(k)^2}+\epsilon}}$$where $\mu_B^{(k)}$ and $\sigma_B^{(k)^2}$ are the per-dimension mean and variance, respectively. $\epsilon$ is added in the denominator for numerical stability and is an arbitrarily small constant. </p>
 <p>The resulting normalized $\hat{x}^{(k)}$ have zero mean and unit variance, to restore the representation power of the network or better take advantage of the nonlinearity (if activations are normalized), a transformation step then follows as:<br>$$y_i^{(k)} = \gamma^{(k)} \hat{x}_{i}^{(k)} +\beta^{(k)}$$where the parameters $\gamma^{(k)}$and $\beta^{(k)}$ are subsequently learnt in the optimization process and can convert the mean and variance to any value that the network desires.</p>
-<p>Formally, the transform $BN_{\gamma^{(k)},\beta^{(k)}}: x^{(k)}<em>{1…m} \rightarrow y^{(k)}</em>{1…m}$ is denoted as the Batch Normalizing Transform.</p>
+<p>Formally, the transform $BN_{\gamma,\beta}: x_{1…m} \rightarrow y_{1…m}$ is denoted as the Batch Normalizing Transform.</p>
 <blockquote>
 <p>There are some debates in deep learning about whether we<br>should normalize the value before the activation function or after it. </p>
 </blockquote>
 <p>In practice, normalizing before the activation function is done much more often.</p>
 <blockquote>
-<p>Regularization can be motivated as a technique to improve the generalizability of a learned model. Batch normalization has a slight regularization effect.  </p>
+<p><a href="https://en.wikipedia.org/wiki/Regularization_(mathematics)" target="_blank" rel="noopener">Regularization</a> can be motivated as a technique to improve the generalizability of a learned model. Batch normalization has a slight regularization effect.  </p>
 </blockquote>
 <p>The mean and variance are a little bit noisy because they are estimated on a mini-batch. Similar to dropout, batch normalization adds small noise to the hidden layers and therefore has a very slight regularization effect.</p>
 <p>We don’t particularly use to batch normalization as a regularization but use it as a way to speed up learning.</p>
@@ -223,8 +223,7 @@
 </blockquote>
 <p>An <strong>exponential moving average (EMA)</strong>, also known as an exponentially weighted moving average (EWMA), is a first-order filter that applies weighting factors which decrease exponentially.</p>
 <p>The EMA for a series $Y$ is calculated recursively:</p>
-<p>$$<br>S_t = \begin{cases}<br> \alpha \cdot Y_1,                                           &amp; t = 1 \<br> \alpha \cdot Y_t + (1 - \alpha) \cdot S_{t-1}, &amp; t &gt; 1<br>\end{cases}<br>$$</p>
-<p>Where:</p>
+<p>$$S_t = \begin{cases}<br> \alpha \cdot Y_1, &amp; t = 1 \\<br> \alpha \cdot Y_t + (1 - \alpha) \cdot S_{t-1}, &amp; t &gt; 1<br>\end{cases}$$<br>Where:</p>
 <ul>
 <li>$\alpha$ represents the degree of weighting decrease, a constant smoothing factor between 0 and 1. </li>
 <li>$Y_t$ and $S_t$ are the values at a time period $t$ respectively.</li>
@@ -232,7 +231,7 @@
 <p>This formula can also be expressed in technical analysis terms as follows:</p>
 <ul>
 <li>How the EMA steps towards the latest datum point:<br>$$\text{EMA}_\text{today} = \text{EMA}_\text{yesterday} + \alpha \left[\text{price}_\text{today} - \text{EMA}_\text{yesterday}\right]$$</li>
-<li>How the weighting factor on each data point $p_1$, $p_2$, etc., decreases exponentially by expanding out $\text{EMA}_\text{yesterday}$ :<br>$$<br>\begin{aligned}<br>\text{EMA}_\text{today}<br>= &amp; { \alpha \left[p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots \right] } \<br>= &amp;\frac{p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots}{1 + (1 - \alpha) + (1 - \alpha)^2 + (1 - \alpha)^3 + \cdots}<br>\end{aligned}<br>$$since $1/\alpha = 1 + (1 - \alpha) + (1 - \alpha)^2 + \cdots$ (<strong>weighted average</strong>).</li>
+<li>How the weighting factor on each data point $p_1$, $p_2$, etc., decreases exponentially by expanding out $\text{EMA}_\text{yesterday}$ :<br>$$\begin{split}<br>\text{EMA}_\text{today}<br>= &amp; { \alpha \left[p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots \right] } \\<br>= &amp;\frac{p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots}{1 + (1 - \alpha) + (1 - \alpha)^2 + (1 - \alpha)^3 + \cdots}<br>\end{split}$$since $1/\alpha = 1 + (1 - \alpha) + (1 - \alpha)^2 + \cdots$ (<strong>weighted average</strong>).</li>
 </ul>
 <p>A couple of things about choosing $\alpha$:</p>
 <ul>
@@ -254,15 +253,15 @@
 </blockquote>
 <p>In a recurrent neural network, the recurrent activations of each time-step will have different statistics. This means that we have to fit a separate batch normalization layer for each time-step and it forces us to store the statistics for each time-step during training.</p>
 <h2 id="Theory-of-Weight-Normalization"><a href="#Theory-of-Weight-Normalization" class="headerlink" title="Theory of Weight Normalization"></a>Theory of Weight Normalization</h2><blockquote>
-<p>What weight normalization does is it <strong>separates the norm of the weight vector from its direction</strong>. </p>
+<p>What <a href="https://arxiv.org/pdf/1602.07868.pdf" target="_blank" rel="noopener">weight normalization</a> does is it <strong>separates the norm of the weight vector from its direction</strong>. </p>
 </blockquote>
 <p>In an effort to speed up the convergence of optimization procedure, it proposes to reparameterize each weight vector $\omega$ in terms of a parameter vector $\boldsymbol{v}$ and a scalar parameter $g$ in the following way:</p>
 <p>$$\omega = \frac{g}{||\boldsymbol{v}||}\boldsymbol{v}$$It then optimizes both$\boldsymbol{v}$ and $g$ using gradient descent. This reparameterization has the effect of fixing the Euclidean norm of the weight vector $\omega$: we now have $||\omega||=g$, independent of the parameters $\boldsymbol{v}$. We, therefore, call this reparameterization weight normalization.</p>
 <h1 id="Layer-Normalization"><a href="#Layer-Normalization" class="headerlink" title="Layer Normalization"></a>Layer Normalization</h1><h2 id="Theory-of-Layer-Normalization"><a href="#Theory-of-Layer-Normalization" class="headerlink" title="Theory of Layer Normalization"></a>Theory of Layer Normalization</h2><blockquote>
-<p>The key feature of layer normalization is that it <strong>normalizes the inputs across the features</strong>.</p>
+<p>The key feature of <a href="https://arxiv.org/pdf/1607.06450.pdf" target="_blank" rel="noopener">layer normalization</a> is that it <strong>normalizes the inputs across the features</strong>.</p>
 </blockquote>
 <p>The equations of layer normalization and batch normalization are similar:$$\hat{x}_i^{(k)} = \frac{x_i^{(k)}-\mu_L}{\sqrt{\sigma_L^2+\epsilon}}$$where $\mu_L$ and $\sigma_L^2$ are the mean and variance across the features, respectively. </p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://arxiv.org/pdf/1502.03167.pdf" target="_blank" rel="noopener">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a><br><a href="https://arxiv.org/pdf/1602.07868.pdf" target="_blank" rel="noopener">Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks</a><br><a href="https://www.quora.com/Why-do-we-normalize-the-data" target="_blank" rel="noopener">Quora: Why do we normalize the data</a><br><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" target="_blank" rel="noopener">Blog: An Intuitive Explanation of Why Batch Normalization Really Works</a><br><a href="https://mlexplained.com/2018/01/13/weight-normalization-and-layer-normalization-explained-normalization-in-deep-learning-part-2/" target="_blank" rel="noopener">Blog: Weight Normalization and Layer Normalization Explained</a><br><a href="https://mlexplained.com/2018/11/30/an-overview-of-normalization-methods-in-deep-learning/" target="_blank" rel="noopener">Blog: An Overview of Normalization Methods in Deep Learning</a></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.quora.com/Why-do-we-normalize-the-data" target="_blank" rel="noopener">Quora: Why do we normalize the data</a><br><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" target="_blank" rel="noopener">Blog: An Intuitive Explanation of Why Batch Normalization Really Works</a><br><a href="https://mlexplained.com/2018/01/13/weight-normalization-and-layer-normalization-explained-normalization-in-deep-learning-part-2/" target="_blank" rel="noopener">Blog: Weight Normalization and Layer Normalization Explained</a><br><a href="https://mlexplained.com/2018/11/30/an-overview-of-normalization-methods-in-deep-learning/" target="_blank" rel="noopener">Blog: An Overview of Normalization Methods in Deep Learning</a></p>
 
         </div>
         
