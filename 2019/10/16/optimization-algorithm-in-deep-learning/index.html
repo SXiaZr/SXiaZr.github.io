@@ -7,21 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Categories - DeepBlog</title>
+<title>Optimization Algorithm in Deep Learning - DeepBlog</title>
 
 
-    <meta name="description" content="The deep learning related knowledge repository">
+    <meta name="description" content="Gradient Descent Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function.   To find a local minimum of a function using gradient descent, one takes ste">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DeepBlog">
-<meta property="og:url" content="http://sxiazr.github.io/categories/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Optimization Algorithm in Deep Learning">
+<meta property="og:url" content="http://sxiazr.github.io/2019/10/16/optimization-algorithm-in-deep-learning/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="The deep learning related knowledge repository">
+<meta property="og:description" content="Gradient Descent Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function.   To find a local minimum of a function using gradient descent, one takes ste">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-10-16T15:38:33.064Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DeepBlog">
-<meta name="twitter:description" content="The deep learning related knowledge repository">
+<meta name="twitter:title" content="Optimization Algorithm in Deep Learning">
+<meta name="twitter:description" content="Gradient Descent Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function.   To find a local minimum of a function using gradient descent, one takes ste">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -97,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                <img src="/images/logo.svg" alt="Optimization Algorithm in Deep Learning" height="28">
             
             </a>
         </div>
@@ -111,7 +112,7 @@
                 <a class="navbar-item"
                 href="/archives">Archives</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">Categories</a>
                 
                 <a class="navbar-item"
@@ -147,19 +148,187 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Categories
-            </h3>
-            <ul class="menu-list">
-            
-            </ul>
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-10-16T16:00:00.000Z">2019-10-17</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1859 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Optimization Algorithm in Deep Learning
+            
+        </h1>
+        <div class="content">
+            <h1 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">Gradient descent</a> is a first-order iterative optimization algorithm for finding the minimum of a function. </p>
+</blockquote>
+<p>To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point as following:$$w = w - \eta \nabla Q(w) $$</p>
+<h2 id="Batch-Gradient-Descent"><a href="#Batch-Gradient-Descent" class="headerlink" title="Batch Gradient Descent"></a>Batch Gradient Descent</h2><blockquote>
+<p>Batch gradient descent is a variation of the gradient descent algorithm that calculates the error for each example in the training dataset, but <strong>only updates</strong> the model <strong>after all training examples</strong> have been evaluated.</p>
+</blockquote>
+<ul>
+<li>Batch gradient descent decreases update frequency but takes much more time per iteration.</li>
+<li>Batch gradient descent has a <strong>more stable</strong> cost gradient and the cost goes down on every iteration. However, it may result in <strong>premature convergence</strong> of the model to a local minimum.</li>
+<li>Batch gradient descent requires the entire training dataset in memory and available to the algorithm, which is <strong>memory-consuming</strong>.<a id="more"></a>
+
+</li>
+</ul>
+<h2 id="Stochastic-Gradient-Descent"><a href="#Stochastic-Gradient-Descent" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h2><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" target="_blank" rel="noopener">Stochastic gradient descent</a> is a variation of the gradient descent algorithm that calculates the error and updates the model for <strong>each example</strong> in the training dataset.</p>
+</blockquote>
+<p>It can be regarded as a <strong>stochastic approximation</strong> of batch gradient descent optimization, since it replaces the actual gradient by an estimate. </p>
+<ul>
+<li>Stochastic gradient descent increases model update frequency and can result in faster learning on some problems.</li>
+<li>Stochastic gradient descent can be <strong>extremely noisy</strong>, which may cause the model error/cost to jump around (higher variance).</li>
+<li>The noisy update process can allow the model to <strong>avoid local minima</strong>, but it also makes it hard to settle on a minimum (oscillate around the region of the minimum).</li>
+<li>Stochastic gradient descent loses the speed up from vectorization (matrix computation).</li>
+</ul>
+<h2 id="Mini-Batch-Gradient-Descent"><a href="#Mini-Batch-Gradient-Descent" class="headerlink" title="Mini-Batch Gradient Descent"></a>Mini-Batch Gradient Descent</h2><blockquote>
+<p>Mini-batch gradient descent is a variation of the gradient descent algorithm that splits the training dataset into small batches that are used to calculate model error and update model coefficients.</p>
+</blockquote>
+<p>Mini-batch gradient descent seeks to <strong>find a balance between</strong> the robustness of  batch gradient descent and the efficiency of stochastic gradient descent.$$w = w - \eta \nabla Q(w) = w - \eta \sum_{i=1}^n \nabla Q_i(w)/n$$</p>
+<ul>
+<li>The cost of mini-batch gradient descent should trend downwards with noises (oscillations). Since some easy mini-batches might have a lower cost, while hard mini-batches (with some mislabeled examples) might have a higher cost.</li>
+<li>The larger step size can be adopted compared to stochastic gradient descent since the gradient is more stable.</li>
+<li>The batch size is a hyper-parameter that can be tuned as a power of two that fits the memory requirements of the GPU or CPU hardware like 32, 64, 128, 256, and so on.</li>
+</ul>
+<p align="center">
+  <img src="./variations-of-gradient-descent.jpg" alt="Variations of gradient descent" height="500px" width="600px">
+</p>
+
+
+
+
+
+
+<hr>
+<p>title: Optimization Algorithm in Deep Learning</p>
+<h2 id="date-2019-10-17-00-00-00"><a href="#date-2019-10-17-00-00-00" class="headerlink" title="date: 2019-10-17 00:00:00"></a>date: 2019-10-17 00:00:00</h2><h1 id="Gradient-Descent-1"><a href="#Gradient-Descent-1" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">Gradient descent</a> is a first-order iterative optimization algorithm for finding the minimum of a function. </p>
+</blockquote>
+<p>To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point as following:$$\mathbf{x}_{n+1}=\mathbf{x}_n-\gamma_n \nabla F(\mathbf{x}_n),\ n \ge 0$$</p>
+<h2 id="Batch-gradient-descent"><a href="#Batch-gradient-descent" class="headerlink" title="Batch gradient descent"></a>Batch gradient descent</h2><blockquote>
+<p>Batch gradient descent is a variation of the gradient descent algorithm that calculates the error for each example in the training dataset, but only updates the model after all training examples have been evaluated.</p>
+</blockquote>
+<p>With batch gradient descent on every iteration you go through the entire training set and you’d expect the cost to go down on every single iteration.</p>
+<p>The decreased update frequency results in a more stable error gradient and may result in a more stable convergence on some problems</p>
+<p>Fewer updates to the model means this variant of gradient descent is more computationally efficient than stochastic gradient descent.</p>
+<p>The more stable error gradient may result in premature convergence of the model to a less optimal set of parameters.</p>
+<p>Commonly, batch gradient descent is implemented in such a way that it requires the entire training dataset in memory and available to the algorithm.<br>Model updates, and in turn training speed, may become very slow for large datasets.</p>
+<p> As stochastic gradient descent won’t ever converge, it’ll always just kind of oscillate and wander around the region of the minimum. But it won’t ever just head to the minimum and stay there. In practice, the mini-batch size you use will be somewhere in between.</p>
+<h2 id="Stochastic-Gradient-Descent-1"><a href="#Stochastic-Gradient-Descent-1" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h2><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" target="_blank" rel="noopener">Stochastic gradient descent</a> is a variation of the gradient descent algorithm that calculates the error and updates the model for <strong>each example</strong> in the training dataset.</p>
+</blockquote>
+<p> It can be regarded as a stochastic approximation of gradient descent optimization, since it replaces the actual gradient (calculated from the entire data set) by an estimate thereof (calculated from a randomly selected subset of the data).</p>
+<p> But a huge disadvantage to stochastic gradient descent is that you lose almost all your speed up from vectorization.Because, here you’re processing a single training example at a time. The way you process each example is going to be very inefficient.</p>
+<h2 id="Mini-batch-gradient-descent"><a href="#Mini-batch-gradient-descent" class="headerlink" title="Mini-batch gradient descent"></a>Mini-batch gradient descent</h2><p>And It’s not guaranteed to always head toward the minimum but it tends to head more consistently in direction of the minimum than the consequent descent. And then it doesn’t always exactly convert or oscillate in a very small region.  If that’s an issue you can always reduce the learning rate slowly.</p>
+<p>Anything from 64 up to maybe 512 are quite typical. And because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2.</p>
+<p>One last tip is to make sure that your mini batch。 All of your X{t}, Y{t} that that fits in CPU/GPU memory.</p>
+<p>Try a few different powers of two and then see if you can pick one that makes your gradient descent optimization algorithm as efficient as possible.</p>
+<h1 id="algorithm-called-momentum"><a href="#algorithm-called-momentum" class="headerlink" title="algorithm called momentum"></a>algorithm called momentum</h1><h2 id="Gradient-descent-with-momentum"><a href="#Gradient-descent-with-momentum" class="headerlink" title="Gradient descent with momentum"></a>Gradient descent with momentum</h2><ol start="10">
+<li>gradient descent with momentum</li>
+</ol>
+<p>In one sentence, the basic idea is to compute an exponentially weighted average of your gradients, and then use that gradient to update your weights instead.</p>
+<p>So what this does is smooth out the steps of gradient descent.</p>
+<p>If you average out these gradients, you find that the oscillations in the vertical direction will tend to average out to something closer to zero. So, in the vertical direction, where you want to slow things down, this will average out positive and negative numbers, so the average will be close to zero.</p>
+<p>you find that the gradient descent with momentum ends up eventually just taking steps that are much smaller oscillations in the vertical direction, but are more directed to just moving quickly in the horizontal direction.</p>
+<p>And so this allows your algorithm to take a more straightforward path, or to damp out the oscillations in this path to the minimum.</p>
+<p>They kind of minimize this type of bowl shaped function then these derivative terms you can think of as providing acceleration to a ball that you’re rolling down hill. And these momentum terms you can think of as representing the velocity.<br>And data, because this number a little bit less than one, displays a row of friction and it prevents your ball from speeding up without limit. </p>
+<p>The most common value for Beta is 0.9. We’re averaging over the last ten days temperature. So it is averaging of the last ten iteration’s gradients. </p>
+<p>Well, and how about bias correction, right? So do you want to take vdW and vdb and divide it by 1 minus beta to the t. In practice, people don’t usually do this because after just ten iterations, your moving average will have warmed up and is no longer a bias estimate. So in practice, I don’t really see people bothering with bias correction when implementing gradient descent or momentum. </p>
+<h2 id="RMSprop"><a href="#RMSprop" class="headerlink" title="RMSprop"></a>RMSprop</h2><ol start="11">
+<li>RMSprop, which stands for root mean square prop<br>. So for clarity, this squaring operation is an element-wise squaring operation. So what this is doing is really keeping an exponentially weighted average of the squares of the derivatives.</li>
+</ol>
+<p>So with this terms SdW an Sdb, what we’re hoping is that SdW will be relatively small, so that here we’re dividing by relatively small number. Whereas Sdb will be relatively large, so that here we’re dividing yt relatively large number in order to slow down the updates on a vertical dimension. And indeed if you look at the derivatives, these derivatives are much larger in the vertical direction than in the horizontal direction. So the net effect of this is that your up days in the vertical direction are divided by a much larger number, and so that helps damp out the oscillations. Whereas the updates in the horizontal direction are divided by a smaller number. </p>
+<p>And one effect of this is also that you can therefore use a larger learning rate alpha, and get faster learning without diverging in the vertical direction. (改变了相对比例)</p>
+<p>but your intuition is that in dimensions where you’re getting these oscillations, you end up computing a larger sum. </p>
+<p>A weighted average for these squares and derivatives, and so you end up dumping ] out the directions in which there are these oscillations.</p>
+<p>Just to ensure numerical stability, when you implement this in practice you add a very, very small epsilon to the denominator. 10 to the -8 would be a reasonable default, but this just ensures slightly greater numerical stability that for numerical round off or whatever reason, </p>
+<p>So that’s RMSprop, and similar to momentum, has the effects of damping out the oscillations in gradient descent, in mini-batch gradient descent. and allowing you to maybe use a larger learning rate alpha. And certainly speeding up the learning speed of your algorithm.</p>
+<h2 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h2><ol start="12">
+<li>Adam</li>
+</ol>
+<p>In the typical implementation of Adam, you do implement bias correction.</p>
+<p>So, this algorithm has a number of hyper parameters. The learning with hyper parameter alpha is still important and usually needs to be tuned. So you just have to try a range of values and see what works. A common choice really the default choice for ß1 is 0.9. So this is a moving average, weighted average of dw right this is the momentum light term. The hyper parameter for ß2, the authors of the Adam paper, inventors of the Adam algorithm recommend 0.999. </p>
+<p>And then Epsilon, the choice of epsilon doesn’t matter very much. But the authors of the Adam paper recommended it 10 to the minus 8. </p>
+<p>Adam stands for Adaptive Moment Estimation.</p>
+<p>So ß1 is computing the mean of the derivatives. This is called the first moment. And ß2 is used to compute exponentially weighted average of the ²s and that’s called the second moment. </p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://machinelearningmastery.com/gentle-introduction-mini-batch-gradient-descent-configure-batch-size/" target="_blank" rel="noopener">Blog: A Gentle Introduction to Mini-Batch Gradient Descent and How to Configure Batch Size</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
     </div>
-</div></div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/14/normalization-in-deep-learning/">
+                <span class="level-item">Normalization in Deep Learning</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
                 
 
 
@@ -590,7 +759,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                    <img src="/images/logo.svg" alt="Optimization Algorithm in Deep Learning" height="28">
                 
                 </a>
                 <p class="is-size-7">
