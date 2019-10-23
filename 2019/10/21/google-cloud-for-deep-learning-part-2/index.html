@@ -7,21 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Categories - DeepBlog</title>
+<title>Google Cloud for Deep Learning - Part 2 - DeepBlog</title>
 
 
-    <meta name="description" content="The deep learning related knowledge repository">
+    <meta name="description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DeepBlog">
-<meta property="og:url" content="http://sxiazr.github.io/categories/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google Cloud for Deep Learning - Part 2">
+<meta property="og:url" content="http://sxiazr.github.io/2019/10/21/google-cloud-for-deep-learning-part-2/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="The deep learning related knowledge repository">
+<meta property="og:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-10-23T11:49:02.757Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DeepBlog">
-<meta name="twitter:description" content="The deep learning related knowledge repository">
+<meta name="twitter:title" content="Google Cloud for Deep Learning - Part 2">
+<meta name="twitter:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -97,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                <img src="/images/logo.svg" alt="Google Cloud for Deep Learning - Part 2" height="28">
             
             </a>
         </div>
@@ -111,7 +112,7 @@
                 <a class="navbar-item"
                 href="/archives">Archives</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">Categories</a>
                 
                 <a class="navbar-item"
@@ -147,19 +148,194 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Categories
-            </h3>
-            <ul class="menu-list">
-            
-            </ul>
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 minutes read (About 1116 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Google Cloud for Deep Learning - Part 2
+            
+        </h1>
+        <div class="content">
+            <p>The series of passages to use the Google Cloud for deep learning has two parts: <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" title="The first part">The first part</a> is about creating a VM instance on the Google cloud and <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" title="the second part">the second part</a> is about installing some deep learning related configurations (jupyter notebook and GPUs). Now, Let’s move to the Part 2!</p>
+<h1 id="Configure-the-Deep-Learning-Enviroment"><a href="#Configure-the-Deep-Learning-Enviroment" class="headerlink" title="Configure the Deep Learning Enviroment"></a>Configure the Deep Learning Enviroment</h1><h2 id="Step-1-Install-GPU-Drivers-and-CUDA"><a href="#Step-1-Install-GPU-Drivers-and-CUDA" class="headerlink" title="Step 1: Install GPU Drivers and CUDA"></a>Step 1: <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#install-gpu-driver" target="_blank" rel="noopener">Install GPU Drivers and CUDA</a></h2><p>After you create an instance with one or more GPUs, your system requires device drivers so that your applications can access the device.</p>
+<p>Install CUDA, which includes the NVIDIA driver. Following steps to install CUDA and the associated drivers for NVIDIA® GPUs.</p>
+<ul>
+<li><p>Run command line to create a script:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim installNvidia.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Paste the <a href="https://cloud.google.com/compute/docs/gpus/add-gpus?hl=zh-cn#verify-driver-install" target="_blank" rel="noopener">following script</a> to install CUDA:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#!/bin/bash</span></span><br><span class="line"><span class="hljs-built_in">echo</span> <span class="hljs-string">"Checking for CUDA and installing."</span></span><br><span class="line"><span class="hljs-comment"># Check for CUDA and try to install.</span></span><br><span class="line"><span class="hljs-keyword">if</span> ! dpkg-query -W cuda-10-0; <span class="hljs-keyword">then</span></span><br><span class="line">  <span class="hljs-comment"># The 16.04 installer works with 16.10.</span></span><br><span class="line">  curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb</span><br><span class="line">  dpkg -i ./cuda-repo-ubuntu1604_10.0.130-1_amd64.deb</span><br><span class="line">  apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub</span><br><span class="line">  apt-get update</span><br><span class="line">  apt-get install cuda-10-0 -y</span><br><span class="line"><span class="hljs-keyword">fi</span></span><br><span class="line"><span class="hljs-comment"># Enable persistence mode</span></span><br><span class="line">nvidia-smi -pm 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Run command line to execute the script:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bash installNvidia.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Verify that the driver installed and initialized properly.</p>
+  <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<p>  The output of the command looks similar to the following:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 410.92                Driver Version: 410.92                     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  Tesla P100-PCIE...  On   | 00000000:00:04.0 Off |                    0 |</span><br><span class="line">| N/A   34C    P0    26W / 250W |      0MiB / 16276MiB |      0%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Step-2-Install-cuDNN"><a href="#Step-2-Install-cuDNN" class="headerlink" title="Step 2: Install cuDNN"></a>Step 2: Install cuDNN</h2><blockquote>
+<p>The NVIDIA CUDA® Deep Neural Network library (<a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">cuDNN</a>) is a GPU-accelerated library of primitives for deep neural networks. cuDNN provides highly tuned implementations for standard routines such as forward and backward convolution, pooling, normalization, and activation layers.</p>
+</blockquote>
+<p><strong><a href="https://discuss.pytorch.org/t/how-to-check-if-torch-uses-cudnn/21933/3" target="_blank" rel="noopener">IMPORTANT</a></strong>: </p>
+<blockquote>
+<p>If you want to use <strong>pytorch</strong> with an NVIDIA GPU…We ship with everything in-built (pytorch binaries include CUDA, CuDNN, NCCL, MKL, etc.)</p>
+</blockquote>
+<p>When using  <strong>pytorch</strong>, you just need to install the NVIDIA drivers and the binaries will come with the other libs.  If you want to build from source, you would need to install CUDA, cuDNN etc.</p>
+<p>The cuDNN can be installed as the following:</p>
+<ul>
+<li><p>Check the version of your CUDA and download the corresponding version of cuDNN which requires a NVIDIA account.</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># Check the version of CUDA</span></span><br><span class="line">$ cat /usr/<span class="hljs-built_in">local</span>/cuda/version.txt</span><br><span class="line"><span class="hljs-comment"># Check the version of cuDNN</span></span><br><span class="line">$ cat /usr/<span class="hljs-built_in">local</span>/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Download it to the local and <a href="#transfer-files-between-the-local-and-remote">copy it to the remote</a>:</p>
+  <p align="center">
+        <img src="./download-cudnn-1.jpg" alt="Download cudnn 1" width="500px">
+
+</p><p>  Or use <code>wget</code> to download it. It’s a bit more tricky, you have to start the downloading and copy the downloading link from the browser downloader.</p>
+  <p align="center">
+        <img src="./download-cudnn-2.jpg" alt="Download cudnn 2" width="250px">
+</p></li>
+<li><p>Then decompress downloaded compressed file and get a folder <code>cuda</code>:</p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf file</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Copy files to finish the installation </p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp cuda/lib64/* /usr/<span class="hljs-built_in">local</span>/cuda/lib64/</span><br><span class="line">$ sudo cp cuda/include/cudnn.h /usr/<span class="hljs-built_in">local</span>/cuda/include/</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Step-3-Install-Anaconda-with-Jupyter-Notebook"><a href="#Step-3-Install-Anaconda-with-Jupyter-Notebook" class="headerlink" title="Step 3: Install Anaconda with Jupyter Notebook"></a>Step 3: Install Anaconda with Jupyter Notebook</h2><ul>
+<li><p>Copy the bash (.sh file) installer link:</p>
+<p align="center">
+<img src="./copy-the-bash-installer-link.jpg" alt="Copy the bash installer link" width="500px">
+</p>
+</li>
+<li><p>Use  <code>wget</code>  to download the bash installer:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://repo.continuum.io/archive/Anaconda3&lt;release&gt;.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Run the bash script to install  <strong>Anaconda3</strong>:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bash Anaconda3-5.2.0-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>source</code>  the  <code>.bashrc</code>  file to add Anaconda to your  <code>PATH</code>. Now that <strong>Anaconda3</strong> is added to <code>PATH</code>, <code>source</code> the <code>.bashrc</code>file to load the new <code>PATH</code> environment variable.</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="hljs-built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>To verify the installation is complete, open Python from the command line:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Step-4-Local-Access-to-Jupyte-Service"><a href="#Step-4-Local-Access-to-Jupyte-Service" class="headerlink" title="Step 4: Local Access to Jupyte Service"></a>Step 4: Local Access to Jupyte Service</h2><ul>
+<li><p>Set firewall rules in “<strong>VPC network</strong>“ → “<strong>Firewall rules</strong>“ → “<strong>Create firewall rules</strong>“. Set <strong>Source IP ranges</strong> as <code>0.0.0.0/0</code> to allow all IPs to access. Set “<strong>Protocols and Ports</strong>“ to “<strong>tcp:port</strong>“, which the notebook server will listen on (e.g. 8888).</p>
+<p align="center">
+<img src="./set-firewall-rules.jpg" alt="Set firewall rules" width="300px">
+</p>
+</li>
+<li><p>Create a <a href="https://jupyter-notebook.readthedocs.io/en/stable/config.html" target="_blank" rel="noopener">Jupyter configuration</a> file if it doesn’t exist:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter notebook --generate-config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Add a few lines to your Jupyter configuration file:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim .jupyter/jupyter_notebook_config.py</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">c.NotebookApp.ip = <span class="hljs-string">'*'</span></span><br><span class="line"><span class="hljs-comment"># The port the notebook server will listen on.</span></span><br><span class="line">c.NotebookApp.port = 8888</span><br><span class="line"><span class="hljs-comment"># Whether to open in a browser after starting.</span></span><br><span class="line">c.NotebookApp.open_browser = False</span><br><span class="line"><span class="hljs-comment"># Whether to allow the user to run the notebook as root.</span></span><br><span class="line">c.NotebookApp.allow_root = True</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Run the jupyter notebook:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter notebook</span><br><span class="line"><span class="hljs-comment"># Then paste returned URL to the browser: http://host(static-ip):8888/?token=...ccf7bb</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h1 id="Small-Tips"><a href="#Small-Tips" class="headerlink" title="Small Tips:"></a>Small Tips:</h1><h2 id="Modifying-Existing-Instances"><a href="#Modifying-Existing-Instances" class="headerlink" title="Modifying Existing Instances"></a>Modifying Existing Instances</h2><p>You can <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#add-gpu-to-instance" target="_blank" rel="noopener">modify resources (CPU/GPUs) on your existing instances</a>, but you must first stop the instance and change its host maintenance.</p>
+<ul>
+<li>At the top of the instance details page, click  “<strong>Stop</strong>“  to stop the instance.</li>
+<li>After the instance stops running, click “<strong>Edit</strong>“  to change the instance properties.</li>
+</ul>
+<h2 id="Make-External-IP-Address-as-Static"><a href="#Make-External-IP-Address-as-Static" class="headerlink" title="Make External IP Address as Static"></a>Make External IP Address as Static</h2><p>By default, the external IP address is dynamic and we need to make it static to make our life easier. Click on the three horizontal lines on top left and then under networking, click on VPC network and then External IP addresses.</p>
+<h2 id="Useful-Script-for-Uninstallation"><a href="#Useful-Script-for-Uninstallation" class="headerlink" title="Useful Script for Uninstallation"></a>Useful Script for Uninstallation</h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove cuda <span class="hljs-comment"># uninstall cuda  </span></span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
+
+<h2 id="Create-Virtual-Environment"><a href="#Create-Virtual-Environment" class="headerlink" title="Create Virtual Environment"></a>Create Virtual Environment</h2><p>~$ <strong>conda create –name py36 python=3.6 anaconda</strong><br>~$ <strong>source activate py36</strong></p>
+<h2 id="Transfer-Files-Between-the-Local-and-Remote"><a href="#Transfer-Files-Between-the-Local-and-Remote" class="headerlink" title="Transfer Files Between the Local and Remote"></a>Transfer Files Between the Local and Remote</h2><p>把本地的 /path/to/local/file 文件传输到远程的 /path/to/remote/file<br>scp -P port /path/to/local/file user@remote:/path/to/remote/file<br>把远程的 /path/to/remote/file 下载到本地的 /path/to/local/file<br>scp lab:/path/to/remote/file /path/to/local/file</p>
+<h1 id="加上-r-命令可以传送文件夹"><a href="#加上-r-命令可以传送文件夹" class="headerlink" title="加上 -r 命令可以传送文件夹"></a>加上 -r 命令可以传送文件夹</h1><h1 id="下面命令可以把当前目录下的-dir-文件夹传到远程的家目录下"><a href="#下面命令可以把当前目录下的-dir-文件夹传到远程的家目录下" class="headerlink" title="下面命令可以把当前目录下的 dir 文件夹传到远程的家目录下"></a>下面命令可以把当前目录下的 dir 文件夹传到远程的家目录下</h1><p>scp -r dir lab:</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://cloud.google.com/compute/docs/" target="_blank" rel="noopener">Doc: Compute Engin Docmentation</a><br><a href="https://towardsdatascience.com/running-jupyter-notebook-in-google-cloud-platform-in-15-min-61e16da34d52" target="_blank" rel="noopener">Blog: Running Jupyter Notebook on Google Cloud Platform in 15 min</a><br><a href="https://problemsolvingwithpython.com/01-Orientation/01.05-Installing-Anaconda-on-Linux/" target="_blank" rel="noopener">Blog: Installing Anaconda on Linux</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
     </div>
-</div></div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/17/google-cloud-for-deep-learning-part-1/">
+                <span class="level-item">Google Cloud for Deep Learning - Part 1</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
                 
 
 
@@ -666,7 +842,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                    <img src="/images/logo.svg" alt="Google Cloud for Deep Learning - Part 2" height="28">
                 
                 </a>
                 <p class="is-size-7">

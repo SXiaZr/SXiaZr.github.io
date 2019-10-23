@@ -10,19 +10,19 @@
 <title>Optimization Algorithm in Deep Learning - DeepBlog</title>
 
 
-    <meta name="description" content="Gradient Descent Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function.   To find a local minimum of a function using gradient descent, one takes ste">
+    <meta name="description" content="An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorit">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Optimization Algorithm in Deep Learning">
 <meta property="og:url" content="http://sxiazr.github.io/2019/10/16/optimization-algorithm-in-deep-learning/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="Gradient Descent Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function.   To find a local minimum of a function using gradient descent, one takes ste">
+<meta property="og:description" content="An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorit">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-16T15:38:33.064Z">
+<meta property="og:updated_time" content="2019-10-16T22:12:25.711Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Optimization Algorithm in Deep Learning">
-<meta name="twitter:description" content="Gradient Descent Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function.   To find a local minimum of a function using gradient descent, one takes ste">
+<meta name="twitter:description" content="An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorit">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    12 minutes read (About 1859 words)
+                    9 minutes read (About 1307 words)
                 </span>
                 
                 
@@ -178,7 +178,8 @@
             
         </h1>
         <div class="content">
-            <h1 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
+            <p>An <a href="https://en.wikipedia.org/wiki/Mathematical_optimization#Optimization_algorithms" target="_blank" rel="noopener">optimization algorithm</a> is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorithms commonly used in deep learning.</p>
+<h1 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
 <p><a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">Gradient descent</a> is a first-order iterative optimization algorithm for finding the minimum of a function. </p>
 </blockquote>
 <p>To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point as following:$$w = w - \eta \nabla Q(w) $$</p>
@@ -215,12 +216,10 @@
   <img src="./variations-of-gradient-descent.jpg" alt="Variations of gradient descent" height="500px" width="600px">
 </p>
 
-
-
-
-
-
-<hr>
+<h1 id="Gradient-Descent-with-Momentum"><a href="#Gradient-Descent-with-Momentum" class="headerlink" title="Gradient Descent with Momentum"></a>Gradient Descent with Momentum</h1><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum" target="_blank" rel="noopener">Stochastic gradient descent with momentum</a> remembers the update $\delta \omega$ at each iteration, and determines the next update as a linear combination of the gradient and the previous update:</p>
+</blockquote>
+<h2 id="RMSprop"><a href="#RMSprop" class="headerlink" title="RMSprop"></a>RMSprop</h2><h2 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h2><h2 id="AdaGrad"><a href="#AdaGrad" class="headerlink" title="AdaGrad"></a>AdaGrad</h2><hr>
 <p>title: Optimization Algorithm in Deep Learning</p>
 <h2 id="date-2019-10-17-00-00-00"><a href="#date-2019-10-17-00-00-00" class="headerlink" title="date: 2019-10-17 00:00:00"></a>date: 2019-10-17 00:00:00</h2><h1 id="Gradient-Descent-1"><a href="#Gradient-Descent-1" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
 <p><a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">Gradient descent</a> is a first-order iterative optimization algorithm for finding the minimum of a function. </p>
@@ -244,27 +243,10 @@
 <p>Anything from 64 up to maybe 512 are quite typical. And because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2.</p>
 <p>One last tip is to make sure that your mini batch。 All of your X{t}, Y{t} that that fits in CPU/GPU memory.</p>
 <p>Try a few different powers of two and then see if you can pick one that makes your gradient descent optimization algorithm as efficient as possible.</p>
-<h1 id="algorithm-called-momentum"><a href="#algorithm-called-momentum" class="headerlink" title="algorithm called momentum"></a>algorithm called momentum</h1><h2 id="Gradient-descent-with-momentum"><a href="#Gradient-descent-with-momentum" class="headerlink" title="Gradient descent with momentum"></a>Gradient descent with momentum</h2><ol start="10">
+<h2 id="Gradient-descent-with-momentum"><a href="#Gradient-descent-with-momentum" class="headerlink" title="Gradient descent with momentum"></a>Gradient descent with momentum</h2><ol start="10">
 <li>gradient descent with momentum</li>
 </ol>
-<p>In one sentence, the basic idea is to compute an exponentially weighted average of your gradients, and then use that gradient to update your weights instead.</p>
-<p>So what this does is smooth out the steps of gradient descent.</p>
-<p>If you average out these gradients, you find that the oscillations in the vertical direction will tend to average out to something closer to zero. So, in the vertical direction, where you want to slow things down, this will average out positive and negative numbers, so the average will be close to zero.</p>
-<p>you find that the gradient descent with momentum ends up eventually just taking steps that are much smaller oscillations in the vertical direction, but are more directed to just moving quickly in the horizontal direction.</p>
-<p>And so this allows your algorithm to take a more straightforward path, or to damp out the oscillations in this path to the minimum.</p>
-<p>They kind of minimize this type of bowl shaped function then these derivative terms you can think of as providing acceleration to a ball that you’re rolling down hill. And these momentum terms you can think of as representing the velocity.<br>And data, because this number a little bit less than one, displays a row of friction and it prevents your ball from speeding up without limit. </p>
-<p>The most common value for Beta is 0.9. We’re averaging over the last ten days temperature. So it is averaging of the last ten iteration’s gradients. </p>
-<p>Well, and how about bias correction, right? So do you want to take vdW and vdb and divide it by 1 minus beta to the t. In practice, people don’t usually do this because after just ten iterations, your moving average will have warmed up and is no longer a bias estimate. So in practice, I don’t really see people bothering with bias correction when implementing gradient descent or momentum. </p>
-<h2 id="RMSprop"><a href="#RMSprop" class="headerlink" title="RMSprop"></a>RMSprop</h2><ol start="11">
-<li>RMSprop, which stands for root mean square prop<br>. So for clarity, this squaring operation is an element-wise squaring operation. So what this is doing is really keeping an exponentially weighted average of the squares of the derivatives.</li>
-</ol>
-<p>So with this terms SdW an Sdb, what we’re hoping is that SdW will be relatively small, so that here we’re dividing by relatively small number. Whereas Sdb will be relatively large, so that here we’re dividing yt relatively large number in order to slow down the updates on a vertical dimension. And indeed if you look at the derivatives, these derivatives are much larger in the vertical direction than in the horizontal direction. So the net effect of this is that your up days in the vertical direction are divided by a much larger number, and so that helps damp out the oscillations. Whereas the updates in the horizontal direction are divided by a smaller number. </p>
-<p>And one effect of this is also that you can therefore use a larger learning rate alpha, and get faster learning without diverging in the vertical direction. (改变了相对比例)</p>
-<p>but your intuition is that in dimensions where you’re getting these oscillations, you end up computing a larger sum. </p>
-<p>A weighted average for these squares and derivatives, and so you end up dumping ] out the directions in which there are these oscillations.</p>
-<p>Just to ensure numerical stability, when you implement this in practice you add a very, very small epsilon to the denominator. 10 to the -8 would be a reasonable default, but this just ensures slightly greater numerical stability that for numerical round off or whatever reason, </p>
-<p>So that’s RMSprop, and similar to momentum, has the effects of damping out the oscillations in gradient descent, in mini-batch gradient descent. and allowing you to maybe use a larger learning rate alpha. And certainly speeding up the learning speed of your algorithm.</p>
-<h2 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h2><ol start="12">
+<h2 id="RMSprop-1"><a href="#RMSprop-1" class="headerlink" title="RMSprop"></a>RMSprop</h2><h2 id="Adam-1"><a href="#Adam-1" class="headerlink" title="Adam"></a>Adam</h2><ol start="12">
 <li>Adam</li>
 </ol>
 <p>In the typical implementation of Adam, you do implement bias correction.</p>
@@ -272,7 +254,7 @@
 <p>And then Epsilon, the choice of epsilon doesn’t matter very much. But the authors of the Adam paper recommended it 10 to the minus 8. </p>
 <p>Adam stands for Adaptive Moment Estimation.</p>
 <p>So ß1 is computing the mean of the derivatives. This is called the first moment. And ß2 is used to compute exponentially weighted average of the ²s and that’s called the second moment. </p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://machinelearningmastery.com/gentle-introduction-mini-batch-gradient-descent-configure-batch-size/" target="_blank" rel="noopener">Blog: A Gentle Introduction to Mini-Batch Gradient Descent and How to Configure Batch Size</a></p>
+<h1 id="Second-Order-Methods"><a href="#Second-Order-Methods" class="headerlink" title="Second-Order Methods"></a>Second-Order Methods</h1><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://machinelearningmastery.com/gentle-introduction-mini-batch-gradient-descent-configure-batch-size/" target="_blank" rel="noopener">Blog: A Gentle Introduction to Mini-Batch Gradient Descent and How to Configure Batch Size</a></p>
 
         </div>
         
@@ -292,6 +274,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/10/17/Docker/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item"></span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -371,7 +360,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        6
                     </p>
                 </div>
             </div>
@@ -513,6 +502,63 @@
         
         <article class="media">
             
+            <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time></div>
+                    <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T16:00:00.000Z">2019-10-18</time></div>
+                    <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 1</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/17/Docker/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T07:51:39.554Z">2019-10-17</time></div>
+                    <a href="/2019/10/17/Docker/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Optimization Algorithm in Deep Learning">
@@ -549,25 +595,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/22/hello-world/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time></div>
-                    <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -586,7 +613,7 @@
                     <span class="level-item">October 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -640,6 +667,63 @@
         
         <article class="media">
             
+            <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time></div>
+                    <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T16:00:00.000Z">2019-10-18</time></div>
+                    <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 1</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/17/Docker/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T07:51:39.554Z">2019-10-17</time></div>
+                    <a href="/2019/10/17/Docker/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Optimization Algorithm in Deep Learning">
@@ -676,25 +760,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/22/hello-world/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time></div>
-                    <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -713,7 +778,7 @@
                     <span class="level-item">October 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
