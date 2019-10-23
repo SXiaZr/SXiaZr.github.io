@@ -19,7 +19,7 @@
 <meta property="og:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-23T11:51:08.712Z">
+<meta property="og:updated_time" content="2019-10-23T11:52:34.839Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google Cloud for Deep Learning - Part 2">
 <meta name="twitter:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
@@ -180,12 +180,14 @@
         <div class="content">
             <p>The series of passages to use the Google Cloud for deep learning has two parts: <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" title="The first part">The first part</a> is about creating a VM instance on the Google cloud and <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" title="the second part">the second part</a> is about installing some deep learning related configurations (jupyter notebook and GPUs). Now, Let’s move to the Part 2!</p>
 <h1 id="Configure-the-Deep-Learning-Enviroment"><a href="#Configure-the-Deep-Learning-Enviroment" class="headerlink" title="Configure the Deep Learning Enviroment"></a>Configure the Deep Learning Enviroment</h1><h2 id="Step-1-Install-GPU-Drivers-and-CUDA"><a href="#Step-1-Install-GPU-Drivers-and-CUDA" class="headerlink" title="Step 1: Install GPU Drivers and CUDA"></a>Step 1: <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#install-gpu-driver" target="_blank" rel="noopener">Install GPU Drivers and CUDA</a></h2><p>After you create an instance with one or more GPUs, your system requires device drivers so that your applications can access the device.</p>
-<a id="more"></a>
 <p>Install CUDA, which includes the NVIDIA driver. Following steps to install CUDA and the associated drivers for NVIDIA® GPUs.</p>
 <ul>
-<li><p>Run command line to create a script:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim installNvidia.sh</span><br></pre></td></tr></table></figure>
+<li>Run command line to create a script:  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim installNvidia.sh</span><br></pre></td></tr></table></figure>
+
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li><p>Paste the <a href="https://cloud.google.com/compute/docs/gpus/add-gpus?hl=zh-cn#verify-driver-install" target="_blank" rel="noopener">following script</a> to install CUDA:</p>
   <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#!/bin/bash</span></span><br><span class="line"><span class="hljs-built_in">echo</span> <span class="hljs-string">"Checking for CUDA and installing."</span></span><br><span class="line"><span class="hljs-comment"># Check for CUDA and try to install.</span></span><br><span class="line"><span class="hljs-keyword">if</span> ! dpkg-query -W cuda-10-0; <span class="hljs-keyword">then</span></span><br><span class="line">  <span class="hljs-comment"># The 16.04 installer works with 16.10.</span></span><br><span class="line">  curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb</span><br><span class="line">  dpkg -i ./cuda-repo-ubuntu1604_10.0.130-1_amd64.deb</span><br><span class="line">  apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub</span><br><span class="line">  apt-get update</span><br><span class="line">  apt-get install cuda-10-0 -y</span><br><span class="line"><span class="hljs-keyword">fi</span></span><br><span class="line"><span class="hljs-comment"># Enable persistence mode</span></span><br><span class="line">nvidia-smi -pm 1</span><br></pre></td></tr></table></figure>
 </li>
