@@ -19,7 +19,7 @@
 <meta property="og:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-23T19:41:39.699Z">
+<meta property="og:updated_time" content="2019-10-23T19:45:35.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google Cloud for Deep Learning - Part 2">
 <meta name="twitter:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
@@ -278,10 +278,10 @@
 </ul>
 <h2 id="Make-External-IP-Address-as-Static"><a href="#Make-External-IP-Address-as-Static" class="headerlink" title="Make External IP Address as Static"></a>Make External IP Address as Static</h2><p>By default, the external IP address is dynamic and we need to make it static to make our life easier. </p>
 <ul>
-<li>“<strong>VPC network</strong>“ →”<strong>External IP addresses</strong>“, and change the “<strong>Type</strong>“ from “<strong>Ephemeral</strong>“ to “<strong>Static</strong>“<h2 id="Useful-Script-for-Uninstallation"><a href="#Useful-Script-for-Uninstallation" class="headerlink" title="Useful Script for Uninstallation"></a>Useful Script for Uninstallation</h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove cuda <span class="hljs-comment"># uninstall cuda  </span></span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
-
-</li>
+<li>“<strong>VPC network</strong>“ →”<strong>External IP addresses</strong>“, and change the “<strong>Type</strong>“ from “<strong>Ephemeral</strong>“ to “<strong>Static</strong>“</li>
 </ul>
+<h2 id="Useful-Script-for-Uninstallation"><a href="#Useful-Script-for-Uninstallation" class="headerlink" title="Useful Script for Uninstallation"></a>Useful Script for Uninstallation</h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get --purge remove cuda <span class="hljs-comment"># uninstall cuda  </span></span><br><span class="line">$ sudo apt autoremove</span><br></pre></td></tr></table></figure>
+
 <h2 id="Create-Conda-Environment"><a href="#Create-Conda-Environment" class="headerlink" title="Create Conda Environment"></a><a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-with-commands" target="_blank" rel="noopener">Create Conda Environment</a></h2><blockquote>
 <p>With conda, you can create, export, list, remove, and update environments that have different versions of Python and/or packages installed in them.</p>
 </blockquote>
@@ -289,12 +289,13 @@
 
 <h2 id="Transfer-Files-Between-the-Local-and-Remote"><a href="#Transfer-Files-Between-the-Local-and-Remote" class="headerlink" title="Transfer Files Between the Local and Remote"></a>Transfer Files Between the Local and Remote</h2><h3 id="Use-scp-command"><a href="#Use-scp-command" class="headerlink" title="Use scp command"></a>Use <code>scp</code> command</h3><ul>
 <li><p>From the local to the remote:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">scp local_file remote_username@remote_ip:remote_folder</span><br><span class="line">scp local_file remote_username@remote_ip:remote_file</span><br><span class="line"><span class="hljs-comment"># Add -r parameter to move the entire folder</span></span><br><span class="line">scp -r local_folder remote_username@remote_ip:remote_folder</span><br></pre></td></tr></table></figure>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ scp local_file remote_username@remote_ip:remote_folder</span><br><span class="line">$ scp local_file remote_username@remote_ip:remote_file</span><br><span class="line"><span class="hljs-comment"># Add -r parameter to move the entire folder</span></span><br><span class="line">$ scp -r local_folder remote_username@remote_ip:remote_folder</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>From the remote to the local: just reverse the path of file.</p>
-<h3 id="Use-FTP-application"><a href="#Use-FTP-application" class="headerlink" title="Use FTP application"></a>Use FTP application</h3></li>
-<li><p>Use <a href="https://filezilla-project.org" target="_blank" rel="noopener">FileZilla®</a> as an example, remember that you should use <strong>s<a href="ftp://external-ip" target="_blank" rel="noopener">ftp://external-ip</a></strong> as the host.</p>
-<p align="center">
+</li>
+</ul>
+<h3 id="Use-FTP-application"><a href="#Use-FTP-application" class="headerlink" title="Use FTP application"></a>Use FTP application</h3><ul>
+<li>Use <a href="https://filezilla-project.org" target="_blank" rel="noopener">FileZilla®</a> as an example, remember that you should use <strong>s<a href="ftp://external-ip" target="_blank" rel="noopener">ftp://external-ip</a></strong> as the host.<p align="center">
 <img src="./ftp-application-filezilla.jpg" alt="Ftp application filezilla" width="500px">
 </p>
 
