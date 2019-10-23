@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 minutes read (About 1116 words)
+                    7 minutes read (About 1117 words)
                 </span>
                 
                 
@@ -175,109 +175,16 @@
         <div class="content">
             <p>The series of passages to use the Google Cloud for deep learning has two parts: <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" title="The first part">The first part</a> is about creating a VM instance on the Google cloud and <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" title="the second part">the second part</a> is about installing some deep learning related configurations (jupyter notebook and GPUs). Now, Let’s move to the Part 2!</p>
 <h1 id="Configure-the-Deep-Learning-Enviroment"><a href="#Configure-the-Deep-Learning-Enviroment" class="headerlink" title="Configure the Deep Learning Enviroment"></a>Configure the Deep Learning Enviroment</h1><h2 id="Step-1-Install-GPU-Drivers-and-CUDA"><a href="#Step-1-Install-GPU-Drivers-and-CUDA" class="headerlink" title="Step 1: Install GPU Drivers and CUDA"></a>Step 1: <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#install-gpu-driver" target="_blank" rel="noopener">Install GPU Drivers and CUDA</a></h2><p>After you create an instance with one or more GPUs, your system requires device drivers so that your applications can access the device.</p>
-<p>Install CUDA, which includes the NVIDIA driver. Following steps to install CUDA and the associated drivers for NVIDIA® GPUs.</p>
-<ul>
-<li><p>Run command line to create a script:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim installNvidia.sh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Paste the <a href="https://cloud.google.com/compute/docs/gpus/add-gpus?hl=zh-cn#verify-driver-install" target="_blank" rel="noopener">following script</a> to install CUDA:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#!/bin/bash</span></span><br><span class="line"><span class="hljs-built_in">echo</span> <span class="hljs-string">"Checking for CUDA and installing."</span></span><br><span class="line"><span class="hljs-comment"># Check for CUDA and try to install.</span></span><br><span class="line"><span class="hljs-keyword">if</span> ! dpkg-query -W cuda-10-0; <span class="hljs-keyword">then</span></span><br><span class="line">  <span class="hljs-comment"># The 16.04 installer works with 16.10.</span></span><br><span class="line">  curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb</span><br><span class="line">  dpkg -i ./cuda-repo-ubuntu1604_10.0.130-1_amd64.deb</span><br><span class="line">  apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub</span><br><span class="line">  apt-get update</span><br><span class="line">  apt-get install cuda-10-0 -y</span><br><span class="line"><span class="hljs-keyword">fi</span></span><br><span class="line"><span class="hljs-comment"># Enable persistence mode</span></span><br><span class="line">nvidia-smi -pm 1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Run command line to execute the script:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bash installNvidia.sh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Verify that the driver installed and initialized properly.</p>
-  <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvidia-smi</span><br></pre></td></tr></table></figure>
-
-<p>  The output of the command looks similar to the following:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 410.92                Driver Version: 410.92                     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  Tesla P100-PCIE...  On   | 00000000:00:04.0 Off |                    0 |</span><br><span class="line">| N/A   34C    P0    26W / 250W |      0MiB / 16276MiB |      0%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="Step-2-Install-cuDNN"><a href="#Step-2-Install-cuDNN" class="headerlink" title="Step 2: Install cuDNN"></a>Step 2: Install cuDNN</h2><blockquote>
-<p>The NVIDIA CUDA® Deep Neural Network library (<a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">cuDNN</a>) is a GPU-accelerated library of primitives for deep neural networks. cuDNN provides highly tuned implementations for standard routines such as forward and backward convolution, pooling, normalization, and activation layers.</p>
-</blockquote>
-<p><strong><a href="https://discuss.pytorch.org/t/how-to-check-if-torch-uses-cudnn/21933/3" target="_blank" rel="noopener">IMPORTANT</a></strong>: </p>
-<blockquote>
-<p>If you want to use <strong>pytorch</strong> with an NVIDIA GPU…We ship with everything in-built (pytorch binaries include CUDA, CuDNN, NCCL, MKL, etc.)</p>
-</blockquote>
-<p>When using  <strong>pytorch</strong>, you just need to install the NVIDIA drivers and the binaries will come with the other libs.  If you want to build from source, you would need to install CUDA, cuDNN etc.</p>
-<p>The cuDNN can be installed as the following:</p>
-<ul>
-<li><p>Check the version of your CUDA and download the corresponding version of cuDNN which requires a NVIDIA account.</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># Check the version of CUDA</span></span><br><span class="line">$ cat /usr/<span class="hljs-built_in">local</span>/cuda/version.txt</span><br><span class="line"><span class="hljs-comment"># Check the version of cuDNN</span></span><br><span class="line">$ cat /usr/<span class="hljs-built_in">local</span>/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Download it to the local and <a href="#transfer-files-between-the-local-and-remote">copy it to the remote</a>:</p>
-  <p align="center">
-        <img src="./download-cudnn-1.jpg" alt="Download cudnn 1" width="500px">
-
-</p><p>  Or use <code>wget</code> to download it. It’s a bit more tricky, you have to start the downloading and copy the downloading link from the browser downloader.</p>
-  <p align="center">
-        <img src="./download-cudnn-2.jpg" alt="Download cudnn 2" width="250px">
-</p></li>
-<li><p>Then decompress downloaded compressed file and get a folder <code>cuda</code>:</p>
-<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf file</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Copy files to finish the installation </p>
-<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp cuda/lib64/* /usr/<span class="hljs-built_in">local</span>/cuda/lib64/</span><br><span class="line">$ sudo cp cuda/include/cudnn.h /usr/<span class="hljs-built_in">local</span>/cuda/include/</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="Step-3-Install-Anaconda-with-Jupyter-Notebook"><a href="#Step-3-Install-Anaconda-with-Jupyter-Notebook" class="headerlink" title="Step 3: Install Anaconda with Jupyter Notebook"></a>Step 3: Install Anaconda with Jupyter Notebook</h2><ul>
-<li><p>Copy the bash (.sh file) installer link:</p>
-<p align="center">
-<img src="./copy-the-bash-installer-link.jpg" alt="Copy the bash installer link" width="500px">
-</p>
-</li>
-<li><p>Use  <code>wget</code>  to download the bash installer:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://repo.continuum.io/archive/Anaconda3&lt;release&gt;.sh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Run the bash script to install  <strong>Anaconda3</strong>:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bash Anaconda3-5.2.0-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>source</code>  the  <code>.bashrc</code>  file to add Anaconda to your  <code>PATH</code>. Now that <strong>Anaconda3</strong> is added to <code>PATH</code>, <code>source</code> the <code>.bashrc</code>file to load the new <code>PATH</code> environment variable.</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="hljs-built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>To verify the installation is complete, open Python from the command line:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="Step-4-Local-Access-to-Jupyte-Service"><a href="#Step-4-Local-Access-to-Jupyte-Service" class="headerlink" title="Step 4: Local Access to Jupyte Service"></a>Step 4: Local Access to Jupyte Service</h2><ul>
-<li><p>Set firewall rules in “<strong>VPC network</strong>“ → “<strong>Firewall rules</strong>“ → “<strong>Create firewall rules</strong>“. Set <strong>Source IP ranges</strong> as <code>0.0.0.0/0</code> to allow all IPs to access. Set “<strong>Protocols and Ports</strong>“ to “<strong>tcp:port</strong>“, which the notebook server will listen on (e.g. 8888).</p>
-<p align="center">
-<img src="./set-firewall-rules.jpg" alt="Set firewall rules" width="300px">
-</p>
-</li>
-<li><p>Create a <a href="https://jupyter-notebook.readthedocs.io/en/stable/config.html" target="_blank" rel="noopener">Jupyter configuration</a> file if it doesn’t exist:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter notebook --generate-config</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Add a few lines to your Jupyter configuration file:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim .jupyter/jupyter_notebook_config.py</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">c.NotebookApp.ip = <span class="hljs-string">'*'</span></span><br><span class="line"><span class="hljs-comment"># The port the notebook server will listen on.</span></span><br><span class="line">c.NotebookApp.port = 8888</span><br><span class="line"><span class="hljs-comment"># Whether to open in a browser after starting.</span></span><br><span class="line">c.NotebookApp.open_browser = False</span><br><span class="line"><span class="hljs-comment"># Whether to allow the user to run the notebook as root.</span></span><br><span class="line">c.NotebookApp.allow_root = True</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Run the jupyter notebook:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter notebook</span><br><span class="line"><span class="hljs-comment"># Then paste returned URL to the browser: http://host(static-ip):8888/?token=...ccf7bb</span></span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<h1 id="Small-Tips"><a href="#Small-Tips" class="headerlink" title="Small Tips:"></a>Small Tips:</h1><h2 id="Modifying-Existing-Instances"><a href="#Modifying-Existing-Instances" class="headerlink" title="Modifying Existing Instances"></a>Modifying Existing Instances</h2><p>You can <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#add-gpu-to-instance" target="_blank" rel="noopener">modify resources (CPU/GPUs) on your existing instances</a>, but you must first stop the instance and change its host maintenance.</p>
-<ul>
-<li>At the top of the instance details page, click  “<strong>Stop</strong>“  to stop the instance.</li>
-<li>After the instance stops running, click “<strong>Edit</strong>“  to change the instance properties.</li>
-</ul>
-<h2 id="Make-External-IP-Address-as-Static"><a href="#Make-External-IP-Address-as-Static" class="headerlink" title="Make External IP Address as Static"></a>Make External IP Address as Static</h2><p>By default, the external IP address is dynamic and we need to make it static to make our life easier. Click on the three horizontal lines on top left and then under networking, click on VPC network and then External IP addresses.</p>
-<h2 id="Useful-Script-for-Uninstallation"><a href="#Useful-Script-for-Uninstallation" class="headerlink" title="Useful Script for Uninstallation"></a>Useful Script for Uninstallation</h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove cuda <span class="hljs-comment"># uninstall cuda  </span></span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
-
-<h2 id="Create-Virtual-Environment"><a href="#Create-Virtual-Environment" class="headerlink" title="Create Virtual Environment"></a>Create Virtual Environment</h2><p>~$ <strong>conda create –name py36 python=3.6 anaconda</strong><br>~$ <strong>source activate py36</strong></p>
-<h2 id="Transfer-Files-Between-the-Local-and-Remote"><a href="#Transfer-Files-Between-the-Local-and-Remote" class="headerlink" title="Transfer Files Between the Local and Remote"></a>Transfer Files Between the Local and Remote</h2><p>把本地的 /path/to/local/file 文件传输到远程的 /path/to/remote/file<br>scp -P port /path/to/local/file user@remote:/path/to/remote/file<br>把远程的 /path/to/remote/file 下载到本地的 /path/to/local/file<br>scp lab:/path/to/remote/file /path/to/local/file</p>
-<h1 id="加上-r-命令可以传送文件夹"><a href="#加上-r-命令可以传送文件夹" class="headerlink" title="加上 -r 命令可以传送文件夹"></a>加上 -r 命令可以传送文件夹</h1><h1 id="下面命令可以把当前目录下的-dir-文件夹传到远程的家目录下"><a href="#下面命令可以把当前目录下的-dir-文件夹传到远程的家目录下" class="headerlink" title="下面命令可以把当前目录下的 dir 文件夹传到远程的家目录下"></a>下面命令可以把当前目录下的 dir 文件夹传到远程的家目录下</h1><p>scp -r dir lab:</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://cloud.google.com/compute/docs/" target="_blank" rel="noopener">Doc: Compute Engin Docmentation</a><br><a href="https://towardsdatascience.com/running-jupyter-notebook-in-google-cloud-platform-in-15-min-61e16da34d52" target="_blank" rel="noopener">Blog: Running Jupyter Notebook on Google Cloud Platform in 15 min</a><br><a href="https://problemsolvingwithpython.com/01-Orientation/01.05-Installing-Anaconda-on-Linux/" target="_blank" rel="noopener">Blog: Installing Anaconda on Linux</a></p>
-
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/10/21/google-cloud-for-deep-learning-part-2/#more">Read More</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -302,7 +209,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 minutes read (About 726 words)
+                    5 minutes read (About 727 words)
                 </span>
                 
                 
@@ -322,68 +229,16 @@
 <p>The series of passages aiming to use the Google Cloud for deep learning has two parts: <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" title="The first part">The first part</a> is about creating a VM instance on the Google cloud and <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" title="the second part">the second part</a> is about installing some deep learning related configurations (jupyter notebook and GPUs). Let’s take a step to the Part 1!</p>
 <h1 id="Create-a-VM-Instance"><a href="#Create-a-VM-Instance" class="headerlink" title="Create a VM Instance"></a>Create a VM Instance</h1><h2 id="Step-1-Create-a-Google-Account-with-Credit"><a href="#Step-1-Create-a-Google-Account-with-Credit" class="headerlink" title="Step 1: Create a Google Account with Credit"></a>Step 1: Create a Google Account with Credit</h2><p>You should activate your free trial to get  $300 credit for the trial. </p>
 <p>Your payment information will be required but you <strong>won’t be charged</strong> unless you manually upgrade to a paid account. So don’t be too worried about the autocharge!</p>
-<h2 id="Step-2-Create-a-New-Project"><a href="#Step-2-Create-a-New-Project" class="headerlink" title="Step 2 : Create a New Project"></a>Step 2 : Create a New Project</h2><p>Click the “<strong>project button</strong>“ in the top left cornor (right to the  “<strong>Google Cloud Platform</strong>“ icon) to create a new project.</p>
-<h2 id="Step-3-Create-a-VM-Instance"><a href="#Step-3-Create-a-VM-Instance" class="headerlink" title="Step 3: Create a VM Instance"></a>Step 3: Create a VM Instance</h2><p>Click on the “<strong>three lines button</strong>“ (menu) on the top left corner and then click on “<strong>Compute Engine</strong>“. There some tips for the new VM instance:</p>
-<ul>
-<li>Select a region with zone that has GPU resources, e.g. “us-west1-a”. </li>
-<li>Customize your machine type (CPU, GPU) as you want, which can be <a href>adjusted after the creation</a>.  </li>
-<li>Usually select “<strong>Ubuntu 16.04 LTS</strong>“ as the image in your boot disk.</li>
-<li>Tick both “<strong>http</strong>“ and “<strong>https</strong>“ under the firewall options to allow the network traffic.</li>
-<li>Expand the drop-down menu “<strong>Management, security, disks …</strong>“, choose the “<strong>disk</strong>“  tab and <strong>untick</strong> “<strong>Delete boot disk when instance is deleted</strong>“. You can also add an additonal disk if you want.</li>
-</ul>
-<p><strong>IMPORTANT : DON’T FORGET TO STOP YOUR GPU INSTANCE, OTHERWISE GCP WILL KEEP CHARGING.</strong></p>
-<h2 id="Step-4-Request-for-Increase-in-Quota"><a href="#Step-4-Request-for-Increase-in-Quota" class="headerlink" title="Step 4: Request for Increase in Quota"></a>Step 4: Request for Increase in Quota</h2><p>You probably get an error “<strong>Quota ‘GPUS_ALL_REGIONS’ exceeded. Limit: 0.0 globally</strong>“, which requires you to increase the    quota.</p>
-<p>Click “<strong>Quotas</strong>“ in “<strong>IAM &amp; Admin</strong>“,  send a quota increase request for “<strong>Compute Engine API GPUs (all regions)</strong>“ to at least set the limit to 1. An email will be sent automatically and your application will be processed in following days.</p>
-<p align="center">
-  <img src="./increase-the-quota.jpg" alt="Increase the quota" width="500px">
-</p>
-
-<p>If you want to use <strong>mutiple GPUs</strong> in one VM instance, you need to increase the quota for a specific kind of GPUs in the same zone as your VM instance as well, such as “<strong>Compute Engine API NVIDIA K80 GPUs</strong>“ in “us-west1-a”.</p>
-<h2 id="Step-5-Connecting-to-the-VM-via-SSH"><a href="#Step-5-Connecting-to-the-VM-via-SSH" class="headerlink" title="Step 5: Connecting to the VM via SSH"></a>Step 5: Connecting to the VM via SSH</h2><p>Three of those methods will be mentioned briefly.</p>
-<h3 id="Method-1-SSH-from-the-browser"><a href="#Method-1-SSH-from-the-browser" class="headerlink" title="Method 1: SSH from the browser"></a>Method 1: SSH from the browser</h3><p align="center">
-  <img src="./SSH-from-the-browser.jpg" alt="SSH from the browser" width="500px">
-</p>
-
-<h3 id="Method-2-Log-in-via-SSH-password-verification"><a href="#Method-2-Log-in-via-SSH-password-verification" class="headerlink" title="Method 2: Log in via SSH password verification"></a>Method 2: Log in via SSH password verification</h3><ul>
-<li><p>Log in using method 1, switch to root and reset the passward:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo -i </span><br><span class="line">$ sudo passwd root</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Edit the SSH configuration file:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/ssh/sshd_config</span><br><span class="line"><span class="hljs-comment"># Eneter :wq to quit with change </span></span><br><span class="line"><span class="hljs-comment"># Eneter :q! to quit without change</span></span><br></pre></td></tr></table></figure>
-
-<p>  and change things as following:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br><span class="line">PasswordAuthentication yes</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Restart SSH and activate new setting:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service sshd restart</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Connect to Google Cloud using passward set above. </p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh user@host</span><br><span class="line"><span class="hljs-comment"># First time: Type yes if any notification</span></span><br></pre></td></tr></table></figure>
-
-<p>  <code>host</code> here should be the external-ip as below:</p>
-  <p align="center">
-    <img src="./where-is-external-ip.jpg" alt="Where is external ip" width="500px">
-  </p>
-### Method 3 :Log in via the local private key file</li>
-<li><p>Generate SSH key file (in macOS):</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Copy the public key:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cat ~/.ssh/id_rsa.pub</span><br><span class="line"><span class="hljs-comment"># ...45UVp1 user@computer-name.local</span></span><br><span class="line"><span class="hljs-comment"># Change user@computer-name.local as the user you want to login, e.g. root</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Paste it to “<strong>Compute Engine</strong>“ → “<strong>Metadata</strong>“, Google will write the public key to <code>~/.ssh/authorized_keys</code>:</p>
-  <p align="center">
-    <img src="./SSH-from-the-comand-line.jpg" alt="SSH from the comand line" width="500px">
-  </p></li>
-<li><p>Use the corresponding private to login and enter passphrase for key:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i id_rsa user@host</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://towardsdatascience.com/running-jupyter-notebook-in-google-cloud-platform-in-15-min-61e16da34d52" target="_blank" rel="noopener">Blog: Running Jupyter Notebook on Google Cloud Platform in 15 min</a><br><a href="https://streamelody.github.io/2018/09/google-cloud-ssh/" target="_blank" rel="noopener">Blog: Mac使用SSH登录Google Cloud Platform</a><br><a href="https://www.jianshu.com/p/57e85cf3e50b" target="_blank" rel="noopener">Blog: Google Cloud Platform SSH 连接配置</a></p>
-
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/10/17/google-cloud-for-deep-learning-part-1/#more">Read More</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
