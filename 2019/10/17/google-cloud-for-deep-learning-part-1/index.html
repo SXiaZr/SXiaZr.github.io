@@ -19,7 +19,7 @@
 <meta property="og:description" content="Google Cloud is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products.  Google compute engine instance is a virtual machine (V">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-24T18:25:36.862Z">
+<meta property="og:updated_time" content="2019-10-24T23:23:40.758Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google Cloud for Deep Learning - Part 1">
 <meta name="twitter:description" content="Google Cloud is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products.  Google compute engine instance is a virtual machine (V">
@@ -148,7 +148,7 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-content article ">
         
@@ -183,7 +183,7 @@
 </blockquote>
 <p><a href="https://cloud.google.com/compute/docs/instances/" target="_blank" rel="noopener">Google compute engine instance</a> is a virtual machine (VM) hosted on Google Cloud where you could run our GPU-enabled deep learning project. What the most important is that a $300 trial credit is offered by google to try this cloud services!</p>
 <p>The series of passages aiming to use the Google Cloud for deep learning has two parts: <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" title="The first part">The first part</a> is about creating a VM instance on the Google cloud and <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" title="the second part">the second part</a> is about installing some deep learning related configurations (jupyter notebook and GPUs). Let’s take a step to the Part 1!</p>
-<h1 id="Create-a-VM-Instance"><a href="#Create-a-VM-Instance" class="headerlink" title="Create a VM Instance"></a>Create a VM Instance</h1><h2 id="Step-1-Create-a-Google-Account-with-Credit"><a href="#Step-1-Create-a-Google-Account-with-Credit" class="headerlink" title="Step 1: Create a Google Account with Credit"></a>Step 1: Create a Google Account with Credit</h2><p>You should activate your free trial to get  $300 credit for the trial. </p>
+<h1 id="Create-a-VM-Instance"><a href="#Create-a-VM-Instance" class="headerlink" title="Create a VM Instance"></a>Create a VM Instance</h1><h2 id="Step-1-Create-a-Google-Account-with-Credit"><a href="#Step-1-Create-a-Google-Account-with-Credit" class="headerlink" title="Step 1: Create a Google Account with Credit"></a>Step 1: Create a Google Account with Credit</h2><p>You should activate your free trial to get <strong>$300</strong> credit for the trial. </p>
 <p>Your payment information will be required but you <strong>won’t be charged</strong> unless you manually upgrade to a paid account. So don’t be too worried about the autocharge!</p>
 <a id="more"></a>
 <h2 id="Step-2-Create-a-New-Project"><a href="#Step-2-Create-a-New-Project" class="headerlink" title="Step 2 : Create a New Project"></a>Step 2 : Create a New Project</h2><p>Click the “<strong>project button</strong>“ in the top left cornor (right to the  “<strong>Google Cloud Platform</strong>“ icon) to create a new project.</p>
@@ -199,13 +199,13 @@
 <h2 id="Step-4-Request-for-Increase-in-Quota"><a href="#Step-4-Request-for-Increase-in-Quota" class="headerlink" title="Step 4: Request for Increase in Quota"></a>Step 4: Request for Increase in Quota</h2><p>You probably get an error “<strong>Quota ‘GPUS_ALL_REGIONS’ exceeded. Limit: 0.0 globally</strong>“, which requires you to increase the    quota.</p>
 <p>Click “<strong>Quotas</strong>“ in “<strong>IAM &amp; Admin</strong>“,  send a quota increase request for “<strong>Compute Engine API GPUs (all regions)</strong>“ to at least set the limit to 1. An email will be sent automatically and your application will be processed in following days.</p>
 <p align="center">
-  <img src="./increase-the-quota.jpg" alt="Increase the quota" width="500px">
+  <img src="./increase-the-quota.jpg" alt="Increase the quota" width="800px">
 </p>
 
 <p>If you want to use <strong>mutiple GPUs</strong> in one VM instance, you need to increase the quota for a specific kind of GPUs in the same zone as your VM instance as well, such as “<strong>Compute Engine API NVIDIA K80 GPUs</strong>“ in “us-west1-a”.</p>
 <h2 id="Step-5-Connecting-to-the-VM-via-SSH"><a href="#Step-5-Connecting-to-the-VM-via-SSH" class="headerlink" title="Step 5: Connecting to the VM via SSH"></a>Step 5: Connecting to the VM via SSH</h2><p>Three of those methods will be mentioned briefly.</p>
 <h3 id="Method-1-SSH-from-the-browser"><a href="#Method-1-SSH-from-the-browser" class="headerlink" title="Method 1: SSH from the browser"></a>Method 1: SSH from the browser</h3><p align="center">
-  <img src="./SSH-from-the-browser.jpg" alt="SSH from the browser" width="500px">
+  <img src="./SSH-from-the-browser.jpg" alt="SSH from the browser" width="800px">
 </p>
 
 <h3 id="Method-2-Log-in-via-SSH-password-verification"><a href="#Method-2-Log-in-via-SSH-password-verification" class="headerlink" title="Method 2: Log in via SSH password verification"></a>Method 2: Log in via SSH password verification</h3><ul>
@@ -226,7 +226,7 @@
 
 <p>  <code>host</code> here should be the external-ip as below:</p>
   <p align="center">
-    <img src="./where-is-external-ip.jpg" alt="Where is external ip" width="500px">
+    <img src="./where-is-external-ip.jpg" alt="Where is external ip" width="800px">
   </p>
 
 </li>
@@ -240,7 +240,7 @@
 </li>
 <li><p>Paste it to “<strong>Compute Engine</strong>“ → “<strong>Metadata</strong>“, Google will write the public key to <code>~/.ssh/authorized_keys</code>:</p>
   <p align="center">
-    <img src="./SSH-from-the-comand-line.jpg" alt="SSH from the comand line" width="500px">
+    <img src="./SSH-from-the-comand-line.jpg" alt="SSH from the comand line" width="800px">
   </p></li>
 <li><p>Use the corresponding private key to login and enter passphrase for key:</p>
   <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i ~/.ssh/id_rsa user@host</span><br></pre></td></tr></table></figure>
@@ -434,45 +434,6 @@
         
     
         
-
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Links
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">Hexo</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">hexo.io</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://github.com/ppoffice" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">PPOffice</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">github.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-
-
-    
-        
 <div class="card widget">
     <div class="card-content">
         <div class="menu">
@@ -489,7 +450,7 @@
         
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow  ">
         
             
 <div class="card widget">
@@ -650,169 +611,6 @@
 </div>
 
                 
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 2">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time></div>
-                    <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 2</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T16:00:00.000Z">2019-10-18</time></div>
-                    <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 1</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/17/Docker/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T07:51:39.554Z">2019-10-17</time></div>
-                    <a href="/2019/10/17/Docker/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Optimization Algorithm in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-16T16:00:00.000Z">2019-10-17</time></div>
-                    <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Optimization Algorithm in Deep Learning</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/14/normalization-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time></div>
-                    <a href="/2019/10/14/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/10/">
-                <span class="level-start">
-                    <span class="level-item">October 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">5</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">August 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
             </div>
         </div>
     </section>

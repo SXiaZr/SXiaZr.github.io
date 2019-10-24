@@ -19,7 +19,7 @@
 <meta property="og:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-24T18:25:14.781Z">
+<meta property="og:updated_time" content="2019-10-24T23:26:31.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google Cloud for Deep Learning - Part 2">
 <meta name="twitter:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
@@ -148,7 +148,7 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-content article ">
         
@@ -217,7 +217,7 @@
 </li>
 <li><p>Download it to the local and <a href="#Transfer-Files-Between-the-Local-and-Remote">copy it to the remote</a>:</p>
   <p align="center">
-        <img src="./download-cudnn-1.jpg" alt="Download cudnn 1" width="500px">
+        <img src="./download-cudnn-1.jpg" alt="Download cudnn 1" width="800px">
 
 </p><p>  Or use <code>wget</code> to download it. It’s a bit more tricky, you have to start the downloading and copy the downloading link from the browser downloader.</p>
   <p align="center">
@@ -234,7 +234,7 @@
 <h2 id="Step-3-Install-Anaconda-with-Jupyter-Notebook"><a href="#Step-3-Install-Anaconda-with-Jupyter-Notebook" class="headerlink" title="Step 3: Install Anaconda with Jupyter Notebook"></a>Step 3: Install Anaconda with Jupyter Notebook</h2><ul>
 <li><p>Copy the bash (.sh file) installer link:</p>
 <p align="center">
-<img src="./copy-the-bash-installer-link.jpg" alt="Copy the bash installer link" width="500px">
+<img src="./copy-the-bash-installer-link.jpg" alt="Copy the bash installer link" width="700px">
 </p>
 </li>
 <li><p>Use  <code>wget</code>  to download the bash installer:</p>
@@ -254,7 +254,7 @@
 <h2 id="Step-4-Local-Access-to-Jupyte-Service"><a href="#Step-4-Local-Access-to-Jupyte-Service" class="headerlink" title="Step 4: Local Access to Jupyte Service"></a>Step 4: Local Access to Jupyte Service</h2><ul>
 <li><p>Set firewall rules in “<strong>VPC network</strong>“ → “<strong>Firewall rules</strong>“ → “<strong>Create firewall rules</strong>“. Set <strong>Source IP ranges</strong> as <code>0.0.0.0/0</code> to allow all IPs to access. Set “<strong>Protocols and Ports</strong>“ to “<strong>tcp:port</strong>“, which the notebook server will listen on (e.g. 8888).</p>
 <p align="center">
-<img src="./set-firewall-rules.jpg" alt="Set firewall rules" width="300px">
+<img src="./set-firewall-rules.jpg" alt="Set firewall rules" width="400px">
 </p>
 </li>
 <li><p>Create a <a href="https://jupyter-notebook.readthedocs.io/en/stable/config.html" target="_blank" rel="noopener">Jupyter configuration</a> file if it doesn’t exist:</p>
@@ -290,12 +290,12 @@
 </li>
 </ul>
 <h3 id="Use-FTP-application"><a href="#Use-FTP-application" class="headerlink" title="Use FTP application"></a>Use FTP application</h3><ul>
-<li>Use <a href="https://filezilla-project.org" target="_blank" rel="noopener">FileZilla®</a> as an example, remember that you should use <strong><a href="sftp://external-ip" target="_blank" rel="noopener">sftp://external-ip</a></strong> as the host.<p align="center">
-<img src="./ftp-application-filezilla.jpg" alt="Ftp application filezilla" width="500px">
+<li>Use <a href="https://filezilla-project.org" target="_blank" rel="noopener">FileZilla®</a> as an example, remember that you should use <strong><a href="sftp://external-ip" target="_blank" rel="noopener">sftp://external-ip</a></strong> as the host.</li>
+</ul>
+<p align="center">
+  <img src="./ftp-application-filezilla.jpg" alt="Ftp application filezilla" width="750px">
 </p>
 
-</li>
-</ul>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://cloud.google.com/compute/docs/" target="_blank" rel="noopener">Doc: Compute Engin Docmentation</a><br><a href="https://towardsdatascience.com/running-jupyter-notebook-in-google-cloud-platform-in-15-min-61e16da34d52" target="_blank" rel="noopener">Blog: Running Jupyter Notebook on Google Cloud Platform in 15 min</a><br><a href="https://problemsolvingwithpython.com/01-Orientation/01.05-Installing-Anaconda-on-Linux/" target="_blank" rel="noopener">Blog: Installing Anaconda on Linux</a><br><a href="https://www.runoob.com/linux/linux-tutorial.html" target="_blank" rel="noopener">Blog: Linux 教程</a></p>
 
         </div>
@@ -471,45 +471,6 @@
         
     
         
-
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Links
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">Hexo</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">hexo.io</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://github.com/ppoffice" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">PPOffice</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">github.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-
-
-    
-        
 <div class="card widget">
     <div class="card-content">
         <div class="menu">
@@ -526,7 +487,7 @@
         
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow  ">
         
             
 <div class="card widget">
@@ -687,169 +648,6 @@
 </div>
 
                 
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 2">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time></div>
-                    <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 2</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T16:00:00.000Z">2019-10-18</time></div>
-                    <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 1</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/17/Docker/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T07:51:39.554Z">2019-10-17</time></div>
-                    <a href="/2019/10/17/Docker/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Optimization Algorithm in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-16T16:00:00.000Z">2019-10-17</time></div>
-                    <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Optimization Algorithm in Deep Learning</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/10/14/normalization-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time></div>
-                    <a href="/2019/10/14/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/10/">
-                <span class="level-start">
-                    <span class="level-item">October 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">5</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">August 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
             </div>
         </div>
     </section>
