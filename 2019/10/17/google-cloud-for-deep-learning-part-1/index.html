@@ -19,7 +19,7 @@
 <meta property="og:description" content="Google Cloud is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products.  Google compute engine instance is a virtual machine (V">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-23T12:08:01.528Z">
+<meta property="og:updated_time" content="2019-10-24T18:02:22.540Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google Cloud for Deep Learning - Part 1">
 <meta name="twitter:description" content="Google Cloud is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products.  Google compute engine instance is a virtual machine (V">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 minutes read (About 727 words)
+                    5 minutes read (About 798 words)
                 </span>
                 
                 
@@ -190,7 +190,7 @@
 <h2 id="Step-3-Create-a-VM-Instance"><a href="#Step-3-Create-a-VM-Instance" class="headerlink" title="Step 3: Create a VM Instance"></a>Step 3: Create a VM Instance</h2><p>Click on the “<strong>three lines button</strong>“ (menu) on the top left corner and then click on “<strong>Compute Engine</strong>“. There some tips for the new VM instance:</p>
 <ul>
 <li>Select a region with zone that has GPU resources, e.g. “us-west1-a”. </li>
-<li>Customize your machine type (CPU, GPU) as you want, which can be <a href>adjusted after the creation</a>.  </li>
+<li>Customize your machine type (CPU, GPU) as you want, which can be <a href="#modifying-existing-instances">adjusted after the creation</a>.  </li>
 <li>Usually select “<strong>Ubuntu 16.04 LTS</strong>“ as the image in your boot disk.</li>
 <li>Tick both “<strong>http</strong>“ and “<strong>https</strong>“ under the firewall options to allow the network traffic.</li>
 <li>Expand the drop-down menu “<strong>Management, security, disks …</strong>“, choose the “<strong>disk</strong>“  tab and <strong>untick</strong> “<strong>Delete boot disk when instance is deleted</strong>“. You can also add an additonal disk if you want.</li>
@@ -213,7 +213,7 @@
   <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo -i </span><br><span class="line">$ sudo passwd root</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Edit the SSH configuration file:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/ssh/sshd_config</span><br><span class="line"><span class="hljs-comment"># Eneter :wq to quit with change </span></span><br><span class="line"><span class="hljs-comment"># Eneter :q! to quit without change</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/ssh/sshd_config</span><br><span class="line"><span class="hljs-comment"># Eneter :wq to quit with change; Eneter :q! to quit without change</span></span><br></pre></td></tr></table></figure>
 
 <p>  and change things as following:</p>
   <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br><span class="line">PasswordAuthentication yes</span><br></pre></td></tr></table></figure>
@@ -228,7 +228,10 @@
   <p align="center">
     <img src="./where-is-external-ip.jpg" alt="Where is external ip" width="500px">
   </p>
-### Method 3 :Log in via the local private key file</li>
+
+</li>
+</ul>
+<h3 id="Method-3-Log-in-via-the-local-private-key-file"><a href="#Method-3-Log-in-via-the-local-private-key-file" class="headerlink" title="Method 3 :Log in via the local private key file"></a>Method 3 :Log in via the local private key file</h3><ul>
 <li><p>Generate SSH key file (in macOS):</p>
   <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
 </li>
@@ -239,10 +242,15 @@
   <p align="center">
     <img src="./SSH-from-the-comand-line.jpg" alt="SSH from the comand line" width="500px">
   </p></li>
-<li><p>Use the corresponding private to login and enter passphrase for key:</p>
-  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i id_rsa user@host</span><br></pre></td></tr></table></figure>
+<li><p>Use the corresponding private key to login and enter passphrase for key:</p>
+  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i ~/.ssh/id_rsa user@host</span><br></pre></td></tr></table></figure>
 
 </li>
+</ul>
+<h1 id="Small-Tips"><a href="#Small-Tips" class="headerlink" title="Small Tips:"></a>Small Tips:</h1><h2 id="Modifying-Existing-Instances"><a href="#Modifying-Existing-Instances" class="headerlink" title="Modifying Existing Instances"></a>Modifying Existing Instances</h2><p>You can <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#add-gpu-to-instance" target="_blank" rel="noopener">modify resources (CPU/GPUs) on your existing instances</a>, but you must first stop the instance and change its host maintenance.</p>
+<ul>
+<li>At the top of the instance details page, click  “<strong>Stop</strong>“  to stop the instance.</li>
+<li>After the instance stops running, click “<strong>Edit</strong>“  to change the instance properties.</li>
 </ul>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://towardsdatascience.com/running-jupyter-notebook-in-google-cloud-platform-in-15-min-61e16da34d52" target="_blank" rel="noopener">Blog: Running Jupyter Notebook on Google Cloud Platform in 15 min</a><br><a href="https://streamelody.github.io/2018/09/google-cloud-ssh/" target="_blank" rel="noopener">Blog: Mac使用SSH登录Google Cloud Platform</a><br><a href="https://www.jianshu.com/p/57e85cf3e50b" target="_blank" rel="noopener">Blog: Google Cloud Platform SSH 连接配置</a></p>
 
