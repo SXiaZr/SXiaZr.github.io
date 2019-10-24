@@ -19,7 +19,7 @@
 <meta property="og:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-24T17:56:15.603Z">
+<meta property="og:updated_time" content="2019-10-24T18:25:14.781Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google Cloud for Deep Learning - Part 2">
 <meta name="twitter:description" content="The series of passages to use the Google Cloud for deep learning has two parts: The first part is about creating a VM instance on the Google cloud and the second part is about installing some deep lea">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 minutes read (About 1143 words)
+                    7 minutes read (About 1079 words)
                 </span>
                 
                 
@@ -215,7 +215,7 @@
 <li><p>Check the version of your CUDA and download the corresponding version of cuDNN which requires a NVIDIA account.</p>
   <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># Check the version of CUDA</span></span><br><span class="line">$ cat /usr/<span class="hljs-built_in">local</span>/cuda/version.txt</span><br><span class="line"><span class="hljs-comment"># Check the version of cuDNN</span></span><br><span class="line">$ cat /usr/<span class="hljs-built_in">local</span>/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Download it to the local and <a href="#transfer-files-between-the-local-and-remote">copy it to the remote</a>:</p>
+<li><p>Download it to the local and <a href="#Transfer-Files-Between-the-Local-and-Remote">copy it to the remote</a>:</p>
   <p align="center">
         <img src="./download-cudnn-1.jpg" alt="Download cudnn 1" width="500px">
 
@@ -271,12 +271,7 @@
 
 </li>
 </ul>
-<h1 id="Small-Tips"><a href="#Small-Tips" class="headerlink" title="Small Tips:"></a>Small Tips:</h1><h2 id="Modifying-Existing-Instances"><a href="#Modifying-Existing-Instances" class="headerlink" title="Modifying Existing Instances"></a>Modifying Existing Instances</h2><p>You can <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#add-gpu-to-instance" target="_blank" rel="noopener">modify resources (CPU/GPUs) on your existing instances</a>, but you must first stop the instance and change its host maintenance.</p>
-<ul>
-<li>At the top of the instance details page, click  “<strong>Stop</strong>“  to stop the instance.</li>
-<li>After the instance stops running, click “<strong>Edit</strong>“  to change the instance properties.</li>
-</ul>
-<h2 id="Make-External-IP-Address-as-Static"><a href="#Make-External-IP-Address-as-Static" class="headerlink" title="Make External IP Address as Static"></a>Make External IP Address as Static</h2><p>By default, the external IP address is dynamic and we need to make it static to make our life easier. </p>
+<h1 id="Small-Tips"><a href="#Small-Tips" class="headerlink" title="Small Tips:"></a>Small Tips:</h1><h2 id="Make-External-IP-Address-as-Static"><a href="#Make-External-IP-Address-as-Static" class="headerlink" title="Make External IP Address as Static"></a>Make External IP Address as Static</h2><p>By default, the external IP address is dynamic and we need to make it static to make our life easier. </p>
 <ul>
 <li>“<strong>VPC network</strong>“ →”<strong>External IP addresses</strong>“, and change the “<strong>Type</strong>“ from “<strong>Ephemeral</strong>“ to “<strong>Static</strong>“</li>
 </ul>
