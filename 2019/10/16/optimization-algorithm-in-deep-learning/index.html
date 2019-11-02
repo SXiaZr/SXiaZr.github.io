@@ -19,7 +19,7 @@
 <meta property="og:description" content="An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorit">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-24T23:28:59.653Z">
+<meta property="og:updated_time" content="2019-11-02T15:00:53.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Optimization Algorithm in Deep Learning">
 <meta name="twitter:description" content="An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorit">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 minutes read (About 1307 words)
+                    9 minutes read (About 1305 words)
                 </span>
                 
                 
@@ -188,7 +188,7 @@
 </blockquote>
 <ul>
 <li>Batch gradient descent decreases update frequency but takes much more time per iteration.</li>
-<li>Batch gradient descent has a <strong>more stable</strong> cost gradient and the cost goes down on every iteration. However, it may result in <strong>premature convergence</strong> of the model to a local minimum.</li>
+<li>Batch gradient descent has a <strong>more stable</strong> cost gradient and the cost goes down on every iteration. However, it may result in <strong>premature convergence</strong> of the model to a local minimum. It is an <strong>estimate</strong> of the function gradient.</li>
 <li>Batch gradient descent requires the entire training dataset in memory and available to the algorithm, which is <strong>memory-consuming</strong>.<a id="more"></a>
 
 </li>
@@ -199,7 +199,7 @@
 <p>It can be regarded as a <strong>stochastic approximation</strong> of batch gradient descent optimization, since it replaces the actual gradient by an estimate. </p>
 <ul>
 <li>Stochastic gradient descent increases model update frequency and can result in faster learning on some problems.</li>
-<li>Stochastic gradient descent can be <strong>extremely noisy</strong>, which may cause the model error/cost to jump around (higher variance).</li>
+<li>Stochastic gradient descent can be <strong>extremely noisy</strong>, which may cause the model error/cost to jump around (higher variance). It is an <strong>unbiased estimate</strong> of the full gradient.</li>
 <li>The noisy update process can allow the model to <strong>avoid local minima</strong>, but it also makes it hard to settle on a minimum (oscillate around the region of the minimum).</li>
 <li>Stochastic gradient descent loses the speed up from vectorization (matrix computation).</li>
 </ul>
@@ -216,45 +216,49 @@
   <img src="./variations-of-gradient-descent.jpg" alt="Variations of gradient descent" height="500px" width="700px">
 </p>
 
+<h1 id="Adaptive-Learning-Rate-Descent"><a href="#Adaptive-Learning-Rate-Descent" class="headerlink" title="Adaptive Learning Rate Descent"></a>Adaptive Learning Rate Descent</h1><h2 id="AdaGrad"><a href="#AdaGrad" class="headerlink" title="AdaGrad"></a>AdaGrad</h2><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad" target="_blank" rel="noopener">AdaGrad</a> (<strong>adaptive</strong> gradient descent) algorithm is a modified stochastic gradient descent with per-parameter learning rate. </p>
+</blockquote>
+<p>AdaGrad has a <strong>base learning</strong> rate $\eta$, but this is multiplied with the elements of a vector ($G_{j, j}$) which is the diagonal of the matrix:$$G = \sum_{\tau=1}^t g_\tau g_\tau^T$$</p>
+<p>where $g_\tau = \nabla Q_i(w)$, the stochastic gradient at iteration $\tau$. The diagonal is given by $G_{j,j} = \sum_{\tau=1}^t g_{\tau,j}^2$. </p>
+<p>The formula for an update is now:$$w = w - \eta, diag(G)^{-\frac{1}{2}} \circ g$$, where the $\circ$ is the element-wise product. It can also be written as per-parameter updates $w_j = w_j - \frac{\eta}{\sqrt{G_{j,j}}} g_j.$</p>
+<ul>
+<li>AdaGrad increases the learning rate for sparser parameters and decreases the learning rate for ones that are less sparse. This strategy often improves convergence performance over  sparse data. </li>
+<li>The intuition behind is that: with the number of updates increases, it is getting closer to the optimal solution, the learning rate supposed to be down to avoid oscillations. In AdaGrad, the learning rate will shrink with large updates or frequent updates.<h2 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h2><blockquote>
+<p>RMSProp (<strong>Root Mean Square Propagation</strong>) is also a method in which the learning rate is adapted for each of the parameters. </p>
+</blockquote>
+</li>
+</ul>
+<p>The idea is to divide the learning rate by an exponentially weighted average (detailed described in <a href="/2019/10/14/normalization-in-deep-learning/" title="my previous blog">my previous blog</a>) of the magnitudes of recent gradients. </p>
+<p>The formula for an update is shown below:<br>$$\begin{cases}<br>v_w=\gamma v_w+(1-\gamma)(\nabla Q(w))^2 \\<br>w=w-\frac{\eta}{\sqrt{v_w+\epsilon}}\nabla Q(w)<br>\end{cases}$$</p>
+<p>where, $\gamma$ is the forgetting factor, $(\nabla Q(w))^2$ is component-wise squared and $\epsilon$ is set to ${10}^{-8}$ to avoid blow up.</p>
+<ul>
+<li>The intuition of RMSProp is quite similar to <a href="#AdaGrad">Adagrad</a>. The advantage of using the moving average instead of the accumulation of $(\nabla Q(w))^2$ is that the learning rate can not only be gradually adapted smaller but larger if the feature becomes sparse in recent updates.</li>
+</ul>
 <h1 id="Gradient-Descent-with-Momentum"><a href="#Gradient-Descent-with-Momentum" class="headerlink" title="Gradient Descent with Momentum"></a>Gradient Descent with Momentum</h1><blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum" target="_blank" rel="noopener">Stochastic gradient descent with momentum</a> remembers the update $\delta \omega$ at each iteration, and determines the next update as a linear combination of the gradient and the previous update:</p>
+<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum" target="_blank" rel="noopener">Stochastic gradient descent with momentum</a> remembers the update $\Delta \omega$ at each iteration, and determines the next update as a linear combination of the gradient and the previous update.</p>
 </blockquote>
-<h2 id="RMSprop"><a href="#RMSprop" class="headerlink" title="RMSprop"></a>RMSprop</h2><h2 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h2><h2 id="AdaGrad"><a href="#AdaGrad" class="headerlink" title="AdaGrad"></a>AdaGrad</h2><hr>
-<p>title: Optimization Algorithm in Deep Learning</p>
-<h2 id="date-2019-10-17-00-00-00"><a href="#date-2019-10-17-00-00-00" class="headerlink" title="date: 2019-10-17 00:00:00"></a>date: 2019-10-17 00:00:00</h2><h1 id="Gradient-Descent-1"><a href="#Gradient-Descent-1" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">Gradient descent</a> is a first-order iterative optimization algorithm for finding the minimum of a function. </p>
+<p>In one sentence, the basic idea is to compute an exponentially weighted average of your gradients, and then use that gradient to update your weights instead. </p>
+<p>Stochastic gradient descent with momentum remembers the update $w$ at each iteration:$$\begin{cases}<br>{m_{w}=\beta m_{w}+(1-\beta) \nabla Q(w)} \\<br> \tilde{m}_ w = \frac{m_{w}}{1-\beta^{t}} \\<br>{w=w-\alpha \tilde{m}_{w}}<br>\end{cases}$$where $t$ is the iteration, $\alpha$ is the learning rate, $\beta$ is the <strong>forgetting factor</strong> always set to <strong>0.9</strong> (average approximately over last 10 gradients).</p>
+<p align="center">
+  <img src="./momentum.jpg" alt="Momentum" height="500px" width="700px">
+</p>
+
+<ul>
+<li>The name momentum stems from an analogy to momentum in physics. Unlike in classical stochastic gradient descent, it tends to keep traveling in the same direction, preventing oscillations. </li>
+<li>Momentum <strong>averages out</strong> oscillations of its gradients. The oscillations in some directions will tend to be averaged out and the gradients will get closer to zero. </li>
+</ul>
+<h1 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h1><blockquote>
+<p>Adam (<strong>Adaptive Moment Estimation</strong> ) combines RMSprop together with momentum and is an update to the <a href="#RMSProp">RMSProp</a> optimizer. </p>
 </blockquote>
-<p>To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point as following:$$\mathbf{x}_{n+1}=\mathbf{x}_n-\gamma_n \nabla F(\mathbf{x}_n),\ n \ge 0$$</p>
-<h2 id="Batch-gradient-descent"><a href="#Batch-gradient-descent" class="headerlink" title="Batch gradient descent"></a>Batch gradient descent</h2><blockquote>
-<p>Batch gradient descent is a variation of the gradient descent algorithm that calculates the error for each example in the training dataset, but only updates the model after all training examples have been evaluated.</p>
-</blockquote>
-<p>With batch gradient descent on every iteration you go through the entire training set and you’d expect the cost to go down on every single iteration.</p>
-<p>The decreased update frequency results in a more stable error gradient and may result in a more stable convergence on some problems</p>
-<p>Fewer updates to the model means this variant of gradient descent is more computationally efficient than stochastic gradient descent.</p>
-<p>The more stable error gradient may result in premature convergence of the model to a less optimal set of parameters.</p>
-<p>Commonly, batch gradient descent is implemented in such a way that it requires the entire training dataset in memory and available to the algorithm.<br>Model updates, and in turn training speed, may become very slow for large datasets.</p>
-<p> As stochastic gradient descent won’t ever converge, it’ll always just kind of oscillate and wander around the region of the minimum. But it won’t ever just head to the minimum and stay there. In practice, the mini-batch size you use will be somewhere in between.</p>
-<h2 id="Stochastic-Gradient-Descent-1"><a href="#Stochastic-Gradient-Descent-1" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h2><blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" target="_blank" rel="noopener">Stochastic gradient descent</a> is a variation of the gradient descent algorithm that calculates the error and updates the model for <strong>each example</strong> in the training dataset.</p>
-</blockquote>
-<p> It can be regarded as a stochastic approximation of gradient descent optimization, since it replaces the actual gradient (calculated from the entire data set) by an estimate thereof (calculated from a randomly selected subset of the data).</p>
-<p> But a huge disadvantage to stochastic gradient descent is that you lose almost all your speed up from vectorization.Because, here you’re processing a single training example at a time. The way you process each example is going to be very inefficient.</p>
-<h2 id="Mini-batch-gradient-descent"><a href="#Mini-batch-gradient-descent" class="headerlink" title="Mini-batch gradient descent"></a>Mini-batch gradient descent</h2><p>And It’s not guaranteed to always head toward the minimum but it tends to head more consistently in direction of the minimum than the consequent descent. And then it doesn’t always exactly convert or oscillate in a very small region.  If that’s an issue you can always reduce the learning rate slowly.</p>
-<p>Anything from 64 up to maybe 512 are quite typical. And because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2.</p>
-<p>One last tip is to make sure that your mini batch。 All of your X{t}, Y{t} that that fits in CPU/GPU memory.</p>
-<p>Try a few different powers of two and then see if you can pick one that makes your gradient descent optimization algorithm as efficient as possible.</p>
-<h2 id="Gradient-descent-with-momentum"><a href="#Gradient-descent-with-momentum" class="headerlink" title="Gradient descent with momentum"></a>Gradient descent with momentum</h2><ol start="10">
-<li>gradient descent with momentum</li>
-</ol>
-<h2 id="RMSprop-1"><a href="#RMSprop-1" class="headerlink" title="RMSprop"></a>RMSprop</h2><h2 id="Adam-1"><a href="#Adam-1" class="headerlink" title="Adam"></a>Adam</h2><ol start="12">
-<li>Adam</li>
-</ol>
-<p>In the typical implementation of Adam, you do implement bias correction.</p>
-<p>So, this algorithm has a number of hyper parameters. The learning with hyper parameter alpha is still important and usually needs to be tuned. So you just have to try a range of values and see what works. A common choice really the default choice for ß1 is 0.9. So this is a moving average, weighted average of dw right this is the momentum light term. The hyper parameter for ß2, the authors of the Adam paper, inventors of the Adam algorithm recommend 0.999. </p>
-<p>And then Epsilon, the choice of epsilon doesn’t matter very much. But the authors of the Adam paper recommended it 10 to the minus 8. </p>
-<p>Adam stands for Adaptive Moment Estimation.</p>
-<p>So ß1 is computing the mean of the derivatives. This is called the first moment. And ß2 is used to compute exponentially weighted average of the ²s and that’s called the second moment. </p>
-<h1 id="Second-Order-Methods"><a href="#Second-Order-Methods" class="headerlink" title="Second-Order Methods"></a>Second-Order Methods</h1><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://machinelearningmastery.com/gentle-introduction-mini-batch-gradient-descent-configure-batch-size/" target="_blank" rel="noopener">Blog: A Gentle Introduction to Mini-Batch Gradient Descent and How to Configure Batch Size</a></p>
+<p>Given parameters $w^{(t)}$ and a loss function $Q^{(t)}$, where $t$ indexes the current training iteration (indexed at 0), Adam’s parameter update is given by:</p>
+<p>$$<br>\begin{cases}<br>m_w ^ {(t+1)} \leftarrow \beta_1 m_w ^ {(t)} + (1 - \beta_1) \nabla _w Q ^ {(t)}\\<br>v_w ^ {(t+1)} \leftarrow \beta_2 v_w ^ {(t)} + (1 - \beta_2) (\nabla _w Q ^ {(t)} )^2<br>\\<br>\hat{m}_w = \frac{m_w ^ {(t+1)}}{1 - (\beta_1) ^{t+1}}\\<br>\hat{v}_w = \frac{ v_w ^ {(t+1)}}{1 - (\beta_2) ^{t+1}}\\<br>w ^ {(t+1)} \leftarrow w ^ {(t)} - \eta \frac{\hat{m}_w}{\sqrt{\hat{v}_w} + \epsilon}<br>\end{cases}<br>$$ </p>
+<p>where $\epsilon$ is a small scalar  used to prevent division by 0, and $\beta_1$ and $\beta_2$ are the forgetting factors for gradients and second moments of gradients, respectively. Squaring and square-rooting is done elementwise.</p>
+<ul>
+<li>Learning rate $\eta$ is important and usually we need to try a range of values and see what works.</li>
+<li>A common choice for $\beta_1$ is <strong>0.9</strong> and the hyper parameter $\beta_2$ is recommend <strong>0.999</strong>.</li>
+<li>$\eta$ is always set to $10^{-8}$ and bias correction is implemented.<h1 id="Second-Order-Methods"><a href="#Second-Order-Methods" class="headerlink" title="Second-Order Methods"></a>Second-Order Methods</h1>… to be continued.<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" target="_blank" rel="noopener">Wiki: Stochastic gradient descent</a><br><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://machinelearningmastery.com/gentle-introduction-mini-batch-gradient-descent-configure-batch-size/" target="_blank" rel="noopener">Blog: A Gentle Introduction to Mini-Batch Gradient Descent and How to Configure Batch Size</a></li>
+</ul>
 
         </div>
         
