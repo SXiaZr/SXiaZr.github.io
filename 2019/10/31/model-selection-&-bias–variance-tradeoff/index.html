@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Normalization in Deep Learning - DeepBlog</title>
+<title>Model Selection &amp; Bias–Variance Tradeoff - DeepBlog</title>
 
 
-    <meta name="description" content="Normalization refers to a process that makes something more normal or regular.   In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to">
+    <meta name="description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Normalization in Deep Learning">
-<meta property="og:url" content="http://sxiazr.github.io/2019/10/14/normalization-in-deep-learning/index.html">
+<meta property="og:title" content="Model Selection &amp; Bias–Variance Tradeoff">
+<meta property="og:url" content="http://sxiazr.github.io/2019/10/31/model-selection-&-bias–variance-tradeoff/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="Normalization refers to a process that makes something more normal or regular.   In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to">
+<meta property="og:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-26T22:46:33.872Z">
+<meta property="og:updated_time" content="2019-12-02T23:04:46.015Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Normalization in Deep Learning">
-<meta name="twitter:description" content="Normalization refers to a process that makes something more normal or regular.   In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to">
+<meta name="twitter:title" content="Model Selection &amp; Bias–Variance Tradeoff">
+<meta name="twitter:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -98,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Normalization in Deep Learning" height="28">
+                <img src="/images/logo.svg" alt="Model Selection &amp; Bias–Variance Tradeoff" height="28">
             
             </a>
         </div>
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time>
+                <time class="level-item has-text-grey" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1634 words)
+                    16 minutes read (About 2370 words)
                 </span>
                 
                 
@@ -174,97 +174,129 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Normalization in Deep Learning
+                Model Selection &amp; Bias–Variance Tradeoff
             
         </h1>
         <div class="content">
-            <blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Normalization_(statistics)" target="_blank" rel="noopener">Normalization</a> refers to a process that makes something more normal or regular. </p>
-</blockquote>
-<p>In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bring the entire probability distributions of adjusted values into alignment. Normalization in deep learning can make the model to train efficiently.</p>
-<h1 id="Why-does-Normalization-work"><a href="#Why-does-Normalization-work" class="headerlink" title="Why does Normalization work?"></a>Why does Normalization work?</h1><h2 id="Intuition-1-Input-Normalization-frac-X-mu-sigma"><a href="#Intuition-1-Input-Normalization-frac-X-mu-sigma" class="headerlink" title="Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$"></a>Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$</h2><blockquote>
-<p>Make training less sensitive to the scale of features.</p>
-</blockquote>
-<p>After optimization, the feature with a large scale will always be weighted with a small value ($\omega_{small}$), and vise versa ($\omega_{large}$). Because of the large scale of the feature, a tiny change in the small weight ($\omega_{small}$) will change the prediction by a lot compared to the same change in the large weight ($\omega_{large}$). It means that setting $\omega_{small}$ correctly might dominate the optimization process and the feature with a large scale is of more importance which actually makes no sense.</p>
-<blockquote>
-<p>Make optimization well-conditioned.</p>
-</blockquote>
-<p>The rough intuition is that the cost function will be more round and easier to optimize when features are all on similar scales. </p>
-<a id="more"></a>
-<p>Cost function of the unnormalized features can be a very elongated bowl, whereas if we normalize the features, then the cost function will look more symmetric. Having an elongated cost function, we might have to use a very small learning rate and gradient descent might need a lot of steps to oscillate back and forth before it finally gets to the minimum. If we have more spherical contours, then gradient descent can pretty much go straight to the minimum and we can take much larger steps with gradient descent without much oscillation.</p>
-<p align="center">
-  <img src="./why-normalize-inputs.jpg" alt="Why normalize inputs" width="700px">
-</p>
+            <p>In this passage, I summarize some basic concepts in Machine Learning, which mainly include <strong>model validation</strong> methods in model selection and the <strong>interpretation</strong> in bias–variance tradeoff.</p>
+<h1 id="Probabilistic-Setup"><a href="#Probabilistic-Setup" class="headerlink" title="Probabilistic Setup"></a>Probabilistic Setup</h1><p>In the following, we set up a general <strong>probabilistic view</strong> on the data.</p>
+<p>Assume that the data is generated as (<strong>Data Generation Model</strong>) $$y=f(\mathbf{x})+\varepsilon$$, where $f$ is some <strong>arbitrary and unknown</strong> function and $\mathbf{x}$ is generated according to some ﬁxed but <strong>unknown</strong> distribution $\mathcal{D}_{\mathbf{x}}$ . </p>
+<p>$\varepsilon$ is an <strong>additive noise</strong> with distribution $\mathcal{D}_{\varepsilon}$, which is independent from sample to sample and independent from the data. Assume $\varepsilon$ has <strong>zero mean</strong> (otherwise this constant can be absorbed into $f$). </p>
+<p>There is an <strong>unknown</strong> underlying joint distribution $\mathcal{D}$ on pairs $(\mathbf{x}, y)$, with range $\mathcal{X} \times \mathcal{Y}$. The data set $\mathcal{S}$ we see consists of <strong>independent and identically distributed</strong>(<strong>i.i.d.</strong>) samples from $\mathcal{D}$:</p>
 
-<h2 id="Intuition-2-Covariate-Shift"><a href="#Intuition-2-Covariate-Shift" class="headerlink" title="Intuition 2: Covariate Shift"></a>Intuition 2: Covariate Shift</h2><blockquote>
-<p>Covariate shift refers to the problem that the distribution of the input values changes, but the concept (model) being learned remains stationary.</p>
+$$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\right\}_{n=1}^{N}$$
+
+<p>Write $f_{\mathcal{S}} = \mathcal{A}(\mathcal{S})$, where $\mathcal{A}$ denotes the learning algorithm, $f_{\mathcal{S}}$ is the resulting prediction function or <strong>model</strong> which depends on the data subset $\mathcal{S}$ we are given. If we want to indicate that $f_{\mathcal{S}}$ also depends on hyper-parameters of the model, we can add a subscript to write $f_{\mathcal{S, \lambda}}$.</p>
+<a id="more"></a>
+
+<h1 id="Model-Selection"><a href="#Model-Selection" class="headerlink" title="Model Selection"></a>Model Selection</h1><blockquote>
+<p>Model (actually hyper-parameters) is selected by the result of <strong>VALIDATION</strong>.</p>
 </blockquote>
-<p>In deep learning, the basic idea behind normalization is to limit the covariate shift, which allows the model to learn on a more stable distribution, and would thus accelerate the training of the network.</p>
-<h1 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h1><p>In deep learning, we are particularly concerned with the change in the distribution of the inputs to the hidden nodes within a network. A neural network changes the weights of each layer over the training, which means that the activations of each layer change as well. Since the activations of a previous layer are the inputs of the next layer, each layer in the neural network is faced with a situation where the input distribution changes with each step (<strong>covariate shift</strong>). </p>
-<h2 id="Batch-Normalization-at-Training-Time"><a href="#Batch-Normalization-at-Training-Time" class="headerlink" title="Batch Normalization at Training Time"></a>Batch Normalization at Training Time</h2><blockquote>
-<p>What <a href="(https://arxiv.org/pdf/1502.03167.pdf">batch normalization</a> does is, especially from the perspective of the later layers of the neural network, it limits the earlier layers to not get to shift around much, by restricting them to have the same mean and variance.  It weakens the coupling between what the early layers and the later layers.</p>
-</blockquote>
-<p>For a layer of the network with d-dimensional input, $x = (x^{(1)},…,x^{(d)})$, each dimension is then normalized separately as following:</p>
-<p>$$\hat{x}_i^{(k)} = \frac{x_i^{(k)}-\mu_B^{(k)}}{\sqrt{\sigma_B^{(k)^2}+\epsilon}}$$where $\mu_B^{(k)}$ and $\sigma_B^{(k)^2}$ are the per-dimension mean and variance, respectively. $\epsilon$ is added in the denominator for numerical stability and is an arbitrarily small constant. </p>
-<p>The resulting normalized $\hat{x}^{(k)}$ have zero mean and unit variance, to restore the representation power of the network or better take advantage of the nonlinearity (if activations are normalized), a transformation step then follows as:<br>$$y_i^{(k)} = \gamma^{(k)} \hat{x}_{i}^{(k)} +\beta^{(k)}$$where the parameters $\gamma^{(k)}$and $\beta^{(k)}$ are subsequently learnt in the optimization process and can convert the mean and variance to any value that the network desires.</p>
-<p>Formally, the transform $BN_{\gamma,\beta}: x_{1…m} \rightarrow y_{1…m}$ is denoted as the Batch Normalizing Transform.</p>
+<p>Given a model $f_{\mathcal{S}}$, how can we assess if <strong>$f_{\mathcal{S}}$ is any good</strong>?  Theoretically, the best way is to compute the <strong>expected error</strong> over <strong>all possible</strong> samples $(\mathbf{x}, y)$ chosen from $\mathcal{D}$:</p>
+
+$$L_{\mathcal{D}}(f_{\mathcal{S}})=\mathbb{E}_{\mathcal{D}}[\ell(y, f_{\mathcal{S}}(\mathbf{x}))]$$
+
+<p>, where $\ell(\cdot, \cdot)$ is our loss function. The quantity $L_{\mathcal{D}}(f_{\mathcal{S}})$ is called <strong>generalization error</strong>.</p>
+<h2 id="Training-Validation-amp-Test-Set"><a href="#Training-Validation-amp-Test-Set" class="headerlink" title="Training, Validation &amp; Test Set"></a><a href="https://stackoverflow.com/questions/44223585/why-disable-dropout-during-validation-and-testing/44229870" target="_blank" rel="noopener">Training, Validation &amp; Test Set</a></h2><p><strong>Training Set</strong>: A set of data used for <strong>learning</strong>,  to fit the weights of the model. We would use the training set to find the “optimal” weights with the back-propagation algorithm. (Get <strong>optimal training error</strong>)</p>
+<p><strong>Validation Set</strong>: A set of data used to <strong>tune the hyper-parameters</strong> of the model. We would use the validation set to find the “optimal” hyper-parameters or determine a stopping point for the back-propagation algorithm. (Get <strong>optimal validation error</strong>)</p>
+<p><strong>Test Set</strong>: A set of data used only to <strong>assess the performance of the fully-trained model</strong>. After assessing the final model on the test set, <strong>YOU MUST NOT</strong> tune the model any further!</p>
+<p><strong>Why separate test and validation sets?</strong><br>The error estimate of the final model on validation data will be <strong>biased</strong> (smaller than the true error rate) since the validation set is used to select the final model.</p>
+<h2 id="Generalization-Error-V-S-Training-Error"><a href="#Generalization-Error-V-S-Training-Error" class="headerlink" title="Generalization Error V.S. Training Error"></a>Generalization Error V.S. Training Error</h2><p>Generalization error is the quantity we are fundamentally interested in, but we cannot compute it since $\mathcal{D}$ is unknown.</p>
+<p>Since we have given a data subset $\mathcal{S}$, it is natural to compute the equivalent <strong>empirical quantity</strong>: </p>
+
+$$L_{\mathcal{S}}\left(f_{\mathcal{S}}\right)=\frac{1}{|\mathcal{S}|} \sum_{\left(\mathbf{x}_{n}, y_{n}\right) \in \mathcal{S}} \ell\left(y_{n}, f_{\mathcal{S}}\left(\mathbf{x}_{n}\right)\right)$$
+
+<p>This is often called the <strong>training error</strong>, but $L_{\mathcal{S}}(f_{\mathcal{S}})$ might not be close to $L_{\mathcal{D}}(f_{\mathcal{S}})$ for the sake of overﬁtting.</p>
+<h2 id="Generalization-Error-V-S-Test-Error"><a href="#Generalization-Error-V-S-Test-Error" class="headerlink" title="Generalization Error V.S. Test Error"></a>Generalization Error V.S. Test Error</h2><p>Validating model on the same data we trained it on will result in overfitting, so we could split the data into a training and a test set (<strong>a.k.a. validation set</strong>), call them $\mathcal{S}_{\text {train}}$ and $\mathcal{S}_{\text {test}}$, respectively.</p>
+<p>From the training set, we learn the model $\mathcal{S}_{\text {train}}$ and then compute the error on the test set:</p>
+$$L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})=\frac{1}{\left|\mathcal{S}_{\text {test }}\right|} \sum_{\left(y_{n}, \mathbf{X}_{n}\right) \in \mathcal{S}_{\text {test}}}\ell\left(y_{n}, f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{n}\right)\right)$$, where $L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})$ is called **test error (empirical error)**. 
+
+<p>Indeed, the <strong>expectation</strong> of test error equals generalization error:</p>
+$$L_{\mathcal{D}}\left(f_{\mathcal{S}_{\text {train }}}\right)=\mathbb{E}_{\mathcal{S}_{\text {test }} \sim \mathcal{D}}\left[L_{\mathcal{S}_{\text {test }}}\left(f_{\mathcal{S}_{\text {train }}}\right)\right]$$**But for a particular test set $\mathcal{S}_{\text {test}}$, how far are these apart?**
+
+<p>According to lemma:</p>
 <blockquote>
-<p>There are some debates in deep learning about whether we<br>should normalize the value before the activation function or after it. </p>
+<p><strong><a href="https://en.wikipedia.org/wiki/Chernoff_bound" target="_blank" rel="noopener">Chernoff bound</a></strong>. Let $\Theta_{1}, \ldots, \Theta_{N}$ be a sequence of i.i.d. random variables with mean $\mathbb{E}[\Theta]$ and range $[a, b]$. Then, for any $\varepsilon&gt; 0$,<br>$$\mathbb{P}\left[\left|\frac{1}{N} \sum_{n=1}^{N} \Theta_{n}-\mathbb{E}[\Theta]\right|\geq \varepsilon  \right] \leq 2 e^{-2N\varepsilon^{2}(b-a)^2}$$</p>
 </blockquote>
-<p>In practice, normalizing before the activation function is done much more often.</p>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Regularization_(mathematics)" target="_blank" rel="noopener">Regularization</a> can be motivated as a technique to improve the generalizability of a learned model. Batch normalization has a slight regularization effect.  </p>
+<p>we claim that:</p>
+$$\mathbb{P}\left[\left|L_{\mathcal{D}}(f)-L_{\mathcal{S}_{\text {test}}}(f)\right| \geq \sqrt{\left.\frac{(b-a)^{2} \ln (2 / \delta)}{2\left|\mathcal{S}_{\text {test }}\right|}\right)}\right] \leq \delta$$, from which we could have the **insight** that the difference decreases as $\mathcal{O}(1 / \sqrt{\left|S_{\text {test }}\right|})$. So the more data points we have, the more conﬁdent that the **empirical loss we measure is close to the true loss**.
+
+<h2 id="Cross-Validation"><a href="#Cross-Validation" class="headerlink" title="Cross Validation"></a><a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)" target="_blank" rel="noopener">Cross Validation</a></h2><blockquote>
+<p>Splitting the data once into two parts (one for training and one for testing) is not the most efficient way to use the data. Cross-validation is a better way.</p>
 </blockquote>
-<p>The mean and variance are a little bit noisy because they are estimated on a mini-batch. Similar to dropout, batch normalization adds small noise to the hidden layers and therefore has a very slight regularization effect.</p>
-<p>We don’t particularly use to batch normalization as a regularization but use it as a way to speed up learning.</p>
-<h2 id="Batch-Normalization-at-Test-Time"><a href="#Batch-Normalization-at-Test-Time" class="headerlink" title="Batch Normalization at Test Time"></a>Batch Normalization at Test Time</h2><blockquote>
-<p>At the test time, we use the $\gamma$ and $\beta$ learned from training, the $\mu$ and $\sigma^2$ are estimated from the training set.</p>
-</blockquote>
-<p>Running the whole training set to get $\mu$ and $\sigma^2$ could be memory-consuming. So we keep a running average of the $\mu$ and $\sigma^2$ for each layer as we train the neural network across different mini-batches to get an estimation of them. </p>
-<blockquote>
-<p>In practice, the moving average people usually use here is exponentially weighted average.</p>
-</blockquote>
-<p>An <strong>exponential moving average (EMA)</strong>, also known as an exponentially weighted moving average (EWMA), is a first-order filter that applies weighting factors which decrease exponentially.</p>
-<p>The EMA for a series $Y$ is calculated recursively:</p>
-<p>$$S_t = \begin{cases}<br> \alpha \cdot Y_1, &amp; t = 1 \\<br> \alpha \cdot Y_t + (1 - \alpha) \cdot S_{t-1}, &amp; t &gt; 1<br>\end{cases}$$<br>Where:</p>
+<p><strong>Methods: <a href="https://scikit-learn.org/stable/modules/cross_validation.html" target="_blank" rel="noopener">See more</a></strong></p>
 <ul>
-<li>$\alpha$ represents the degree of weighting decrease, a constant smoothing factor between 0 and 1. </li>
-<li>$Y_t$ and $S_t$ are the values at a time period $t$ respectively.</li>
+<li>K-fold Cross-Validation: Randomly partition the data into K groups. Each time leave out exactly one of the K groups for testing and use the remaining K-1 groups for training. </li>
+<li>Stratified K-fold: It is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set.</li>
+<li>Nested Cross-Validation: Always used for time series data, where particular care must be taken in splitting the data <strong>in order</strong> to prevent data leakage. It means to evaluate the model for time series data on the “future” observations. Nested Cross-Validation is a variation of  k-fold which returns first  k  folds as train set and the  (k+1)  th fold as test set. </li>
 </ul>
-<p>This formula can also be expressed in technical analysis terms as follows:</p>
+<p><strong>Outcomes</strong></p>
 <ul>
-<li>How the EMA steps towards the latest datum point:<br>$$\text{EMA}_\text{today} = \text{EMA}_\text{yesterday} + \alpha \left[\text{price}_\text{today} - \text{EMA}_\text{yesterday}\right]$$</li>
-<li>How the weighting factor on each data point $p_1$, $p_2$, etc., decreases exponentially by expanding out $\text{EMA}_\text{yesterday}$ :<br>$$\begin{split}<br>\text{EMA}_\text{today}<br>= &amp; { \alpha \left[p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots \right] } \\<br>= &amp;\frac{p_1 + (1 - \alpha) p_2 + (1 - \alpha)^2 p_3 + (1 - \alpha)^3 p_4 + \cdots}{1 + (1 - \alpha) + (1 - \alpha)^2 + (1 - \alpha)^3 + \cdots}<br>\end{split}$$since $1/\alpha = 1 + (1 - \alpha) + (1 - \alpha)^2 + \cdots$ (<strong>weighted average</strong>).</li>
+<li>Cross-validation returns an <strong>unbiased estimate</strong> of the generalization error and its variance. We can <strong>average the K validation errors</strong> as the validation result. </li>
+<li>The <strong>purpose of cross-validation</strong> is model checking, not model building. Once we have used cross-validation to select the better performing model, we train that model on all the data.</li>
+<li>Cross-validation will <strong>not be used</strong> in complex deep learning model with a large dataset, since it’s too computationally expensive.</li>
 </ul>
-<p>A couple of things about choosing $\alpha$:</p>
+<p><strong>Advantages</strong></p>
 <ul>
-<li>A higher $\alpha$ discounts older observations faster so that the EMA will adapt more quickly to the current changes.</li>
-<li>When compute EMA,  we can think of  $S_t$ as approximately averaging over $\frac{1}{\alpha}$ number of data. So with a low value of $\alpha$, the EMA is much <strong>smoother</strong> and also has more <strong>latency</strong>.  (Always set to <strong>0.1</strong> in deep learning)</li>
+<li><strong>Use All Data</strong>: <ul>
+<li>Splitting the data once into two parts is not the most efficient way to use the data. It only gives predictions on part of the data (test set). If the test set we pick happens to contain a bunch of points that are particularly easy (or hard) to predict, we will not come up with a rational estimate of the model’s ability to learn and predict.</li>
 </ul>
-<blockquote>
-<p>Bias correction is a technical modification that makes EMA estimate more accurate, especially during its initial phase.</p>
+</li>
+<li><strong>Prevent <a href="https://www.kaggle.com/alexisbcook/data-leakage/data" target="_blank" rel="noopener">Data Leakage</a></strong>:<ul>
+<li><strong>Work with Dependent/Grouped Data</strong>: For example, there are 3 speakers and 500 recordings for each speaker. If we do a random split, our training and test set will <strong>share the same speaker saying the same words</strong>, which will boost our algorithm performance but fail when tested on a new speaker. The <strong>proper way</strong> to do it is to split the speakers, i.e., use 2 speakers for training and the third for testing (cross-validation on the speakers level).</li>
+<li>Cross-validation can be used in <a href="http://blog.kaggle.com/2016/12/27/a-kagglers-guide-to-model-stacking-in-practice/" target="_blank" rel="noopener">models stacking</a>, where we can’t train both our models on the same dataset because then, our second model will learn on ground truth information that our first model already seen.</li>
+</ul>
+</li>
+</ul>
+<h1 id="Bias–Variance-Tradeoff"><a href="#Bias–Variance-Tradeoff" class="headerlink" title="Bias–Variance Tradeoff"></a><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank" rel="noopener">Bias–Variance Tradeoff</a></h1><blockquote>
+<p>The <strong>bias–variance tradeoff</strong> is the property of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples and vice versa.</p>
 </blockquote>
-<p>The EMA is very low when the iteration just starts off and we will get a much lower value that is not a very good estimate of the first data. In order to fix the problem, we could instead of taking $S_t$, take $\frac{S_t}{1-(1-a)^t}$, namely bias correction. It will make the EMA larger when $t$ is small and make almost no difference when $t$ is large enough.</p>
-<h1 id="Weight-Normalization"><a href="#Weight-Normalization" class="headerlink" title="Weight Normalization"></a>Weight Normalization</h1><h2 id="The-Limitations-of-Batch-Normalization"><a href="#The-Limitations-of-Batch-Normalization" class="headerlink" title="The Limitations of Batch Normalization"></a>The Limitations of Batch Normalization</h2><p>The key limitation of batch normalization is that it is <strong>dependent on the mini-batch</strong>.</p>
-<blockquote>
-<p>It puts a  <strong>lower limit on the batch size</strong>.</p>
-</blockquote>
-<p>Ideally, we want to use the <strong>global</strong> mean and variance to normalize the inputs to a layer. However, it’s too costly and the mean and variance are simply estimates on mini-batch, which means that they contain a certain amount of noises.</p>
-<p>Smaller mini-batch sizes increase the variance of these estimates. It can be a problem in settings such as online learning and reinforcement learning which is highly sensitive to noise.</p>
-<blockquote>
-<p>It is <strong>difficult to apply to recurrent connections</strong> in recurrent neural network.</p>
-</blockquote>
-<p>In a recurrent neural network, the recurrent activations of each time-step will have different statistics. This means that we have to fit a separate batch normalization layer for each time-step and it forces us to store the statistics for each time-step during training.</p>
-<h2 id="Theory-of-Weight-Normalization"><a href="#Theory-of-Weight-Normalization" class="headerlink" title="Theory of Weight Normalization"></a>Theory of Weight Normalization</h2><blockquote>
-<p>What <a href="https://arxiv.org/pdf/1602.07868.pdf" target="_blank" rel="noopener">weight normalization</a> does is it <strong>separates the norm of the weight vector from its direction</strong>. </p>
-</blockquote>
-<p>In an effort to speed up the convergence of optimization procedure, it proposes to reparameterize each weight vector $\omega$ in terms of a parameter vector $\boldsymbol{v}$ and a scalar parameter $g$ in the following way:</p>
-<p>$$\omega = \frac{g}{||\boldsymbol{v}||}\boldsymbol{v}$$It then optimizes both$\boldsymbol{v}$ and $g$ using gradient descent. This reparameterization has the effect of fixing the Euclidean norm of the weight vector $\omega$: we now have $||\omega||=g$, independent of the parameters $\boldsymbol{v}$. We, therefore, call this reparameterization weight normalization.</p>
-<h1 id="Layer-Normalization"><a href="#Layer-Normalization" class="headerlink" title="Layer Normalization"></a>Layer Normalization</h1><h2 id="Theory-of-Layer-Normalization"><a href="#Theory-of-Layer-Normalization" class="headerlink" title="Theory of Layer Normalization"></a>Theory of Layer Normalization</h2><blockquote>
-<p>The key feature of <a href="https://arxiv.org/pdf/1607.06450.pdf" target="_blank" rel="noopener">layer normalization</a> is that it <strong>normalizes the inputs across the features</strong>.</p>
-</blockquote>
-<p>The equations of layer normalization and batch normalization are similar:$$\hat{x}_i^{(k)} = \frac{x_i^{(k)}-\mu_L}{\sqrt{\sigma_L^2+\epsilon}}$$where $\mu_L$ and $\sigma_L^2$ are the mean and variance across the features, respectively. </p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.quora.com/Why-do-we-normalize-the-data" target="_blank" rel="noopener">Quora: Why do we normalize the data</a><br><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera: Deep Learning Specialization</a><br><a href="https://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" target="_blank" rel="noopener">Blog: An Intuitive Explanation of Why Batch Normalization Really Works</a><br><a href="https://mlexplained.com/2018/01/13/weight-normalization-and-layer-normalization-explained-normalization-in-deep-learning-part-2/" target="_blank" rel="noopener">Blog: Weight Normalization and Layer Normalization Explained</a><br><a href="https://mlexplained.com/2018/11/30/an-overview-of-normalization-methods-in-deep-learning/" target="_blank" rel="noopener">Blog: An Overview of Normalization Methods in Deep Learning</a></p>
+<ul>
+<li>The <strong>bias</strong> error is an error from <strong>erroneous assumptions</strong> in the learning  algorithm. High bias can cause an algorithm to <strong>miss the relevant relations</strong> between features and target outputs (underfitting).</li>
+<li>The  <strong>variance</strong> is an error from sensitivity to small fluctuations in the training set. High variance can cause an algorithm to <strong>model the random noise</strong> in the training data, rather than the intended outputs (overfitting).</li>
+<li>Ideally, one wants to choose a model that both accurately captures the regularities in its training data (high variance), but also generalizes well to unseen data (high bias). </li>
+</ul>
+<p>There is an inherent bias-variance tradeoff when we perform the model selection. </p>
+<h2 id="Error-Decomposition"><a href="#Error-Decomposition" class="headerlink" title="Error Decomposition"></a>Error Decomposition</h2><p>Following <a href="#Probabilistic-Setup">Probabilistic Setup</a> and test error defined <a href="#Generalization-Error-V.S.-Test-Error">above</a>, we look at the <strong>mean squared error</strong> of the prediction function $f_{\mathcal{S}}$ for a ﬁxed element $\mathbf{x}_0$. </p>
+<p>Imagine that we are running the experiment <strong>many times</strong>: we create $\mathcal{S}_{\text {train }}$, learn the model $f_{\mathcal{S}_{\text {train }}}$, and then evaluate the performance by computing the mean squared error for $\mathbf{x}_0$ ($y_0=f(\mathbf{x}_0)+\varepsilon$).</p>
+
+$$
+\begin{split}
+& \mathbb{E}_{\mathcal{S}_{\text {train }} \sim \mathcal{D}, \varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\left(f\left(\mathbf{x}_{0}\right)+\varepsilon-f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{0}\right)\right)^{2}\right] \\
+= &\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)^{2}\right] \\
+&+2\cdot \underbrace{\mathbb{E}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]}_{0}\cdot\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)\right] \\
+= &\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)^{2}\right] \\
+= & \operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S} \sim \mathcal{D}}\left[\left(f\left(\mathbf{x}_{0}\right)-\mathbb{E}_{\mathcal{S}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}^{\prime}}\left(\mathbf{x}_{0}\right)\right]\right) + \left(\mathbb{E}_{\mathcal{S}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}^{\prime}}\left(\mathbf{x}_{0}\right)\right]-f_{\mathcal{S}}\left(\mathbf{x}_{0}\right)\right)^2\right] \\
+=& \underbrace{\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}[\varepsilon]}_{\text {noise variance }} \\
+& + \underbrace{\left(f\left(\mathbf{x}_{0}\right)-\mathbb{E}_{\mathcal{S}_{\text {train }}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}_{\text {train }}^{\prime}}\left(\mathbf{x}_{0}\right)\right]\right)^{2}}_{\text {bias }}\\
+ & + \mathbb{E}_{\mathcal{S}_{\text {train }} \sim \mathcal{D}}[\underbrace{\left(\mathbb{E}_{\mathcal{S}_{\text {train }}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}_{\text {train }}^{\prime}}\left(\mathbf{x}_{0}\right)\right]-f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{0}\right)\right)^{2}}_{\text { variance }}]
+\end{split} 
+$$
+<ul>
+<li><p>Each of the three terms above is <strong>nonnegative</strong>, so each of them is a <strong>lower bound</strong> on the true error for the input $\mathbf{x}_0$.</p>
+</li>
+<li><p>$\varepsilon$ is an <strong>irreducible</strong> error.</p>
+</li>
+<li><p>The <strong>bias term</strong> is the square of the difference between the actual value $f\left(\mathbf{x}_{0}\right)$ and the expected prediction $\mathbb{E}_{S^{\prime} \sim \mathcal{D}}\left[f_{S^{\prime}}\left(\mathbf{x}_{0}\right)\right]$. </p>
+</li>
+<li><p>The variance term is the <strong>variance of the prediction function</strong>.</p>
+<h2 id="Approaches"><a href="#Approaches" class="headerlink" title="Approaches"></a>Approaches</h2></li>
+<li><p><strong>Simple model</strong>, <strong>more data</strong>, <strong>less features</strong>, <strong>underfitting</strong> → Large bias<br> <strong>Complex model</strong>, <strong>less data</strong>, <strong>more features</strong>, <strong>overfitting</strong> → Large variance</p>
+</li>
+<li><p><strong>Dimensionality reduction</strong> and  <strong>feature selection</strong> can decrease variance by simplifying models. </p>
+</li>
+<li><p>Learning algorithms typically have some <strong>tunable hyper-parameters</strong> that <strong>control bias and variance</strong>. For example:</p>
+<ul>
+<li>Linear and generalized linear models can be <strong>regularized</strong> to <strong>decrease variance at the cost of increasing bias</strong>. (It’s the <strong>essence of regulation</strong> to avoid overfitting)</li>
+<li>In  artificial neural networks, the variance increases and the bias decreases as the number of hidden units increase.</li>
+<li>In  <em>k</em>-nearest neighbor models, a high value of  k (simple model)  leads to high bias and low variance.</li>
+<li>In  <a href="https://en.wikipedia.org/wiki/Decision_tree" title="Decision tree" target="_blank" rel="noopener">decision trees</a>, the depth of the tree determines the variance. </li>
+</ul>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Ensemble_learning" title="Ensemble learning" target="_blank" rel="noopener">Ensemble learning</a> is also one way of resolving the trade-off. For example,  <a href="https://en.wikipedia.org/wiki/Boosting_(machine_learning)" title="Boosting (machine learning)" target="_blank" rel="noopener">boosting</a>  <strong>combines many “weak” (high bias) models</strong> in an ensemble that has lower bias than the individual models, while  <a href="https://en.wikipedia.org/wiki/Bootstrap_aggregating" title="Bootstrap aggregating" target="_blank" rel="noopener">bagging</a>  combines “strong” learners in a way that reduces their variance.</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://edu.epfl.ch/coursebook/en/machine-learning-CS-433" target="_blank" rel="noopener">Course: Machine Learning@EPFL</a><br><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank" rel="noopener">Wikipedia: Bias–variance tradeoff</a><br><a href="https://towardsdatascience.com/5-reasons-why-you-should-use-cross-validation-in-your-data-science-project-8163311a1e79" target="_blank" rel="noopener">Blog: 5 Reasons why you should use Cross-Validation in Data Science Projects</a><br><a href="https://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">Stack Exchange: How to choose a predictive model after k-fold cross-validation?</a><br><a href="https://www.zhihu.com/question/39259296/answer/459636012" target="_blank" rel="noopener">Zhihu: 求大神通俗易懂的解释下交叉验证cross-validation？</a></p>
+</li>
+</ul>
 
         </div>
         
@@ -285,17 +317,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/10/16/optimization-algorithm-in-deep-learning/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Optimization Algorithm in Deep Learning</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/22/hello-world/">
-                <span class="level-item">Hello World</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/21/google-cloud-for-deep-learning-part-2/">
+                <span class="level-item">Google Cloud for Deep Learning - Part 2</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -645,7 +670,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Normalization in Deep Learning" height="28">
+                    <img src="/images/logo.svg" alt="Model Selection &amp; Bias–Variance Tradeoff" height="28">
                 
                 </a>
                 <p class="is-size-7">

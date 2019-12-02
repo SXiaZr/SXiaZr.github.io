@@ -154,6 +154,62 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 minutes read (About 2370 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/10/31/model-selection-&-bias–variance-tradeoff/">Model Selection &amp; Bias–Variance Tradeoff</a>
+            
+        </h1>
+        <div class="content">
+            <p>In this passage, I summarize some basic concepts in Machine Learning, which mainly include <strong>model validation</strong> methods in model selection and the <strong>interpretation</strong> in bias–variance tradeoff.</p>
+<h1 id="Probabilistic-Setup"><a href="#Probabilistic-Setup" class="headerlink" title="Probabilistic Setup"></a>Probabilistic Setup</h1><p>In the following, we set up a general <strong>probabilistic view</strong> on the data.</p>
+<p>Assume that the data is generated as (<strong>Data Generation Model</strong>) $$y=f(\mathbf{x})+\varepsilon$$, where $f$ is some <strong>arbitrary and unknown</strong> function and $\mathbf{x}$ is generated according to some ﬁxed but <strong>unknown</strong> distribution $\mathcal{D}_{\mathbf{x}}$ . </p>
+<p>$\varepsilon$ is an <strong>additive noise</strong> with distribution $\mathcal{D}_{\varepsilon}$, which is independent from sample to sample and independent from the data. Assume $\varepsilon$ has <strong>zero mean</strong> (otherwise this constant can be absorbed into $f$). </p>
+<p>There is an <strong>unknown</strong> underlying joint distribution $\mathcal{D}$ on pairs $(\mathbf{x}, y)$, with range $\mathcal{X} \times \mathcal{Y}$. The data set $\mathcal{S}$ we see consists of <strong>independent and identically distributed</strong>(<strong>i.i.d.</strong>) samples from $\mathcal{D}$:</p>
+
+$$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\right\}_{n=1}^{N}$$
+
+<p>Write $f_{\mathcal{S}} = \mathcal{A}(\mathcal{S})$, where $\mathcal{A}$ denotes the learning algorithm, $f_{\mathcal{S}}$ is the resulting prediction function or <strong>model</strong> which depends on the data subset $\mathcal{S}$ we are given. If we want to indicate that $f_{\mathcal{S}}$ also depends on hyper-parameters of the model, we can add a subscript to write $f_{\mathcal{S, \lambda}}$.</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/10/31/model-selection-&-bias–variance-tradeoff/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time>
                 
                 
@@ -513,7 +569,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        6
+                        7
                     </p>
                 </div>
             </div>
@@ -616,6 +672,25 @@
         
         <article class="media">
             
+            <a href="/2019/10/31/model-selection-&-bias–variance-tradeoff/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Selection &amp; Bias–Variance Tradeoff">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time></div>
+                    <a href="/2019/10/31/model-selection-&-bias–variance-tradeoff/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Selection &amp; Bias–Variance Tradeoff</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 2">
@@ -690,25 +765,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/10/14/normalization-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time></div>
-                    <a href="/2019/10/14/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -720,6 +776,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/10/">
@@ -782,6 +849,25 @@
         
         <article class="media">
             
+            <a href="/2019/10/31/model-selection-&-bias–variance-tradeoff/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Selection &amp; Bias–Variance Tradeoff">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time></div>
+                    <a href="/2019/10/31/model-selection-&-bias–variance-tradeoff/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Selection &amp; Bias–Variance Tradeoff</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 2">
@@ -856,25 +942,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/10/14/normalization-in-deep-learning/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Normalization in Deep Learning">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time></div>
-                    <a href="/2019/10/14/normalization-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Normalization in Deep Learning</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -886,6 +953,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/10/">
