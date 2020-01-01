@@ -19,7 +19,7 @@
 <meta property="og:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-12-30T15:54:37.125Z">
+<meta property="og:updated_time" content="2020-01-01T12:29:08.852Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Model Selection &amp; Bias–Variance Tradeoff">
 <meta name="twitter:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    16 minutes read (About 2368 words)
+                    16 minutes read (About 2370 words)
                 </span>
                 
                 
@@ -209,12 +209,12 @@ $$L_{\mathcal{S}}\left(f_{\mathcal{S}}\right)=\frac{1}{|\mathcal{S}|} \sum_{\lef
 <p>This is often called the <strong>training error</strong>, but $L_{\mathcal{S}}(f_{\mathcal{S}})$ might not be close to $L_{\mathcal{D}}(f_{\mathcal{S}})$ for the sake of overﬁtting.</p>
 <h2 id="Generalization-Error-V-S-Test-Error"><a href="#Generalization-Error-V-S-Test-Error" class="headerlink" title="Generalization Error V.S. Test Error"></a>Generalization Error V.S. Test Error</h2><p>Validating model on the same data we trained it on will result in overfitting, so we could split the data into a training and a test set (<strong>a.k.a. validation set</strong>), call them $\mathcal{S}_{\text {train}}$ and $\mathcal{S}_{\text {test}}$, respectively.</p>
 <p>From the training set, we learn the model $\mathcal{S}_{\text {train}}$ and then compute the error on the test set:</p>
-$$L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})=\frac{1}{\left|\mathcal{S}_{\text {test }}\right|} \sum_{\left(y_{n}, \mathbf{X}_{n}\right) \in \mathcal{S}_{\text {test}}}\ell\left(y_{n}, f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{n}\right)\right)$$, where $L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})$ is called **test error (empirical error)**. 
-
-
+$$L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})=\frac{1}{\left|\mathcal{S}_{\text {test }}\right|} \sum_{\left(y_{n}, \mathbf{X}_{n}\right) \in \mathcal{S}_{\text {test}}}\ell\left(y_{n}, f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{n}\right)\right)$$
+<p>, where $L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})$ is called <strong>test error (empirical error)</strong>. </p>
 <p>Indeed, the <strong>expectation</strong> of test error equals generalization error:</p>
-$$L_{\mathcal{D}}\left(f_{\mathcal{S}_{\text {train }}}\right)=\mathbb{E}_{\mathcal{S}_{\text {test }} \sim \mathcal{D}}\left[L_{\mathcal{S}_{\text {test }}}\left(f_{\mathcal{S}_{\text {train }}}\right)\right]$$ **But for a particular test set $\mathcal{S}_{\text {test}}$, how far are these apart?**
+$$L_{\mathcal{D}}\left(f_{\mathcal{S}_{\text {train }}}\right)=\mathbb{E}_{\mathcal{S}_{\text {test }} \sim \mathcal{D}}\left[L_{\mathcal{S}_{\text {test }}}\left(f_{\mathcal{S}_{\text {train }}}\right)\right]$$ 
 
+<p><strong>But for a particular test set $\mathcal{S}_{\text {test}}$, how far are these apart?</strong></p>
 <p>According to lemma:</p>
 <blockquote>
 <p><strong><a href="https://en.wikipedia.org/wiki/Chernoff_bound" target="_blank" rel="noopener">Chernoff bound</a></strong>. Let $\Theta_{1}, \ldots, \Theta_{N}$ be a sequence of i.i.d. random variables with mean $\mathbb{E}[\Theta]$ and range $[a, b]$. Then, for any $\varepsilon&gt; 0$,<br>$$\mathbb{P}\left[\left|\frac{1}{N} \sum_{n=1}^{N} \Theta_{n}-\mathbb{E}[\Theta]\right|\geq \varepsilon  \right] \leq 2 e^{-2N\varepsilon^{2}(b-a)^2}$$</p>

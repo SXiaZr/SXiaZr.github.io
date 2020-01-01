@@ -19,7 +19,7 @@
 <meta property="og:description" content="Unity is strength.  Ensemble methods combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone. The main hypothesis is that wh">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-01-01T11:29:56.577Z">
+<meta property="og:updated_time" content="2020-01-01T12:31:30.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Model Ensemble">
 <meta name="twitter:description" content="Unity is strength.  Ensemble methods combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone. The main hypothesis is that wh">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 minutes read (About 1297 words)
+                    9 minutes read (About 1299 words)
                 </span>
                 
                 
@@ -193,8 +193,8 @@ $$\hat{f}_{b a g}=\left\{\begin{array}{ll}{\frac{1}{B} \sum_{b=1}^{B} \hat{f}^{b
 
 <p><strong>Bagging</strong> is designed to improve the stability and <strong>reduces variance</strong> to avoid overfitting. The base learner it contains is supposed to be the one with <strong>low bias but high variance</strong>. </p>
 <h2 id="Why-does-bagging-reduce-the-variance"><a href="#Why-does-bagging-reduce-the-variance" class="headerlink" title="Why does bagging reduce the variance?"></a><strong>Why does bagging reduce the variance?</strong></h2><p>Assume that $Y_{1}, Y_{2}, \ldots, Y_{n}$ represent the predictions of each weak learner and they are random variables with variance $\sigma^{2}$. If each weak learner is trained on <strong>independent training set</strong> drawn from the <strong>true unknown underlying distribution</strong>, then $Y_{1}, Y_{2}, \ldots, Y_{n}$ are <strong>i.d.d.</strong>. Then the variance of their average (i.d.d. random variables) is: </p>
-$$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatorname{Var}\left(\frac{Y_{1}}{n}\right)+\ldots+\operatorname{Var}\left(\frac{Y_{n}}{n}\right)=\frac{\sigma^{2}}{n}$$, which means that the variance decreases from $\sigma^{2}$ to $\frac{\sigma^{2}}{n}$ (while the **average does not change**).
-
+$$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatorname{Var}\left(\frac{Y_{1}}{n}\right)+\ldots+\operatorname{Var}\left(\frac{Y_{n}}{n}\right)=\frac{\sigma^{2}}{n}$$
+<p>, which means that the variance decreases from $\sigma^{2}$ to $\frac{\sigma^{2}}{n}$ (while the <strong>average does not change</strong>).</p>
 <p>However, there is one problem here - <strong>we do not have access to multiple training data sets.</strong> Instead, we can <strong>bootstrap</strong> by taking repeated samples from the initial training data set.</p>
 <h2 id="Bootstrapping"><a href="#Bootstrapping" class="headerlink" title="Bootstrapping"></a><strong>Bootstrapping</strong></h2><p>In statistics, <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)" target="_blank" rel="noopener">bootstrapping</a> is any test or metric that relies on <strong>random sampling with replacement</strong> on the initial dataset.</p>
 <p>There two hypotheses proposed in Bootstrapping. </p>

@@ -19,7 +19,7 @@
 <meta property="og:description" content="Decision tree can be very non-robust. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.  To resolve the problem above, some techni">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-01-01T12:20:04.266Z">
+<meta property="og:updated_time" content="2020-01-01T12:33:34.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tree-Based Learning Algorithms - Part 2">
 <meta name="twitter:description" content="Decision tree can be very non-robust. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.  To resolve the problem above, some techni">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    15 minutes read (About 2270 words)
+                    15 minutes read (About 2272 words)
                 </span>
                 
                 
@@ -206,7 +206,8 @@ $$\hat{F}=\underset{F}{\arg \min } \mathbb{E}_{\mathbf{x}, y}[L(y, F(\mathbf{x})
 $$\hat{F}(\mathbf{x})=\sum_{i=1}^{M} \gamma_{i} h_{i}(\mathbf{x})+\text { const. }$$
 
 <p>It does so by starting with a model, consisting of a constant function $F_{0}(\mathbf{x})$:</p>
-$${F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)}$$, and **incrementally expands it** in a **greedy fashion**:
+$${F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)}$$
+<p>, and <strong>incrementally expands it</strong> in a <strong>greedy fashion</strong>:</p>
 $$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\gamma_{m}h_m\\{F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\underset{h_{m} \in \mathcal{H}}{\gamma_{m}\arg \min }\left[\sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]}$$, where $h_{m}\in {\mathcal {H}}$ is a weak learner function, $F_{m}(\mathbf{x})$ is the aggregated function after $m$ steps.
 
 <p>The above algorithm of boosting is generic. One can come with several strategies for the choice of the <strong>weak learner</strong>, <strong>residual (error)</strong> to fit, and the <strong>weighting parameter</strong> $\lambda$. Therefore, there are various boosting methods. </p>
@@ -231,12 +232,12 @@ $$E=\sum_{i=1}^{N} e^{-y_{i} F_{m}\left(\mathbf{x}_{i}\right)}=\sum_{i=1}^{N} e^
 
 $$
 r_{im}=\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)\\
-{F_{m}(x)=F_{m-1}(\mathbf{x})-\gamma_{m} \sum_{i=1}^{n}r_{im}} $$, where $r_{im}$ is the **pseudo-residuals** and the model is **initialized with a constant value** $F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)$. 
-
+{F_{m}(x)=F_{m-1}(\mathbf{x})-\gamma_{m} \sum_{i=1}^{n}r_{im}} $$
+<p>, where $r_{im}$ is the <strong>pseudo-residuals</strong> and the model is <strong>initialized with a constant value</strong> $F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)$. </p>
 <p><strong>Generic Gradient Boosting Method</strong>:</p>
 <ul>
 <li>Initialize model with a constant value $F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)$.</li>
-<li>For $m=1$ to $M$, a weak learner $h_{m}(\mathbf{x})$ is fitted to pseudo-residuals $\left{\left(\mathbf{x}<em>i, r</em>{i m}\right)\right}_{i=1}^{n}$.</li>
+<li>For $m=1$ to $M$, a weak learner $h_{m}(\mathbf{x})$ is fitted to pseudo-residuals $\left\{\left(\mathbf{x}_i, r_{i m}\right)\right\}_{i=1}^{n}$.</li>
 <li>Compute multiplier $\gamma _{m}$ using <a href="https://en.wikipedia.org/wiki/Line_search" title="Line search" target="_blank" rel="noopener"><strong>line search</strong></a>:$$\gamma_{m}=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+\gamma h_{m}\left(\mathbf{x}_{i}\right)\right)$$</li>
 <li>Update the model: $F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\gamma_{m} h_{m}(\mathbf{x})$</li>
 </ul>
