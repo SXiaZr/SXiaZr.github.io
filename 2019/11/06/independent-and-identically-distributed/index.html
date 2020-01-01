@@ -7,21 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Archives: 2019/8 - DeepBlog</title>
+<title>Independent and Identically Distributed - DeepBlog</title>
 
 
-    <meta name="description" content="The deep learning related knowledge repository">
+    <meta name="description" content="DefinitionIn probability theory and statistics, a collection of random variables is independent and identically distributed if each random variable has the same probability distribution as the others">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DeepBlog">
-<meta property="og:url" content="http://sxiazr.github.io/archives/2019/08/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Independent and Identically Distributed">
+<meta property="og:url" content="http://sxiazr.github.io/2019/11/06/independent-and-identically-distributed/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="The deep learning related knowledge repository">
+<meta property="og:description" content="DefinitionIn probability theory and statistics, a collection of random variables is independent and identically distributed if each random variable has the same probability distribution as the others">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-12-30T09:12:24.509Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DeepBlog">
-<meta name="twitter:description" content="The deep learning related knowledge repository">
+<meta name="twitter:title" content="Independent and Identically Distributed">
+<meta name="twitter:description" content="DefinitionIn probability theory and statistics, a collection of random variables is independent and identically distributed if each random variable has the same probability distribution as the others">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -97,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                <img src="/images/logo.svg" alt="Independent and Identically Distributed" height="28">
             
             </a>
         </div>
@@ -147,35 +148,129 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="tag is-link">
-        August 2019
-        </h3>
-        <div class="timeline">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
         
-            <article class="media">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-06T16:00:00.000Z">2019-11-07</time>
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time>
-                        <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 minutes read (About 683 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Independent and Identically Distributed
+            
+        </h1>
+        <div class="content">
+            <h2 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h2><p>In probability theory and statistics, a collection of random variables is <strong>independent and identically distributed</strong> if each random variable has the same probability distribution as the others and all are mutually <a href="https://en.wikipedia.org/wiki/Independence_(probability_theory)" title="Independence (probability theory)" target="_blank" rel="noopener">independent</a>.</p>
+<p>In machine learning theory, i.i.d. assumption is often made for training datasets to imply that <strong>all samples stem from the same generative process</strong> ($y=f(\mathbf{x})+\varepsilon$), which means $\left(\mathbf{x}_{n}, y_{n}\right)$ are i.i.d. samples according to $\mathcal{D}$ ($S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\right\}_{n=1}^{N}$) and that the generative process is assumed to <strong>have no memory of past generated samples</strong>.</p>
+<a id="more"></a>
+<ul>
+<li><strong>Independent</strong> means the joint distribution can “splits up” into n individual marginals, one for each random variable:$$f_{X_{1}, \ldots, X_{n}}\left(x_{1}, \ldots, x_{n}\right)=f_{X_{1}}\left(x_{1}\right) \times \cdots \times f_{X_{n}}\left(x_{n}\right)$$</li>
+<li><strong>Identical</strong> means they all have the same identical probability mass functions. Or in coin flip case, each random variable shares the same parameter p.$$f_{X_{1}}\left(x_{1}\right) \times \cdots \times f_{X_{n}}\left(x_{n}\right)=\left[p^{x_{1}}(1-p)^{1-x_{1}}\right] \times \cdots \times\left[p^{x_{n}}(1-p)^{1-x_{n}}\right]$$</li>
+</ul>
+<h2 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h2><p>The assumption (or requirement) that observations be i.i.d. tends to <strong>simplify the underlying mathematics</strong> of many statistical methods (e.g. maximizing the log-likelihood, minimizing the empirical risk, bootstrap aggregation, random splitting in model assessment, see <a href="https://stats.stackexchange.com/a/214315" target="_blank" rel="noopener">more</a>). </p>
+<p>In practical applications of statistical modeling, however, the assumption may or may not be realistic. To partially test how realistic the assumption is on a given data set, the <strong>correlation</strong> can be computed.</p>
+<p>In many problems, data is required to be sampled from the <strong>same distribution</strong> because it is hoped that the model trained with the training data set <strong>can be reasonably applied to</strong> the test set. <strong>Feature engineering</strong> is actually a way to remove noises and expose the latent <strong>mutual distribution</strong>.</p>
+<p><strong>*Note about the Distribution (statistical model):</strong><br>In <a href="https://en.wikipedia.org/wiki/Statistical_classification" title="Statistical classification" target="_blank" rel="noopener">statistical classification</a>, including machine learning, two main approaches are called the <a href="https://en.wikipedia.org/wiki/Generative_model" target="_blank" rel="noopener"><strong>generative</strong> approach</a> and the <a href="https://en.wikipedia.org/wiki/Discriminative_model" target="_blank" rel="noopener"><strong>discriminative</strong> approach</a>.</p>
+<ul>
+<li>Given an observable variable $X$ and a target variable $Y$, a generative model is a statistical model of the joint probability distribution on $X \times Y$, $P(X, Y)$. (E.g. Naive Bayes, Gaussian Mixture Model)</li>
+<li>A discriminative model is a model of the conditional probability of the target $Y$, given an observation $x$, symbolically, $P(Y | X=x)$. (E.g. kNN, Logistic regression, SVM, Neural networks)</li>
+<li><strong>Contrast</strong>:<ul>
+<li>A generative algorithm <strong>models how the data was generated</strong> in order to categorize a signal. It predicts the most possible known label for the unknown variable using <strong>Bayes Rules</strong> (It tries to learn $p(X,Y)$ which can <strong>be transformed into</strong> $p(Y|X)$ later).</li>
+<li>A discriminative algorithm does not care about how the data was generated, it simply categorizes a given signal. So, discriminative algorithms try to learn $p(Y|X)$ directly from the data. </li>
+</ul>
+</li>
+</ul>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><p>The following are examples or applications of i.i.d. random variables:</p>
+<ul>
+<li>A sequence of fair or loaded dice rolls is i.i.d.</li>
+<li>A sequence of fair or unfair <strong>coin flips</strong> is i.i.d.</li>
+</ul>
+<p>The following examples data samples do not satisfy i.i.d. assumption:</p>
+<ul>
+<li>A medical dataset where multiple samples are taken from <strong>multiple patients</strong>, it is very likely that samples from <strong>same patients</strong> may be <strong>correlated</strong>.</li>
+<li>Samples drawn from time dependent processes, for example, <strong>year-wise census data</strong>.</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://stats.stackexchange.com/a/214315" target="_blank" rel="noopener">StackExchange: On the importance of the i.i.d. assumption in statistical learning</a><br><a href="https://stats.stackexchange.com/a/253866" target="_blank" rel="noopener">StackExchange: What does it mean by independently and identically distributed random variables? </a><br><a href="https://zhuanlan.zhihu.com/p/52530189" target="_blank" rel="noopener">Zhihu: 独立同分布 independent and identically distributed</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
     </div>
 </div>
 
 
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/11/09/data-leakage/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Data Leakage</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/31/model-selection-&-bias–variance-tradeoff/">
+                <span class="level-item">Model Selection &amp; Bias–Variance Tradeoff</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -313,7 +408,7 @@
         
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow  ">
         
             
 <div class="card widget">
@@ -481,182 +576,6 @@
 </div>
         
         </div>
-    
-</div>
-
-                
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/11/29/model-ensemble/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Ensemble">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time></div>
-                    <a href="/2019/11/29/model-ensemble/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Ensemble</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 2">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time></div>
-                    <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 2</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time></div>
-                    <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 1</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/09/data-leakage/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Data Leakage">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-09T16:00:00.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/09/data-leakage/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Data Leakage</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/06/independent-and-identically-distributed/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Independent and Identically Distributed">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-06T16:00:00.000Z">2019-11-07</time></div>
-                    <a href="/2019/11/06/independent-and-identically-distributed/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Independent and Identically Distributed</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/11/">
-                <span class="level-start">
-                    <span class="level-item">November 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/10/">
-                <span class="level-start">
-                    <span class="level-item">October 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">4</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">August 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
     
 </div>
 
@@ -670,7 +589,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                    <img src="/images/logo.svg" alt="Independent and Identically Distributed" height="28">
                 
                 </a>
                 <p class="is-size-7">

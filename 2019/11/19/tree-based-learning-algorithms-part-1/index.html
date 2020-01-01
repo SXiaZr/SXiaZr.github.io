@@ -7,21 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Archives: 2019/8 - DeepBlog</title>
+<title>Tree-Based Learning Algorithms - Part 1 - DeepBlog</title>
 
 
-    <meta name="description" content="The deep learning related knowledge repository">
+    <meta name="description" content="Tree-based models consist of decision tree and other approaches involving producing multiple trees that are combined to yield a single and better consensus prediction. These models partition the featu">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DeepBlog">
-<meta property="og:url" content="http://sxiazr.github.io/archives/2019/08/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tree-Based Learning Algorithms - Part 1">
+<meta property="og:url" content="http://sxiazr.github.io/2019/11/19/tree-based-learning-algorithms-part-1/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="The deep learning related knowledge repository">
+<meta property="og:description" content="Tree-based models consist of decision tree and other approaches involving producing multiple trees that are combined to yield a single and better consensus prediction. These models partition the featu">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-12-30T09:12:45.621Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DeepBlog">
-<meta name="twitter:description" content="The deep learning related knowledge repository">
+<meta name="twitter:title" content="Tree-Based Learning Algorithms - Part 1">
+<meta name="twitter:description" content="Tree-based models consist of decision tree and other approaches involving producing multiple trees that are combined to yield a single and better consensus prediction. These models partition the featu">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -97,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                <img src="/images/logo.svg" alt="Tree-Based Learning Algorithms - Part 1" height="28">
             
             </a>
         </div>
@@ -147,35 +148,177 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="tag is-link">
-        August 2019
-        </h3>
-        <div class="timeline">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
         
-            <article class="media">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time>
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time>
-                        <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 minutes read (About 1560 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Tree-Based Learning Algorithms - Part 1
+            
+        </h1>
+        <div class="content">
+            <p>Tree-based models consist of <strong>decision tree</strong> and other approaches involving producing multiple trees that are combined to yield a single and better consensus prediction. These models <strong>partition the feature space</strong> into a set of <strong>polyhedrons</strong>, and then fit a simple model (like a constant) in each one.</p>
+<blockquote>
+<p>Unlike linear models, they map non-linear relationships quite well. They are adaptable at solving both classification or regression.</p>
+</blockquote>
+<p>In this post, we will look at the <strong>mathematical details</strong> and <strong>parameter explanations</strong> of several tree-based models, including <a href="https://en.wikipedia.org/wiki/Decision_tree" target="_blank" rel="noopener">Decision tree</a>, <a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">Random forest</a>, <a href="https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/" target="_blank" rel="noopener">Boosted trees</a>.</p>
+<h1 id="Decision-Tree"><a href="#Decision-Tree" class="headerlink" title="Decision Tree"></a>Decision Tree</h1><p>A decision tree is a <strong>flowchart-like</strong> structure in which: </p>
+<ul>
+<li>Each internal node represents a <strong>“test” on an attribute</strong>.</li>
+<li>Each branch represents the <strong>outcome of the test</strong>.</li>
+<li>Each leaf node represents <strong>a class label</strong> (decision taken after computing all attributes).</li>
+<li>The paths from the root to the leaf represent classification rules.<a id="more"></a>
+
+</li>
+</ul>
+<p align="center">
+  <img src="./decision-tree-elements.jpg" alt="Decision Tree Elements" height="500px" width="700px">
+</p>
+
+<h2 id="Decision-Tree-Learning"><a href="#Decision-Tree-Learning" class="headerlink" title="Decision Tree Learning"></a>Decision Tree Learning</h2><p> <strong>Decision tree learning</strong> is the construction of a decision tree from class-labeled training tuples. There are many specific decision-tree algorithms, and notable ones include <a href="https://en.wikipedia.org/wiki/ID3_algorithm" title="ID3 algorithm" target="_blank" rel="noopener">ID3</a>, <a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>, <a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>.</p>
+<p>Algorithms for constructing decision trees is <strong><a href="https://en.wikipedia.org/wiki/Greedy_algorithm" title="Greedy algorithm" target="_blank" rel="noopener">greedy</a></strong> which:</p>
+<ul>
+<li>Usually, work top-down by choosing a variable <strong>at each step</strong> that <strong>best splits</strong> the set of items. </li>
+<li>This process is repeated on each derived subset in a recursive manner (<strong>Depth First</strong>). The recursion is completed when the subset at a node reaches a predefined stopping criterion.</li>
+</ul>
+<p>According to the above, there will naturally be a question: What are the <strong>best splits</strong>? Different algorithms use <strong>different metrics for measuring “best”</strong>. These generally measure the <strong>homogeneity</strong> of the target variable within the subsets.</p>
+<ul>
+<li><p><strong><a href="https://en.wikipedia.org/wiki/Decision_tree_learning#Variance_reduction" target="_blank" rel="noopener">Variance reduction</a></strong><br>Introduced in <a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>, variance reduction is often employed in cases where the target variable is <strong>continuous</strong> (<strong>regression tree</strong>). The variance reduction of a node $N$ is defined as the total reduction of the variance of the target variable $x$ due to the split at this node:</p>
+$$\begin{split} I_{V}(N)=&\frac{1}{|S|^{2}} \sum_{i \in S} \sum_{j \in S} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\\&-\underbrace{\left(\frac{1}{\left|S_{t}\right|^{2}} \sum_{i \in S_{t}} \sum_{j \in S_{t}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}+\frac{1}{\left|S_{f}\right|^{2}} \sum_{i \in S_{f}} \sum_{j \in S_{f}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\right)}_{\text {Minimum: Largest Homogeneity}}\end{split}$$
+<p>, where $S$, $S_{t}$, and $S_{f}$ are the set of <strong>pre-split sample indices</strong>, set of sample indices for which the <strong>split test is true</strong>, and set of sample indices for which the <strong>split test is false</strong>, respectively.</p>
+</li>
+<li><p><strong><a href="https://en.wikipedia.org/wiki/Decision_tree_learning#Gini_impurity" target="_blank" rel="noopener">Gini impurity</a></strong><br>Introduced in <a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a> for <strong>classification trees</strong>, Gini impurity is a measure of <strong>how often</strong> a <strong>randomly chosen</strong> element ($p_{i}$) from the set would be <strong>incorrectly labeled</strong> if it was <strong>randomly labeled</strong> according to the <strong>DISTRIBUTION of labels</strong> in the subset ($1-p_{i}$). </p>
+<p>  The Gini impurity can be computed by summing the probability $p_{i}$ of an item with label $i$ being chosen times the probability $1-p_{i}$ of a mistake in categorizing that item. It reaches its <strong>minimum (zero)</strong> when all cases in the node fall into a single target category:</p>
+  $$\operatorname{Gini}(T)=\sum_{i=1}^{J} p_{i} \sum_{k \neq i} p_{k}=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)
+	$$, where $J$ is the amount of classes and $i\in \{1,2,...,J\}$. And the Gini impurity reduction can be defined as below:
+  
+	$$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{Gini}(T)}_{\text {Gini (parent) }}-\quad \underbrace{\mathrm{Gini}(T | a)}_{\text {Weighted Sum of Gini (Children) }} \\&=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)-\sum_{a} p(a) \sum_{i=1}^{J}-\operatorname{P}(i | a) (1- \operatorname{P}(i | a))\end{split}$$
+</li>
+<li><p><strong><a href="https://en.wikipedia.org/wiki/Decision_tree_learning#Information_gain" target="_blank" rel="noopener">Information gain</a></strong><br>Information gain is based on the concept of <a href="https://en.wikipedia.org/wiki/Information_entropy" title="Information entropy" target="_blank" rel="noopener">entropy</a>  in information theory, which we described in . Entropy is defined as below:</p>
+$$\mathrm{H}(T)=\mathrm{I}_{E}\left(p_{1}, p_{2}, \ldots, p_{J}\right)=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i}$$, where $p_{1},p_{2},...$ are fractions that add up to 1 and represent the percentage of each class present in the child node.
+
+  $$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{H}(T)}_{\text {Entropy (parent) }}-\quad \underbrace{\mathrm{H}(T | a)}_{\text {Weighted Sum of Entropy (Children) }} \\&=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i}-\sum_{a} p(a) \sum_{i=1}^{J}-\operatorname{P}(i | a) \log _{2} \operatorname{P}(i | a) \end{split}$$
+
+</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a> was implemented in Scikit-learn - <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html" target="_blank" rel="noopener">sklearn.tree.DecisionTreeClassifier</a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html" target="_blank" rel="noopener">sklearn.tree.DecisionTreeRegressor</a>. The <strong>parameters</strong> below are essential:</p>
+<ul>
+<li><strong>max_features</strong>: The number of randomly chosen features to consider when looking for the best split. A low value can be set to control over-fitting. Since the algorithm is greedy, setting max_features &lt; n_features will try more splitting possibilities. </li>
+<li><strong>max_depth</strong>, <strong>min_samples_split</strong>, … : These parameters resulting in a less complex tree (less nodes) can control over-fitting.</li>
+</ul>
+<h2 id="Tree-Pruning"><a href="#Tree-Pruning" class="headerlink" title="Tree Pruning"></a>Tree Pruning</h2><blockquote>
+<p>Decision-tree learners can create over-complex trees that do not generalize well from the training data. (Overfitting)</p>
+</blockquote>
+<p><strong>Tree pruning</strong> is a technique that reduces the size of the decision tree by <strong>removing sections of the tree</strong> (substitute sub-trees with their leaf nodes) that provide little power to classify instances. Pruning reduces the complexity of the final decision tree, and hence improves predictive accuracy by the reduction of overfitting.</p>
+<p>There are two types of Pruning:</p>
+<ul>
+<li><p><strong>Pre-pruning</strong> (also known as <strong>early stopping</strong>)<br>Pre-pruning will <strong>stop the tree-building process early</strong> while constructing a decision tree. To avoid overfitting, if the error does not decrease significantly enough or the tree reaches its maximum depth (doesn’t meet the <strong>threshold</strong>), then we stop. </p>
+<p>  However, early stopping may <strong>underfit by stopping too early</strong>. The current split may be of little benefit, but having made it, subsequent splits more significantly reduce the error. </p>
+</li>
+<li><p><strong>Post-pruning</strong><br>  <strong>After the growth</strong> of the decision tree is completed, the tree can be post-pruned to be simplified. The process of post-pruning is to <strong>check each sub-tree</strong> that, if we substitute the sub-tree with their leaf nodes, whether the increase in impurity measure is less than the specified threshold. </p>
+</li>
+</ul>
+<p><strong>Post-pruning in CART</strong><br>The post-pruning in CART has two steps:</p>
+<ul>
+<li><p>Continuously prune the decision tree $T_0$ built by CART to generate a sub-tree sequence ${T_0, T_1, …, T_n}$. </p>
+<p>  For each non-leaf node, you can compute its regularizied cost as below:</p>
+$$C_{a}\left(T_{t}\right)=C\left(T_{t}\right)+a|T_t|$$, where $T_t$ is an arbitrary sub-tree whose root is $t$, $C(T_t)$ is the total impurity measure of the sub-tree, $\alpha \geq 0$ is the coefficient of the regularization term, $| T_t |$ is the number of leaf nodes of the sub-tree.
+
+<p>  If the decision tree is pruned at non-leaf node $t$, then $T_t$ turns into a single node tree whose regularizied cost becomes as below:</p>
+  $$C_{\alpha}(t)=C(t)+\alpha * 1$$
+
+<p>  Only if the regularizied cost decreases ($C_{\alpha}(t) \leq C_{\alpha}\left(T_{t}\right)$), then this sub-tree $T_t$ will be pruned, namely:   </p>
+$$C(t)+\alpha \leq C\left(T_{t}\right)+\alpha\left|T_{t}\right|\Rightarrow\alpha \geq \frac{C(t)-C\left(T_{t}\right)}{\left|T_{t}\right|-1}$$
+
+<p>  It means that for a non-leaf node $t$, the minimum regularization coefficient $\alpha$ needed to prune $T_t$ is $\alpha = \frac{C(t)-C\left(T_{t}\right)}{\left|T_{t}\right|-1}$. We can iteratively compute the $\alpha$ for each node in  the last pruned tree and prune the node with the minimum $\alpha$. We do it until only the root node $T_0$ is remained and finally will get the sub-tree sequence ${T_0, T_1, …, T_n}$.</p>
+</li>
+<li><p>Test each subtree in the sequence of cross-validation subtrees, and select the optimal subtree as the final pruning result.</p>
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://reckoning.dev/tree-based-models/" target="_blank" rel="noopener">Blog: A Practical Guide to Tree-Based Learning Algorithms</a><br><a href="https://www.displayr.com/machine-learning-pruning-decision-trees/" target="_blank" rel="noopener">Blog: Machine Learning: Pruning Decision Trees</a><br><a href="https://www.zhihu.com/question/22697086" target="_blank" rel="noopener">Zhihu: CART树怎么进行剪枝</a><br><a href="https://www.cnblogs.com/luban/p/9412339.html" target="_blank" rel="noopener">Blog: 决策树及其剪枝原理</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
     </div>
 </div>
 
 
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/11/24/tree-based-learning-algorithms-part-2/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Tree-Based Learning Algorithms - Part 2</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/11/09/data-leakage/">
+                <span class="level-item">Data Leakage</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -313,7 +456,7 @@
         
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow  ">
         
             
 <div class="card widget">
@@ -481,182 +624,6 @@
 </div>
         
         </div>
-    
-</div>
-
-                
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/11/29/model-ensemble/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Ensemble">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time></div>
-                    <a href="/2019/11/29/model-ensemble/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Ensemble</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 2">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time></div>
-                    <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 2</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time></div>
-                    <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 1</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/09/data-leakage/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Data Leakage">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-09T16:00:00.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/09/data-leakage/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Data Leakage</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/06/independent-and-identically-distributed/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Independent and Identically Distributed">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-06T16:00:00.000Z">2019-11-07</time></div>
-                    <a href="/2019/11/06/independent-and-identically-distributed/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Independent and Identically Distributed</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/11/">
-                <span class="level-start">
-                    <span class="level-item">November 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/10/">
-                <span class="level-start">
-                    <span class="level-item">October 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">4</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">August 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
     
 </div>
 
@@ -670,7 +637,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                    <img src="/images/logo.svg" alt="Tree-Based Learning Algorithms - Part 1" height="28">
                 
                 </a>
                 <p class="is-size-7">

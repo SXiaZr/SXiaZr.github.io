@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Model Selection &amp; Bias–Variance Tradeoff - DeepBlog</title>
+<title>Tree-Based Learning Algorithms - Part 2 - DeepBlog</title>
 
 
-    <meta name="description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
+    <meta name="description" content="Decision tree can be very non-robust. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.  To resolve the problem above, some techni">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Model Selection &amp; Bias–Variance Tradeoff">
-<meta property="og:url" content="http://sxiazr.github.io/2019/10/31/model-selection-&-bias–variance-tradeoff/index.html">
+<meta property="og:title" content="Tree-Based Learning Algorithms - Part 2">
+<meta property="og:url" content="http://sxiazr.github.io/2019/11/24/tree-based-learning-algorithms-part-2/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
+<meta property="og:description" content="Decision tree can be very non-robust. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.  To resolve the problem above, some techni">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-12-30T15:54:37.125Z">
+<meta property="og:updated_time" content="2020-01-01T12:20:04.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Model Selection &amp; Bias–Variance Tradeoff">
-<meta name="twitter:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
+<meta name="twitter:title" content="Tree-Based Learning Algorithms - Part 2">
+<meta name="twitter:description" content="Decision tree can be very non-robust. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.  To resolve the problem above, some techni">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -98,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Model Selection &amp; Bias–Variance Tradeoff" height="28">
+                <img src="/images/logo.svg" alt="Tree-Based Learning Algorithms - Part 2" height="28">
             
             </a>
         </div>
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time>
+                <time class="level-item has-text-grey" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    16 minutes read (About 2368 words)
+                    15 minutes read (About 2270 words)
                 </span>
                 
                 
@@ -174,130 +174,113 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Model Selection &amp; Bias–Variance Tradeoff
+                Tree-Based Learning Algorithms - Part 2
             
         </h1>
         <div class="content">
-            <p>In this passage, I summarize some basic concepts in Machine Learning, which mainly include <strong>model validation</strong> methods in model selection and the <strong>interpretation</strong> in bias–variance tradeoff.</p>
-<h1 id="Probabilistic-Setup"><a href="#Probabilistic-Setup" class="headerlink" title="Probabilistic Setup"></a>Probabilistic Setup</h1><p>In the following, we set up a general <strong>probabilistic view</strong> on the data.</p>
-<p>Assume that the data is generated as (<strong>Data Generation Model</strong>) $$y=f(\mathbf{x})+\varepsilon$$, where $f$ is some <strong>arbitrary and unknown</strong> function and $\mathbf{x}$ is generated according to some ﬁxed but <strong>unknown</strong> distribution $\mathcal{D}_{\mathbf{x}}$ . </p>
-<p>$\varepsilon$ is an <strong>additive noise</strong> with distribution $\mathcal{D}_{\varepsilon}$, which is independent from sample to sample and independent from the data. Assume $\varepsilon$ has <strong>zero mean</strong> (otherwise this constant can be absorbed into $f$). </p>
-<p>There is an <strong>unknown</strong> underlying joint distribution $\mathcal{D}$ on pairs $(\mathbf{x}, y)$, with range $\mathcal{X} \times \mathcal{Y}$. The data set $\mathcal{S}$ we see consists of <strong>independent and identically distributed</strong>(<strong>i.i.d.</strong>) samples from $\mathcal{D}$:</p>
-
-$$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\right\}_{n=1}^{N}$$
-
-<p>Write $f_{\mathcal{S}} = \mathcal{A}(\mathcal{S})$, where $\mathcal{A}$ denotes the learning algorithm, $f_{\mathcal{S}}$ is the resulting prediction function or <strong>model</strong> which depends on the data subset $\mathcal{S}$ we are given. If we want to indicate that $f_{\mathcal{S}}$ also depends on hyper-parameters of the model, we can add a subscript to write $f_{\mathcal{S, \lambda}}$.</p>
+            <blockquote>
+<p>Decision tree can be very <strong>non-robust</strong>. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.</p>
+</blockquote>
+<p>To resolve the problem above, some techniques, often called <strong><a href="/2019/11/29/model-ensemble/" title="ensemble methods">ensemble methods</a></strong>, construct multiple decision trees that are combined to yield a single and better consensus prediction.</p>
 <a id="more"></a>
-
-<h1 id="Model-Selection"><a href="#Model-Selection" class="headerlink" title="Model Selection"></a>Model Selection</h1><blockquote>
-<p>Model (actually hyper-parameters) is selected by the result of <strong>VALIDATION</strong>.</p>
-</blockquote>
-<p>Given a model $f_{\mathcal{S}}$, how can we assess if <strong>$f_{\mathcal{S}}$ is any good</strong>?  Theoretically, the best way is to compute the <strong>expected error</strong> over <strong>all possible</strong> samples $(\mathbf{x}, y)$ chosen from $\mathcal{D}$:</p>
-
-$$L_{\mathcal{D}}(f_{\mathcal{S}})=\mathbb{E}_{\mathcal{D}}[\ell(y, f_{\mathcal{S}}(\mathbf{x}))]$$
-
-<p>, where $\ell(\cdot, \cdot)$ is our loss function. The quantity $L_{\mathcal{D}}(f_{\mathcal{S}})$ is called <strong>generalization error</strong>.</p>
-<h2 id="Training-Validation-amp-Test-Set"><a href="#Training-Validation-amp-Test-Set" class="headerlink" title="Training, Validation &amp; Test Set"></a><a href="https://stackoverflow.com/questions/44223585/why-disable-dropout-during-validation-and-testing/44229870" target="_blank" rel="noopener">Training, Validation &amp; Test Set</a></h2><p><strong>Training Set</strong>: A set of data used for <strong>learning</strong>,  to fit the weights of the model. We would use the training set to find the “optimal” weights with the back-propagation algorithm. (Get <strong>optimal training error</strong>)</p>
-<p><strong>Validation Set</strong>: A set of data used to <strong>tune the hyper-parameters</strong> of the model. We would use the validation set to find the “optimal” hyper-parameters or determine a stopping point for the back-propagation algorithm. (Get <strong>optimal validation error</strong>)</p>
-<p><strong>Test Set</strong>: A set of data used only to <strong>assess the performance of the fully-trained model</strong>. After assessing the final model on the test set, <strong>YOU MUST NOT</strong> tune the model any further!</p>
-<p><strong>Why separate test and validation sets?</strong><br>The error estimate of the final model on validation data will be <strong>biased</strong> (smaller than the true error rate) since the validation set is used to select the final model.</p>
-<h2 id="Generalization-Error-V-S-Training-Error"><a href="#Generalization-Error-V-S-Training-Error" class="headerlink" title="Generalization Error V.S. Training Error"></a>Generalization Error V.S. Training Error</h2><p>Generalization error is the quantity we are fundamentally interested in, but we cannot compute it since $\mathcal{D}$ is unknown.</p>
-<p>Since we have given a data subset $\mathcal{S}$, it is natural to compute the equivalent <strong>empirical quantity</strong>: </p>
-
-$$L_{\mathcal{S}}\left(f_{\mathcal{S}}\right)=\frac{1}{|\mathcal{S}|} \sum_{\left(\mathbf{x}_{n}, y_{n}\right) \in \mathcal{S}} \ell\left(y_{n}, f_{\mathcal{S}}\left(\mathbf{x}_{n}\right)\right)$$
-
-<p>This is often called the <strong>training error</strong>, but $L_{\mathcal{S}}(f_{\mathcal{S}})$ might not be close to $L_{\mathcal{D}}(f_{\mathcal{S}})$ for the sake of overﬁtting.</p>
-<h2 id="Generalization-Error-V-S-Test-Error"><a href="#Generalization-Error-V-S-Test-Error" class="headerlink" title="Generalization Error V.S. Test Error"></a>Generalization Error V.S. Test Error</h2><p>Validating model on the same data we trained it on will result in overfitting, so we could split the data into a training and a test set (<strong>a.k.a. validation set</strong>), call them $\mathcal{S}_{\text {train}}$ and $\mathcal{S}_{\text {test}}$, respectively.</p>
-<p>From the training set, we learn the model $\mathcal{S}_{\text {train}}$ and then compute the error on the test set:</p>
-$$L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})=\frac{1}{\left|\mathcal{S}_{\text {test }}\right|} \sum_{\left(y_{n}, \mathbf{X}_{n}\right) \in \mathcal{S}_{\text {test}}}\ell\left(y_{n}, f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{n}\right)\right)$$, where $L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})$ is called **test error (empirical error)**. 
-
-
-<p>Indeed, the <strong>expectation</strong> of test error equals generalization error:</p>
-$$L_{\mathcal{D}}\left(f_{\mathcal{S}_{\text {train }}}\right)=\mathbb{E}_{\mathcal{S}_{\text {test }} \sim \mathcal{D}}\left[L_{\mathcal{S}_{\text {test }}}\left(f_{\mathcal{S}_{\text {train }}}\right)\right]$$ **But for a particular test set $\mathcal{S}_{\text {test}}$, how far are these apart?**
-
-<p>According to lemma:</p>
-<blockquote>
-<p><strong><a href="https://en.wikipedia.org/wiki/Chernoff_bound" target="_blank" rel="noopener">Chernoff bound</a></strong>. Let $\Theta_{1}, \ldots, \Theta_{N}$ be a sequence of i.i.d. random variables with mean $\mathbb{E}[\Theta]$ and range $[a, b]$. Then, for any $\varepsilon&gt; 0$,<br>$$\mathbb{P}\left[\left|\frac{1}{N} \sum_{n=1}^{N} \Theta_{n}-\mathbb{E}[\Theta]\right|\geq \varepsilon  \right] \leq 2 e^{-2N\varepsilon^{2}(b-a)^2}$$</p>
-</blockquote>
-<p>we claim that:</p>
-$$\mathbb{P}\left[\left|L_{\mathcal{D}}(f)-L_{\mathcal{S}_{\text {test}}}(f)\right| \geq \sqrt{\left.\frac{(b-a)^{2} \ln (2 / \delta)}{2\left|\mathcal{S}_{\text {test }}\right|}\right)}\right] \leq \delta$$, from which we could have the **insight** that the difference decreases as $\mathcal{O}(1 / \sqrt{\left|S_{\text {test }}\right|})$. So the more data points we have, the more conﬁdent that the **empirical loss we measure is close to the true loss**.
-
-<h2 id="Cross-Validation"><a href="#Cross-Validation" class="headerlink" title="Cross Validation"></a><a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)" target="_blank" rel="noopener">Cross Validation</a></h2><blockquote>
-<p>Splitting the data once into two parts (one for training and one for testing) is not the most efficient way to use the data. Cross-validation is a better way.</p>
-</blockquote>
-<p><strong>Methods: <a href="https://scikit-learn.org/stable/modules/cross_validation.html" target="_blank" rel="noopener">See more</a></strong></p>
+<h1 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h1><p>The <strong>random forest</strong> approach is a <strong>bagging method</strong> where <strong>deep trees</strong> (<a href="#Rule-of-Thumb">why deep</a>), fitted on bootstrap samples, are combined to produce an output with lower variance. However, it thus <strong>increasing the computational complexity by  $B$  times</strong>.</p>
+<p><strong>Feature Sampling</strong>:<br>In addition to bagging, in the case of random forests, as each tree is constructed, <strong>only a random sample of predictors (features)</strong> is taken before each node is split, which <strong>decorrelates the trees</strong>.  This random small tweak has benefits below:</p>
 <ul>
-<li>K-fold Cross-Validation: Randomly partition the data into K groups. Each time leave out exactly one of the K groups for testing and use the remaining K-1 groups for training. </li>
-<li>Stratified K-fold: It is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set.</li>
-<li>Nested Cross-Validation: Always used for time series data, where particular care must be taken in splitting the data <strong>in order</strong> to prevent data leakage. It means to evaluate the model for time series data on the “future” observations. Nested Cross-Validation is a variation of  k-fold which returns first  k  folds as train set and the  (k+1)  th fold as test set. </li>
-</ul>
-<p><strong>Outcomes</strong></p>
-<ul>
-<li>Cross-validation returns an <strong>unbiased estimate</strong> of the generalization error and its variance. We can <strong>average the K validation errors</strong> as the validation result. </li>
-<li>The <strong>purpose of cross-validation</strong> is model checking, not model building. Once we have used cross-validation to select the better performing model, we train that model on all the data.</li>
-<li>Cross-validation will <strong>not be used</strong> in complex deep learning model with a large dataset, since it’s too computationally expensive.</li>
-</ul>
-<p><strong>Advantages</strong></p>
-<ul>
-<li><strong>Use All Data</strong>: <ul>
-<li>Splitting the data once into two parts is not the most efficient way to use the data. It only gives predictions on part of the data (test set). If the test set we pick happens to contain a bunch of points that are particularly easy (or hard) to predict, we will not come up with a rational estimate of the model’s ability to learn and predict.</li>
-</ul>
+<li><p>There are often a <strong>few predictors that dominate</strong> the decision tree fitting process. Consequently, many other predictors, which could be <strong>useful for very local features</strong> of the data, are rarely selected as splitting variables. With this tweak, each predictor will have <strong>at least several opportunities</strong> to be the predictor defining a split.</p>
 </li>
-<li><strong>Prevent <a href="https://www.kaggle.com/alexisbcook/data-leakage/data" target="_blank" rel="noopener">Data Leakage</a></strong>:<ul>
-<li><strong>Work with Dependent/Grouped Data</strong>: For example, there are 3 speakers and 500 recordings for each speaker. If we do a random split, our training and test set will <strong>share the same speaker saying the same words</strong>, which will boost our algorithm performance but fail when tested on a new speaker. The <strong>proper way</strong> to do it is to split the speakers, i.e., use 2 speakers for training and the third for testing (cross-validation on the speakers level).</li>
-<li>Cross-validation can be used in <a href="http://blog.kaggle.com/2016/12/27/a-kagglers-guide-to-model-stacking-in-practice/" target="_blank" rel="noopener">models stacking</a>, where we can’t train both our models on the same dataset because then, our second model will learn on ground truth information that our first model already seen.</li>
-</ul>
+<li><p><strong>It makes the decision making process more robust to missing features</strong>: Observations with missing features can still be regressed or classified based on the features that are not missing.</p>
 </li>
 </ul>
-<h1 id="Bias–Variance-Tradeoff"><a href="#Bias–Variance-Tradeoff" class="headerlink" title="Bias–Variance Tradeoff"></a><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank" rel="noopener">Bias–Variance Tradeoff</a></h1><blockquote>
-<p>The <strong>bias–variance tradeoff</strong> is the property of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples and vice versa.</p>
-</blockquote>
+<p><strong>Feature Importance Measures</strong>:<br>We can obtain an <strong>overall summary of the importance</strong> of each predictor (feature) estimating the <strong>metrics</strong> we mentioned in <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" title="last post">last post</a>. We can <strong>record the total amount of metrics</strong> due to splits over <strong>a given predictor</strong>, averaged over all  $B$  trees. A large value indicates an important predictor. </p>
+<p><strong>Essential parameters</strong>:</p>
 <ul>
-<li>The <strong>bias</strong> error is an error from <strong>erroneous assumptions</strong> in the learning  algorithm. High bias can cause an algorithm to <strong>miss the relevant relations</strong> between features and target outputs (underfitting).</li>
-<li>The  <strong>variance</strong> is an error from sensitivity to small fluctuations in the training set. High variance can cause an algorithm to <strong>model the random noise</strong> in the training data, rather than the intended outputs (overfitting).</li>
-<li>Ideally, one wants to choose a model that both accurately captures the regularities in its training data (high variance), but also generalizes well to unseen data (high bias). </li>
+<li><strong>n_Trees</strong>:  In practice, few hundreds trees is often a good choice.</li>
+<li><strong>n_Features</strong>:  Typically, if there are a total of  $D$ predictors,  $D/3$ predictors in the case of regression and $\sqrt{D}$ predictors in the case of classification make a good choice.</li>
 </ul>
-<p>There is an inherent bias-variance tradeoff when we perform the model selection. </p>
-<h2 id="Error-Decomposition"><a href="#Error-Decomposition" class="headerlink" title="Error Decomposition"></a>Error Decomposition</h2><p>Following <a href="#Probabilistic-Setup">Probabilistic Setup</a> and test error defined <a href="#Generalization-Error-V.S.-Test-Error">above</a>, we look at the <strong>mean squared error</strong> of the prediction function $f_{\mathcal{S}}$ for a ﬁxed element $\mathbf{x}_0$. </p>
-<p>Imagine that we are running the experiment <strong>many times</strong>: we create $\mathcal{S}_{\text {train }}$, learn the model $f_{\mathcal{S}_{\text {train }}}$, and then evaluate the performance by computing the mean squared error for $\mathbf{x}_0$ ($y_0=f(\mathbf{x}_0)+\varepsilon$).</p>
+<h1 id="Boosted-Trees"><a href="#Boosted-Trees" class="headerlink" title="Boosted Trees"></a>Boosted Trees</h1><p>In this post, we will focus specifically on the two most common boosting algorithms: AdaBoost and Gradient Boosting.</p>
+<h2 id="Generic-Setting-and-Algorithm"><a href="#Generic-Setting-and-Algorithm" class="headerlink" title="Generic Setting and Algorithm"></a>Generic Setting and Algorithm</h2><p>In supervised learning problems, one has an output variable $y$ and a vector of input variables $\mathbf{x}$ described via a joint probability distribution $P(\mathbf{x}, y)$. </p>
+<p>Using a training set $\{(\mathbf{x}_{1},y_{1}),\dots ,(\mathbf{x}_{n},y_{n})\}$, the goal is to find an approximation ${\hat {F}}(\mathbf{x})$ that minimizes the expected value of some specified loss functions.</p>
+$$\hat{F}=\underset{F}{\arg \min } \mathbb{E}_{\mathbf{x}, y}[L(y, F(\mathbf{x}))]$$
+
+<p>In boosting method, it seeks ${\hat {F}}(\mathbf{x})$ in the form of a <strong>weighted sum</strong> of functions $h_{i}(\mathbf{x})$ (weak learners) from some class $\mathcal {H}$:</p>
+$$\hat{F}(\mathbf{x})=\sum_{i=1}^{M} \gamma_{i} h_{i}(\mathbf{x})+\text { const. }$$
+
+<p>It does so by starting with a model, consisting of a constant function $F_{0}(\mathbf{x})$:</p>
+$${F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)}$$, and **incrementally expands it** in a **greedy fashion**:
+$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\gamma_{m}h_m\\{F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\underset{h_{m} \in \mathcal{H}}{\gamma_{m}\arg \min }\left[\sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]}$$, where $h_{m}\in {\mathcal {H}}$ is a weak learner function, $F_{m}(\mathbf{x})$ is the aggregated function after $m$ steps.
+
+<p>The above algorithm of boosting is generic. One can come with several strategies for the choice of the <strong>weak learner</strong>, <strong>residual (error)</strong> to fit, and the <strong>weighting parameter</strong> $\lambda$. Therefore, there are various boosting methods. </p>
+<h2 id="Adaptive-Boosting"><a href="#Adaptive-Boosting" class="headerlink" title="Adaptive Boosting"></a>Adaptive Boosting</h2><p>The <strong><a href="https://en.wikipedia.org/wiki/AdaBoost" target="_blank" rel="noopener">AdaBoost</a></strong> (Adaptive Boosting) approach is a <strong>boosting method</strong> where <strong>shallow trees</strong> (<a href="#Rule-of-Thumb">why shallow</a>), fitted on weighted samples, are combined to produce an output with <strong>lower bias</strong>. </p>
+<p><strong>Be Compared to Random Forest</strong>:<br>Compared to Random Forest, AdaBoost is generally <strong>less computational</strong> (shallow trees). However, these computations to fit different weak learners  <strong>can’t be done in parallel</strong>. Overall, Random Forest is usually less accurate than Boosting on a wide range of tasks and usually slower in the runtime.</p>
+<p><strong>Algorithm Setting</strong>:<br>The total error $E$ defined in AdaBoost is the <strong>sum of its exponential loss</strong> ($\sum_{i=1}^{N} e^{-y_{i} f\left(\mathbf{x}_{i}\right)}$, different loss function result in <strong>different variations</strong>) on each data point, given as follows:</p>
+
+$$E=\sum_{i=1}^{N} e^{-y_{i} F_{m}\left(\mathbf{x}_{i}\right)}=\sum_{i=1}^{N} e^{-y_{i} F_{m-1}\left(\mathbf{x}_{i}\right)} e^{-y_{i} \gamma_{m} h_{m}\left(\mathbf{x}_{i}\right)}\\E=\sum_{i=1}^{N} w_{i}^{(m)} e^{-y_{i} \gamma_{m} h_{m}\left(\mathbf{x}_{i}\right)}$$, where $w_{i}^{(m)}=e^{-y_{i} F_{m-1}\left(\mathbf{x}_{i}\right)}$ is a constant error of last iteration.
+
+<p>So we can determine the optimal weak learner $h_m$ at step $m$ by $\underset{h_m}{\arg \min }E$ and then the weighting parameter $\gamma_m$​ by $\frac{d E}{d \gamma_{m}}=0$. A derivation of them in binary classification can be seen at <a href="https://en.wikipedia.org/wiki/AdaBoost#Derivation" target="_blank" rel="noopener">wikipedia</a>.</p>
+<p><strong>Intuition of the Algorithm</strong>:<br>AdaBoost <strong>weighs more on misclassified samples and good learners</strong> than the correctly classified samples and bad learners, respectively. </p>
+<ul>
+<li><p>First, it <strong>weighs observations</strong> in the dataset and train a new weak learner with a special focus given to the <strong>misclassified observations</strong>:$$E=\sum_{i=1}^{N} \underbrace{e^{-y_{i} F_{m-1}\left(\mathbf{x}_{i}\right)}}_{Weights} \underbrace{e^{-y_{i} \gamma_{m} h_{m}\left(\mathbf{x}_{i}\right)}}_{\text{Loss of each observation}}$$So $\underset{h_{m}}{\arg \min } E$ can <strong>not only be seen</strong> as an optimization of the boosted model after $m$ steps on the initial dataset <strong>but also</strong> a weak learner on the weighted dataset.</p>
+</li>
+<li><p>Second, it <strong>adds the weak learner</strong> with a coefficient $\gamma_m$ that <strong>expresse the performances of this weak learner</strong>: the better a weak learner performs, the more it contributes to the strong learner. </p>
+<p>For example, in binary classification case: $\gamma_m=\frac{1}{2} \ln \left(\frac{\sum_{y_{i}=h_{m}\left(\mathbf{x}_{i}\right)} w_{i}^{(m)}}{\sum_{y_{i} \neq h_{m}\left(\mathbf{x}_{i}\right)} w_{i}^{(m)}}\right)$, in which the larger amount of misclassified data is the smaller $\lambda_m$ is.</p>
+</li>
+</ul>
+<h2 id="Gradient-Boosting"><a href="#Gradient-Boosting" class="headerlink" title="Gradient Boosting"></a>Gradient Boosting</h2><p>Differ from Adaboost, in <a href="https://en.wikipedia.org/wiki/Gradient_boosting" target="_blank" rel="noopener">Gradient Boosting</a>, the decision tree model is trained on the pseudo-residuals, rather than residuals.</p>
+<p><strong>Algorithm Setting</strong>:<br>The idea is to apply a  <a href="https://en.wikipedia.org/wiki/Steepest_descent" title="Steepest descent" target="_blank" rel="noopener">steepest descent</a>  step to this minimization problem (<strong>functional gradient descent</strong>, which regards the <strong>entire function as a variable</strong>).</p>
+<p> We would update the model in accordance with the following equations:</p>
 
 $$
-\begin{split}
-& \mathbb{E}_{\mathcal{S}_{\text {train }} \sim \mathcal{D}, \varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\left(f\left(\mathbf{x}_{0}\right)+\varepsilon-f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{0}\right)\right)^{2}\right] \\
-= &\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)^{2}\right] \\
-&+2\cdot \underbrace{\mathbb{E}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]}_{0}\cdot\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)\right] \\
-= &\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)^{2}\right] \\
-= & \operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S} \sim \mathcal{D}}\left[\left(f\left(\mathbf{x}_{0}\right)-\mathbb{E}_{\mathcal{S}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}^{\prime}}\left(\mathbf{x}_{0}\right)\right]\right) + \left(\mathbb{E}_{\mathcal{S}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}^{\prime}}\left(\mathbf{x}_{0}\right)\right]-f_{\mathcal{S}}\left(\mathbf{x}_{0}\right)\right)^2\right] \\
-=& \underbrace{\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}[\varepsilon]}_{\text {noise variance }} \\
-& + \underbrace{\left(f\left(\mathbf{x}_{0}\right)-\mathbb{E}_{\mathcal{S}_{\text {train }}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}_{\text {train }}^{\prime}}\left(\mathbf{x}_{0}\right)\right]\right)^{2}}_{\text {bias }}\\
- & + \mathbb{E}_{\mathcal{S}_{\text {train }} \sim \mathcal{D}}[\underbrace{\left(\mathbb{E}_{\mathcal{S}_{\text {train }}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}_{\text {train }}^{\prime}}\left(\mathbf{x}_{0}\right)\right]-f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{0}\right)\right)^{2}}_{\text { variance }}]
-\end{split} 
+r_{im}=\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)\\
+{F_{m}(x)=F_{m-1}(\mathbf{x})-\gamma_{m} \sum_{i=1}^{n}r_{im}} $$, where $r_{im}$ is the **pseudo-residuals** and the model is **initialized with a constant value** $F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)$. 
+
+<p><strong>Generic Gradient Boosting Method</strong>:</p>
+<ul>
+<li>Initialize model with a constant value $F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)$.</li>
+<li>For $m=1$ to $M$, a weak learner $h_{m}(\mathbf{x})$ is fitted to pseudo-residuals $\left{\left(\mathbf{x}<em>i, r</em>{i m}\right)\right}_{i=1}^{n}$.</li>
+<li>Compute multiplier $\gamma _{m}$ using <a href="https://en.wikipedia.org/wiki/Line_search" title="Line search" target="_blank" rel="noopener"><strong>line search</strong></a>:$$\gamma_{m}=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+\gamma h_{m}\left(\mathbf{x}_{i}\right)\right)$$</li>
+<li>Update the model: $F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\gamma_{m} h_{m}(\mathbf{x})$</li>
+</ul>
+<p><strong>Compared to Adaboost</strong>:<br>Gradient boosting uses instead <strong>a gradient descent approach</strong> and can more <strong>easily be adapted</strong> to large number of loss functions. Thus, gradient boosting can be considered as <strong>a generalization of Adaboost</strong> to <strong>arbitrary differentiable loss functions</strong>.</p>
+<h2 id="Regularization-Parameters-of-Boosted-Trees"><a href="#Regularization-Parameters-of-Boosted-Trees" class="headerlink" title="Regularization/Parameters of Boosted Trees"></a>Regularization/Parameters of Boosted Trees</h2><p>Several so-called  regularization techniques reduce this  overfitting effect by constraining the fitting procedure.</p>
+<ul>
+<li><p><strong>Iterations</strong>:   Namely, <strong>the number of trees</strong> in the model. Increasing it reduces the error on training set, but may lead to overfitting.</p>
+</li>
+<li><p><strong>Shrinkage / Learning Rate</strong>:  Shrinkage consists in modifying the update rule as follows:$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\nu \cdot \gamma _{m}h_{m}(\mathbf{x}),\quad 0<\nu \leq 1$$, where parameter $\nu$ is called the “learning rate”. < p>
+<p>Empirically using small learning rates (such as  $\nu &lt;0.1$) improves models’ generalization ability (<strong>increase bias but decrease variance</strong>). However, it comes at the price of increasing computational time both during training and predicting, since lower learning rate <strong>requires more iterations</strong>.</p>
+</\nu></p></li>
+<li><p><strong>Sub-Sampling</strong>:  Motivated by the bagging method, a decision tree can be fit on a <strong>subsample</strong> of the training set drawn at random <strong>without replacement</strong>. Sampling ratio ($f$) <strong>introduces randomness</strong> into the algorithm and help prevent overfitting acting as a kind of regularization. $0.5\leq f\leq 0.8$ (typically set to $0.5$)  leads to good results. </p>
+<p>Also, like in bagging, subsampling allows one to define an  <a href="https://en.wikipedia.org/wiki/Out-of-bag_error" title="Out-of-bag error" target="_blank" rel="noopener">out-of-bag error</a>, which helps avoid the need for an independent validation dataset, but often <strong>underestimate actual performance improvement</strong> and the <strong>optimal number of iterations</strong>.</p>
+</li>
+<li><p><strong>Minimum Sample Size for Splitting Trees</strong>:  Ignore any splits that lead to nodes containing fewer than this number of training set instances, which reduces variance.</p>
+</li>
+<li><p><strong>Sampling Features</strong>: Randomly choosing small subsets of features for different <strong>trees</strong>/<strong>layers</strong>/<strong>nodes</strong>, as in the case of Random Forest.</p>
+</li>
+<li><p><strong>Penalize Complexity of Tree</strong>:<br>Penalize model complexity of the learned model. The model complexity can be defined as:</p>
+<ul>
+<li><p>The <strong>proportional number of leaves</strong> in the learned trees. </p>
+</li>
+<li><p>$\ell _{2}$ penalty on the leaf values (score).</p>
+<p>The <strong>joint optimization</strong> of <strong>loss and model complexity</strong> corresponds (equals) to a post-pruning algorithm to remove branches that fail to reduce the loss by a threshold. </p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Xgboost"><a href="#Xgboost" class="headerlink" title="Xgboost"></a>Xgboost</h2><p>The biggest drawback of the gradient boosting trees is that the algorithm is quite sequential and hence is very slow.</p>
+<p><a href="https://github.com/dmlc/xgboost" target="_blank" rel="noopener">XGBoost</a> provides an <strong>optimized implementation</strong> of gradient boosted trees. It uses various tricks like <strong>regularization</strong>, <strong>column block for parallel learning</strong>, and cache-aware access to accelerate the speed. </p>
+<p><strong>Algorithm Setting</strong>:<br>The objective loss of Xgboost and its <strong>Second-order Taylor approximation</strong> is as following:</p>
+$$\begin{split}\tilde{\mathcal{L}}&=\underbrace{\sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)}_{Original loss}+\underbrace{\eta T+\sum_{j=1}^{T}\frac{1}{2} \lambda\left\|\omega_{j}\right\|^{2}}_{Regularization}\\&\approx\sum_{i=1}^{n}\left[L\left(y_{i}, F_{m-1}\right)+\frac{\partial{L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)}}{\partial{F_{m-1}}} h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2} \frac{\partial^2{L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)}}{\partial F_{m-1}^2}h_{m}^{2}\left(\mathbf{x}_{i}\right)\right]\\&+ \eta T+\sum_{j=1}^{T}\frac{1}{2} \lambda\left\|\omega_{j}\right\|^{2}\\&=
+\sum_{i=1}^{n}\left[L\left(y_{i}, F_{m-1}\right)+g^1_i h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2} g^2_i h_{m}^{2}\left(\mathbf{x}_{i}\right)\right]+ \eta T+\sum_{j=1}^{T}\frac{1}{2} \lambda\left\|\omega_{j}\right\|^{2}\end{split}$$, where $\omega_j$ is the score in leaf nodes of weak learner $h_m$, and assume $I_{j}=\left\{i | q\left(\mathbf{x}_{i}\right)=j\right\}$ as the instance set of leaf $j$: $$\sum_{i=1}^{n}h_{m}\left(\mathbf{x}_{i}\right)=\sum_{j=1}^{T}\left(\sum_{i \in I_{j}} 1\right) w_{j}$$
+<p>By <strong>setting derivative of loss to 0</strong>, we can get the <strong>optimal leaf scores</strong> for $h_m$ :</p>
 $$
+w_{j}^{*}=-\frac{\sum_{i \in I_{j}} g^1_{i}}{\sum_{i \in I_{j}} g^2_{i}+\lambda}
+$$
+<p>But there could be <strong>an infinite number</strong> of possible trees with these optimal leaf scores, <a href="https://arxiv.org/pdf/1603.02754.pdf" target="_blank" rel="noopener"><strong>detailed method</strong></a> is needed to specify the tree.</p>
+<p><strong>Compared to GBDT</strong>:</p>
 <ul>
-<li><p>Each of the three terms above is <strong>nonnegative</strong>, so each of them is a <strong>lower bound</strong> on the true error for the input $\mathbf{x}_0$.</p>
-</li>
-<li><p>$\varepsilon$ is an <strong>irreducible</strong> error.</p>
-</li>
-<li><p>The <strong>bias term</strong> is the square of the difference between the actual value $f\left(\mathbf{x}_{0}\right)$ and the expected prediction $\mathbb{E}_{S^{\prime} \sim \mathcal{D}}\left[f_{S^{\prime}}\left(\mathbf{x}_{0}\right)\right]$. </p>
-</li>
-<li><p>The variance term is the <strong>variance of the prediction function</strong>.</p>
-<h2 id="Approaches"><a href="#Approaches" class="headerlink" title="Approaches"></a>Approaches</h2></li>
-<li><p><strong>Simple model</strong>, <strong>more data</strong>, <strong>less features</strong>, <strong>underfitting</strong> → Large bias<br> <strong>Complex model</strong>, <strong>less data</strong>, <strong>more features</strong>, <strong>overfitting</strong> → Large variance</p>
-</li>
-<li><p><strong>Dimensionality reduction</strong> and  <strong>feature selection</strong> can decrease variance by simplifying models. </p>
-</li>
-<li><p>Learning algorithms typically have some <strong>tunable hyper-parameters</strong> that <strong>control bias and variance</strong>. For example:</p>
-<ul>
-<li>Linear and generalized linear models can be <strong>regularized</strong> to <strong>decrease variance at the cost of increasing bias</strong>. (It’s the <strong>essence of regulation</strong> to avoid overfitting)</li>
-<li>In  artificial neural networks, the variance increases and the bias decreases as the number of hidden units increase.</li>
-<li>In  <em>k</em>-nearest neighbor models, a high value of  k (simple model)  leads to high bias and low variance.</li>
-<li>In  <a href="https://en.wikipedia.org/wiki/Decision_tree" title="Decision tree" target="_blank" rel="noopener">decision trees</a>, the depth of the tree determines the variance. </li>
+<li>From the <strong>perspective of optimization</strong>, GBDT adopts <strong>fastest descent</strong> method to get the optimal solution of loss function, while Xgboost uses the <strong>analytic method</strong> to expand the loss function to its second-order approximation and find the analytic solution.</li>
+<li>The <strong>parallelism</strong> of Xgboost is different from random forest. Xgboost can only carry out the next iteration after the previous iteration. <strong>The parallelism of xgboost is on the feature level</strong>.</li>
 </ul>
-</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Ensemble_learning" title="Ensemble learning" target="_blank" rel="noopener">Ensemble learning</a> is also one way of resolving the trade-off. For example,  <a href="https://en.wikipedia.org/wiki/Boosting_(machine_learning)" title="Boosting (machine learning)" target="_blank" rel="noopener">boosting</a>  <strong>combines many “weak” (high bias) models</strong> in an ensemble that has lower bias than the individual models, while  <a href="https://en.wikipedia.org/wiki/Bootstrap_aggregating" title="Bootstrap aggregating" target="_blank" rel="noopener">bagging</a>  combines “strong” learners in a way that reduces their variance.</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://edu.epfl.ch/coursebook/en/machine-learning-CS-433" target="_blank" rel="noopener">Course: Machine Learning@EPFL</a><br><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank" rel="noopener">Wikipedia: Bias–variance tradeoff</a><br><a href="https://towardsdatascience.com/5-reasons-why-you-should-use-cross-validation-in-your-data-science-project-8163311a1e79" target="_blank" rel="noopener">Blog: 5 Reasons why you should use Cross-Validation in Data Science Projects</a><br><a href="https://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">Stack Exchange: How to choose a predictive model after k-fold cross-validation?</a><br><a href="https://www.zhihu.com/question/39259296/answer/459636012" target="_blank" rel="noopener">Zhihu: 求大神通俗易懂的解释下交叉验证cross-validation？</a></p>
-</li>
-</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://reckoning.dev/boosted-trees/" target="_blank" rel="noopener">Blog: Understanding Boosted Trees Models</a><br><a href="https://towardsdatascience.com/ensemble-methods-bagging-boosting-and-stacking-c9214a10a205" target="_blank" rel="noopener">Blog: Ensemble methods: bagging, boosting and stacking</a><br><a href="https://stats.stackexchange.com/questions/380023/how-can-we-explain-the-fact-that-bagging-reduces-the-variance-while-retaining-t" target="_blank" rel="noopener">StackExchange: How can we explain the fact that “Bagging reduces the variance while retaining the bias” mathematically?</a><br><a href="https://snaildove.github.io/2018/10/02/get-started-XGBoost/" target="_blank" rel="noopener">Blog: XGBoost原理和底层实现剖析</a><br><a href="https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf" target="_blank" rel="noopener">PPT: Introduction to Boosted Tree</a><br><a href="https://arxiv.org/pdf/1603.02754.pdf" target="_blank" rel="noopener">Paper: XGBoost: A Scalable Tree Boosting System</a></p>
 
         </div>
         
@@ -319,16 +302,16 @@ $$
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/11/06/independent-and-identically-distributed/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/11/29/model-ensemble/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Independent and Identically Distributed</span>
+                <span class="level-item">Model Ensemble</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/21/google-cloud-for-deep-learning-part-2/">
-                <span class="level-item">Google Cloud for Deep Learning - Part 2</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/11/19/tree-based-learning-algorithms-part-1/">
+                <span class="level-item">Tree-Based Learning Algorithms - Part 1</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -678,7 +661,7 @@ $$
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Model Selection &amp; Bias–Variance Tradeoff" height="28">
+                    <img src="/images/logo.svg" alt="Tree-Based Learning Algorithms - Part 2" height="28">
                 
                 </a>
                 <p class="is-size-7">

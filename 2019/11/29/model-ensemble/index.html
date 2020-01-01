@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>DeepBlog</title>
+<title>Model Ensemble - DeepBlog</title>
 
 
-    <meta name="description" content="The deep learning related knowledge repository">
+    <meta name="description" content="Unity is strength.  Ensemble methods combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone. The main hypothesis is that wh">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DeepBlog">
-<meta property="og:url" content="http://sxiazr.github.io/2019/10/17/Docker/index.html">
+<meta property="og:title" content="Model Ensemble">
+<meta property="og:url" content="http://sxiazr.github.io/2019/11/29/model-ensemble/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="The deep learning related knowledge repository">
+<meta property="og:description" content="Unity is strength.  Ensemble methods combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone. The main hypothesis is that wh">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-17T07:51:39.554Z">
+<meta property="og:updated_time" content="2020-01-01T11:29:56.577Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DeepBlog">
-<meta name="twitter:description" content="The deep learning related knowledge repository">
+<meta name="twitter:title" content="Model Ensemble">
+<meta name="twitter:description" content="Unity is strength.  Ensemble methods combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone. The main hypothesis is that wh">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -98,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="" height="28">
+                <img src="/images/logo.svg" alt="Model Ensemble" height="28">
             
             </a>
         </div>
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-17T07:51:39.554Z">2019-10-17</time>
+                <time class="level-item has-text-grey" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    a few seconds read (About 0 words)
+                    9 minutes read (About 1297 words)
                 </span>
                 
                 
@@ -174,11 +174,69 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                
+                Model Ensemble
             
         </h1>
         <div class="content">
-            
+            <blockquote>
+<p>Unity is strength.</p>
+</blockquote>
+<p><strong><a href="https://en.wikipedia.org/wiki/Ensemble_learning" target="_blank" rel="noopener">Ensemble methods</a></strong> combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone.</p>
+<p>The main hypothesis is that when weak learning algorithms (<strong>weak learners</strong>) are correctly combined, we can obtain more accurate and/or robust models.</p>
+<p>Most of the time, these <strong>weak learners</strong> perform not so well by themselves either because they have a <strong>high bias or variance</strong>. Then, the idea of ensemble methods is to try reducing bias and/or variance of such <strong>weak learners</strong> by combining several of them to create a <strong>strong learner</strong> with better performances. </p>
+<a id="more"></a>
+<h1 id="Rule-of-Thumb"><a href="#Rule-of-Thumb" class="headerlink" title="Rule of Thumb"></a>Rule of Thumb</h1><p><strong>Homogeneous weak learners</strong>: <strong>Bagging</strong> and <strong>boosting</strong> utilize a <strong>single base learning algorithm</strong> so that we have <strong>homogeneous weak learners</strong> trained in <strong>different ways</strong> (different data, different random state but same hyper-parameter). The ensemble model we obtain is then said to be “homogeneous”. </p>
+<p><strong>Heterogeneous weak learners</strong>: <strong>Stacking</strong> uses <strong>different types of base learning algorithms</strong>. Some heterogeneous weak learners are then combined into a “heterogeneous” ensembles model.</p>
+<p>The choice of weak learners should be <strong>coherent with the way we aggregate these models</strong>. If we choose base models with low bias but high variance, it should be with an ensemble method that tends to reduce variance, and vice versa.</p>
+<h1 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h1><p><strong>Bagging</strong>  (<strong>b</strong>ootstrap <strong>agg</strong>regat<strong>ing</strong>) is an ensemble method that often considers <strong>homogeneous weak learners</strong> and learns them independently from each other <strong>in parallel</strong>. It then combines weak learners following some deterministic averaging process as below:</p>
+$$\hat{f}_{b a g}=\left\{\begin{array}{ll}{\frac{1}{B} \sum_{b=1}^{B} \hat{f}^{b}(x)} & {\text { for Regression Problems }} \\ {\underset{b=1 \ldots B}{\arg \max } \hat{f}^{b}(x)} & {\text { for Classification Problems }}\end{array}\right.$$ 
+
+<p><strong>Bagging</strong> is designed to improve the stability and <strong>reduces variance</strong> to avoid overfitting. The base learner it contains is supposed to be the one with <strong>low bias but high variance</strong>. </p>
+<h2 id="Why-does-bagging-reduce-the-variance"><a href="#Why-does-bagging-reduce-the-variance" class="headerlink" title="Why does bagging reduce the variance?"></a><strong>Why does bagging reduce the variance?</strong></h2><p>Assume that $Y_{1}, Y_{2}, \ldots, Y_{n}$ represent the predictions of each weak learner and they are random variables with variance $\sigma^{2}$. If each weak learner is trained on <strong>independent training set</strong> drawn from the <strong>true unknown underlying distribution</strong>, then $Y_{1}, Y_{2}, \ldots, Y_{n}$ are <strong>i.d.d.</strong>. Then the variance of their average (i.d.d. random variables) is: </p>
+$$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatorname{Var}\left(\frac{Y_{1}}{n}\right)+\ldots+\operatorname{Var}\left(\frac{Y_{n}}{n}\right)=\frac{\sigma^{2}}{n}$$, which means that the variance decreases from $\sigma^{2}$ to $\frac{\sigma^{2}}{n}$ (while the **average does not change**).
+
+<p>However, there is one problem here - <strong>we do not have access to multiple training data sets.</strong> Instead, we can <strong>bootstrap</strong> by taking repeated samples from the initial training data set.</p>
+<h2 id="Bootstrapping"><a href="#Bootstrapping" class="headerlink" title="Bootstrapping"></a><strong>Bootstrapping</strong></h2><p>In statistics, <a href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)" target="_blank" rel="noopener">bootstrapping</a> is any test or metric that relies on <strong>random sampling with replacement</strong> on the initial dataset.</p>
+<p>There two hypotheses proposed in Bootstrapping. </p>
+<ul>
+<li>First, the <strong>size $N$</strong> of the initial dataset should be <strong>large enough to capture most of the complexity</strong> of the true unknown underlying distribution so that sampling from the dataset is a good approximation of sampling from the real distribution (<strong>representativity</strong>). </li>
+<li>Second, the <strong>size $N$</strong> of the dataset should be large enough compared to the <strong>size $B$</strong> of the bootstrap samples so that samples are <strong>not too much correlated</strong> (<strong>independence</strong>).</li>
+</ul>
+<p>Under these hypotheses above, these <strong>bootstrapped training data sets</strong> can be seen as being drawn both directly from the true unknown underlying distribution. So, they can be considered as approximately <strong>representative</strong> and <strong>independent</strong> (almost i.i.d.) samples of the true data distribution.</p>
+<h2 id="Out-of-Bag-OOB-Error"><a href="#Out-of-Bag-OOB-Error" class="headerlink" title="Out-of-Bag (OOB) Error"></a><strong>Out-of-Bag (OOB) Error</strong></h2><p>OOB error is the <strong>mean prediction error</strong> on each training sample $x_i$, using only the <strong>weak learners</strong> that did not have $x_i$ in their bootstrap samples.</p>
+<p>One big advantage of bagging is that we can compute <strong>testing error without any cross-validation</strong> by computing  OOB error. The resulting OOB error is a valid estimate of the test error for the bagged model, since the response for each observation is predicted using only the trees that were not fit using that observation.</p>
+<h2 id="Bagging-in-tree-model"><a href="#Bagging-in-tree-model" class="headerlink" title="Bagging in tree model"></a><strong>Bagging in tree model</strong></h2><p>Bagging works particularly well for decision trees when they are aggregated as <strong><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">Random forest</a></strong>.</p>
+<h1 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h1><p><strong>Boosting</strong> is an ensemble method that often considers <strong>homogeneous weak learners</strong> and learns them from <strong>previously learned</strong> weak learners <strong>in sequential</strong>. </p>
+<p><strong>Boosting</strong> is designed to improve the stability and <strong>reduces bias</strong> to avoid underfitting. The base learner it contains is supposed to be the one with <strong>low variance but high bias</strong>. </p>
+<h2 id="Why-does-bagging-reduce-the-bias"><a href="#Why-does-bagging-reduce-the-bias" class="headerlink" title="Why does bagging reduce the bias?"></a><strong>Why does bagging reduce the bias?</strong></h2><p>In contrast, boosting <strong>does not involve bootstrapping</strong>. Instead, the weak learner is sequentially fitted on a <strong>modified (weighted) version</strong> of the original data set. </p>
+<p>The fitting process is <strong>adaptative</strong>:  each learner is fitted <strong>giving more importance</strong> to observations in the dataset that were badly handled by the previous learners. </p>
+<p>Intuitively, each new learner <strong>focus its efforts on the most difficult observations</strong> to fit up to now, so that we obtain, at the end, a strong learner with lower bias.</p>
+<h2 id="Boosting-in-tree-model"><a href="#Boosting-in-tree-model" class="headerlink" title="Boosting in tree model"></a><strong>Boosting in tree model</strong></h2><p>Boosting works particularly well for decision trees when they are aggregated as <strong><a href="https://en.wikipedia.org/wiki/Gradient_boosting" target="_blank" rel="noopener">Boosted trees</a></strong>.</p>
+<h1 id="Stacking"><a href="#Stacking" class="headerlink" title="Stacking"></a>Stacking</h1><p><a href="https://en.wikipedia.org/wiki/Ensemble_learning#Stacking" target="_blank" rel="noopener">Stacking</a> (also called <strong>meta ensembling</strong>) is a model ensembling technique that often considers <strong>heterogeneous weak learners</strong> and learns them independently from each other <strong>in parallel</strong>. </p>
+<p>Stacked model will <strong>outperform each of the individual model</strong> due its ability to <strong>highlight each base model</strong> where it performs best and <strong>discredit each base model</strong> where it performs poorly. For this reason, stacking is most effective when the <strong>base models are significantly different</strong>. </p>
+<p>So intuitively, stacking will ideally <strong>reduce both bias and variance</strong>, but it’s especially efficient at preventing overfitting and variance.</p>
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><ul>
+<li>First, all of weak learners are trained using the available data. </li>
+<li>Then, a <strong>combiner algorithm</strong> (<strong>meta-model</strong>) is trained to make a final prediction <strong>using all the predictions of the weak learners</strong> as inputs. </li>
+</ul>
+<p>If an arbitrary combiner algorithm is used, then <strong>stacking can theoretically represent any of the ensemble techniques</strong>. In practice, a <a href="https://en.wikipedia.org/wiki/Logistic_regression" title="Logistic regression" target="_blank" rel="noopener"><strong>logistic regression</strong></a> model is often used as the combiner.</p>
+<p>When we train stacked models:</p>
+<ul>
+<li>In order to prevent <strong><a href="/2019/11/09/data-leakage/" title="data leakage">data leakage</a></strong>, we should make sure that the data <strong>having been used</strong> for the training of the weak learners will <strong>not be used again</strong> for the training of the meta-model. </li>
+<li>And to make more efficient use of data, <strong>k-folds cross-training</strong> approach can be adopted to train the model, which can be shown as the figure below. <ul>
+<li>Train each weak learner on $k-1$ folds and make predictions on the remaining fold, and <strong>do it iteratively</strong> to obtain predictions for all observations.</li>
+<li>Then train our meta-model on all these predictions.</li>
+</ul>
+</li>
+</ul>
+<p align="center">
+  <img src="./stacking.jpg" alt="Stacking" height="500px" width="700px">
+</p>
+
+<h2 id="Multi-levels-Stacking"><a href="#Multi-levels-Stacking" class="headerlink" title="Multi-levels Stacking"></a>Multi-levels Stacking</h2><p>A possible extension of stacking is multi-level stacking. It consists in doing <strong>stacking with multiple layers</strong>.</p>
+<p>We should also mention that  <strong>adding levels can either be data expensive</strong>  (if k-folds like technique is not used)  <strong>or time expensive</strong>  (if k-folds like technique is used).</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://towardsdatascience.com/ensemble-methods-bagging-boosting-and-stacking-c9214a10a205" target="_blank" rel="noopener">Blog: Ensemble methods: bagging, boosting and stacking</a><br><a href="https://www.kaggle.com/serigne/stacked-regressions-top-4-on-leaderboard/notebook" target="_blank" rel="noopener">Kaggle: Stacked Regressions to predict House Prices</a><br><a href="https://www.kaggle.com/arthurtok/introduction-to-ensembling-stacking-in-python" target="_blank" rel="noopener">Kaggle: Introduction to Ensembling/Stacking in Python</a><br><a href="https://www.gormanalysis.com/blog/guide-to-model-stacking-i-e-meta-ensembling/" target="_blank" rel="noopener">Guide to Model Stacking (i.e. Meta Ensembling)</a></p>
+
         </div>
         
         
@@ -198,17 +256,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/10/17/google-cloud-for-deep-learning-part-1/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Google Cloud for Deep Learning - Part 1</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/16/optimization-algorithm-in-deep-learning/">
-                <span class="level-item">Optimization Algorithm in Deep Learning</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/11/24/tree-based-learning-algorithms-part-2/">
+                <span class="level-item">Tree-Based Learning Algorithms - Part 2</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -285,7 +336,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        11
                     </p>
                 </div>
             </div>
@@ -388,16 +439,16 @@
         
         <article class="media">
             
-            <a href="/2019/10/31/model-selection-&-bias–variance-tradeoff/" class="media-left">
+            <a href="/2019/11/29/model-ensemble/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Selection &amp; Bias–Variance Tradeoff">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Ensemble">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time></div>
-                    <a href="/2019/10/31/model-selection-&-bias–variance-tradeoff/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Selection &amp; Bias–Variance Tradeoff</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time></div>
+                    <a href="/2019/11/29/model-ensemble/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Ensemble</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -407,16 +458,16 @@
         
         <article class="media">
             
-            <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="media-left">
+            <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 2">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time></div>
-                    <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time></div>
+                    <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 2</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -426,16 +477,16 @@
         
         <article class="media">
             
-            <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="media-left">
+            <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Google Cloud for Deep Learning - Part 1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 1">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T16:00:00.000Z">2019-10-18</time></div>
-                    <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud for Deep Learning - Part 1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time></div>
+                    <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 1</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -445,16 +496,16 @@
         
         <article class="media">
             
-            <a href="/2019/10/17/Docker/" class="media-left">
+            <a href="/2019/11/09/data-leakage/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Data Leakage">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-17T07:51:39.554Z">2019-10-17</time></div>
-                    <a href="/2019/10/17/Docker/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-09T16:00:00.000Z">2019-11-10</time></div>
+                    <a href="/2019/11/09/data-leakage/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Data Leakage</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -464,16 +515,16 @@
         
         <article class="media">
             
-            <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="media-left">
+            <a href="/2019/11/06/independent-and-identically-distributed/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Optimization Algorithm in Deep Learning">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Independent and Identically Distributed">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-16T16:00:00.000Z">2019-10-17</time></div>
-                    <a href="/2019/10/16/optimization-algorithm-in-deep-learning/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Optimization Algorithm in Deep Learning</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-06T16:00:00.000Z">2019-11-07</time></div>
+                    <a href="/2019/11/06/independent-and-identically-distributed/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Independent and Identically Distributed</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -499,7 +550,7 @@
                     <span class="level-item">November 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -510,7 +561,7 @@
                     <span class="level-item">October 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -558,11 +609,11 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="" height="28">
+                    <img src="/images/logo.svg" alt="Model Ensemble" height="28">
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Shengzhao Xia&nbsp;
+                &copy; 2020 Shengzhao Xia&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
                 

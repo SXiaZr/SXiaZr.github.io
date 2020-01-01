@@ -7,21 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Archives: 2019/8 - DeepBlog</title>
+<title>Data Leakage - DeepBlog</title>
 
 
-    <meta name="description" content="The deep learning related knowledge repository">
+    <meta name="description" content="Data leakage  happens when your training data contains information about the target, but similar information will not be available when the model is used for prediction. This leads to high performance">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DeepBlog">
-<meta property="og:url" content="http://sxiazr.github.io/archives/2019/08/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Leakage">
+<meta property="og:url" content="http://sxiazr.github.io/2019/11/09/data-leakage/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="The deep learning related knowledge repository">
+<meta property="og:description" content="Data leakage  happens when your training data contains information about the target, but similar information will not be available when the model is used for prediction. This leads to high performance">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-12-03T17:10:18.679Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DeepBlog">
-<meta name="twitter:description" content="The deep learning related knowledge repository">
+<meta name="twitter:title" content="Data Leakage">
+<meta name="twitter:description" content="Data leakage  happens when your training data contains information about the target, but similar information will not be available when the model is used for prediction. This leads to high performance">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -97,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                <img src="/images/logo.svg" alt="Data Leakage" height="28">
             
             </a>
         </div>
@@ -147,35 +148,117 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="tag is-link">
-        August 2019
-        </h3>
-        <div class="timeline">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
         
-            <article class="media">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-09T16:00:00.000Z">2019-11-10</time>
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time>
-                        <a href="/2019/08/22/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 minutes read (About 538 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Data Leakage
+            
+        </h1>
+        <div class="content">
+            <p><strong>Data leakage</strong>  happens when your <strong>training data contains information about the target</strong>, but similar information will <strong>not be available</strong> when the model is used for prediction. This leads to high performance on the training set (and possibly even the validation data), but the model will perform poorly in production.</p>
+<p>There are two main types of leakage:  <strong>target leakage</strong>  and  <strong>train-test contamination.</strong></p>
+<a id="more"></a>
+<h2 id="Leaky-Predictors"><a href="#Leaky-Predictors" class="headerlink" title="Leaky Predictors"></a>Leaky Predictors</h2><p>This occurs when your predictors include data that will not be available at the time you make predictions. To prevent this type of data leakage, any variable updated (or created) <strong>after the target value</strong> is realized should be excluded.</p>
+<h2 id="Train-Test-Contamination"><a href="#Train-Test-Contamination" class="headerlink" title="Train-Test Contamination"></a>Train-Test Contamination</h2><p>Validation is meant to be a measure of how the model does on data that it hasn’t considered before. You can corrupt this process if you leak data from the validation set into the training set. This is called <strong>train-test contamination</strong>.</p>
+<p>If your validation is based on a simple train-test split, <strong>exclude the validation data from any type of fitting</strong>, including the fitting of preprocessing steps (e.g.  fitting an imputer for missing values, normalization) before train-test split.</p>
+<p>Negative examples as below:</p>
+<blockquote>
+<p> “In order to avoid problems with <strong>concept drift</strong>, I assigned articles to training or test alternating between the two. Performance on the test set was astonishingly good even when it was obvious that the model was over fitting. As it turned out, the data set had lots of near-duplicate articles so many articles in the training set also appeared in the test set. This duplication is coupled with an incautious way of splitting the training data wreaked havoc on my results.” – Ted Dunning from <a href="https://www.quora.com/How-reliable-is-the-assumption-that-our-samples-are-i-i-d-in-machine-learning-models" target="_blank" rel="noopener">Quora</a></p>
+</blockquote>
+<blockquote>
+<p>“For example, there are 3 speakers and 500 recordings for each speaker. If we do a random split, our training and test set will <strong>share the same speaker saying the same words</strong>, which will boost our algorithm performance but fail when tested on a new speaker. The <strong>proper way</strong> to do it is to split the speakers, i.e., use 2 speakers for training and the third for testing.” – Dima Shulga from <a href="https://towardsdatascience.com/5-reasons-why-you-should-use-cross-validation-in-your-data-science-project-8163311a1e79" target="_blank" rel="noopener">Medium</a></p>
+</blockquote>
+<h2 id="Resolution"><a href="#Resolution" class="headerlink" title="Resolution"></a>Resolution</h2><p>Here are several strategies to find and eliminate data leakage:</p>
+<ul>
+<li>Exploratory data analysis (EDA) can be a powerful tool for identifying data leakage. If the performance of your algorithm is too good to be true, data leakage may be the reason. </li>
+<li>Perform early in-the-field testing of algorithms. Any significant data leakage would be reflected as a difference between estimated and realized out-of-sample performance. This is perhaps the best approach in identifying data leakage, but it can also be <strong>challenging to isolate the cause</strong> of such performance discrepancy as data leakage since the cause actually could be classical over-fitting, sampling bias, etc.</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://freemind.pluskid.org/machine-learning/discriminative-modeling-vs-generative-modeling/" target="_blank" rel="noopener">Blog: Discriminative Modeling vs Generative Modeling</a><br><a href="https://www.kaggle.com/dansbecker/data-leakage#" target="_blank" rel="noopener">Kaggle: What is Data Leakage</a><br><a href="https://insidebigdata.com/2014/11/26/ask-data-scientist-data-leakage/" target="_blank" rel="noopener">Blog: Ask a Data Scientist: Data Leakage</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
     </div>
 </div>
 
 
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/11/19/tree-based-learning-algorithms-part-1/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Tree-Based Learning Algorithms - Part 1</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/11/06/independent-and-identically-distributed/">
+                <span class="level-item">Independent and Identically Distributed</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -313,7 +396,7 @@
         
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow  ">
         
             
 <div class="card widget">
@@ -481,182 +564,6 @@
 </div>
         
         </div>
-    
-</div>
-
-                
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/11/29/model-ensemble/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Ensemble">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time></div>
-                    <a href="/2019/11/29/model-ensemble/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Ensemble</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 2">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time></div>
-                    <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 2</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time></div>
-                    <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 1</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/09/data-leakage/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Data Leakage">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-09T16:00:00.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/09/data-leakage/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Data Leakage</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/11/06/independent-and-identically-distributed/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Independent and Identically Distributed">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-06T16:00:00.000Z">2019-11-07</time></div>
-                    <a href="/2019/11/06/independent-and-identically-distributed/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Independent and Identically Distributed</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/11/">
-                <span class="level-start">
-                    <span class="level-item">November 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/10/">
-                <span class="level-start">
-                    <span class="level-item">October 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">4</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">August 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
     
 </div>
 
@@ -670,7 +577,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="DeepBlog" height="28">
+                    <img src="/images/logo.svg" alt="Data Leakage" height="28">
                 
                 </a>
                 <p class="is-size-7">
