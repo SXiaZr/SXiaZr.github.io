@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Hello World - DeepBlog</title>
+<title>Entropy in Information Theory - DeepBlog</title>
 
 
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="Huffman Coding TreeTo shorten the length of symbol encoding, people naturally hope that the higher the frequency of symbols, the shorter its encoding, so as to save the storage space. Huffman coding i">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://sxiazr.github.io/2019/08/22/hello-world/index.html">
+<meta property="og:title" content="Entropy in Information Theory">
+<meta property="og:url" content="http://sxiazr.github.io/2019/11/30/entropy-in-information-theory/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Huffman Coding TreeTo shorten the length of symbol encoding, people naturally hope that the higher the frequency of symbols, the shorter its encoding, so as to save the storage space. Huffman coding i">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-08-22T11:10:45.148Z">
+<meta property="og:updated_time" content="2020-01-01T16:24:26.947Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Entropy in Information Theory">
+<meta name="twitter:description" content="Huffman Coding TreeTo shorten the length of symbol encoding, people naturally hope that the higher the frequency of symbols, the shorter its encoding, so as to save the storage space. Huffman coding i">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -98,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Hello World" height="28">
+                <img src="/images/logo.svg" alt="Entropy in Information Theory" height="28">
             
             </a>
         </div>
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time>
+                <time class="level-item has-text-grey" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    a minute read (About 121 words)
+                    6 minutes read (About 966 words)
                 </span>
                 
                 
@@ -174,23 +174,58 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Hello World
+                Entropy in Information Theory
             
         </h1>
         <div class="content">
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="hljs-string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <h1 id="Huffman-Coding-Tree"><a href="#Huffman-Coding-Tree" class="headerlink" title="Huffman Coding Tree"></a>Huffman Coding Tree</h1><p>To <strong>shorten the length</strong> of symbol <strong>encoding</strong>, people naturally hope that the <strong>higher the frequency</strong> of symbols, the <strong>shorter its encoding</strong>, so as to save the storage space.</p>
+<p><a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" rel="noopener"><strong>Huffman coding</strong></a> is a kind of <strong>data compression</strong> (encoding) algorithm based on a special <strong>binary tree</strong> (<strong>Huffman coding tree</strong>) and can solve the issue above. It assigns codes to characters (or any <strong>discrete source symbols</strong>) such that the <strong>length</strong> of the code <strong>depends on the relative frequency</strong> or weight of the corresponding character.</p>
+<a id="more"></a>
+<p>The output from Huffman’s algorithm can be viewed as a <strong>variable-length code table</strong>. The algorithm derives this table (<strong>encoding</strong>) from the <strong>estimated probability</strong> or <strong>frequency</strong> for each possible symbol value as below:</p>
+<ul>
+<li>Given a set of symbols and <strong>their weights</strong> (usually  proportional to probabilities). Find a binary tree with <strong>minimum weighted path length</strong> (path length $\times$ leaf-node weight) from the root, which will put the symbol with the <strong>low weight far away from root</strong> and vice versa.</li>
+<li>Select <strong>two adjacent nodes</strong> with the <strong>lowest sum of weight</strong> and create a <strong>new parent node</strong> whose weight is this sum. Do this process <strong>iteratively</strong> until the only root node is created.<p align="center">
+<img src="./HuffmanCodeAlg.jpg" alt="Huffman Code Algorithm" height="500px" width="300px">
+</p>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+</li>
+</ul>
+<p>After building the Huffman coding tree, each symbol can be:</p>
+<ul>
+<li><p><strong>Encoding</strong>: We can encode the symbol <strong>following the path</strong> from the <strong>root to its leaf-node</strong>. As a common convention, bit ‘0’ represents following the left child, and bit ‘1’ represents following the right child. </p>
+<p>  Encoding a string can be done by replacing each letter in the string with its binary code (the Huffman code).</p>
+</li>
+<li><p><strong>Decoding</strong>: Decoding an encoded string can be done by looking at the bits in the coded string from left to right until a letter decoded.</p>
+</li>
+</ul>
+<h1 id="Entropy"><a href="#Entropy" class="headerlink" title="Entropy"></a>Entropy</h1><p>Generally, entropy refers to <strong>disorder or uncertainty</strong> (a large entropy represent a great disorder), and the <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" target="_blank" rel="noopener"><strong>entropy</strong> used in information theory</a> can reflect the <strong>informative extent</strong> of the event. </p>
+<p>When the data source produces a low-probability event, the <strong>event carries more “information”</strong> than when the high-probability event. Obviously, it has the <strong>same inner logic</strong> as <strong>Huffman Coding</strong>, so the probability of the event can be encoded by Huffman Coding Tree, and from it, we can compute the <strong>amount of information</strong> (<strong>information entropy</strong>)  the event carries. </p>
+<p><strong>Information entropy</strong>  is defined as the <strong>expected rate (bits)</strong>, which is actually the <strong>expected length of the Huffman Coding Tree path</strong> (one edge in path represents 1 bit coding). The measure of information entropy is the negative logarithm of the probability mass function for the value:$$S=-\sum _{i}P_{i}\underbrace{\log {P_{i}}}_\text{Length of Huffman Tree Path}=-\operatorname {E} _{P}[\log P]\geq0$$, where  ${E} _{P}[X]=\sum _{i}P_{i}X_{i}$ is the expectation defined by the probability  $P$.</p>
+<p>For example: </p>
+<ul>
+<li><p>A discrete random variable $X$ whose distribution $Q$ has three events: $A: \frac{1}{2}$, $\quad B: \frac{1}{4}$, $\quad C: \frac{1}{4}$. So the events $A, B,C$ can be encoded by Huffman Tree as below:</p>
+<p align="center">
+<img src="./huffman-tree-in-entropy.png" alt="Huffman Tree in Entropy" height="300px" width="200px">
+</p>
+</li>
+<li><p>The information entropy of $X$ is:$$H(Q)=-\frac{1}{2} \log _{2}\left(\frac{1}{2}\right)-\frac{1}{4} \log _{2}\left(\frac{1}{4}\right)-\frac{1}{4} \log _{2}\left(\frac{1}{4}\right)=1.5$$</p>
+</li>
+</ul>
+<h1 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross-Entropy"></a>Cross-Entropy</h1><p>In information theory, the <a href="https://en.wikipedia.org/wiki/Cross_entropy" target="_blank" rel="noopener"><strong>cross entropy</strong></a> between two probability $p$ and $q$ (<strong>over the same underlying set of events</strong>) measures the <strong>average number of bits</strong> needed to <strong>identify an event</strong> drawn from the set if a <strong>coding scheme</strong> is optimized for an <strong>estimated probability distribution</strong> $Q$, rather than the true distribution $P$.</p>
+<p>Shortly, the cross-entropy is the expected rate (bits) if the Huffman Tree is constructed according to the estimated distribution rather than the true distribution.</p>
+<p>Continue the example in <a href="#Entropy">Entropy</a>:</p>
+<ul>
+<li>The estimated distribution is $A: \frac{1}{2}$, $\quad B: \frac{1}{4}$, $\quad C: \frac{1}{4}$, while the actual distribution is $A: \frac{1}{4}, \quad B: \frac{1}{4}, \quad C: \frac{1}{2}$, the expected rate (bits) will thus be computed as:$$H(P, Q)=-\frac{1}{2} \log _{2}\left(\frac{1}{4}\right)-\frac{1}{4} \log _{2}\left(\frac{1}{4}\right)-\frac{1}{4} \log _{2}\left(\frac{1}{2}\right)=1.75$$</li>
+</ul>
+<h1 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h1><p>The <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence" target="_blank" rel="noopener">KL-Divergence</a> (<strong>Kullback–Leibler divergence</strong>, also called <strong>relative entropy</strong>) is a measure of <strong>how one probability distribution is different</strong> from a reference probability distribution.</p>
+<p>KL-Divergence is actually the <strong>expected extra bit length</strong> if a code that is optimal for a <strong>given (wrong) distribution</strong> $Q$ is used, compared to using a code based on the true distribution $P$. Thus, it is the difference between Cross-Entropy and Entropy:<br>$$D_{\mathrm{KL}}(P | Q) = H(P, Q) - H(Q)\geq0$$</p>
+<h1 id="Cross-Entropy-minimization"><a href="#Cross-Entropy-minimization" class="headerlink" title="Cross-Entropy minimization"></a>Cross-Entropy minimization</h1><p>Cross-entropy minimization is frequently used as a loss function in optimization. It has the following properties:</p>
+<ul>
+<li>When comparing a distribution $P$ against a fixed reference distribution $Q$, <strong>cross-entropy and KL divergence are identical</strong> up to an additive constant (since $Q$ is fixed).</li>
+<li>Both of them take on their minimal values when $P=Q$, which is $0$ for KL divergence, and $H(P)$ for cross-entropy.</li>
+<li>Both of them are <strong>continuous and differentiable</strong> which benefits the gradient computation.</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://blog.csdn.net/FX677588/article/details/70767446" target="_blank" rel="noopener">Blog: 详细图解哈夫曼Huffman编码树</a><br><a href="https://blog.csdn.net/google19890102/article/details/54848262" target="_blank" rel="noopener">Blog: 数据结构和算法Implementation——Huffman树和Huffman编码</a><br><a href="http://homes.sice.indiana.edu/yye/lab/teaching/spring2014-C343/huffman.php" target="_blank" rel="noopener">Blog: Huffman coding</a><br><a href="https://blog.csdn.net/xg123321123/article/details/52864830" target="_blank" rel="noopener">Blog: 熵与信息增益</a><br><a href="https://blog.csdn.net/Dby_freedom/article/details/83374650" target="_blank" rel="noopener">Blog: KL散度与交叉熵区别与联系</a><br><a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">Zhihu@erwin: 如何通俗的解释交叉熵与相对熵?</a></p>
 
         </div>
         
@@ -211,13 +246,13 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/10/14/normalization-in-deep-learning/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Normalization in Deep Learning</span>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/11/29/model-ensemble/">
+                <span class="level-item">Model Ensemble</span>
+                <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
-        
         
     </div>
 </div>
@@ -575,7 +610,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Hello World" height="28">
+                    <img src="/images/logo.svg" alt="Entropy in Information Theory" height="28">
                 
                 </a>
                 <p class="is-size-7">

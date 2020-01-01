@@ -154,6 +154,55 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes read (About 966 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/11/30/entropy-in-information-theory/">Entropy in Information Theory</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Huffman-Coding-Tree"><a href="#Huffman-Coding-Tree" class="headerlink" title="Huffman Coding Tree"></a>Huffman Coding Tree</h1><p>To <strong>shorten the length</strong> of symbol <strong>encoding</strong>, people naturally hope that the <strong>higher the frequency</strong> of symbols, the <strong>shorter its encoding</strong>, so as to save the storage space.</p>
+<p><a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" rel="noopener"><strong>Huffman coding</strong></a> is a kind of <strong>data compression</strong> (encoding) algorithm based on a special <strong>binary tree</strong> (<strong>Huffman coding tree</strong>) and can solve the issue above. It assigns codes to characters (or any <strong>discrete source symbols</strong>) such that the <strong>length</strong> of the code <strong>depends on the relative frequency</strong> or weight of the corresponding character.</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/11/30/entropy-in-information-theory/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time>
                 
                 
@@ -632,65 +681,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    11 minutes read (About 1634 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/14/normalization-in-deep-learning/">Normalization in Deep Learning</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Normalization_(statistics)" target="_blank" rel="noopener">Normalization</a> refers to a process that makes something more normal or regular. </p>
-</blockquote>
-<p>In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bring the entire probability distributions of adjusted values into alignment. Normalization in deep learning can make the model to train efficiently.</p>
-<h1 id="Why-does-Normalization-work"><a href="#Why-does-Normalization-work" class="headerlink" title="Why does Normalization work?"></a>Why does Normalization work?</h1><h2 id="Intuition-1-Input-Normalization-frac-X-mu-sigma"><a href="#Intuition-1-Input-Normalization-frac-X-mu-sigma" class="headerlink" title="Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$"></a>Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$</h2><blockquote>
-<p>Make training less sensitive to the scale of features.</p>
-</blockquote>
-<p>After optimization, the feature with a large scale will always be weighted with a small value ($\omega_{small}$), and vise versa ($\omega_{large}$). Because of the large scale of the feature, a tiny change in the small weight ($\omega_{small}$) will change the prediction by a lot compared to the same change in the large weight ($\omega_{large}$). It means that setting $\omega_{small}$ correctly might dominate the optimization process and the feature with a large scale is of more importance which actually makes no sense.</p>
-<blockquote>
-<p>Make optimization well-conditioned.</p>
-</blockquote>
-<p>The rough intuition is that the cost function will be more round and easier to optimize when features are all on similar scales. </p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/14/normalization-in-deep-learning/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -755,7 +745,7 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        12
                     </p>
                 </div>
             </div>
@@ -858,6 +848,25 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
         
         <article class="media">
             
+            <a href="/2019/11/30/entropy-in-information-theory/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Entropy in Information Theory">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time></div>
+                    <a href="/2019/11/30/entropy-in-information-theory/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Entropy in Information Theory</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/29/model-ensemble/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Ensemble">
@@ -932,25 +941,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/11/06/independent-and-identically-distributed/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Independent and Identically Distributed">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-06T16:00:00.000Z">2019-11-07</time></div>
-                    <a href="/2019/11/06/independent-and-identically-distributed/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Independent and Identically Distributed</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -962,6 +952,17 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/11/">
@@ -1035,6 +1036,25 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
         
         <article class="media">
             
+            <a href="/2019/11/30/entropy-in-information-theory/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Entropy in Information Theory">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time></div>
+                    <a href="/2019/11/30/entropy-in-information-theory/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Entropy in Information Theory</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/29/model-ensemble/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Ensemble">
@@ -1109,25 +1129,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/11/06/independent-and-identically-distributed/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Independent and Identically Distributed">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-06T16:00:00.000Z">2019-11-07</time></div>
-                    <a href="/2019/11/06/independent-and-identically-distributed/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Independent and Identically Distributed</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1139,6 +1140,17 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/11/">
