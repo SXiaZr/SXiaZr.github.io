@@ -154,6 +154,56 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 minutes read (About 3199 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/12/09/build-transformer-from-scratch-part-1/">Build Transformer from Scratch - Part 1</a>
+            
+        </h1>
+        <div class="content">
+            <p>The Transformer from <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">“Attention is All You Need”</a> is a new architecture that utilizes the  <strong>Attention</strong> concept to help improve the performance of NLP tasks. This passage follows the <strong>pytorch</strong> implementation in <a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank" rel="noopener">“The Annotated Transformer”</a> of Harvard’s NLP group to compactly illustrate the structure of the Transformer.</p>
+<h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><p>In <strong>traditional (RNN or CNN) models</strong>, the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, which makes it more <strong>difficult to learn dependencies</strong> between <strong>distant positions</strong>. </p>
+<p>To solve the issue above, the Transformer comes into being, which <strong>reduces the operations to a constant number</strong>. It <strong>eschews recurrence or convolution and relies entirely on an attention mechanism</strong> to draw global dependencies between input and output.</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/12/09/build-transformer-from-scratch-part-1/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time>
                 
                 
@@ -623,65 +673,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-16T16:00:00.000Z">2019-10-17</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    9 minutes read (About 1305 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/16/optimization-algorithm-in-deep-learning/">Optimization Algorithm in Deep Learning</a>
-            
-        </h1>
-        <div class="content">
-            <p>An <a href="https://en.wikipedia.org/wiki/Mathematical_optimization#Optimization_algorithms" target="_blank" rel="noopener">optimization algorithm</a> is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorithms commonly used in deep learning.</p>
-<h1 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">Gradient descent</a> is a first-order iterative optimization algorithm for finding the minimum of a function. </p>
-</blockquote>
-<p>To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point as following:$$w = w - \eta \nabla Q(w) $$</p>
-<h2 id="Batch-Gradient-Descent"><a href="#Batch-Gradient-Descent" class="headerlink" title="Batch Gradient Descent"></a>Batch Gradient Descent</h2><blockquote>
-<p>Batch gradient descent is a variation of the gradient descent algorithm that calculates the error for each example in the training dataset, but <strong>only updates</strong> the model <strong>after all training examples</strong> have been evaluated.</p>
-</blockquote>
-<ul>
-<li>Batch gradient descent decreases update frequency but takes much more time per iteration.</li>
-<li>Batch gradient descent has a <strong>more stable</strong> cost gradient and the cost goes down on every iteration. However, it may result in <strong>premature convergence</strong> of the model to a local minimum. It is an <strong>estimate</strong> of the function gradient.</li>
-<li>Batch gradient descent requires the entire training dataset in memory and available to the algorithm, which is <strong>memory-consuming</strong>.</li></ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/16/optimization-algorithm-in-deep-learning/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -746,7 +737,7 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        12
+                        13
                     </p>
                 </div>
             </div>
@@ -849,6 +840,25 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
         
         <article class="media">
             
+            <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Build Transformer from Scratch - Part 1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time></div>
+                    <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Build Transformer from Scratch - Part 1</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/30/entropy-in-information-theory/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Entropy in Information Theory">
@@ -923,25 +933,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/11/09/data-leakage/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Data Leakage">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-09T16:00:00.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/09/data-leakage/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Data Leakage</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -960,7 +951,7 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
                     <span class="level-item">December 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1037,6 +1028,25 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
         
         <article class="media">
             
+            <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Build Transformer from Scratch - Part 1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time></div>
+                    <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Build Transformer from Scratch - Part 1</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/30/entropy-in-information-theory/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Entropy in Information Theory">
@@ -1111,25 +1121,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/11/09/data-leakage/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Data Leakage">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-09T16:00:00.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/09/data-leakage/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Data Leakage</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1148,7 +1139,7 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
                     <span class="level-item">December 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Build Transformer from Scratch - Part 1 - DeepBlog</title>
+
+
+    <meta name="description" content="The Transformer from “Attention is All You Need” is a new architecture that utilizes the  Attention concept to help improve the performance of NLP tasks. This passage follows the pytorch implementatio">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Build Transformer from Scratch - Part 1">
+<meta property="og:url" content="http://sxiazr.github.io/2019/12/09/build-transformer-from-scratch-part-1/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="The Transformer from “Attention is All You Need” is a new architecture that utilizes the  Attention concept to help improve the performance of NLP tasks. This passage follows the pytorch implementatio">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-01-07T23:31:06.535Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Build Transformer from Scratch - Part 1">
+<meta name="twitter:description" content="The Transformer from “Attention is All You Need” is a new architecture that utilizes the  Attention concept to help improve the performance of NLP tasks. This passage follows the pytorch implementatio">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Build Transformer from Scratch - Part 1" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 minutes read (About 3199 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Build Transformer from Scratch - Part 1
+            
+        </h1>
+        <div class="content">
+            <p>The Transformer from <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">“Attention is All You Need”</a> is a new architecture that utilizes the  <strong>Attention</strong> concept to help improve the performance of NLP tasks. This passage follows the <strong>pytorch</strong> implementation in <a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank" rel="noopener">“The Annotated Transformer”</a> of Harvard’s NLP group to compactly illustrate the structure of the Transformer.</p>
+<h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><p>In <strong>traditional (RNN or CNN) models</strong>, the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, which makes it more <strong>difficult to learn dependencies</strong> between <strong>distant positions</strong>. </p>
+<p>To solve the issue above, the Transformer comes into being, which <strong>reduces the operations to a constant number</strong>. It <strong>eschews recurrence or convolution and relies entirely on an attention mechanism</strong> to draw global dependencies between input and output.</p>
+<a id="more"></a>
+<h1 id="Model-Architecture"><a href="#Model-Architecture" class="headerlink" title="Model Architecture"></a>Model Architecture</h1><p>Most competitive neural sequence transduction models have an <a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener"><strong>encoder-decoder structure</strong></a> as below:</p>
+<p align="center">
+  <img src="./neural-machine-translation.jpg" alt="Neural Machine Translation" height="400px" width="500px">
+</p>
+
+<p>Here, the <strong>encoder</strong> maps an input sequence of symbol representations $\left(\mathbf{x}_{1}, \dots, \mathbf{x}_{n}\right)$ (always represented by a $(n \times d_{model})$ matrix) to a sequence of continuous representations $\mathbf{z}=\left(z_{1}, \dots, z_{n}\right)$. Given $\mathbf{z}$, the <strong>decoder</strong> then generates an output sequence $\left(\mathbf{y}_{1}, \ldots, \mathbf{y}_{m}\right)$($(m \times d_{model})$ matrix) of symbols one element at a time.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EncoderDecoder</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    A standard Encoder-Decoder architecture. Base for this and many other models.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, encoder, decoder, src_embed, tgt_embed, generator)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        Initialize inner architectures of EncoderDecoder.</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        super(EncoderDecoder, self).__init__(self, encoder, decoder, src_embed, tgt_embed, generator)</span><br><span class="line">        self.encoder = encoder</span><br><span class="line">        self.decoder = decoder</span><br><span class="line">        self.src_embed = src_embed</span><br><span class="line">        self.tgt_embed = tgt_embed</span><br><span class="line">        self.generator = generator  <span class="hljs-comment"># Generate predicted distribution from hidden layer</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, src, tgt, src_mask, tgt_mask)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        The flow of data through the EncoderDecoder.</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        <span class="hljs-keyword">return</span> self.decode(self.encode(src, src_mask), src_mask, tgt, tgt_mask)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">encode</span><span class="hljs-params">(self, src, src_mask)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        'src' and 'src_mask' are only required input for producing intermediate state (memory).</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        <span class="hljs-keyword">return</span> self.encoder(self.embed(src), src_mask)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode</span><span class="hljs-params">(self, memory, src_mask, tgt, tgt_mask)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        'src_mask' is needed in decoding process for masking the padding tokens in memory sequence.</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        <span class="hljs-keyword">return</span> self.decoder(self.tgt_embed(tgt), memory, src_mask, tgt_mask)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Generator</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    Generate predicted distribution from hidden layer: linear + softmax.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, d_model, vocab)</span>:</span></span><br><span class="line">        super(Generator, self).__init__()</span><br><span class="line">        self.proj = nn.Linear(d_model, vocab)  <span class="hljs-comment"># A kind of transposed embedding matrix</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        log(softmax(x)): Doing these two operations separately is slower and numerically unstable.</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        <span class="hljs-keyword">return</span> F.log_softmax(self.proj(x), dim=<span class="hljs-number">-1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>The Transformer <strong>follows this overall architecture</strong> using <strong>stacked self-attention</strong> and <strong>point-wise, fully connected layers</strong> for both the encoder and decoder, shown in the left and right halves of the figure below, respectively.</p>
+<p align="center">
+  <img src="./encoder-decoder-architecture.png" alt="Encoder-Decoder Architecture" height="200px" width="300px">
+</p>
+
+<h1 id="Encoder-and-Decoder-Stacks"><a href="#Encoder-and-Decoder-Stacks" class="headerlink" title="Encoder and Decoder Stacks"></a>Encoder and Decoder Stacks</h1><h2 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h2><p>The encoder is composed of a stack of  $N=6$ (larger to increase <strong>model complexity</strong>)  identical layers.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clones</span><span class="hljs-params">(module, N)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    Produce N identical layers.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-keyword">return</span> nn.ModuleList([copy.deepcopy(module) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(N)])</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note：<code>nn.ModuleList</code> and <code>nn.Sequential</code> in PyTorch</strong></p>
+<ul>
+<li><p><code>nn.ModuleList</code>  <strong>holds submodules in a list</strong> and can be indexed like a regular Python list, but modules it contains are <strong>properly registered</strong> (can be displayed by <code>print(module)</code>). If a Python list is used, these modules will not be registered, so their parameters cannot be updated (trained).</p>
+<p><code>nn.Modulelist</code> only stores different submodules together. There is no order between these modules. The execution order of them is determined by the <code>forward</code> function.</p>
+</li>
+<li><p><code>nn.Sequential</code> implements the internal <code>forward</code> function, and the modules in it must be arranged in order. So it must be ensured that <strong>the output size</strong> of the previous module <strong>is consistent with</strong> the <strong>input size</strong> of the next module.</p>
+<p>  <code>nn.ModuleList</code> is more commonly used in the case that you want to <strong>customize</strong> the <code>forward</code> function. For example, the output of the current layer needs to be fused with the previous layer and then be forwarded to next layer.</p>
+</li>
+</ul>
+<p>Each layer has <strong>two sub-layers</strong>. We employ a <strong>residual connection</strong> around each of the two sub-layers, followed by <strong>layer normalization</strong>. That is, the <strong>actual output</strong> of each sub-layer is $LayerNorm(\mathbf{x}+Sublayer(\mathbf{x}))$. </p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LayerNorm</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    A layernorm module.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, size, eps=<span class="hljs-number">1e-6</span>)</span>:</span></span><br><span class="line">        super(LayerNorm, self).__init__(self)</span><br><span class="line">        self.a = nn.Parameter(torch.ones(size))  <span class="hljs-comment"># Parameter that controls the variance</span></span><br><span class="line">        self.b = nn.Parameter(torch.zeros(size))  <span class="hljs-comment"># Parameter that controls the bias</span></span><br><span class="line">        self.eps = eps</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># If 'keepdim' is True, the output tensor is of the same size as input. Otherwise, dim is squeezed. </span></span><br><span class="line">        mean = x.mean(dim=<span class="hljs-number">-1</span>, keepdim=<span class="hljs-literal">True</span>)</span><br><span class="line">        std = x.std(<span class="hljs-number">-1</span>, keepdim=<span class="hljs-literal">True</span>)</span><br><span class="line">        <span class="hljs-keyword">return</span> self.a * (x - mean) / (std + self.eps) + self.b</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note：<code>nn.Parameter</code> and <code>nn.Module.register_buffer</code> in PyTorch</strong></p>
+<ul>
+<li><p><code>nn.Parameter</code> are <code>torch.Tensor</code> subclasses and it will be automatically added to the list of its parameters when used with <code>Module</code>s. (Appear e.g. in <code>parameters()</code> iterator.)</p>
+</li>
+<li><p><code>nn.Module.register_buffer</code> can add <strong>named tensors</strong> (<strong>buffer</strong>) to the module, but these tensors are not meant to learn via gradient descent. They can be iterated by <code>Module.buffers()</code>. </p>
+<p>  Buffers will go to GPU with the module in <code>Module.to()</code>, and they will be saved together with the module in <code>Module.state_dict()</code>. Buffer is used to <strong>saving intermediate status</strong>, for example, BatchNorm’s <code>running_mean</code> is not a parameter, but is part of the persistent state.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SublayerConnection</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    A residual connection followed by a layer norm.</span></span><br><span class="line"><span class="hljs-string">    In practical implementation, the norm is first for better experimental results.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, size, dropout)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        Module attributes will automatically be added to its parameters list </span></span><br><span class="line"><span class="hljs-string">        (if it's registerable).</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        super(SublayerConnection, self).__init__()</span><br><span class="line">        self.norm = LayerNorm(size)</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x, sublayer)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">return</span> x + nn.dropout(sublayer(self.norm(x)))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>To facilitate these residual connections, <strong>*all sub-layers in the model, as well as the embedding layers</strong>, produce outputs of dimension $d_{model} = 512$.</p>
+<p>The first sub-layer is a <strong>multi-head self-attention mechanism</strong>, and the second is a simple, position-wise fully connected <strong>feed-forward network</strong>. </p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EncoderLayer</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    Encoder is made up of self-attn and feed forward (defined below).</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, size, self_attn, feed_forward, dropout)</span>:</span></span><br><span class="line">        super(EncoderLayer, self).__init__()</span><br><span class="line">        self.self_attn = self_attn</span><br><span class="line">        self.feed_forward = feed_forward</span><br><span class="line">        <span class="hljs-comment"># Need 2 different sublayer connection modules (e.g. different parametes in LayerNorm)</span></span><br><span class="line">        self.sublayers = clones(SublayerConnection(size, dropout), <span class="hljs-number">2</span>)</span><br><span class="line">        self.size = size</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x, mask)</span>:</span></span><br><span class="line">        x = self.sublayers[<span class="hljs-number">0</span>](x, <span class="hljs-keyword">lambda</span> x: self.self_attn(x, x, x, mask))</span><br><span class="line">        <span class="hljs-keyword">return</span> self.sublayers[<span class="hljs-number">1</span>](x, self.feed_forward)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Encoder</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    A stack of N basic encoder layers.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, layer, N)</span>:</span></span><br><span class="line">        super(Encoder, self).__init__()</span><br><span class="line">        self.layers = clones(layer, N)</span><br><span class="line">        self.norm = LayerNorm(layer.size)</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x, mask)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        Pass the input and mask through each layer in turn.</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> self.layers:</span><br><span class="line">            x = layer(x, mask)</span><br><span class="line">        <span class="hljs-keyword">return</span> self.norm(x)  <span class="hljs-comment"># Why?</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><p>The decoder is also composed of a stack of $N=6$ identical layers.</p>
+<p>In addition to the two sub-layers in each encoder layer, the <strong>decoder inserts a third sub-layer</strong>, which performs <strong>multi-head attention</strong> over the <strong>output of the encoder stack</strong>. Similar to the encoder, it employs residual connections around each of the sub-layers, followed by layer normalization.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DecoderLayer</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    Decoder is made of self-attn, src-attn, and feed forward.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, size, self_attn, src_attn, feed_forward, dropout)</span>:</span></span><br><span class="line">        super(DecoderLayer, self).__init__()</span><br><span class="line">        self.self_attn = self_attn</span><br><span class="line">        self.src_attn = src_attn</span><br><span class="line">        self.feed_forward = feed_forward</span><br><span class="line">        self.sublayers = clones(SublayerConnection(size, dropout), <span class="hljs-number">3</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x, memeory, src_mask, tgt_mask)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        'memory' is the output of stacked Encoder.</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        x = self.sublayers[<span class="hljs-number">0</span>](x, <span class="hljs-keyword">lambda</span> x: self.self_attn(x, x, x, tgt_mask))</span><br><span class="line">        x = self.sublayers[<span class="hljs-number">1</span>](x, <span class="hljs-keyword">lambda</span> x: self.src_attn(x, memeory, memeory, src_mask))</span><br><span class="line">        <span class="hljs-keyword">return</span> self.sublayers[<span class="hljs-number">2</span>](x, self.feed_forward)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Decoder</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    Generic N layer decoder with masking.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, layer, N)</span>:</span></span><br><span class="line">        super(Decoder, self).__init__()</span><br><span class="line">        self.layers = clones(layer, N)</span><br><span class="line">        self.norm = LayerNorm(layer.size)</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x, memory, src_mask, tgt_mask)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> self.layers:</span><br><span class="line">            x = layer(x, memory, src_mask, tgt_mask)</span><br><span class="line">        <span class="hljs-keyword">return</span> self.norm(x)</span><br></pre></td></tr></table></figure>
+
+<p>Thie paper also <strong>modifies the self-attention sub-layer</strong> in the decoder stack to <strong>prevent positions from attending to subsequent positions</strong> (<strong>data leakage</strong>). </p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subsequent_mask</span><span class="hljs-params">(length)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    Mask out subsequent positions. 'length' here is the length of input sequence.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    attn_shape = (<span class="hljs-number">1</span>, length, length)</span><br><span class="line">    <span class="hljs-comment"># Upper triangle of an array</span></span><br><span class="line">    subsequent_mask = np.triu(np.ones(attn_shape), k=<span class="hljs-number">1</span>).astype(<span class="hljs-string">'uint8'</span>)</span><br><span class="line">    <span class="hljs-keyword">return</span> torch.from_numpy(subsequent_mask) == <span class="hljs-number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>This masking, combined with fact that the <strong>output embeddings are offset by one position</strong>, ensures that the <strong>predictions for position $i$</strong> can <strong>depend only on</strong> the known outputs at <strong>positions less than $i$</strong>.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">self.trg = trg[:, :<span class="hljs-number">-1</span>] <span class="hljs-comment"># ["&lt;SS&gt;", "Hola", ", ", "como", "estás", "?"]</span></span><br><span class="line">self.trg_y = trg[:, <span class="hljs-number">1</span>:] <span class="hljs-comment"># ["Hola", ", ", "como", "estás", "?", "&lt;EOS&gt;"]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h1><p>An attention function can be described as <strong>mapping a query and a set of key-value pairs to an output</strong>, where the query, keys, values, and output are all <strong>vectors</strong>. The output is computed as <strong>a weighted sum of the values</strong>, where the <strong>weight assigned to each value</strong> is computed by a <strong>compatibility function</strong> of the <strong>query with the corresponding key</strong>.</p>
+<h2 id="Why-Attention-is-Needed"><a href="#Why-Attention-is-Needed" class="headerlink" title="Why Attention is Needed?"></a>Why Attention is Needed?</h2><p>Language <strong>heavily relies on context</strong>. For example, the <strong>pronouns</strong> in sentences refer to <strong>nouns</strong>. </p>
+<p>Attention is such a mechanism that <strong>encodes these kinds of reliances</strong>. It bakes model’s understanding of <strong>context of a certain word</strong> (its relevant words) and <strong>explains that word</strong> using <strong>this context</strong> (<strong>contextual embedding</strong>). Basically, the attention mechanism is a <strong>feature fusion process</strong>.</p>
+<h2 id="The-Attention-Mechanism"><a href="#The-Attention-Mechanism" class="headerlink" title="The Attention Mechanism"></a>The Attention Mechanism</h2><p>The two most commonly used attention functions are <a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener"><strong>additive attention</strong></a>, and <strong>dot-product attention</strong>. The two are similar in complexity, but dot-product attention can be implemented using highly optimized matrix multiplication code (faster).</p>
+<p>The particular <strong>modified</strong> attention used in paper is called “<strong>Scaled Dot-Product Attention</strong>“. The input consists of queries and keys of dimension  $d_k$ and values of dimension  $d_v$. We compute the <strong>dot products</strong> of the query with all keys. </p>
+<p>Since for <strong>large values</strong> of $d_k$, the <strong>dot products grow large</strong> in magnitude ($q \cdot k=\sum_{i=1}^{d_{k}} q_{i} k_{i}$), pushing the softmax function into regions where it has extremely small gradients. To <strong>counteract</strong> this effect, dot products was <strong>scaled</strong> by $\sqrt{d_{k}}$. Finally, a softmax function is applied to obtain the weights on the values.</p>
+<p align="center">
+  <img src="./scaled-dot-product-attention.png" alt="Scaled Dot-Product Attention" height="200px" width="120px">
+</p>
+
+<p>In practice, we compute the attention function <strong>on a set of queries simultaneously</strong>, <strong>packed together</strong> into a matrix $Q$ ($n\times d_{k}$). The keys and values are also packed together into matrices $K$ ($n\times d_{k}$) and $V$ ($n\times d_{v}$). We compute the matrix of outputs as:</p>
+$$
+\text {Attention}(Q, K, V)=\operatorname{softmax}\left(\frac{Q K^{T}}{\sqrt{d_{k}}}\right) V$$
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">attention</span><span class="hljs-params">(query, key, value, mask=None, dropout=None)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    Compute 'Scaled Dot Product Attention'. Since it's just a dot product and</span></span><br><span class="line"><span class="hljs-string">    has no model parameters inside.</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    d_k = query.size(<span class="hljs-number">-1</span>)  <span class="hljs-comment"># Last dimension of query (d_model)</span></span><br><span class="line">    scores = torch.matmul(query, key.transpose(<span class="hljs-number">-2</span>, <span class="hljs-number">-1</span>)) / math.sqrt(d_k)</span><br><span class="line">    <span class="hljs-comment"># Mask is set to the dot-product score: the corresponding element is set to -inf</span></span><br><span class="line">    <span class="hljs-keyword">if</span> mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:</span><br><span class="line">        scores = scores.masked_fill(mask == <span class="hljs-number">0</span>, <span class="hljs-number">-1e9</span>)</span><br><span class="line">    <span class="hljs-comment"># Apply softmax to obtain proportion</span></span><br><span class="line">    p_attn = F.softmax(scores, dim=<span class="hljs-number">-1</span>)</span><br><span class="line">    <span class="hljs-keyword">if</span> dropout <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:</span><br><span class="line">	    <span class="hljs-comment"># Randomly zeroes some of the feature elements of the input tensor with probability `p`.  The elements, namely network nodes.</span></span><br><span class="line">        p_attn = dropout(p_attn)</span><br><span class="line">    <span class="hljs-keyword">return</span> torch.matmul(p_attn, value), p_attn</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>:</p>
+<ul>
+<li><code>torch.Tensor.masked_fill()</code>: Fills elements of <code>self</code> tensor with <code>value</code> where <code>mask</code> is True.</li>
+<li><code>torch.matmul(A, B)</code>: If the dimension of both A and B is greater than 2, <code>batch_mat_mul</code> will be called, which will do an <strong>element-wise matrix multiplication</strong> for the batch of A and B.<ul>
+<li>A and B can be different except for the last two dimensions. Other dimensions (<strong>batch size</strong>) should be the same.</li>
+<li>Last two dimensions of A and B should meet the requirements of matrix multiplication.</li>
+</ul>
+</li>
+<li><code>torch.Tensor.view/flatten()</code>: The Tensor will be folded from ‘inner’ dimension to ‘outer’ dimension.</li>
+</ul>
+<h2 id="Multi-head-Attention"><a href="#Multi-head-Attention" class="headerlink" title="Multi-head Attention"></a>Multi-head Attention</h2><p>Multi-head attention allows the model to <strong>jointly attend</strong> to information from <strong>different representation subspaces</strong> at different positions. It works as following:$$\text { MultiHead }\left.(Q, K, V)=\text { Concat(head }_{1}, \ldots, \text { head }_{\mathrm{h}}\right) W^{O}$$, where $\text {head}_i=\text {Attention}(QW_i^Q,KW_i^K,VW^V_i)$ and the projections are parameter matrices  $W_{i}^{Q} \in \mathbb{R}^{d_{\text {model }} \times d_{k}}, W_{i}^{K} \in \mathbb{R}^{d_{\text {model }} \times d_{k}}, W_{i}^{V} \in \mathbb{R}^{d_{\text {model }} \times d_{v}} \text { and } W^{O} \in \mathbb{R}^{h d_{v} \times d_{\text {model }}}$. </p>
+<p>In this paper, it employs $h=8$ parallel attention layers, or heads. For each of these, it uses $d_k=d_v=d_{model}/h=64$. Due to the <strong>reduced dimension</strong> of <strong>each head</strong>, the total computational cost is similar to that of single-head attention with full dimensionality.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MultiHeadedAttention</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, h, d_model, dropout=<span class="hljs-number">0.1</span>)</span>:</span></span><br><span class="line">        super(MultiHeadedAttention, self).__init__()</span><br><span class="line">        <span class="hljs-keyword">assert</span> d_model % h == <span class="hljs-number">0</span>  <span class="hljs-comment"># Actually, d_model=query.size(-1), but to get d_k, it has to be input.</span></span><br><span class="line">        self.h = h</span><br><span class="line">        self.d_k = d_model // h</span><br><span class="line">        self.linears = clones(nn.linears(d_model, d_model), <span class="hljs-number">4</span>)</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line">        self.attn = <span class="hljs-literal">None</span></span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, query, key, value, mask=None)</span>:</span></span><br><span class="line">        nbatches = query.size(<span class="hljs-number">0</span>)</span><br><span class="line">        <span class="hljs-keyword">if</span> mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:</span><br><span class="line">            mask = mask.unsqueeze(<span class="hljs-number">1</span>)  <span class="hljs-comment"># (nbatches, length, length) -&gt; (nbatches, 1, length, length)</span></span><br><span class="line">            </span><br><span class="line">        <span class="hljs-comment"># 1) Do all the linear projections for h headers in one matrix multiplication</span></span><br><span class="line">        query, key, value = [</span><br><span class="line">            <span class="hljs-comment"># (nbatches, length, d_model) -&gt; (nbatches, length, d_model) </span></span><br><span class="line">            <span class="hljs-comment"># -&gt;(nbatches, length, h*d_k) -&gt; (nbatches, h, length, d_k)</span></span><br><span class="line">            l(x).view(nbatches, <span class="hljs-number">-1</span>, self.h, self.d_k).transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) </span><br><span class="line">            <span class="hljs-keyword">for</span> l, x <span class="hljs-keyword">in</span> zip(self.linears, (query, key, value))</span><br><span class="line">        ]</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-comment"># 2) Apply attention on all the projected vectors in batch.</span></span><br><span class="line">        <span class="hljs-comment"># Put dropout outside 'attention' to manage all modules in one class.</span></span><br><span class="line">        x, self.attn = attention(query, key, value, mask, self.dropout)</span><br><span class="line">            </span><br><span class="line">        <span class="hljs-comment"># 3) "Concat" using a view and apply a final linear.</span></span><br><span class="line">        <span class="hljs-comment"># (nbatches, h, length, d_k) -&gt; (nbatches, length, d_model)</span></span><br><span class="line">        x = x.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>).contiguous().view(nbatches, <span class="hljs-number">-1</span>, self.h * self.d_k)</span><br><span class="line">        <span class="hljs-keyword">return</span> self.linears[<span class="hljs-number">-1</span>](x)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>:</p>
+<ul>
+<li><code>torch.Tensor.contiguous()</code>:  It is generally used after <code>torch.Tensor.transpose()</code> or <code>torch.Tensor.permute()</code> and before <code>torch.Tensor.view()</code>. After <strong>dimension transformation</strong>, the sensor is <strong>no longer stored continuously</strong> in memory. However, <code>torch.Tensor.view()</code> operation requires <strong>continuous memory storage</strong> of the tensor, so it needs <code>contiguous()</code> to return a continuous copy.</li>
+</ul>
+<h2 id="Intuitive-Explanation-of-Attention"><a href="#Intuitive-Explanation-of-Attention" class="headerlink" title="Intuitive Explanation of Attention"></a>Intuitive Explanation of Attention</h2><p>Self-attention is processed along the path of each token in the segment. The significant components are three vectors:</p>
+<ul>
+<li><strong>Query</strong>: The query vector is a representation of the <strong>current word</strong> used to <strong>score against</strong> all the other words’ keys.</li>
+<li><strong>Key</strong>: The key vectors are <strong>like labels</strong> for all the words and are matched against for the relevant word.</li>
+<li><strong>Value</strong>: The value vectors are <strong>actual word representations</strong>. Once we’ve scored how relevant each word is, these values will be added up to represent the current word.</li>
+</ul>
+<p>An analogy is to think of Attention like <strong>searching through a filing cabinet</strong> as the figure below. The <strong>query</strong> is like a sticky note with the <strong>topic you’re researching</strong>. The <strong>keys</strong> are like the <strong>labels of the folders</strong> inside the cabinet. When you match the tag with a sticky note, we <strong>take out the contents</strong> of that folder, and these contents are the <strong>value vectors</strong>. Except you’re not only looking for one value but a blend of values from a blend of folders.</p>
+ <p align="center">
+  <img src="./self-attention-example-folders.png" alt="Self-Attention Example Folders" height="400px" width="600px">
+</p>
+
+<h2 id="The-Masked-Self-Attention"><a href="#The-Masked-Self-Attention" class="headerlink" title="The Masked Self-Attention"></a>The Masked Self-Attention</h2> <p align="center">
+  <img src="./self-attention-and-masked-self-attention.png" alt="Self-attention and Masked Self-attention" height="400px" width="600px">
+</p>
+A normal self-attention block allows a position to peak at tokens to its right. Masked self-attention prevents that from happening.
+
+<p>The masking step always happens <strong>after the dot product</strong> of the query and the key and <strong>before applying softmax</strong>, namely when you get the <strong>score</strong> (matrix). It is just going to set <strong>minus infinity</strong> to all the masked entries in the score matrix. For example:</p>
+<p align="center">
+  <img src="./masked-attention-in-matrix.png" alt="Masked-attention in Matrix" height="600px" width="800px">
+</p>
+
+<h2 id="Applications-of-Attention-in-our-Model"><a href="#Applications-of-Attention-in-our-Model" class="headerlink" title="Applications of Attention in our Model"></a>Applications of Attention in our Model</h2><p>The Transformer uses multi-head attention in three different ways:</p>
+<ul>
+<li><strong>Self-attention</strong> layers in <strong>encoder</strong>. Each position in the encoder can <strong>attend to all positions</strong> in the previous layer of the encoder.</li>
+<li><strong>Self-attention</strong> layers in the <strong>decoder</strong>. They allow each position in the decoder to <strong>attend to all positions up to and including that position</strong>. It prevents leftward information flow in the decoder to <strong>preserve the auto-regressive</strong> property. </li>
+<li>In “<strong>encoder-decoder attention</strong>“ layers, the <strong>queries</strong> come from the <strong>previous decoder layer</strong>, and the <strong>memory keys and values</strong> come from the <strong>output of the encoder</strong>. This allows <strong>every position in the decoder</strong> to <strong>attend over all positions in the input</strong>  sequence, which mimics the typical encoder-decoder attention mechanisms in <a href="https://arxiv.org/abs/1609.08144" target="_blank" rel="noopener">sequence-to-sequence models</a>.</li>
+</ul>
+<h1 id="Position-wise-Feed-Forward-Networks"><a href="#Position-wise-Feed-Forward-Networks" class="headerlink" title="Position-wise Feed-Forward Networks"></a>Position-wise Feed-Forward Networks</h1><p>In addition to attention sub-layers, each of the layers in our encoder and decoder contains a fully connected feed-forward network. This consists of <strong>two linear transformations</strong> with a <strong>ReLU activation</strong> in between.</p>
+$$\mathrm{FFN}(x)=\max \left(0, x W_{1}+b_{1}\right) W_{2}+b_{2}$$
+<p>The dimensionality of input and output is  $d_{model}=512$, and the inner-layer has dimensionality  $d_{ff}=2048$.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PositionwiseFeedForward</span><span class="hljs-params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, d_model, d_ff, dropout=<span class="hljs-number">0.1</span>)</span>:</span></span><br><span class="line">        self.w_1 = nn.Linear(d_model, d_ff)</span><br><span class="line">        self.w_2 = nn.Linear(d_ff, d_model)</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># Dropout is always used in weighted sum operation</span></span><br><span class="line">        <span class="hljs-keyword">return</span> self.w_2(self.dropout(F.relu(self.w_1(x))))</span><br></pre></td></tr></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://github.com/OpenNMT/OpenNMT-py" target="_blank" rel="noopener">Github: OpenNMT-py</a><br><a href="https://medium.com/@mromerocalvo/dissecting-bert-part1-6dcf5360b07f" target="_blank" rel="noopener">Medium: Dissecting BERT Part 1: Understanding the Transformer</a><br><a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">Blog: The Illustrated Transformer</a><br><a href="https://jalammar.github.io/illustrated-gpt2/" target="_blank" rel="noopener">Blog: The Illustrated GPT-2</a><br><a href="https://arxiv.org/pdf/1706.03762.pdf" target="_blank" rel="noopener">Paper: Neural Machine Translation by Jointly Learning to Align and Translate</a><br><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Paper: Attention is All You Need</a><br><a href="https://zhuanlan.zhihu.com/p/76210582" target="_blank" rel="noopener">StackOverflow: ModuleList and Sequential in PyTorch</a><br><a href="https://stackoverflow.com/questions/50935345/understanding-torch-nn-parameter" target="_blank" rel="noopener">StackOverflow: Understanding torch.nn.Parameter</a><br><a href="https://chiang97912.github.io/2018/04/09/tensorflow%E4%B8%AD%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95matmul%E5%92%8Cmultiply%E8%AF%A6%E8%A7%A3/" target="_blank" rel="noopener">Blog: Tensorflow中矩阵乘法matmul和multiply详解</a><br><a href="https://zhuanlan.zhihu.com/p/100069938?utm_source=wechat_session&utm_medium=social&utm_oi=57486287568896" target="_blank" rel="noopener">Zhihu: PyTorch中矩阵乘法总结</a><br><a href="https://zhuanlan.zhihu.com/p/64376950" target="_blank" rel="noopener">Zhihu: Pytorch之contiguous函数</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/11/30/entropy-in-information-theory/">
+                <span class="level-item">Entropy in Information Theory</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        13
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Build Transformer from Scratch - Part 1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time></div>
+                    <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Build Transformer from Scratch - Part 1</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/11/30/entropy-in-information-theory/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Entropy in Information Theory">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time></div>
+                    <a href="/2019/11/30/entropy-in-information-theory/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Entropy in Information Theory</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/11/29/model-ensemble/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Model Ensemble">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time></div>
+                    <a href="/2019/11/29/model-ensemble/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Model Ensemble</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time></div>
+                    <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Tree-Based Learning Algorithms - Part 1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time></div>
+                    <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Tree-Based Learning Algorithms - Part 1</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Build Transformer from Scratch - Part 1" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
