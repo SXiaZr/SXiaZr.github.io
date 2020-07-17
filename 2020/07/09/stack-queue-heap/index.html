@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>数据结构：二叉树 - DeepBlog</title>
+<title>数据结构：栈，队列 - DeepBlog</title>
 
 
-    <meta name="description" content="二叉树（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。 一. 二叉树的遍历/搜索 树的遍历，指不重复地访问树的所有节点的过程，具体的访问操作可能是检查节点值、更新节点值等。  定义节点类如下： 12345class TreeNode():    def __init__(self, x):        self.val = x        self.">
+    <meta name="description" content="一. 栈 栈也称堆栈，具有线性存储结构。栈的特点是先入先出，基本操作有入栈（push）和出栈（pop），如下图所示。">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构：二叉树">
-<meta property="og:url" content="http://sxiazr.github.io/2020/06/30/binary-tree/index.html">
+<meta property="og:title" content="数据结构：栈，队列">
+<meta property="og:url" content="http://sxiazr.github.io/2020/07/09/stack-queue-heap/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="二叉树（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。 一. 二叉树的遍历/搜索 树的遍历，指不重复地访问树的所有节点的过程，具体的访问操作可能是检查节点值、更新节点值等。  定义节点类如下： 12345class TreeNode():    def __init__(self, x):        self.val = x        self.">
+<meta property="og:description" content="一. 栈 栈也称堆栈，具有线性存储结构。栈的特点是先入先出，基本操作有入栈（push）和出栈（pop），如下图所示。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-07-12T16:27:32.175Z">
+<meta property="og:updated_time" content="2020-07-12T15:50:22.743Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据结构：二叉树">
-<meta name="twitter:description" content="二叉树（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。 一. 二叉树的遍历/搜索 树的遍历，指不重复地访问树的所有节点的过程，具体的访问操作可能是检查节点值、更新节点值等。  定义节点类如下： 12345class TreeNode():    def __init__(self, x):        self.val = x        self.">
+<meta name="twitter:title" content="数据结构：栈，队列">
+<meta name="twitter:description" content="一. 栈 栈也称堆栈，具有线性存储结构。栈的特点是先入先出，基本操作有入栈（push）和出栈（pop），如下图所示。">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -98,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="数据结构：二叉树" height="28">
+                <img src="/images/logo.svg" alt="数据结构：栈，队列" height="28">
             
             </a>
         </div>
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-06-30T16:00:00.000Z">2020-07-01</time>
+                <time class="level-item has-text-grey" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1713 words)
+                    11 minutes read (About 1637 words)
                 </span>
                 
                 
@@ -174,18 +174,18 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                数据结构：二叉树
+                数据结构：栈，队列
             
         </h1>
         <div class="content">
-            <p>二叉树（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。</p>
-<h2 id="一-二叉树的遍历-搜索"><a href="#一-二叉树的遍历-搜索" class="headerlink" title="一. 二叉树的遍历/搜索"></a>一. 二叉<a href="https://zh.wikipedia.org/wiki/树的遍历#前序遍历(Pre-Order_Traversal)" target="_blank" rel="noopener">树的遍历/搜索</a></h2><blockquote>
-<p>树的遍历，指<strong>不重复地</strong>访问树的所有节点的过程，具体的访问操作可能是<strong>检查节点值</strong>、<strong>更新节点值</strong>等。</p>
+            <h2 id="一-栈"><a href="#一-栈" class="headerlink" title="一. 栈"></a>一. <a href="https://zh.wikipedia.org/wiki/堆栈" target="_blank" rel="noopener">栈</a></h2><blockquote>
+<p>栈也称堆栈，具有线性存储结构。栈的特点是<strong>先入先出</strong>，基本操作有<strong>入栈（push）</strong>和<strong>出栈（pop）</strong>，如下图所示。</p>
 </blockquote>
-<p>定义节点类如下：</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span><span class="hljs-params">()</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.left = <span class="hljs-literal">None</span></span><br><span class="line">        self.right = <span class="hljs-literal">None</span></span><br></pre></td></tr></table></figure>
-
 <a id="more"></a>
+<p align="center">
+<img src="./stack.png" alt="stack" width="400px" style="display:inline-block">
+</p>
+
 <h3 id="1-深度优先"><a href="#1-深度优先" class="headerlink" title="1.深度优先"></a>1.深度优先</h3><p>按照根节点，相对于左右子节点的访问顺序，可进一步划分如下。</p>
 <h4 id="1-1-前序遍历-Pre-Order-Traversal"><a href="#1-1-前序遍历-Pre-Order-Traversal" class="headerlink" title="1.1 前序遍历(Pre-Order Traversal)"></a>1.1 前序遍历(Pre-Order Traversal)</h4><blockquote>
 <p>定义：父节点 -&gt; 左/右子树 -&gt; 右/左子树。</p>
@@ -247,7 +247,7 @@
 <h2 id="三-用例"><a href="#三-用例" class="headerlink" title="三. 用例"></a>三. 用例</h2><p><a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener">Leetcode 98. Validate Binary Search Tree</a><br><a href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/" target="_blank" rel="noopener">Leetcode 103. Binary Tree Zigzag Level Order Traversal</a><br><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener">Leetcode 104. Maximum Depth of Binary Tree</a><br><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener">Leetcode 102. Binary Tree Level Order Traversal</a><br><a href="https://leetcode.com/problems/binary-tree-level-order-traversal-ii/" target="_blank" rel="noopener">Leetcode 107. Binary Tree Level Order Traversal II</a><br><a href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank" rel="noopener">Leetcode 110. Balanced Binary Tree</a><br><a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener">Leetcode 124. Binary Tree Maximum Path Sum</a><br><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank" rel="noopener">Leetcode 236. Lowest Common Ancestor of a Binary Tree</a><br><a href="https://leetcode.com/problems/delete-node-in-a-bst/" target="_blank" rel="noopener">Leetcode 450. Delete Node in a BST</a><br><a href="https://leetcode.com/problems/insert-into-a-binary-search-tree/" target="_blank" rel="noopener">Leetcode 701. Insert into a Binary Search Tree</a></p>
 <h3 id="Leetcode中的两种常用写法"><a href="#Leetcode中的两种常用写法" class="headerlink" title="Leetcode中的两种常用写法"></a>Leetcode中的两种常用写法</h3><h4 id="node传参：适用于，返回结果为node形式"><a href="#node传参：适用于，返回结果为node形式" class="headerlink" title="node传参：适用于，返回结果为node形式"></a>node传参：适用于，返回结果为node形式</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">node_munipulation</span><span class="hljs-params">(self, root)</span>:</span></span><br><span class="line">    	<span class="hljs-keyword">if</span> root <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:</span><br><span class="line">    		<span class="hljs-keyword">return</span> <span class="hljs-literal">None</span></span><br><span class="line"></span><br><span class="line">    	<span class="hljs-comment"># Do something here</span></span><br><span class="line">    	root.left = self.node_munipulation(root.left)</span><br><span class="line">    	root.right = self.node_munipulation(root.right)</span><br><span class="line"></span><br><span class="line">    	<span class="hljs-keyword">return</span> root</span><br></pre></td></tr></table></figure>
 
-<h4 id="全局变量：-适用于其他情况"><a href="#全局变量：-适用于其他情况" class="headerlink" title="全局变量： 适用于其他情况"></a>全局变量： 适用于其他情况</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">	self.flag = <span class="hljs-literal">False</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">node_munipulation</span><span class="hljs-params">(self, root)</span>:</span></span><br><span class="line">    	<span class="hljs-keyword">if</span> root <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:</span><br><span class="line">    		<span class="hljs-keyword">return</span></span><br><span class="line"></span><br><span class="line">    	<span class="hljs-comment"># Do something here</span></span><br><span class="line">    	self.flag = <span class="hljs-literal">True</span></span><br><span class="line">    	self.node_munipulation(root.left)</span><br><span class="line">    	self.node_munipulation(root.right)</span><br></pre></td></tr></table></figure>
+<h4 id="全局变脸：-适用于其他情况"><a href="#全局变脸：-适用于其他情况" class="headerlink" title="全局变脸： 适用于其他情况"></a>全局变脸： 适用于其他情况</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">	self.flag = <span class="hljs-literal">False</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">node_munipulation</span><span class="hljs-params">(self, root)</span>:</span></span><br><span class="line">    	<span class="hljs-keyword">if</span> root <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:</span><br><span class="line">    		<span class="hljs-keyword">return</span></span><br><span class="line"></span><br><span class="line">    	<span class="hljs-comment"># Do something here</span></span><br><span class="line">    	self.flag = <span class="hljs-literal">True</span></span><br><span class="line">    	self.node_munipulation(root.left)</span><br><span class="line">    	self.node_munipulation(root.right)</span><br></pre></td></tr></table></figure>
 
 <h2 id="四-Reference"><a href="#四-Reference" class="headerlink" title="四. Reference"></a>四. Reference</h2><p><a href="https://zh.wikipedia.org/wiki/树的遍历" target="_blank" rel="noopener">Wiki: 树的遍历</a><br><a href="https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/xue-xi-shu-ju-jie-gou-he-suan-fa-de-gao-xiao-fang-fa" target="_blank" rel="noopener">Blog: 学习数据结构和算法的框架思维</a><br><a href="https://greyireland.gitbook.io/algorithm-pattern/shu-ju-jie-gou-pian/binary_tree#fen-zhi-fa-ying-yong" target="_blank" rel="noopener">Blog: 二叉树</a><br><a href="https://labuladong.gitbook.io/algo/shu-ju-jie-gou-xi-lie/er-cha-sou-suo-shu-cao-zuo-ji-jin" target="_blank" rel="noopener">Blog: 二叉搜索树操作集锦</a></p>
 
@@ -270,17 +270,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/04/linked-list/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">数据结构：链表</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/12/09/build-transformer-from-scratch-part-1/">
-                <span class="level-item">Build Transformer from Scratch - Part 1</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/04/linked-list/">
+                <span class="level-item">数据结构：链表</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -357,7 +350,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        16
                     </p>
                 </div>
             </div>
@@ -460,54 +453,16 @@
         
         <article class="media">
             
-            <a href="/2020/07/14/binary-search/" class="media-left">
+            <a href="/2020/07/09/stack-queue-heap/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
-                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/14/queue/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
-                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/09/stack/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈，队列">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time></div>
-                    <a href="/2020/07/09/stack/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈</a>
+                    <a href="/2020/07/09/stack-queue-heap/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈，队列</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -553,6 +508,44 @@
             </div>
         </article>
         
+        <article class="media">
+            
+            <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Build Transformer from Scratch - Part 1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time></div>
+                    <a href="/2019/12/09/build-transformer-from-scratch-part-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Build Transformer from Scratch - Part 1</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/11/30/entropy-in-information-theory/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Entropy in Information Theory">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time></div>
+                    <a href="/2019/11/30/entropy-in-information-theory/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Entropy in Information Theory</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
     </div>
 </div>
 
@@ -571,7 +564,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -652,7 +645,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="数据结构：二叉树" height="28">
+                    <img src="/images/logo.svg" alt="数据结构：栈，队列" height="28">
                 
                 </a>
                 <p class="is-size-7">

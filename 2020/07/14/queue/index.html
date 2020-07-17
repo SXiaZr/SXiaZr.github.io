@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Model Selection &amp; Bias–Variance Tradeoff - DeepBlog</title>
+<title>数据结构：队列 - DeepBlog</title>
 
 
-    <meta name="description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
+    <meta name="description" content="队列也称伫列，具有线性存储结构。栈的特点是先入先出，其只允许在后端（rear）进行插入，在前端（front）进行删除，如下图所示。 应用场景：当需要按照一定的顺序来处理数据，而该数据的数据量在不断地变化时，需要队列，即BFS。">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Model Selection &amp; Bias–Variance Tradeoff">
-<meta property="og:url" content="http://sxiazr.github.io/2019/10/31/model-selection-&-bias–variance-tradeoff/index.html">
+<meta property="og:title" content="数据结构：队列">
+<meta property="og:url" content="http://sxiazr.github.io/2020/07/14/queue/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
+<meta property="og:description" content="队列也称伫列，具有线性存储结构。栈的特点是先入先出，其只允许在后端（rear）进行插入，在前端（front）进行删除，如下图所示。 应用场景：当需要按照一定的顺序来处理数据，而该数据的数据量在不断地变化时，需要队列，即BFS。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-01-01T12:29:08.852Z">
+<meta property="og:updated_time" content="2020-07-17T18:56:21.789Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Model Selection &amp; Bias–Variance Tradeoff">
-<meta name="twitter:description" content="In this passage, I summarize some basic concepts in Machine Learning, which mainly include model validation methods in model selection and the interpretation in bias–variance tradeoff. Probabilistic S">
+<meta name="twitter:title" content="数据结构：队列">
+<meta name="twitter:description" content="队列也称伫列，具有线性存储结构。栈的特点是先入先出，其只允许在后端（rear）进行插入，在前端（front）进行删除，如下图所示。 应用场景：当需要按照一定的顺序来处理数据，而该数据的数据量在不断地变化时，需要队列，即BFS。">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -98,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Model Selection &amp; Bias–Variance Tradeoff" height="28">
+                <img src="/images/logo.svg" alt="数据结构：队列" height="28">
             
             </a>
         </div>
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time>
+                <time class="level-item has-text-grey" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    16 minutes read (About 2370 words)
+                    10 minutes read (About 1436 words)
                 </span>
                 
                 
@@ -174,130 +174,68 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Model Selection &amp; Bias–Variance Tradeoff
+                数据结构：队列
             
         </h1>
         <div class="content">
-            <p>In this passage, I summarize some basic concepts in Machine Learning, which mainly include <strong>model validation</strong> methods in model selection and the <strong>interpretation</strong> in bias–variance tradeoff.</p>
-<h1 id="Probabilistic-Setup"><a href="#Probabilistic-Setup" class="headerlink" title="Probabilistic Setup"></a>Probabilistic Setup</h1><p>In the following, we set up a general <strong>probabilistic view</strong> on the data.</p>
-<p>Assume that the data is generated as (<strong>Data Generation Model</strong>) $$y=f(\mathbf{x})+\varepsilon$$, where $f$ is some <strong>arbitrary and unknown</strong> function and $\mathbf{x}$ is generated according to some ﬁxed but <strong>unknown</strong> distribution $\mathcal{D}_{\mathbf{x}}$ . </p>
-<p>$\varepsilon$ is an <strong>additive noise</strong> with distribution $\mathcal{D}_{\varepsilon}$, which is independent from sample to sample and independent from the data. Assume $\varepsilon$ has <strong>zero mean</strong> (otherwise this constant can be absorbed into $f$). </p>
-<p>There is an <strong>unknown</strong> underlying joint distribution $\mathcal{D}$ on pairs $(\mathbf{x}, y)$, with range $\mathcal{X} \times \mathcal{Y}$. The data set $\mathcal{S}$ we see consists of <strong>independent and identically distributed</strong>(<strong>i.i.d.</strong>) samples from $\mathcal{D}$:</p>
-
-$$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\right\}_{n=1}^{N}$$
-
-<p>Write $f_{\mathcal{S}} = \mathcal{A}(\mathcal{S})$, where $\mathcal{A}$ denotes the learning algorithm, $f_{\mathcal{S}}$ is the resulting prediction function or <strong>model</strong> which depends on the data subset $\mathcal{S}$ we are given. If we want to indicate that $f_{\mathcal{S}}$ also depends on hyper-parameters of the model, we can add a subscript to write $f_{\mathcal{S, \lambda}}$.</p>
+            <p><a href="https://zh.wikipedia.org/zh-cn/队列" target="_blank" rel="noopener">队列</a>也称伫列，具有线性存储结构。栈的特点是<strong>先入先出</strong>，其只允许在后端（rear）进行<strong>插入</strong>，在前端（front）进行<strong>删除</strong>，如下图所示。</p>
+<p>应用场景：当需要<strong>按照一定的顺序</strong>来处理数据，而该数据的数据量在不断地变化时，需要队列，即BFS。</p>
 <a id="more"></a>
+<p align="center">
+<img src="./queue.png" alt="Queue" width="400px" style="display:inline-block">
+</p>
 
-<h1 id="Model-Selection"><a href="#Model-Selection" class="headerlink" title="Model Selection"></a>Model Selection</h1><blockquote>
-<p>Model (actually hyper-parameters) is selected by the result of <strong>VALIDATION</strong>.</p>
-</blockquote>
-<p>Given a model $f_{\mathcal{S}}$, how can we assess if <strong>$f_{\mathcal{S}}$ is any good</strong>?  Theoretically, the best way is to compute the <strong>expected error</strong> over <strong>all possible</strong> samples $(\mathbf{x}, y)$ chosen from $\mathcal{D}$:</p>
+<h2 id="一-栈的设计与实现"><a href="#一-栈的设计与实现" class="headerlink" title="一. 栈的设计与实现"></a>一. 栈的设计与实现</h2><h3 id="1-用栈实现队列-Leetcode-232-Implement-Queue-using-Stacks"><a href="#1-用栈实现队列-Leetcode-232-Implement-Queue-using-Stacks" class="headerlink" title="1. 用栈实现队列: Leetcode 232. Implement Queue using Stacks"></a>1. 用栈实现队列: <a href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank" rel="noopener">Leetcode 232. Implement Queue using Stacks</a></h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyQueue</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        self.stack_push = []</span><br><span class="line">        self.stack_pop = []</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">push</span><span class="hljs-params">(self, x)</span>:</span> <span class="hljs-comment"># t = O(n)</span></span><br><span class="line">        <span class="hljs-keyword">while</span> self.stack_pop: <span class="hljs-comment"># 将stack_pop中的元素装回stack_push</span></span><br><span class="line">            self.stack_push.append(self.stack_pop.pop())</span><br><span class="line">        self.stack_pop.append(x) <span class="hljs-comment"># 入栈新的元素</span></span><br><span class="line">        <span class="hljs-keyword">while</span> self.stack_push:</span><br><span class="line">            self.stack_pop.append(self.stack_push.pop())</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pop</span><span class="hljs-params">(self)</span>:</span> <span class="hljs-comment"># t = O(1)</span></span><br><span class="line">        <span class="hljs-keyword">return</span> self.stack_pop.pop()</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">peek</span><span class="hljs-params">(self)</span>:</span> <span class="hljs-comment"># t = O(1)</span></span><br><span class="line">        <span class="hljs-keyword">return</span> self.stack_pop[<span class="hljs-number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">empty</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">return</span> len(self.stack_pop) == <span class="hljs-number">0</span></span><br></pre></td></tr></table></figure>
 
-$$L_{\mathcal{D}}(f_{\mathcal{S}})=\mathbb{E}_{\mathcal{D}}[\ell(y, f_{\mathcal{S}}(\mathbf{x}))]$$
+<p><strong>主要思路</strong>：需要用两个栈，其中一个来<strong>反转元素顺序</strong>，另一个用来存储元素<strong>最终顺序</strong>。</p>
+<h2 id="二-优先级队列（Priority-Queues）"><a href="#二-优先级队列（Priority-Queues）" class="headerlink" title="二. 优先级队列（Priority Queues）"></a>二. 优先级队列（Priority Queues）</h2><p>普通队列<strong>先进先出</strong>，而在优先队列中，元素被赋予<strong>优先级</strong>，特点是<strong>最高级先出</strong>（first in, largest out）。通常采用<strong><a href="https://zh.wikipedia.org/zh-cn/堆積" target="_blank" rel="noopener">堆（heap）</a></strong>来实现。</p>
+<p>堆（heap）是一种特别的<strong><a href="https://zh.wikipedia.org/wiki/二叉树#完全二叉树" target="_blank" rel="noopener">完全树</a></strong>数据结构，若满足：任意母节点的值恒<strong>小于等于</strong>子节点的值，此堆称为<strong>最小堆</strong>（min heap）；反之，若任意母节点的值恒大于等于子节点的值，此堆称为<strong>最大堆</strong>（max heap）。<strong><a href="https://zh.wikipedia.org/wiki/二叉堆" target="_blank" rel="noopener">二叉堆（binary heap）</a></strong>（特殊的<strong>完全二叉树</strong>）是<strong>最为常见</strong>的一种堆，如下图所示：</p>
+<p align="center">
+<img src="./heap.jpeg" alt="Heap" width="400px" style="display:inline-block">
+</p>
 
-<p>, where $\ell(\cdot, \cdot)$ is our loss function. The quantity $L_{\mathcal{D}}(f_{\mathcal{S}})$ is called <strong>generalization error</strong>.</p>
-<h2 id="Training-Validation-amp-Test-Set"><a href="#Training-Validation-amp-Test-Set" class="headerlink" title="Training, Validation &amp; Test Set"></a><a href="https://stackoverflow.com/questions/44223585/why-disable-dropout-during-validation-and-testing/44229870" target="_blank" rel="noopener">Training, Validation &amp; Test Set</a></h2><p><strong>Training Set</strong>: A set of data used for <strong>learning</strong>,  to fit the weights of the model. We would use the training set to find the “optimal” weights with the back-propagation algorithm. (Get <strong>optimal training error</strong>)</p>
-<p><strong>Validation Set</strong>: A set of data used to <strong>tune the hyper-parameters</strong> of the model. We would use the validation set to find the “optimal” hyper-parameters or determine a stopping point for the back-propagation algorithm. (Get <strong>optimal validation error</strong>)</p>
-<p><strong>Test Set</strong>: A set of data used only to <strong>assess the performance of the fully-trained model</strong>. After assessing the final model on the test set, <strong>YOU MUST NOT</strong> tune the model any further!</p>
-<p><strong>Why separate test and validation sets?</strong><br>The error estimate of the final model on validation data will be <strong>biased</strong> (smaller than the true error rate) since the validation set is used to select the final model.</p>
-<h2 id="Generalization-Error-V-S-Training-Error"><a href="#Generalization-Error-V-S-Training-Error" class="headerlink" title="Generalization Error V.S. Training Error"></a>Generalization Error V.S. Training Error</h2><p>Generalization error is the quantity we are fundamentally interested in, but we cannot compute it since $\mathcal{D}$ is unknown.</p>
-<p>Since we have given a data subset $\mathcal{S}$, it is natural to compute the equivalent <strong>empirical quantity</strong>: </p>
-
-$$L_{\mathcal{S}}\left(f_{\mathcal{S}}\right)=\frac{1}{|\mathcal{S}|} \sum_{\left(\mathbf{x}_{n}, y_{n}\right) \in \mathcal{S}} \ell\left(y_{n}, f_{\mathcal{S}}\left(\mathbf{x}_{n}\right)\right)$$
-
-<p>This is often called the <strong>training error</strong>, but $L_{\mathcal{S}}(f_{\mathcal{S}})$ might not be close to $L_{\mathcal{D}}(f_{\mathcal{S}})$ for the sake of overﬁtting.</p>
-<h2 id="Generalization-Error-V-S-Test-Error"><a href="#Generalization-Error-V-S-Test-Error" class="headerlink" title="Generalization Error V.S. Test Error"></a>Generalization Error V.S. Test Error</h2><p>Validating model on the same data we trained it on will result in overfitting, so we could split the data into a training and a test set (<strong>a.k.a. validation set</strong>), call them $\mathcal{S}_{\text {train}}$ and $\mathcal{S}_{\text {test}}$, respectively.</p>
-<p>From the training set, we learn the model $\mathcal{S}_{\text {train}}$ and then compute the error on the test set:</p>
-$$L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})=\frac{1}{\left|\mathcal{S}_{\text {test }}\right|} \sum_{\left(y_{n}, \mathbf{X}_{n}\right) \in \mathcal{S}_{\text {test}}}\ell\left(y_{n}, f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{n}\right)\right)$$
-<p>, where $L_{\mathcal{S}_{\text {test}}}(f_{\mathcal{S}_{\text {train}}})$ is called <strong>test error (empirical error)</strong>. </p>
-<p>Indeed, the <strong>expectation</strong> of test error equals generalization error:</p>
-$$L_{\mathcal{D}}\left(f_{\mathcal{S}_{\text {train }}}\right)=\mathbb{E}_{\mathcal{S}_{\text {test }} \sim \mathcal{D}}\left[L_{\mathcal{S}_{\text {test }}}\left(f_{\mathcal{S}_{\text {train }}}\right)\right]$$ 
-
-<p><strong>But for a particular test set $\mathcal{S}_{\text {test}}$, how far are these apart?</strong></p>
-<p>According to lemma:</p>
 <blockquote>
-<p><strong><a href="https://en.wikipedia.org/wiki/Chernoff_bound" target="_blank" rel="noopener">Chernoff bound</a></strong>. Let $\Theta_{1}, \ldots, \Theta_{N}$ be a sequence of i.i.d. random variables with mean $\mathbb{E}[\Theta]$ and range $[a, b]$. Then, for any $\varepsilon&gt; 0$,<br>$$\mathbb{P}\left[\left|\frac{1}{N} \sum_{n=1}^{N} \Theta_{n}-\mathbb{E}[\Theta]\right|\geq \varepsilon  \right] \leq 2 e^{-2N\varepsilon^{2}(b-a)^2}$$</p>
+<p><strong><a href="https://zh.wikipedia.org/wiki/二叉树#完全二叉树" target="_blank" rel="noopener">完全二叉树</a></strong>:在二叉树中，若<strong>除最后一层外的其余层均满</strong>，且最后一层满，或<strong>仅在右边缺少</strong>连续若干节点。<br><strong><a href="https://zh.wikipedia.org/wiki/满二叉树" target="_blank" rel="noopener">满二叉树</a></strong>:指<strong>每层结点个数</strong>都是最大的二叉树。</p>
 </blockquote>
-<p>we claim that:</p>
-$$\mathbb{P}\left[\left|L_{\mathcal{D}}(f)-L_{\mathcal{S}_{\text {test}}}(f)\right| \geq \sqrt{\left.\frac{(b-a)^{2} \ln (2 / \delta)}{2\left|\mathcal{S}_{\text {test }}\right|}\right)}\right] \leq \delta$$, from which we could have the **insight** that the difference decreases as $\mathcal{O}(1 / \sqrt{\left|S_{\text {test }}\right|})$. So the more data points we have, the more conﬁdent that the **empirical loss we measure is close to the true loss**.
+<h3 id="1-堆的数组表示"><a href="#1-堆的数组表示" class="headerlink" title="1. 堆的数组表示"></a>1. 堆的数组表示</h3><p>二叉堆（特殊完全二叉树）一般用<strong>数组</strong>来表示，若数组的<strong>下标基于0</strong>，那么下标为i的节点的<strong>左、右子节点</strong>分别为：<strong>left(i) = 2i + 1</strong>、<strong>right(i) = 2i + 2</strong>，父节点为：<strong>parent(i) = floor((i - 1)/2)</strong>，如下图所示：</p>
+<p align="center">
+<img src="./heap-by-array.png" alt="Represent Heap by Array" width="500px" style="display:inline-block">
+</p>
 
-<h2 id="Cross-Validation"><a href="#Cross-Validation" class="headerlink" title="Cross Validation"></a><a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)" target="_blank" rel="noopener">Cross Validation</a></h2><blockquote>
-<p>Splitting the data once into two parts (one for training and one for testing) is not the most efficient way to use the data. Cross-validation is a better way.</p>
+<h3 id="2-插入-添加元素"><a href="#2-插入-添加元素" class="headerlink" title="2. 插入/添加元素"></a>2. 插入/添加元素</h3><blockquote>
+<p>堆的基本操作：<strong>上浮（sift up）</strong>，比较当前节点与父节点，若不满足<strong>堆性质</strong>，则交换。</p>
 </blockquote>
-<p><strong>Methods: <a href="https://scikit-learn.org/stable/modules/cross_validation.html" target="_blank" rel="noopener">See more</a></strong></p>
-<ul>
-<li>K-fold Cross-Validation: Randomly partition the data into K groups. Each time leave out exactly one of the K groups for testing and use the remaining K-1 groups for training. </li>
-<li>Stratified K-fold: It is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set.</li>
-<li>Nested Cross-Validation: Always used for time series data, where particular care must be taken in splitting the data <strong>in order</strong> to prevent data leakage. It means to evaluate the model for time series data on the “future” observations. Nested Cross-Validation is a variation of  k-fold which returns first  k  folds as train set and the  (k+1)  th fold as test set. </li>
-</ul>
-<p><strong>Outcomes</strong></p>
-<ul>
-<li>Cross-validation returns an <strong>unbiased estimate</strong> of the generalization error and its variance. We can <strong>average the K validation errors</strong> as the validation result. </li>
-<li>The <strong>purpose of cross-validation</strong> is model checking, not model building. Once we have used cross-validation to select the better performing model, we train that model on all the data.</li>
-<li>Cross-validation will <strong>not be used</strong> in complex deep learning model with a large dataset, since it’s too computationally expensive.</li>
-</ul>
-<p><strong>Advantages</strong></p>
-<ul>
-<li><strong>Use All Data</strong>: <ul>
-<li>Splitting the data once into two parts is not the most efficient way to use the data. It only gives predictions on part of the data (test set). If the test set we pick happens to contain a bunch of points that are particularly easy (or hard) to predict, we will not come up with a rational estimate of the model’s ability to learn and predict.</li>
-</ul>
-</li>
-<li><strong>Prevent <a href="https://www.kaggle.com/alexisbcook/data-leakage/data" target="_blank" rel="noopener">Data Leakage</a></strong>:<ul>
-<li><strong>Work with Dependent/Grouped Data</strong>: For example, there are 3 speakers and 500 recordings for each speaker. If we do a random split, our training and test set will <strong>share the same speaker saying the same words</strong>, which will boost our algorithm performance but fail when tested on a new speaker. The <strong>proper way</strong> to do it is to split the speakers, i.e., use 2 speakers for training and the third for testing (cross-validation on the speakers level).</li>
-<li>Cross-validation can be used in <a href="http://blog.kaggle.com/2016/12/27/a-kagglers-guide-to-model-stacking-in-practice/" target="_blank" rel="noopener">models stacking</a>, where we can’t train both our models on the same dataset because then, our second model will learn on ground truth information that our first model already seen.</li>
-</ul>
-</li>
-</ul>
-<h1 id="Bias–Variance-Tradeoff"><a href="#Bias–Variance-Tradeoff" class="headerlink" title="Bias–Variance Tradeoff"></a><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank" rel="noopener">Bias–Variance Tradeoff</a></h1><blockquote>
-<p>The <strong>bias–variance tradeoff</strong> is the property of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples and vice versa.</p>
-</blockquote>
-<ul>
-<li>The <strong>bias</strong> error is an error from <strong>erroneous assumptions</strong> in the learning  algorithm. High bias can cause an algorithm to <strong>miss the relevant relations</strong> between features and target outputs (underfitting).</li>
-<li>The  <strong>variance</strong> is an error from sensitivity to small fluctuations in the training set. High variance can cause an algorithm to <strong>model the random noise</strong> in the training data, rather than the intended outputs (overfitting).</li>
-<li>Ideally, one wants to choose a model that both accurately captures the regularities in its training data (high variance), but also generalizes well to unseen data (high bias). </li>
-</ul>
-<p>There is an inherent bias-variance tradeoff when we perform the model selection. </p>
-<h2 id="Error-Decomposition"><a href="#Error-Decomposition" class="headerlink" title="Error Decomposition"></a>Error Decomposition</h2><p>Following <a href="#Probabilistic-Setup">Probabilistic Setup</a> and test error defined <a href="#Generalization-Error-V.S.-Test-Error">above</a>, we look at the <strong>mean squared error</strong> of the prediction function $f_{\mathcal{S}}$ for a ﬁxed element $\mathbf{x}_0$. </p>
-<p>Imagine that we are running the experiment <strong>many times</strong>: we create $\mathcal{S}_{\text {train }}$, learn the model $f_{\mathcal{S}_{\text {train }}}$, and then evaluate the performance by computing the mean squared error for $\mathbf{x}_0$ ($y_0=f(\mathbf{x}_0)+\varepsilon$).</p>
+<p align="center">
+<img src="./heap-insert.png" alt="Insert Elements with Sift-up" width="500px" style="display:inline-block">
+</p>
 
-$$
-\begin{split}
-& \mathbb{E}_{\mathcal{S}_{\text {train }} \sim \mathcal{D}, \varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\left(f\left(\mathbf{x}_{0}\right)+\varepsilon-f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{0}\right)\right)^{2}\right] \\
-= &\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)^{2}\right] \\
-&+2\cdot \underbrace{\mathbb{E}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]}_{0}\cdot\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)\right] \\
-= &\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S}_{\text {train } \sim \mathcal{D}}}\left[\left(f\left(\mathbf{x}_{0}\right)-f_{\mathcal{S}_{\text {train }}\left(\mathbf{x}_{0}\right)}\right)^{2}\right] \\
-= & \operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}\left[\varepsilon\right]+\mathbb{E}_{\mathcal{S} \sim \mathcal{D}}\left[\left(f\left(\mathbf{x}_{0}\right)-\mathbb{E}_{\mathcal{S}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}^{\prime}}\left(\mathbf{x}_{0}\right)\right]\right) + \left(\mathbb{E}_{\mathcal{S}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}^{\prime}}\left(\mathbf{x}_{0}\right)\right]-f_{\mathcal{S}}\left(\mathbf{x}_{0}\right)\right)^2\right] \\
-=& \underbrace{\operatorname{Var}_{\varepsilon \sim \mathcal{D}_{\varepsilon}}[\varepsilon]}_{\text {noise variance }} \\
-& + \underbrace{\left(f\left(\mathbf{x}_{0}\right)-\mathbb{E}_{\mathcal{S}_{\text {train }}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}_{\text {train }}^{\prime}}\left(\mathbf{x}_{0}\right)\right]\right)^{2}}_{\text {bias }}\\
- & + \mathbb{E}_{\mathcal{S}_{\text {train }} \sim \mathcal{D}}[\underbrace{\left(\mathbb{E}_{\mathcal{S}_{\text {train }}^{\prime} \sim \mathcal{D}}\left[f_{\mathcal{S}_{\text {train }}^{\prime}}\left(\mathbf{x}_{0}\right)\right]-f_{\mathcal{S}_{\text {train }}}\left(\mathbf{x}_{0}\right)\right)^{2}}_{\text { variance }}]
-\end{split} 
-$$
-<ul>
-<li><p>Each of the three terms above is <strong>nonnegative</strong>, so each of them is a <strong>lower bound</strong> on the true error for the input $\mathbf{x}_0$.</p>
-</li>
-<li><p>$\varepsilon$ is an <strong>irreducible</strong> error.</p>
-</li>
-<li><p>The <strong>bias term</strong> is the square of the difference between the actual value $f\left(\mathbf{x}_{0}\right)$ and the expected prediction $\mathbb{E}_{S^{\prime} \sim \mathcal{D}}\left[f_{S^{\prime}}\left(\mathbf{x}_{0}\right)\right]$. </p>
-</li>
-<li><p>The variance term is the <strong>variance of the prediction function</strong>.</p>
-<h2 id="Approaches"><a href="#Approaches" class="headerlink" title="Approaches"></a>Approaches</h2></li>
-<li><p><strong>Simple model</strong>, <strong>more data</strong>, <strong>less features</strong>, <strong>underfitting</strong> → Large bias<br> <strong>Complex model</strong>, <strong>less data</strong>, <strong>more features</strong>, <strong>overfitting</strong> → Large variance</p>
-</li>
-<li><p><strong>Dimensionality reduction</strong> and  <strong>feature selection</strong> can decrease variance by simplifying models. </p>
-</li>
-<li><p>Learning algorithms typically have some <strong>tunable hyper-parameters</strong> that <strong>control bias and variance</strong>. For example:</p>
-<ul>
-<li>Linear and generalized linear models can be <strong>regularized</strong> to <strong>decrease variance at the cost of increasing bias</strong>. (It’s the <strong>essence of regulation</strong> to avoid overfitting)</li>
-<li>In  artificial neural networks, the variance increases and the bias decreases as the number of hidden units increase.</li>
-<li>In  <em>k</em>-nearest neighbor models, a high value of  k (simple model)  leads to high bias and low variance.</li>
-<li>In  <a href="https://en.wikipedia.org/wiki/Decision_tree" title="Decision tree" target="_blank" rel="noopener">decision trees</a>, the depth of the tree determines the variance. </li>
-</ul>
-</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Ensemble_learning" title="Ensemble learning" target="_blank" rel="noopener">Ensemble learning</a> is also one way of resolving the trade-off. For example,  <a href="https://en.wikipedia.org/wiki/Boosting_(machine_learning)" title="Boosting (machine learning)" target="_blank" rel="noopener">boosting</a>  <strong>combines many “weak” (high bias) models</strong> in an ensemble that has lower bias than the individual models, while  <a href="https://en.wikipedia.org/wiki/Bootstrap_aggregating" title="Bootstrap aggregating" target="_blank" rel="noopener">bagging</a>  combines “strong” learners in a way that reduces their variance.</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://edu.epfl.ch/coursebook/en/machine-learning-CS-433" target="_blank" rel="noopener">Course: Machine Learning@EPFL</a><br><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank" rel="noopener">Wikipedia: Bias–variance tradeoff</a><br><a href="https://towardsdatascience.com/5-reasons-why-you-should-use-cross-validation-in-your-data-science-project-8163311a1e79" target="_blank" rel="noopener">Blog: 5 Reasons why you should use Cross-Validation in Data Science Projects</a><br><a href="https://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">Stack Exchange: How to choose a predictive model after k-fold cross-validation?</a><br><a href="https://www.zhihu.com/question/39259296/answer/459636012" target="_blank" rel="noopener">Zhihu: 求大神通俗易懂的解释下交叉验证cross-validation？</a></p>
-</li>
-</ul>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sift_up</span><span class="hljs-params">(i, array)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (i &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> array[parent(i)] &lt; array[i]): <span class="hljs-comment"># 若到堆顶，则不再上浮</span></span><br><span class="line">        array[parent(i)], array[i] = array[i], array[parent(i)]</span><br><span class="line">        i = parent(i)</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：插入/添加元素基于，基本操作<strong>上浮（sift up）</strong>；在数组的最末尾插入新节点，然后<strong>自下而上</strong>，进行上浮操作（调整子节点与父节点）；时间复杂度为（树高）<strong>t(n)=O(logn)</strong>。</p>
+<h3 id="3-删除根节点"><a href="#3-删除根节点" class="headerlink" title="3. 删除根节点"></a>3. 删除根节点</h3><blockquote>
+<p>堆的基本操作：<strong>下沉（sift down）</strong>，比较当前节点与其两个子节点（上浮仅需与父节点比较），把<strong>较小的子节点</strong>和当前节点交换。</p>
+</blockquote>
+<p align="center">
+<img src="./heap-delete.png" alt="Remove Root with Sift-down" width="500px" style="display:inline-block">
+</p>
+
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sift_down</span><span class="hljs-params">(i, array, end)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">while</span> left(i) &lt;= end: <span class="hljs-comment"># 若到堆底，则不再下沉</span></span><br><span class="line">        <span class="hljs-keyword">if</span> right(i) &lt; end:</span><br><span class="line">            smaller_child_index = left(i) <span class="hljs-keyword">if</span> array[left(i)] &lt; array[right(i)] <span class="hljs-keyword">else</span> right(i)</span><br><span class="line">        <span class="hljs-keyword">else</span>:</span><br><span class="line">            smaller_child_index = left(i)</span><br><span class="line">        <span class="hljs-keyword">if</span> array[smaller_child_index] &lt; array[i]:</span><br><span class="line">            array[smaller_child_index], array[i] = array[i], array[smaller_child_index]</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：删除根节点基于，基本操作<strong>下沉（sift down）</strong>；删除根节点，并把<strong>堆中最后的节点</strong>移填在根节点处；再<strong>从上而下</strong>，进行下沉操作（调整父节点与它的子节点）；时间复杂度为（树高）<strong>t(n)=O(logn)</strong>。</p>
+<h3 id="4-heapify-堆化-，build-the-heap"><a href="#4-heapify-堆化-，build-the-heap" class="headerlink" title="4. heapify(堆化)，build the heap"></a>4. heapify(堆化)，build the heap</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">heapify</span><span class="hljs-params">(array)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(floor(n/<span class="hljs-number">2</span><span class="hljs-number">-1</span>), <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>)</span><br><span class="line">        sift_down(i)</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：将n个元素逐一插入到空堆中，t(n)=O(logn)；优化方法，从<strong>最后一个非子叶节点</strong>（最后一个节点的父节点<strong>floor(n/2-1))</strong>）开始，<strong>自下而上</strong>进行<strong>下沉</strong>操作，t(n)=O(n)；合并两个heap1与heap2, 即heapify(heap1+heap2)。 </p>
+<h3 id="5-Heapsort"><a href="#5-Heapsort" class="headerlink" title="5. Heapsort"></a>5. <a href="https://en.wikipedia.org/wiki/Heapsort" target="_blank" rel="noopener">Heapsort</a></h3><p align="center">
+<img src="./Sorting_heapsort_anim.gif" alt="Heapsort" width="400px" style="display:inline-block">
+</p>
+
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">heapsort</span><span class="hljs-params">(array)</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">heapify</span><span class="hljs-params">(array)</span></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line">    end = len(array) - 1</span><br><span class="line">    <span class="hljs-keyword">while</span> end &gt; <span class="hljs-number">0</span>:</span><br><span class="line">        array[end], array[<span class="hljs-number">0</span>] = array[<span class="hljs-number">0</span>], array[end]</span><br><span class="line">        end -= <span class="hljs-number">1</span></span><br><span class="line">        sift_down(<span class="hljs-number">0</span>, array, end)</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：构造初始堆（heapify）；<strong>首尾交换，断尾</strong>（因为尾节点已排序）；首部<strong>下沉</strong>；重复，直至所有节点排序；<strong>t(n)=O(nlgn)</strong>，<strong>s(n)=1</strong>（inplace）。</p>
+<h3 id="6-Heap-in-Python"><a href="#6-Heap-in-Python" class="headerlink" title="6. Heap in Python"></a>6. Heap in Python</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> heapq</span><br><span class="line">heap = [(<span class="hljs-number">1</span>, <span class="hljs-string">"a"</span>), (<span class="hljs-number">2</span>, <span class="hljs-string">"b"</span>)]</span><br><span class="line"></span><br><span class="line">heapq.heapify(heap) <span class="hljs-comment"># 根据第一个元素heapify，得到min heap</span></span><br><span class="line">heapq.heapify(-heap) <span class="hljs-comment"># 若想得到max heap</span></span><br><span class="line"></span><br><span class="line">heapq.heappush(heap, item) <span class="hljs-comment"># 插入值</span></span><br><span class="line">heapq.heappop(heap) <span class="hljs-comment"># 弹出最小（root）元素</span></span><br><span class="line"></span><br><span class="line">n_largest=heapq.nlargest(n, heap) <span class="hljs-comment"># 返回n个最大值</span></span><br><span class="line">n_smallest=heapq.nsmallest(n, heap)</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">heapsort</span><span class="hljs-params">(heap)</span>:</span></span><br><span class="line">    heapq.heapify(heap)</span><br><span class="line">    <span class="hljs-keyword">return</span> [heapq.heappop(heap) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(heap))]</span><br></pre></td></tr></table></figure>
+
+<p>用例：<a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener">Leetcode 23. Merge k Sorted Lists</a>, <a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener">Leetcode 347. Top K Frequent Elements</a></p>
+<h2 id="四-Reference"><a href="#四-Reference" class="headerlink" title="四. Reference"></a>四. Reference</h2><p><a href="https://zh.wikipedia.org/zh-cn/队列" target="_blank" rel="noopener">Wiki: 队列</a><br><a href="https://greyireland.gitbook.io/algorithm-pattern/shu-ju-jie-gou-pian/stack_queue" target="_blank" rel="noopener">Blog: 栈和队列</a><br><a href="https://labuladong.gitbook.io/algo/shu-ju-jie-gou-xi-lie/er-cha-dui-xiang-jie-shi-xian-you-xian-ji-dui-lie" target="_blank" rel="noopener">Blog: 二叉堆详解实现优先级队列</a><br><a href="https://segmentfault.com/a/1190000016753056" target="_blank" rel="noopener">Blog: 我理解的数据结构（七）—— 堆和优先队列（Heap And PriorityQueue）</a><br><a href="https://cs.lmu.edu/~ray/notes/pqueues/" target="_blank" rel="noopener">Blog: Priority Queues</a></p>
 
         </div>
         
@@ -319,16 +257,16 @@ $$
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/11/06/independent-and-identically-distributed/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/14/binary-search/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Independent and Identically Distributed</span>
+                <span class="level-item">算法思维：二分查找</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/21/google-cloud-for-deep-learning-part-2/">
-                <span class="level-item">Google Cloud for Deep Learning - Part 2</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/09/stack/">
+                <span class="level-item">数据结构：栈</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -700,7 +638,7 @@ $$
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Model Selection &amp; Bias–Variance Tradeoff" height="28">
+                    <img src="/images/logo.svg" alt="数据结构：队列" height="28">
                 
                 </a>
                 <p class="is-size-7">
