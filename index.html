@@ -154,13 +154,62 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 minutes read (About 1380 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/07/16/back-track/">算法思维：回溯法</a>
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://zh.wikipedia.org/wiki/回溯法" target="_blank" rel="noopener">回溯法</a>（backtracking）是<strong>暴力搜索法</strong>中的一种。回溯法采用<strong>试错</strong>的思想，它尝试<strong>分步</strong>解决问题，当它发现<strong>现有的分步不能</strong>得到解时，将<strong>取消上一步</strong>的计算，用<strong>其它的可能的分步</strong>，再次尝试求解。在最坏的情况下，回溯法会导致<strong>指数时间复杂度</strong>，例如 t=O(n!) 或 t=O(2^n)，即<strong>枚举</strong>的时间复杂度。回溯法的<strong>代码框架</strong>如下：</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">result = []</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">backtracking</span><span class="hljs-params">(path, choices)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">if</span> condition:<span class="hljs-comment"># 结束情况</span></span><br><span class="line">        result.append(path)</span><br><span class="line">        <span class="hljs-keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(choices)):</span><br><span class="line">        <span class="hljs-comment"># 做选择，减少可能选择</span></span><br><span class="line">        backtrack(path + choices[i], choices[:i]+choices[i+<span class="hljs-number">1</span>:]) <span class="hljs-comment"># 可以合并写为</span></span><br><span class="line">        <span class="hljs-comment"># 撤销选择，恢复可能选择</span></span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/07/16/back-track/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1681 words)
+                    11 minutes read (About 1680 words)
                 </span>
                 
                 
@@ -609,64 +658,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    10 minutes read (About 1560 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/11/19/tree-based-learning-algorithms-part-1/">Tree-Based Learning Algorithms - Part 1</a>
-            
-        </h1>
-        <div class="content">
-            <p>Tree-based models consist of <strong>decision tree</strong> and other approaches involving producing multiple trees that are combined to yield a single and better consensus prediction. These models <strong>partition the feature space</strong> into a set of <strong>polyhedrons</strong>, and then fit a simple model (like a constant) in each one.</p>
-<blockquote>
-<p>Unlike linear models, they map non-linear relationships quite well. They are adaptable at solving both classification or regression.</p>
-</blockquote>
-<p>In this post, we will look at the <strong>mathematical details</strong> and <strong>parameter explanations</strong> of several tree-based models, including <a href="https://en.wikipedia.org/wiki/Decision_tree" target="_blank" rel="noopener">Decision tree</a>, <a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">Random forest</a>, <a href="https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/" target="_blank" rel="noopener">Boosted trees</a>.</p>
-<h1 id="Decision-Tree"><a href="#Decision-Tree" class="headerlink" title="Decision Tree"></a>Decision Tree</h1><p>A decision tree is a <strong>flowchart-like</strong> structure in which: </p>
-<ul>
-<li>Each internal node represents a <strong>“test” on an attribute</strong>.</li>
-<li>Each branch represents the <strong>outcome of the test</strong>.</li>
-<li>Each leaf node represents <strong>a class label</strong> (decision taken after computing all attributes).</li>
-<li>The paths from the root to the leaf represent classification rules.</li></ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/11/19/tree-based-learning-algorithms-part-1/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -731,7 +722,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </div>
             </div>
@@ -834,6 +825,25 @@
         
         <article class="media">
             
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/14/binary-search/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
@@ -908,25 +918,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/06/30/binary-tree/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：二叉树">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-06-30T16:00:00.000Z">2020-07-01</time></div>
-                    <a href="/2020/06/30/binary-tree/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：二叉树</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -945,7 +936,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -1033,6 +1024,25 @@
         
         <article class="media">
             
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/14/binary-search/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
@@ -1107,25 +1117,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/06/30/binary-tree/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：二叉树">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-06-30T16:00:00.000Z">2020-07-01</time></div>
-                    <a href="/2020/06/30/binary-tree/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：二叉树</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1144,7 +1135,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>

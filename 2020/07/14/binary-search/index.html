@@ -19,7 +19,7 @@
 <meta property="og:description" content="二分查找（binary search），也称对数搜索（logarithmic search），是在有序数组中查找某特定元素的搜索算法，其时间复杂度为O(nlgn)。   搜索过程从数组中间元素开始，若中间元素是查找的元素，则搜索过程结束； 若特定元素大于或者小于中间元素，则在数组大于或小于中间元素的那一半中查找； 重复上述步骤，直至找到特定元素，或某一步骤数组为空，代表找不到。   应用场景：二分">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-07-18T23:36:06.189Z">
+<meta property="og:updated_time" content="2020-07-18T23:39:22.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法思维：二分查找">
 <meta name="twitter:description" content="二分查找（binary search），也称对数搜索（logarithmic search），是在有序数组中查找某特定元素的搜索算法，其时间复杂度为O(nlgn)。   搜索过程从数组中间元素开始，若中间元素是查找的元素，则搜索过程结束； 若特定元素大于或者小于中间元素，则在数组大于或小于中间元素的那一半中查找； 重复上述步骤，直至找到特定元素，或某一步骤数组为空，代表找不到。   应用场景：二分">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1681 words)
+                    11 minutes read (About 1680 words)
                 </span>
                 
                 
@@ -214,7 +214,7 @@
 <p><strong>主要思路</strong>：<strong>旋转排序数组</strong>的二分搜索，关键在于<strong>通过mid元素与队首、队尾元素的比较</strong>，确定<strong>mid元素的位置</strong>（pivot点前，或后）；注意<strong>边界问题</strong>。代码<strong>框架</strong>如下：</p>
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">func</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    left, right = <span class="hljs-number">0</span>, len(nums) - <span class="hljs-number">1</span></span><br><span class="line">    <span class="hljs-keyword">while</span> left &lt;= right:</span><br><span class="line">        (optional) <span class="hljs-keyword">if</span> left == right:</span><br><span class="line">            <span class="hljs-comment"># 若不希望，left=right之后，再有变化，可在此处break</span></span><br><span class="line">        mid = left + (right - left) // <span class="hljs-number">2</span></span><br><span class="line">        <span class="hljs-comment"># --------------------  包含/不包含重复元素 -------------------- #</span></span><br><span class="line">        <span class="hljs-comment"># 此处注意，应与nums[right]比较(不知道为什么)；</span></span><br><span class="line">        <span class="hljs-comment"># 大概是因为right，永远处于后半段中。例如，4567[12「3」] -&gt; 4567[「1」23][]中为后半段，「」中为right）</span></span><br><span class="line">        <span class="hljs-comment">#         left， 却会从前半段，跳入后半段。例如：[「4」567]123 -&gt; [4567]「1」23，[]中为前半段，「」中为left）</span></span><br><span class="line">        <span class="hljs-keyword">if</span> nums[mid] &lt; nums[right]: <span class="hljs-comment"># [mid, right]为单调区间</span></span><br><span class="line">            <span class="hljs-comment"># 收缩left，或right；注意收缩后区间，是否应包括mid</span></span><br><span class="line">        <span class="hljs-keyword">elif</span> nums[mid] &gt; nums[right]: <span class="hljs-comment"># [left, mid]为单调序列</span></span><br><span class="line">            <span class="hljs-comment"># 收缩left，或right；注意收缩后区间，是否应包括mid</span></span><br><span class="line">        <span class="hljs-keyword">else</span>: <span class="hljs-comment"># mid=right，当且仅当left=right=mid</span></span><br><span class="line">            right = right - <span class="hljs-number">1</span> <span class="hljs-comment"># 若有重复元素；此操作仅缩小了一个数的范围，而非一半，所以时间复杂度会上升。</span></span><br></pre></td></tr></table></figure>
 
-<p>相似用例：，<a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/" target="_blank" rel="noopener">Leetcode 154. Find Minimum in Rotated Sorted Array II</a>，<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/solution/154-find-minimum-in-rotated-sorted-array-ii-by-jyd/" target="_blank" rel="noopener">[参考]</a></p>
+<p>相似用例：<a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/" target="_blank" rel="noopener">Leetcode 154. Find Minimum in Rotated Sorted Array II</a>，<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/solution/154-find-minimum-in-rotated-sorted-array-ii-by-jyd/" target="_blank" rel="noopener">[参考]</a></p>
 <h3 id="2-其他"><a href="#2-其他" class="headerlink" title="2. 其他"></a>2. 其他</h3><p><a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">Leetcode 74. Search a 2D Matrix</a><br><a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener">Leetcode 35. Search Insert Position</a></p>
 <h2 id="四-Reference"><a href="#四-Reference" class="headerlink" title="四. Reference"></a>四. Reference</h2><p><a href="https://zh.wikipedia.org/zh-cn/二分搜尋演算法" target="_blank" rel="noopener">Wiki: 二分查找</a><br><a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/er-fen-cha-zhao-xiang-jie" target="_blank" rel="noopener">Blog: 二分查找详解</a><br><a href="https://greyireland.gitbook.io/algorithm-pattern/ji-chu-suan-fa-pian/binary_search" target="_blank" rel="noopener">Blog: 二分搜索</a></p>
 
@@ -236,6 +236,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/16/back-track/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">算法思维：回溯法</span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -317,7 +324,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </div>
             </div>
@@ -420,6 +427,25 @@
         
         <article class="media">
             
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/14/binary-search/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
@@ -494,25 +520,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/06/30/binary-tree/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：二叉树">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-06-30T16:00:00.000Z">2020-07-01</time></div>
-                    <a href="/2020/06/30/binary-tree/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：二叉树</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -531,7 +538,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
