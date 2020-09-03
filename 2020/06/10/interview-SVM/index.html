@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>机器学习：支持向量机（Support Vector Machine） - DeepBlog</title>
+
+
+    <meta name="description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习：支持向量机（Support Vector Machine）">
+<meta property="og:url" content="http://sxiazr.github.io/2020/06/10/interview-SVM/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-08-13T23:27:06.529Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习：支持向量机（Support Vector Machine）">
+<meta name="twitter:description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="机器学习：支持向量机（Support Vector Machine）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-10T16:00:00.000Z">2020-06-11</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 minutes read (About 2470 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                机器学习：支持向量机（Support Vector Machine）
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>支持向量机（Support Vector Machine，SVM）是经典的<strong>二分类</strong>模型，其<strong>直观地</strong>定义为特征空间上，<strong>间隔最大</strong>（最鲁棒）的<strong>线性分类器</strong>。SVM学习的优化目标是最大化间隔，可以转化为<strong>凸二次规划</strong>（convex quadratic programming）问题。在线性模型的基础上，引入<strong>核函数</strong>（核技巧）可以得到<strong>非线性</strong>模型。</p>
+<a id="more"></a>
+<h1 id="二-硬间隔-Hard-margin"><a href="#二-硬间隔-Hard-margin" class="headerlink" title="二. 硬间隔(Hard margin)"></a>二. 硬间隔(Hard margin)</h1><p>SVM试图找到位于两类样本<strong>正中间</strong>的超平面，因为其<strong>鲁棒性</strong>最好，泛化能力最强。</p>
+<p align="center">
+  <img src="./svm.png" alt="Support Vector Machine" width="400px">
+</p>
+
+<p>上图实线即划分超平面。在<strong>线性模型</strong>中，超平面可通过<strong>方程</strong>$\mathbf{w}^T\mathbf{x}+b=0$描述，其中$\mathbf{w}$是超平面的<strong>法向量</strong>（决定超平面<strong>方向</strong>），$b$为<strong>位移项</strong>（决定超平面<strong>和原点之间的距离</strong>）。</p>
+<p>假设超平面能将<strong>所有训练样本正确分类</strong>（<strong>硬间隔</strong>，hard margin），那么对于所有<strong>标记为+1的点</strong>，有$\mathbf{w}^T\mathbf{x}_i+b&gt;0$，对所有<strong>标记为-1</strong>的点，有$\mathbf{w}^T\mathbf{x}_i+b&lt;0$。若<strong>超平面</strong>存在，那么可以对$\mathbf{w}$和$b$进行<strong>线性放缩</strong>，使得任意$\left(\mathbf{x}_i, y_{i}\right) \in D$：</p>
+$$\mathbf{w}^T\mathbf{x}_i+b\geq+1,\quad y_i = +1 \\ \mathbf{w}^T\mathbf{x}_i+b\leq-1,\quad y_i = -1$$
+<p>使上式<strong>等号成立</strong>的训练样本称为<strong>支持向量</strong>（support vector），其为<strong>距离超平面最近</strong>的样本点，距离为$\gamma=\frac{1}{\Vert\mathbf{w}\Vert}$（样本主空间中任意点$\mathbf{x}$，<strong>到超平面的距离</strong>为$r=\frac{\left|\mathbf{w}^{T} \mathbf{x}+b\right|}{\Vert\mathbf{w}\Vert}$）。定义<strong>间隔（margin）</strong>为两个<strong>异类支持向量</strong>到超平面的距离之和，为$\gamma=\frac{2}{\Vert\mathbf{w}\Vert}$。</p>
+<p align="center">
+  <img src="./point-to-plane.png" alt="Point to Plane Distance" width="400px">
+</p>
+
+<blockquote>
+<p>证明：设$\mathbf{x}_0$为$\mathbf{x}$在超平面$(\mathbf{w}, b)$上的<strong>投影</strong>（向量）。由上图可知，$\mathbf{x} = \mathbf{x_0} + \mathbf{r}$，且$\mathbf{r}=\frac{\mathbf{w}}{\Vert\mathbf{w}\Vert} \cdot r$，代入可得$\mathbf{x_0} = \mathbf{x} - \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert} \cdot r$。又因为点$\mathbf{x_0}$在超平面上，所以有$\mathbf{w}^T\mathbf{x_0}+b=0$。消去$\mathbf{x_0}$，得到$$\mathbf{w}^T\mathbf{x_0}+b<br>= \mathbf{w}^T(\mathbf{x} - \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert} \cdot r)+b<br>= 0 \Rightarrow r = \frac{\mathbf{w}^T\mathbf{x}+b}{\Vert \mathbf{w} \Vert}$$，取距离为正值（法向量可能为<strong>图示反向</strong>），即$r = \frac{|\mathbf{w}^T\mathbf{x}+b|}{\Vert \mathbf{w} \Vert}$。</p>
+</blockquote>
+<p>SVM的目标是找到<strong>具有最大间隔（maximum margin）</strong>的划分超平面，即$\max_{\mathbf{w},b} \frac{2}{\Vert \mathbf{w} \Vert}$，将目标函数写成<strong>最小化</strong>（$\max_{\mathbf{w},b} \frac{2}{\Vert \mathbf{w} \Vert} \Rightarrow \min_{\mathbf{w},b} \frac{1}{2}\Vert \mathbf{w} \Vert^{2}$），可得<strong>支持向量机的基本型</strong>：</p>
+$$\min_{\mathbf{w},b} \frac{1}{2} \Vert \mathbf{w} \Vert^2 \\\text{s.t.} \quad y_i(\mathbf{w}^T\mathbf{x}_i+b) \geq 1, \quad  i=1,2,...,m$$
+
+<h1 id="三-SVM与凸优化"><a href="#三-SVM与凸优化" class="headerlink" title="三. SVM与凸优化"></a>三. SVM与凸优化</h1><p>由上式可看出，SVM为<strong>凸二次规划</strong> (convex quadratic programming) 问题，可以通过<strong>随机梯度下降</strong>（stochastic gradient descent）求解最优值。</p>
+<p>另外，也可以使用<strong>拉格朗日乘子法</strong>（<a href="/2020/06/11/compact-convex-optimization/" title="详见">详见</a>），通过<strong>对偶问题</strong> (此时，<strong>强对偶性</strong>成立)求解，其降低了计算开销，并为<strong>核函数</strong>$\phi(\mathbf{x})$的使用提供基础。其拉格朗日函数如下：$$L(\mathbf{w},b,\mathbf{a}) = \frac{1}{2} \Vert \mathbf{w} \Vert^2 + \sum_{i=1}^m a_i(1-y_i(\mathbf{w}^T\mathbf{x}_i+b))$$其中，$\mathbf{a} = (a_1;a_2;…;a_m)$为拉格朗日乘子。将拉格朗日函数分别<strong>对原变量$\mathbf{w}$、$b$求偏导</strong>，并令<strong>导数为0</strong>，可得$
+\mathbf{w}^{\star} = \sum_{i=1}^m a_i y_i \mathbf{x}_i$、$0 = \sum_{i=1}^m a_i y_i$（本质为KKT条件）。由于<strong>强对偶性</strong>成立，原问题与对偶问题有<strong>相同的最优解</strong>，故代入拉格朗日函数（$\min_{\mathbf{w}, b} = \mathbf{w}^{\star}, b^{\star}$，消去$\mathbf{w}$、$b$），可得<strong>对偶问题</strong>：$$
+ \max_{\mathbf{a}} \sum_{i=1}^m a_i - \frac{1}{2} \sum_{i=1}^m\sum_{j=1}^m a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j \\
+ \text{s.t.} \quad \sum_{i=1}^m a_i y_i = 0, \quad a_i \geq 0, \quad i=1,2,...,m
+$$只要求出<strong>对偶问题的解</strong>$\mathbf{a}^{\star}$，即可推出$
+\mathbf{w}^{\star} = \sum_{i=1}^m a_i y_i \mathbf{x}_i$和$b^{\star}$(<strong>如下</strong>)，从而得到<strong>预测模型</strong>：$$\begin{split}<br>f(\mathbf{x}) &amp;= \mathbf{w^{\star}}^T \mathbf{x} + b^{\star}\<br>&amp;= \sum_{i=1}^m a_i^{\star} y_i \mathbf{x}_i^T \mathbf{x} + b^{\star}<br>\end{split}$$</p>
+<h3 id="为什么称为支持向量机？"><a href="#为什么称为支持向量机？" class="headerlink" title="为什么称为支持向量机？"></a><strong>为什么称为支持向量机？</strong></h3><p>由于强对偶性成立，故最优点$\mathbf{a}^{\star}$、$\mathbf{w}^{\star}$、$b^{\star}$满足KKT条件：</p>
+
+$$\left\{\begin{array}{l}y_i(\mathbf{w^{\star}}^T\mathbf{x}_i+b) - 1 = y_{i} f\left(\mathbf{x}_{i}\right)-1 \geq 0 , \quad i=1,2,...,m\\
+a_{i}^{\star} \geq 0 , \quad i=1,2,...,m\\ 
+a_{i}\left(y_{i} f\left(\mathbf{x}_{i}\right)-1\right)=0, \quad i=1,2,...,m\\
+\mathbf{w}^{\star} = \sum_{i=1}^m a_i y_i \mathbf{x}_i, \quad 0 = \sum_{i=1}^m a_i y_i
+\end{array}\right.$$
+
+<p>由第三条（complementary slackness）可得，对任何一个样本$\mathbf{x}_i$而言：</p>
+<ul>
+<li>若$y_i f(\mathbf{x}_i) \neq 1$，则拉格朗日乘子$a_i$为0，此时样本$\mathbf{x}_i$对<strong>预测模型</strong>（$\sum_{i=1}^m a_i^{\star} y_i \mathbf{x}_i^T \mathbf{x} + b^{\star}$）无影响；</li>
+<li>若$y_i f(\mathbf{x}_i) = 1$，此时样本$\mathbf{x}_i$位于<strong>最大间隔边界上</strong>，是支持向量。将支持向量表示为$(\mathbf{x}_s, y_s)$，则$y_{s}\left( \mathbf{w^{\star}}^T \mathbf{x}_{s}+b^{\star}\right)=1$，故理论上，可选取<strong>任意支持向量</strong>获得$b^{\star}$ (均值$b^{\star}=\frac{1}{|S|} \sum_{s \in S}\left(\frac{1}{y_{s}}-\mathbf{w^{\star}}^T \mathbf{x}_{s}\right)$更为鲁棒)。</li>
+</ul>
+<p>它揭示了SVM的一个重要性质：<strong>最终模型只与支持向量有关</strong>。</p>
+<h3 id="如何求解-boldsymbol-a-？"><a href="#如何求解-boldsymbol-a-？" class="headerlink" title="如何求解$\boldsymbol{a}$？"></a><strong>如何求解$\boldsymbol{a}$？</strong></h3><p>为了提高优化速度，可以采用<strong><a href="https://zh.wikipedia.org/wiki/%E5%9D%90%E6%A0%87%E4%B8%8B%E9%99%8D%E6%B3%95" target="_blank" rel="noopener">坐标下降法</a>(coordinate descent)</strong>，其是一种<strong>非梯度优化算法</strong>，与通过梯度的最速下降不同，在坐标下降法中，<strong>优化方向</strong>是<strong>固定的</strong>。</p>
+<p><strong>原理</strong>：</p>
+<ul>
+<li>多变量函数$F(\boldsymbol{a})$，<strong>每次沿一个</strong>坐标方向进行<strong>一维搜索</strong>，求得该方向上，函数的<strong>局部极小值</strong>；</li>
+<li>在整个过程中，<strong>循环使用</strong>不同的坐标方向（例如，线性空间的一组基$\mathbf{e}_1, \mathbf{e}_2, \dots, \mathbf{e}_n$），<strong>循环最小化</strong>各方向上的函数值，即：    
+$$\mathbf{x}^{k+1}_i = \underset{y\in\mathbb R}{\operatorname{arg\,min}}\; f(a^{k+1}_1,...,a^{k+1}_{i-1},y,a^k_{i+1},...,a^k_n)$$
+因而，从初始的猜测值$\boldsymbol{a}_0$，以求$F$的局部最优值，可以迭代获得$\boldsymbol{a}_0, \boldsymbol{a}_1, \boldsymbol{a}_2, \dots$的序列。</li>
+</ul>
+<h1 id="四-核函数"><a href="#四-核函数" class="headerlink" title="四. 核函数"></a>四. 核函数</h1><p>核函数（kernel function）将样本从原始空间<strong>映射</strong>($f(\mathbf{x})=\mathbf{w}^T \phi(\mathbf{x})+b$)到<strong>更高维</strong>空间，使样本在该特征空间内<strong>线性可分</strong>，此时，<strong>对偶问题</strong>如下：</p>
+$$
+ \max_{\mathbf{a}} \sum_{i=1}^m a_i - \frac{1}{2} \sum_{i=1}^m\sum_{j=1}^m a_i a_j y_i y_j \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j) \\
+ \text{s.t.} \quad \sum_{i=1}^m a_i y_i = 0, \quad a_i \geq 0, \quad i=1,2,...,m
+$$
+<p>其中，$\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$是样本在高维空间的<strong>内积</strong>，计算<strong>困难</strong>。为了避开计算上的复杂，可设想这样的<strong>核函数</strong>:</p>
+$$\kappa\left(\mathbf{x}_{i}, \mathbf{x}_{j}\right)=\left\langle\phi\left(\mathbf{x}_{i}\right), \phi\left(\boldsymbol{x}_{j}\right)\right\rangle=\phi\left(\mathbf{x}_{i}\right)^T\phi\left(\mathbf{x}_{j}\right)$$
+
+<p>其将样本在<strong>高维空间的内积</strong>，通过在<strong>低维空间</strong>中计算$\kappa\left(\mathbf{x}_{i}, \mathbf{x}_{j}\right)$来获得，节约了<strong>映射过程</strong>和<strong>高维向量内积</strong>的计算开销。</p>
+<p>通过核函数，上述<strong>对偶问题</strong>变为：</p>
+$$
+ \max_{\mathbf{a}} \sum_{i=1}^m a_i - \frac{1}{2} \sum_{i=1}^m\sum_{j=1}^m a_i a_j y_i y_j \kappa\left(\mathbf{x}_{i}, \mathbf{x}_{j}\right) \\
+ \text{s.t.} \quad \sum_{i=1}^m a_i y_i = 0, \quad a_i \geq 0, \quad i=1,2,...,m
+$$
+<p><strong>函数模型</strong>变为：$$\begin{aligned} f(\mathbf{x}) &=\mathbf{w^{\star}}^T \phi(\mathbf{x})+b^{\star} =\sum_{i=1}^{m} a_{i}^{\star} y_{i} \phi\left(\mathbf{x}_{i}\right)^T \phi(\mathbf{x})+b^{\star} \\ &=\sum_{i=1}^{m} a_{i}^{\star} y_{i} \kappa\left(\mathbf{x}, \mathbf{x}_{i}\right)+b^{\star} \end{aligned}$$</p>
+<p>，若己知合适映射 cþ(.) 的具体形式，则可写出核函数 κ(. ， .).但在现实 任务中我们通常不知道 cþ(.) 是什么形式，</p>
+<p>需注意的是，在不知道特征映射的形 式时，我们并不知道什么样的核函数是合适的，而核函数也仅是隐式地走义了</p>
+<p>这个特征空间.于是，”核函数选择”成为支持向量机的最大变数.</p>
+<p>核函数是一个把特征从低维空间映射到高维空间并保证计算开销与低维度空间相当的做法。 也可以说是既要马儿跑又要马儿不吃草的神奇操作。 核函数有很多，常用的有rbf，高斯核， polynomial 核等等。 核函数的研究在学界也是一个曾经一度很热的领域。 这里不提各种核的用法，想简单推导一下核的原理，顺便展现dual 形式求解的价值。</p>
+<h1 id="五-软间隔与正则化"><a href="#五-软间隔与正则化" class="headerlink" title="五. 软间隔与正则化"></a>五. 软间隔与正则化</h1><h1 id="六-支持向量回归"><a href="#六-支持向量回归" class="headerlink" title="六. 支持向量回归"></a>六. 支持向量回归</h1><h1 id="七-Reference"><a href="#七-Reference" class="headerlink" title="七. Reference"></a>七. Reference</h1><p><a href="https://item.jd.com/11867803.html" target="_blank" rel="noopener">Book: 机器学习，周志华</a><br><a href="https://zhuanlan.zhihu.com/p/91267375" target="_blank" rel="noopener">Zhihu: SVM（二）：从凸优化聊到SVM对偶式的推导</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/11/compact-convex-optimization/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">数学：凸优化与拉格朗日乘子法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/06/interview-linear-model/">
+                <span class="level-item">机器学习：线性模型（Linear Model）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="机器学习：支持向量机（Support Vector Machine）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

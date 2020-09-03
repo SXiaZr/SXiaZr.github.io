@@ -19,7 +19,7 @@
 <meta property="og:description" content="Unity is strength.  Ensemble methods combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone. The main hypothesis is that wh">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-01-01T12:31:30.991Z">
+<meta property="og:updated_time" content="2020-08-05T16:19:53.502Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Model Ensemble">
 <meta name="twitter:description" content="Unity is strength.  Ensemble methods combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone. The main hypothesis is that wh">
@@ -208,7 +208,7 @@ $$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatornam
 <h2 id="Bagging-in-tree-model"><a href="#Bagging-in-tree-model" class="headerlink" title="Bagging in tree model"></a><strong>Bagging in tree model</strong></h2><p>Bagging works particularly well for decision trees when they are aggregated as <strong><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">Random forest</a></strong>.</p>
 <h1 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h1><p><strong>Boosting</strong> is an ensemble method that often considers <strong>homogeneous weak learners</strong> and learns them from <strong>previously learned</strong> weak learners <strong>in sequential</strong>. </p>
 <p><strong>Boosting</strong> is designed to improve the stability and <strong>reduces bias</strong> to avoid underfitting. The base learner it contains is supposed to be the one with <strong>low variance but high bias</strong>. </p>
-<h2 id="Why-does-bagging-reduce-the-bias"><a href="#Why-does-bagging-reduce-the-bias" class="headerlink" title="Why does bagging reduce the bias?"></a><strong>Why does bagging reduce the bias?</strong></h2><p>In contrast, boosting <strong>does not involve bootstrapping</strong>. Instead, the weak learner is sequentially fitted on a <strong>modified (weighted) version</strong> of the original data set. </p>
+<h2 id="Why-does-boosting-reduce-the-bias"><a href="#Why-does-boosting-reduce-the-bias" class="headerlink" title="Why does boosting reduce the bias?"></a><strong>Why does boosting reduce the bias?</strong></h2><p>In contrast, boosting <strong>does not involve bootstrapping</strong>. Instead, the weak learner is sequentially fitted on a <strong>modified (weighted) version</strong> of the original data set. </p>
 <p>The fitting process is <strong>adaptative</strong>:  each learner is fitted <strong>giving more importance</strong> to observations in the dataset that were badly handled by the previous learners. </p>
 <p>Intuitively, each new learner <strong>focus its efforts on the most difficult observations</strong> to fit up to now, so that we obtain, at the end, a strong learner with lower bias.</p>
 <h2 id="Boosting-in-tree-model"><a href="#Boosting-in-tree-model" class="headerlink" title="Boosting in tree model"></a><strong>Boosting in tree model</strong></h2><p>Boosting works particularly well for decision trees when they are aggregated as <strong><a href="https://en.wikipedia.org/wiki/Gradient_boosting" target="_blank" rel="noopener">Boosted trees</a></strong>.</p>
@@ -343,7 +343,7 @@ $$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatornam
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        26
                     </p>
                 </div>
             </div>
@@ -446,6 +446,44 @@ $$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatornam
         
         <article class="media">
             
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -501,44 +539,6 @@ $$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatornam
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/09/stack/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time></div>
-                    <a href="/2020/07/09/stack/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/04/linked-list/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：链表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:00:00.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/04/linked-list/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：链表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -557,7 +557,18 @@ $$\operatorname{Var}\left(\frac{Y_{1}+Y_{2}+\ldots+Y_{n}}{n}\right)=\operatornam
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>

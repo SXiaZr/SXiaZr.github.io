@@ -19,7 +19,7 @@
 <meta property="og:description" content="回溯法（backtracking）是暴力搜索法中的一种。回溯法采用试错的思想，它尝试分步解决问题，当它发现现有的分步不能得到解时，将取消上一步的计算，用其它的可能的分步，再次尝试求解。在最坏的情况下，回溯法会导致指数时间复杂度，例如 t=O(n!) 或 t=O(2^n)，即枚举的时间复杂度。回溯法的代码框架如下： 12345678910result = []def backtracking(pat">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-07-21T11:10:25.817Z">
+<meta property="og:updated_time" content="2020-07-21T16:33:02.875Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法思维：回溯法">
 <meta name="twitter:description" content="回溯法（backtracking）是暴力搜索法中的一种。回溯法采用试错的思想，它尝试分步解决问题，当它发现现有的分步不能得到解时，将取消上一步的计算，用其它的可能的分步，再次尝试求解。在最坏的情况下，回溯法会导致指数时间复杂度，例如 t=O(n!) 或 t=O(2^n)，即枚举的时间复杂度。回溯法的代码框架如下： 12345678910result = []def backtracking(pat">
@@ -208,7 +208,7 @@
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> 2<span class="hljs-title">D_backtracking</span><span class="hljs-params">()</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">increment</span><span class="hljs-params">(row, col)</span>:</span> </span><br><span class="line">        <span class="hljs-comment"># 坐标的步进 </span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_valid</span><span class="hljs-params">(row, col)</span>:</span> </span><br><span class="line">        <span class="hljs-comment"># 有效性验证</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">backtracking</span><span class="hljs-params">(row, col)</span></span></span><br><span class="line">        if row == n: # 超出范围，返回</span><br><span class="line">            <span class="hljs-keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> is_valid(row, col):</span><br><span class="line">            <span class="hljs-keyword">for</span> choice <span class="hljs-keyword">in</span> choices:</span><br><span class="line">                make_choice(row, col, choice) <span class="hljs-comment"># 选择</span></span><br><span class="line">                row_, col_ = increment(row, col)</span><br><span class="line">                backtracking(row_, col_) </span><br><span class="line">                cancel_choice(row, col, choice) <span class="hljs-comment"># 撤销选择</span></span><br><span class="line">        <span class="hljs-keyword">return</span></span><br></pre></td></tr></table></figure>
 
 <p>其他用例：<br><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/" target="_blank" rel="noopener">Leetcode 17. Letter Combinations of a Phone Number</a><br><a href="https://leetcode.com/problems/generate-parentheses/" target="_blank" rel="noopener">Leetcode 22. Generate Parentheses</a><br><a href="https://leetcode.com/problems/combination-sum/" target="_blank" rel="noopener">Leetcode 39. Combination Sum</a><br><a href="https://leetcode.com/problems/restore-ip-addresses/" target="_blank" rel="noopener">Leetcode 93. Restore IP Addresses</a><br><a href="https://leetcode.com/problems/palindrome-partitioning/" target="_blank" rel="noopener">Leetcode 131. Palindrome Partitioning</a></p>
-<h2 id="四-Reference"><a href="#四-Reference" class="headerlink" title="四. Reference"></a>四. Reference</h2><p><a href="https://zh.wikipedia.org/wiki/回溯法" target="_blank" rel="noopener">Wiki: 回溯法</a><br><a href="https://greyireland.gitbook.io/algorithm-pattern/suan-fa-si-wei/backtrack" target="_blank" rel="noopener">Blog: 回溯法</a><br><a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/hui-su-suan-fa-xiang-jie-xiu-ding-ban" target="_blank" rel="noopener">Blog: 回溯算法解题套路框架</a><br><a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/sudoku" target="_blank" rel="noopener">Blog: 回溯算法最佳实践：解数独</a></p>
+<h2 id="三-Reference"><a href="#三-Reference" class="headerlink" title="三. Reference"></a>三. Reference</h2><p><a href="https://zh.wikipedia.org/wiki/回溯法" target="_blank" rel="noopener">Wiki: 回溯法</a><br><a href="https://greyireland.gitbook.io/algorithm-pattern/suan-fa-si-wei/backtrack" target="_blank" rel="noopener">Blog: 回溯法</a><br><a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/hui-su-suan-fa-xiang-jie-xiu-ding-ban" target="_blank" rel="noopener">Blog: 回溯算法解题套路框架</a><br><a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/sudoku" target="_blank" rel="noopener">Blog: 回溯算法最佳实践：解数独</a></p>
 
         </div>
         
@@ -228,6 +228,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/19/sort/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">算法思维：排序算法</span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -309,7 +316,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        26
                     </p>
                 </div>
             </div>
@@ -412,6 +419,44 @@
         
         <article class="media">
             
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -467,44 +512,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/09/stack/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time></div>
-                    <a href="/2020/07/09/stack/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/04/linked-list/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：链表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:00:00.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/04/linked-list/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：链表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -523,7 +530,18 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>

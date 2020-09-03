@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>算法思维：排序算法 - DeepBlog</title>
+
+
+    <meta name="description" content="排序算法（Sorting algorithm）是能将一串数据依照特定排序方式进行排列的一种算法，最常用到的排序方式是数值顺序以及字典顺序。常见的比较排序算法如下：">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法思维：排序算法">
+<meta property="og:url" content="http://sxiazr.github.io/2020/07/19/sort/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="排序算法（Sorting algorithm）是能将一串数据依照特定排序方式进行排列的一种算法，最常用到的排序方式是数值顺序以及字典顺序。常见的比较排序算法如下：">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-07-23T17:07:15.689Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法思维：排序算法">
+<meta name="twitter:description" content="排序算法（Sorting algorithm）是能将一串数据依照特定排序方式进行排列的一种算法，最常用到的排序方式是数值顺序以及字典顺序。常见的比较排序算法如下：">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="算法思维：排序算法" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 minutes read (About 1724 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                算法思维：排序算法
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://zh.wikipedia.org/zh-cn/排序算法" target="_blank" rel="noopener">排序算法</a>（Sorting algorithm）是能将一串数据<strong>依照特定排序方式</strong>进行排列的一种算法，最常用到的排序方式是<strong>数值顺序</strong>以及<strong>字典顺序</strong>。常见的<strong>比较排序</strong>算法如下：</p>
+<a id="more"></a>
+<p align="center">
+<img src="./sort.png" alt="Sort" width="600px" style="display:inline-block">
+</p>
+
+
+<h2 id="一-基础排序算法"><a href="#一-基础排序算法" class="headerlink" title="一. 基础排序算法"></a>一. 基础排序算法</h2><h3 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1. 冒泡排序"></a>1. 冒泡排序</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums)<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>): <span class="hljs-comment"># 从nums[n]到nums[1], 逐个排序；nums[0]自行补全</span></span><br><span class="line">        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(i): <span class="hljs-comment"># j最大至i-1</span></span><br><span class="line">            <span class="hljs-keyword">if</span> nums[j+<span class="hljs-number">1</span>] &lt; nums[j]:</span><br><span class="line">                nums[j+<span class="hljs-number">1</span>], nums[j] = nums[j], nums[j+<span class="hljs-number">1</span>]</span><br><span class="line">    <span class="hljs-keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：Repeatedly <strong>swapping the adjacent elements</strong> if they are <strong>in wrong order</strong>；Every time it <strong>correct the order of last element</strong>；<strong>t=O(n^2), s=O(1)</strong>；确定一个位置的顺序，需<strong>多次交换</strong>。</p>
+<h3 id="2-选择排序"><a href="#2-选择排序" class="headerlink" title="2. 选择排序"></a>2. 选择排序</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">selection_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums)<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):</span><br><span class="line">        tmp = <span class="hljs-number">0</span> <span class="hljs-comment"># 对比的起始位置</span></span><br><span class="line">        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(i+<span class="hljs-number">1</span>):</span><br><span class="line">            <span class="hljs-keyword">if</span> nums[j] &gt; nums[tmp]:</span><br><span class="line">                tmp = j <span class="hljs-comment"># 记录最大值的位置</span></span><br><span class="line">        nums[i], nums[tmp] = nums[tmp], nums[i] <span class="hljs-comment"># 将最大值交换到最后</span></span><br><span class="line">    <span class="hljs-keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：Repeatedly finding the maximum element (considering ascending order) from unsorted part and putting it at the end；<strong>t=O(n^2), s=O(1)</strong>；确定一个位置的顺序，仅需<strong>一次交换</strong>。</p>
+<h3 id="3-插入排序"><a href="#3-插入排序" class="headerlink" title="3. 插入排序"></a>3. 插入排序</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">insertion_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums)):</span><br><span class="line">        pos, val = i<span class="hljs-number">-1</span>, nums[i]</span><br><span class="line">        <span class="hljs-keyword">while</span> pos &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> val &lt; nums[pos]:</span><br><span class="line">            nums[pos+<span class="hljs-number">1</span>] = nums[pos]</span><br><span class="line">            pos -= <span class="hljs-number">1</span></span><br><span class="line">        nums[pos+<span class="hljs-number">1</span>] = val</span><br><span class="line">    <span class="hljs-keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：Insertion sort works the way we <strong>sort playing cards</strong>；<strong>1）</strong>Insertion sort iterates, consuming one input element each repetition, and growing a sorted output list. <strong>2）</strong> At <strong>each iteration</strong>, insertion sort removes <strong>one element</strong> from the input data, <strong>finds the location</strong> it belongs within the sorted list, and inserts it there.<strong>3）</strong>It repeats until no input elements remain；<strong>t=O(n^2), s=O(1)</strong>。</p>
+<p>例子：<a href="https://leetcode.com/problems/insertion-sort-list/" target="_blank" rel="noopener">Leetcode 147. Insertion Sort List</a></p>
+<h3 id="4-希尔排序"><a href="#4-希尔排序" class="headerlink" title="4. 希尔排序"></a>4. <a href="https://zh.wikipedia.org/zh-cn/希尔排序" target="_blank" rel="noopener">希尔排序</a></h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">shell_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    n = len(nums)</span><br><span class="line">    gap = n // <span class="hljs-number">2</span></span><br><span class="line">    <span class="hljs-keyword">while</span> gap &gt; <span class="hljs-number">0</span>:</span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, n, gap): <span class="hljs-comment"># 即步进为gap的插入排序</span></span><br><span class="line">            pos, val = i - gap, nums[i]</span><br><span class="line">            <span class="hljs-keyword">while</span> pos &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> nums[pos] &gt; nums[i]:</span><br><span class="line">                nums[pos + gap] = nums[pos]</span><br><span class="line">                pos = pos - gap</span><br><span class="line">            nums[pos + gap] = val</span><br><span class="line">        gap = gap // <span class="hljs-number">2</span></span><br><span class="line">    <span class="hljs-keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+
+<p>希尔排序，也称<strong>递减增量排序算法</strong>，是<strong>插入排序</strong>的一种<strong>更高效的改进版本</strong>；算法<strong>最终需以步长为1</strong>进行排序，此时变为<strong>普通插入排序</strong>，<strong>保证</strong>了数据一定会被排序（故<strong>最终步长为1的任何步长序列</strong>都可以工作）；<strong>一般</strong>步长选择为<strong>n/2</strong>，并且对步长<strong>取半</strong>直到1，最坏情况t=O(n^2)。</p>
+<p>算法具体如下：</p>
+<blockquote>
+<ol>
+<li>希尔排序将全部元素<strong>分为几个区域</strong>，以提升插入排序的性能，可以让元素一次性地<strong>朝最终位置</strong>前<strong>进一大步</strong>；</li>
+<li>逐步取越来越小的步长进行排序，算法的最后一步就是普通的插入排序（此时数据几乎已排好）。</li>
+</ol>
+</blockquote>
+<h3 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5. 归并排序"></a>5. 归并排序</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">divide</span><span class="hljs-params">(nums, left, right)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">if</span> left &gt;= right:</span><br><span class="line">            <span class="hljs-keyword">return</span> [nums[left]]</span><br><span class="line">        mid = left + (right - left) // <span class="hljs-number">2</span></span><br><span class="line">        s_left  = divide(nums, left, mid)</span><br><span class="line">        s_right = divide(nums, mid + <span class="hljs-number">1</span>, right)</span><br><span class="line">        <span class="hljs-keyword">return</span> conquer(s_left, s_right)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">conquer</span><span class="hljs-params">(s_left, s_right)</span>:</span></span><br><span class="line">        res = []</span><br><span class="line">        <span class="hljs-keyword">while</span> s_left <span class="hljs-keyword">and</span> s_right:</span><br><span class="line">            <span class="hljs-keyword">if</span> s_left[<span class="hljs-number">0</span>] &lt; s_right[<span class="hljs-number">0</span>]:</span><br><span class="line">                res.append(s_left.pop(<span class="hljs-number">0</span>))</span><br><span class="line">            <span class="hljs-keyword">else</span>:</span><br><span class="line">                res.append(s_right.pop(<span class="hljs-number">0</span>))</span><br><span class="line">        remain = s_left <span class="hljs-keyword">if</span> s_left <span class="hljs-keyword">else</span> s_right</span><br><span class="line">        res += remain</span><br><span class="line">        <span class="hljs-keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> divide(nums, <span class="hljs-number">0</span>, len(nums)<span class="hljs-number">-1</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：A <strong>Divide and Conquer</strong> algorithm；It <strong>divides input array in two halves</strong>, <strong>calls itself for the two halves</strong> and then <strong>merges the two sorted halves</strong>；<strong>t=O(nlgn), s=O(n)</strong>。</p>
+<p>例子：<br><a href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" rel="noopener">Leetcode 88. Merge Sorted Array</a><br><a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/" target="_blank" rel="noopener">Leetcode 315. Count of Smaller Numbers After Self</a></p>
+<h3 id="6-快速排序"><a href="#6-快速排序" class="headerlink" title="6. 快速排序"></a>6. 快速排序</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">quick_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sort</span><span class="hljs-params">(nums, left, right)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">if</span> left &gt;= right: <span class="hljs-comment"># 注意停止条件</span></span><br><span class="line">            <span class="hljs-keyword">return</span> </span><br><span class="line">        pivot_pos = partition(nums, left, right) <span class="hljs-comment"># 实际上是conquer的过程</span></span><br><span class="line">        sort(nums, left, pivot_pos<span class="hljs-number">-1</span>)</span><br><span class="line">        sort(nums, pivot_pos+<span class="hljs-number">1</span>, right)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">partition</span><span class="hljs-params">(nums, left, right)</span>:</span></span><br><span class="line">        pivot = nums[right]</span><br><span class="line">        lower_idx = left - <span class="hljs-number">1</span> <span class="hljs-comment"># lower_idx左侧为小于pivot的数，右侧为大于pivot的数</span></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(left, right): <span class="hljs-comment"># nums[right]作为pivot，未被遍历</span></span><br><span class="line">            <span class="hljs-keyword">if</span> nums[i] &lt; pivot:</span><br><span class="line">                lower_idx += <span class="hljs-number">1</span></span><br><span class="line">                nums[i], nums[lower_idx] = nums[lower_idx], nums[i]</span><br><span class="line">        nums[lower_idx+<span class="hljs-number">1</span>], nums[right] = nums[right], nums[lower_idx+<span class="hljs-number">1</span>] <span class="hljs-comment"># 将pivot放到确定位置处</span></span><br><span class="line">        <span class="hljs-keyword">return</span> i+<span class="hljs-number">1</span></span><br><span class="line">    </span><br><span class="line">    sort(nums, <span class="hljs-number">0</span>, len(nums)<span class="hljs-number">-1</span>)</span><br><span class="line">    <span class="hljs-keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：采用<strong>分而治之</strong>的思想；针对特殊情况（<strong>顺序数组</strong>或者<strong>逆序数组</strong>），最好<strong>随机化选择</strong>基准，否则将导致，子问题划分<strong>不平均</strong>，时间复杂度提高为<strong>O(n^2)</strong>；时间复杂度<strong>t=O(nlogn)～t=O(n^2)</strong>，<strong>s=O(lgn)～O(n)</strong>（占用的空间主要是<strong>栈空间</strong>）。</p>
+<p>算法具体如下:</p>
+<blockquote>
+<ol>
+<li>从数列中挑出一个元素，称为 “基准”（pivot）；一般选择数组<strong>首元素</strong>或<strong>尾元素</strong>为基准；</li>
+<li>将<strong>比基准值小</strong>的元素摆放在<strong>基准前</strong>，<strong>比基准值大</strong>的元素摆在<strong>基准后</strong>（<strong>相同的数</strong>可在任一边）；这称为<strong>分区（partition）</strong>操作，分区后，<strong>基准的位置被排定</strong>；</li>
+<li><strong>递归地</strong>把<strong>小于基准值元素</strong>的子数列和<strong>大于基准值元素</strong>的子数列排序。</li>
+</ol>
+</blockquote>
+<h3 id="7-堆排序"><a href="#7-堆排序" class="headerlink" title="7. 堆排序"></a>7. 堆排序</h3><p>参照<a href="/2020/07/14/queue/" title="队列">队列</a>中的优先队列部分。</p>
+<h2 id="二-其他用例"><a href="#二-其他用例" class="headerlink" title="二. 其他用例"></a>二. 其他用例</h2><h3 id="1-计算右侧小于当前元素的个数：Leetcode-315-Count-of-Smaller-Numbers-After-Self，-参考1-，-参考2-，-参考3-。"><a href="#1-计算右侧小于当前元素的个数：Leetcode-315-Count-of-Smaller-Numbers-After-Self，-参考1-，-参考2-，-参考3-。" class="headerlink" title="1. 计算右侧小于当前元素的个数：Leetcode 315. Count of Smaller Numbers After Self，[参考1]，[参考2]，[参考3]。"></a>1. 计算右侧小于当前元素的个数：<a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/" target="_blank" rel="noopener">Leetcode 315. Count of Smaller Numbers After Self</a>，<a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76584/Mergesort-solution" target="_blank" rel="noopener">[参考1]</a>，<a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76607/C%2B%2B-O(nlogn)-Time-O(n)-Space-MergeSort-Solution-with-Detail-Explanation" target="_blank" rel="noopener">[参考2]</a>，<a href="https://www.geeksforgeeks.org/counting-inversions/" target="_blank" rel="noopener">[参考3]</a>。</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">countSmaller</span><span class="hljs-params">(self, nums)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> nums:</span><br><span class="line">            <span class="hljs-keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sort</span><span class="hljs-params">(nums, left, right)</span>:</span> <span class="hljs-comment"># 在merge sort过程中，进行统计</span></span><br><span class="line">            <span class="hljs-keyword">if</span> left &gt;= right:</span><br><span class="line">                <span class="hljs-keyword">return</span> [nums[left]]</span><br><span class="line">            </span><br><span class="line">            mid = left + (right - left) // <span class="hljs-number">2</span></span><br><span class="line">            l_sort = sort(nums, left, mid)</span><br><span class="line">            r_sort = sort(nums, mid+<span class="hljs-number">1</span>, right)</span><br><span class="line">            <span class="hljs-keyword">return</span> merge(l_sort, r_sort)</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">merge</span><span class="hljs-params">(l_sort, r_sort)</span>:</span></span><br><span class="line">            res, incre = [], <span class="hljs-number">0</span></span><br><span class="line">            <span class="hljs-keyword">while</span> l_sort <span class="hljs-keyword">and</span> r_sort: <span class="hljs-comment"># 由小到大merge sort</span></span><br><span class="line">                <span class="hljs-keyword">if</span> l_sort[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] &gt; r_sort[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]:</span><br><span class="line">                    incre += <span class="hljs-number">1</span></span><br><span class="line">                    res.append(r_sort.pop(<span class="hljs-number">0</span>))</span><br><span class="line">                <span class="hljs-keyword">else</span>: <span class="hljs-comment"># l_sort和r_sort均已排序，所以l_sort[0]&lt;r_sort[0]，意味着l_sort[0]比r_sort所有元素都小</span></span><br><span class="line">                    count[l_sort[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]] += incre</span><br><span class="line">                    res.append(l_sort.pop(<span class="hljs-number">0</span>))</span><br><span class="line">            <span class="hljs-keyword">while</span> l_sort:</span><br><span class="line">                count[l_sort[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]] += incre</span><br><span class="line">                res.append(l_sort.pop(<span class="hljs-number">0</span>))</span><br><span class="line">            remain = l_sort <span class="hljs-keyword">if</span> l_sort <span class="hljs-keyword">else</span> r_sort</span><br><span class="line">            res.extend(remain)</span><br><span class="line">            <span class="hljs-keyword">return</span> res</span><br><span class="line">            </span><br><span class="line">        count = [<span class="hljs-number">0</span>] * len(nums) <span class="hljs-comment"># count[i]是第i个元素的smaller numbers after self</span></span><br><span class="line">        val_idx = [(num, i) <span class="hljs-keyword">for</span> i, num <span class="hljs-keyword">in</span> enumerate(nums)]</span><br><span class="line">        sort(val_idx, <span class="hljs-number">0</span>, len(nums) - <span class="hljs-number">1</span>)</span><br><span class="line">        <span class="hljs-keyword">return</span> count</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要思路</strong>：右侧小于当前元素的个数，为<strong>归并排序</strong>的<strong>合并（merge）过程</strong>中，<strong>右半段（r_sort）</strong>中小于当前元素的个数。</p>
+<h3 id="2-数组中的第K个最大元素-Leetcode-215-Kth-Largest-Element-in-an-Array"><a href="#2-数组中的第K个最大元素-Leetcode-215-Kth-Largest-Element-in-an-Array" class="headerlink" title="2. 数组中的第K个最大元素: Leetcode 215. Kth Largest Element in an Array"></a>2. 数组中的第K个最大元素: <a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank" rel="noopener">Leetcode 215. Kth Largest Element in an Array</a></h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># ------------------------------ Solution 1 ------------------------------ #</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findKthLargest</span><span class="hljs-params">(self, nums, k)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">import</span> heapq <span class="hljs-comment"># size k, min-heap, t=(n-k)lgk</span></span><br><span class="line">        heap = nums[:k]</span><br><span class="line">        </span><br><span class="line">        heapq.heapify(heap)</span><br><span class="line">        <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums[k:]:</span><br><span class="line">            <span class="hljs-keyword">if</span> num &gt; heap[<span class="hljs-number">0</span>]:</span><br><span class="line">                heapq.heapreplace(num)</span><br><span class="line">        <span class="hljs-keyword">return</span> heap</span><br><span class="line"><span class="hljs-comment"># ------------------------------ Solution 2 ------------------------------ #</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span> <span class="hljs-comment"># Partition method (of Quicksort)</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">partition</span><span class="hljs-params">(self, nums, left, right)</span>:</span></span><br><span class="line">        low, pivot = left, nums[right]</span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(left, right):</span><br><span class="line">            <span class="hljs-keyword">if</span> nums[i] &lt; pivot:</span><br><span class="line">                nums[i], nums[low] = nums[low], nums[i]</span><br><span class="line">                low += <span class="hljs-number">1</span></span><br><span class="line">        nums[low], nums[right] = nums[right], nums[low]</span><br><span class="line">        <span class="hljs-keyword">return</span> low</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findKthLargest</span><span class="hljs-params">(self, nums, k)</span>:</span></span><br><span class="line">        pos = self.partition(nums, <span class="hljs-number">0</span>, len(nums) - <span class="hljs-number">1</span>)</span><br><span class="line">        <span class="hljs-keyword">if</span> pos &gt; len(nums) - k:</span><br><span class="line">            <span class="hljs-keyword">return</span> self.findKthLargest(nums[:pos], pos - (len(nums) - k))</span><br><span class="line">        <span class="hljs-keyword">elif</span> pos &lt; len(nums) - k:</span><br><span class="line">            <span class="hljs-keyword">return</span> self.findKthLargest(nums[pos+<span class="hljs-number">1</span>:], k)</span><br><span class="line">        <span class="hljs-keyword">else</span>:</span><br><span class="line">            <span class="hljs-keyword">return</span> nums[pos]</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-其他例子："><a href="#3-其他例子：" class="headerlink" title="3. 其他例子："></a>3. 其他例子：</h3><p><a href="https://leetcode.com/problems/sort-colors/" target="_blank" rel="noopener">Leetcode 75. Sort Colors</a><br><a href="https://leetcode.com/problems/largest-number/" target="_blank" rel="noopener">Leetcode 179. Largest Number</a></p>
+<h2 id="三-Reference"><a href="#三-Reference" class="headerlink" title="三. Reference"></a>三. Reference</h2><p><a href="https://zh.wikipedia.org/wiki/回溯法" target="_blank" rel="noopener">Wiki: 回溯法</a><br><a href="https://zh.wikipedia.org/zh-cn/希尔排序" target="_blank" rel="noopener">Wiki: 希尔排序</a><br><a href="https://leetcode.com/problems/largest-number/discuss/53298/Python-different-solutions-(bubble-insertion-selection-merge-quick-sorts)." target="_blank" rel="noopener">Leetcode: Python different solutions (bubble, insertion, selection, merge, quick sorts).</a><br><a href="https://wiki.jikexueyuan.com/project/easy-learn-algorithm/fast-sort.html" target="_blank" rel="noopener">算法 3：最常用的排序——快速排序</a><br><a href="https://leetcode-cn.com/problems/sort-an-array/solution/fu-xi-ji-chu-pai-xu-suan-fa-java-by-liweiwei1419/" target="_blank" rel="noopener">Leetcode: 复习基础排序算法（Java）</a><br><a href="https://leetcode-cn.com/problems/sort-an-array/solution/python-shi-xian-de-shi-da-jing-dian-pai-xu-suan-fa/" target="_blank" rel="noopener">Leetcode: Python 实现的十大经典排序算法</a><br><a href="https://www.geeksforgeeks.org/quick-sort/" target="_blank" rel="noopener">GeeksforGeeks: QuickSort</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/24/classic-problems/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">算法例题：经典题型</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/16/back-track/">
+                <span class="level-item">算法思维：回溯法</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="算法思维：排序算法" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

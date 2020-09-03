@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>机器学习：树型模型（Tree-Based Learning Algorithms） - DeepBlog</title>
+
+
+    <meta name="description" content="一. 概念树型模型基于决策树与集成学习，该模型将特征空间划分为一组多面体，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍Decision tree, Random forest, Boosted trees。">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习：树型模型（Tree-Based Learning Algorithms）">
+<meta property="og:url" content="http://sxiazr.github.io/2020/06/12/interview-tree/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="一. 概念树型模型基于决策树与集成学习，该模型将特征空间划分为一组多面体，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍Decision tree, Random forest, Boosted trees。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-08-07T10:08:26.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习：树型模型（Tree-Based Learning Algorithms）">
+<meta name="twitter:description" content="一. 概念树型模型基于决策树与集成学习，该模型将特征空间划分为一组多面体，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍Decision tree, Random forest, Boosted trees。">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="机器学习：树型模型（Tree-Based Learning Algorithms）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-12T16:00:00.000Z">2020-06-13</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 minutes read (About 3641 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                机器学习：树型模型（Tree-Based Learning Algorithms）
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>树型模型基于<strong>决策树</strong>与<strong>集成学习</strong>，该模型将特征空间划分为一组<strong>多面体</strong>，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍<a href="https://en.wikipedia.org/wiki/Decision_tree" target="_blank" rel="noopener">Decision tree</a>, <a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">Random forest</a>, <a href="https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/" target="_blank" rel="noopener">Boosted trees</a>。</p>
+<a id="more"></a>
+<h1 id="二-决策树（Decision-Tree）"><a href="#二-决策树（Decision-Tree）" class="headerlink" title="二. 决策树（Decision Tree）"></a>二. 决策树（Decision Tree）</h1><p>决策树的生成算法（<a href="https://en.wikipedia.org/wiki/ID3_algorithm" title="ID3 algorithm" target="_blank" rel="noopener">ID3</a>, <a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>, <a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>）是<strong>贪婪</strong>（greedy）的：</p>
+<ul>
+<li>通常，自上而下地，在每一步中选择某变量的<strong>最佳分割</strong>（best split）。</li>
+<li>此过程递归（DFS）进行，当节点上的子集<strong>达到预定的停止条件</strong>时，递归完成。</li>
+</ul>
+<h2 id="1-划分选择"><a href="#1-划分选择" class="headerlink" title="1. 划分选择"></a>1. 划分选择</h2><p>随着划分不断进行，我们希望决策树的分支结点所包含的<strong>样本尽可能接近</strong>，即结点的“<strong>纯度</strong>” 越来越高，“纯度”可由以下指标描述：</p>
+<ul>
+<li>信息增益（Information gain）<br>信息熵越大，纯度越低，于<a href="https://en.wikipedia.org/wiki/ID3_algorithm" title="ID3 algorithm" target="_blank" rel="noopener">ID3</a>、<a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>中用于<strong>分类任务</strong>，定义如下:$$\mathrm{H}(T)=\mathrm{I}_{E}\left(p_{1}, p_{2}, \ldots, p_{J}\right)=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i} > 0$$, 其中$p_{1},p_{2},...$代表类别占比，总和为1。
+那么，信息增益定义如下：$$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{H}(T)}_{\text {Entropy (parent) }}-\quad \underbrace{\mathrm{H}(T | a)}_{\text {Weighted Sum of Entropy (Children) }} \\&=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i}-\sum_{a} p(a) \sum_{i=1}^{J}-p(i | a) \log _{2} p(i | a) \end{split}$$</li>
+<li>基尼指数（Gini impurity）<br>基尼指数，反映了从集合中<strong>随机抽取</strong>两个样本，其类别标记不一致的概率，在<a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>中用于分类任务，定义如下：  $$\operatorname{Gini}(T)=\sum_{i=1}^{J} p_{i} \sum_{k \neq i} p_{k}=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)
+	$$, 其中$J$代表类别数量，$i\in \{1,2,...,J\}$。 基尼增益定义如下：
+  
+	$$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{Gini}(T)}_{\text {Gini (parent) }}-\quad \underbrace{\mathrm{Gini}(T | a)}_{\text {Weighted Sum of Gini (Children) }} \\&=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)-\sum_{a} p(a) \sum_{i=1}^{J}-\operatorname{P}(i | a) (1- \operatorname{P}(i | a))\end{split}$$</li>
+<li>方差下降（Variance reduction）<br>方差反应了数据的<strong>离散程度</strong>，方差下降在<a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>中用于回归任务，定义如下：$$\begin{split} I_{V}(N)=&\frac{1}{|S|^{2}} \sum_{i \in S} \sum_{j \in S} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\\&-\underbrace{\left(\frac{1}{\left|S_{t}\right|^{2}} \sum_{i \in S_{t}} \sum_{j \in S_{t}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}+\frac{1}{\left|S_{f}\right|^{2}} \sum_{i \in S_{f}} \sum_{j \in S_{f}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\right)}_{\text {Minimum: Largest Homogeneity}}\end{split}$$
+
+</li>
+</ul>
+<h2 id="2-剪枝处理"><a href="#2-剪枝处理" class="headerlink" title="2. 剪枝处理"></a>2. 剪枝处理</h2><p>剪枝(pruning)是降低决策树的复杂度（complexity），是决策树学习算法对付“过拟合”的主要手段。剪枝分为以下两类：</p>
+<ul>
+<li>预剪枝（Pre-pruning）<br>运用了<strong>早停（early stopping）</strong>的思想，其在决策树生成过程中，对每个结点在<strong>划分前</strong>进行（验证集）性能评估，若该划分<strong>不能提升泛化性能</strong>，则停止划分，并将当前结点标记为叶结点。在预剪枝中，虽然些分支的<strong>当前划分</strong>不能提升泛化性能，但其<strong>后续划分</strong>却有可能导致性能显著提高；基于贪心的预剪枝有<strong>欠拟含</strong>的风险。</li>
+<li>后剪枝（Post-pruning）<br>先从训练集生成<strong>完整的决策树</strong>，然后<strong>自底向上</strong>地对非叶结点进行考察，若将<strong>子树替换为叶结点</strong>能提升泛化性能，则进行替换。后剪枝<strong>欠拟合风险小</strong>，但需完全生成决策树，且自底向上地对非叶结点进行逐一考察，因此其<strong>训练时间较长</strong>。</li>
+</ul>
+<h2 id="3-连续与缺失值"><a href="#3-连续与缺失值" class="headerlink" title="3. 连续与缺失值"></a>3. 连续与缺失值</h2><ul>
+<li>连续值<br>离散属性可直接根据<strong>可取值</strong>划分结点，连续属性采用<strong>二分法</strong>（<a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>）。假定连续属性$a$在样本集$D$上有$n$个不同的取值，将其<strong>从小到大排序</strong>，记为$\left\{a^{1}, a^{2}, \ldots, a^{n}\right\}$。把区间$[a^{i}, a^{i+1})$的<strong>中位点</strong>$<br>\frac{a^{i}+a^{i+1}}{2}<br>$作为候选划分点，然后像离散属性值一样，选取最优的划分点进行样本集合划分。</li>
+<li>缺失值<ul>
+<li>在<strong>属性值缺失</strong>的情况下，进行<strong>划分属性选择</strong>?(<a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>)<br>$\tilde{D}$表示$D$中在属性$a$上没有缺失值的样本子集，需根据$\tilde{D}$来判断属性$a$的优劣。假定为每个样本$x$<strong>贼予权重</strong>$\omega_x$(初始为<strong>1</strong>)，并定义如下<strong>比例</strong>：$$\begin{aligned} \tilde{\rho} &=\frac{\sum_{\boldsymbol{x} \in \tilde{D}} w_{\boldsymbol{x}}}{\sum_{\boldsymbol{x} \in D} w_{\boldsymbol{x}}} \\ \tilde{p}_{k} &=\frac{\sum_{\boldsymbol{x} \in \tilde{D}_{k}} w_{\boldsymbol{x}}}{\sum_{\boldsymbol{x} \in \tilde{D}} w_{\boldsymbol{x}}} \quad(1 \leqslant k \leqslant|\mathcal{Y}|) \\ \tilde{r}_{v} &=\frac{\sum_{\boldsymbol{x} \in \tilde{D}^{v}} w_{\boldsymbol{x}}}{\sum_{\boldsymbol{x} \in \tilde{D}} w_{\boldsymbol{x}}} \quad(1 \leqslant v \leqslant V) \end{aligned}$$，即将原本<strong>基于全体样本的个数比例</strong>，转化为<strong>基于没有缺失值样本的加权比例</strong>。并将信息增益<strong>增广</strong>为$$\begin{aligned} \operatorname{Gain}(D, a) =\tilde{\rho} \times \operatorname{Gain}(\tilde{D}, a) =\tilde{\rho} \times\left(\operatorname{Ent}(\tilde{D})-\sum_{v=1}^{V} \tilde{r}_{v} \operatorname{Ent}\left(\tilde{D}^{v}\right)\right) \end{aligned}$$</li>
+<li>若样本在<strong>划分属性上缺失</strong>，如何对样本进行划分?<br>若样本$x$的划分属性$a$<strong>己知</strong>，则将其划入对应子结点，且<strong>权值不变</strong>。若未知，则$x$<strong>以不同的概率</strong>划入子结点，即其<strong>权值调整</strong>为$\tilde{r}_{v} \cdot w_{x}$。</li>
+</ul>
+</li>
+</ul>
+<h1 id="三-随机森林（Random-Forest）"><a href="#三-随机森林（Random-Forest）" class="headerlink" title="三. 随机森林（Random Forest）"></a>三. 随机森林（Random Forest）</h1><p>随机森林以<strong>方差较大</strong>的<strong>决策树</strong>（<strong>深</strong>，并在训练过程中引入了<strong>随机属性选择</strong>）为基学习器，构建Bagging集成，以产生<strong>方差较低</strong>的输出。随机森林中基学习器的“<strong>多样性</strong>”，源自于<strong>样本扰动</strong>(<a href="/2019/11/29/model-ensemble/" title="Bootstrapping">Bootstrapping</a>)与<strong>属性扰动</strong>。</p>
+<p>特征采样（<strong>推荐采样数目</strong>$k=\log _{2} d$）除了会使树<strong>去相关（decorrelate）</strong>，还有以下好处：</p>
+<ul>
+<li>在决策树拟合过程中，若少数特征<strong>占主导地位</strong>，许多其他的特征（例如，有用的<strong>局部的特征</strong>）将<strong>很少被选</strong>为分裂变量。特征<strong>重要性</strong>度量（feature importance）：在该特征上，由于拆分而产生的<strong>“纯度”指标降低的总量</strong>，在所有树上的<strong>平均值</strong>。</li>
+<li>对缺失的特征更加稳健，具有缺失特征的数据，仍然可以进行回归或分类（仅用<strong>有限特征</strong>）。</li>
+</ul>
+<h1 id="四-提升树（Boosted-Trees）"><a href="#四-提升树（Boosted-Trees）" class="headerlink" title="四. 提升树（Boosted Trees）"></a>四. 提升树（Boosted Trees）</h1><p>在Boosting中, 学习器${\hat {F}}(\mathbf{x})$可视为<strong>基学习器</strong>$h_{i}(\mathbf{x})$的<strong>线性组合</strong>（加权和）:</p>
+$$\hat{F}(\mathbf{x})=\sum_{i=1}^{M} \gamma_{i} h_{i}(\mathbf{x})+\text { const. }$$
+<p>学习器${\hat {F}}(\mathbf{x})$的<strong>优化目标</strong>可定义为：$$\hat{F}=\underset{F}{\arg \min } \mathbb{E}_{\mathbf{x}, y}[L(y, F(\mathbf{x}))]$$Boosting<strong>串行训练</strong>基学习器，每轮<strong>加入新的基学习器</strong>，使得损失函数最小，训练第$m$个基学习器如下：$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\gamma_{m}h_m\\{F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\underset{h_{m} \in \mathcal{H}}{\gamma_{m}\arg \min }\left[\sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]}$$，$F_{0}(\mathbf{x})$通常为常函数，即${F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)}$。<br>上述是<strong>通用</strong>boosting算法。我们可以选择不同的<strong>弱学习器</strong>、<strong>损失函数</strong>、<strong>加权参数</strong> $\lambda$，可以得到不同的boosting方法。</p>
+<h2 id="1-Adaboost"><a href="#1-Adaboost" class="headerlink" title="1. Adaboost"></a>1. Adaboost</h2><p>Adaboost以<strong>偏差较大</strong>的<strong>决策树</strong>（<strong>浅</strong>）为基学习器，构建Boosting集成，以产生<strong>偏差较低</strong>的输出。Adaboost使用<strong>指数损失函数</strong>（exponential loss）
+$E=\sum_{i=1}^{N} e^{-y_{i} F_{m}\left(\mathbf{x}_{i}\right)}=\sum_{i=1}^{N} e^{-y_{i} F_{m-1}\left(\mathbf{x}_{i}\right)} e^{-y_{i} \gamma_{m} h_{m}\left(\mathbf{x}_{i}\right)}=\sum_{i=1}^{N} w_{i}^{(m)} e^{-y_{i} \gamma_{m} h_{m}\left(\mathbf{x}_{i}\right)}$，可以通过$\underset{h_m}{\arg \min }E$确定第$m$轮的弱学习器，以$\frac{d E}{d \gamma_{m}}=0$确定$\gamma_m$​。</p>
+<p>Adaboost中弱学习器的训练，可视为对<strong>加权的原始数据</strong>的拟合（数据加权，指<strong>计算损失函数时</strong>，乘上权重）：$E=\sum_{i=1}^{N} \underbrace{e^{-y_{i} F_{m-1}\left(\mathbf{x}_{i}\right)}}_{Weights} \underbrace{e^{-y_{i} \gamma_{m} h_{m}\left(\mathbf{x}_{i}\right)}}_{\text{Loss of each observation}}$。可以看出<strong>训练结果较差</strong>（损失函数大）的数据，在新一轮的训练中，将被赋予<strong>更大的权重</strong>。</p>
+<h2 id="2-Gradient-Boosting-Decision-Tree-GBDT"><a href="#2-Gradient-Boosting-Decision-Tree-GBDT" class="headerlink" title="2. Gradient Boosting Decision Tree (GBDT)"></a>2. Gradient Boosting Decision Tree (GBDT)</h2><p>GBDT使用<strong>最速下降法</strong>（steepest descent）最小化损失函数，其中决策树用于<strong>拟合梯度</strong>，并采用<strong>牛顿法</strong>（即，line search）确定步长$\lambda_m$，具体如下：
+$$r_{im}=\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)\\
+{F_{m}(x)=F_{m-1}(\mathbf{x})-\gamma_{m} \sum_{i=1}^{n}r_{im}} $$，其中$r_{im}$（梯度）需<strong>被决策树拟合</strong>，$F_{m}(\mathbf{x})$初始化为常函数：$F_{0}(\mathbf{x})=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, \gamma\right)$，乘子（步长）$\gamma _{m}$ 通过<a href="https://en.wikipedia.org/wiki/Line_search" title="Line search" target="_blank" rel="noopener"><strong>line search</strong></a>确定：$\gamma_{m}=\underset{\gamma}{\arg \min } \sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+\gamma h_{m}\left(\mathbf{x}_{i}\right)\right)$。</p>
+<p>与Adaboost相比，GBDT基于梯度下降法（最速下降法），可以更容易地适应大量的损失函数。</p>
+<h2 id="3-Xgboost"><a href="#3-Xgboost" class="headerlink" title="3. Xgboost"></a>3. Xgboost</h2><p>Xgboost使用<strong>解析法</strong>，求得损失函数<strong>二阶近似</strong>，取最小值时的<strong>解析解</strong>，用<strong>解析解作为Gain</strong>来建立决策树，使损失函数<strong>最优</strong>。在Xgboost中, 学习器${\hat {F}}(\mathbf{x})$可视为<strong>基学习器</strong>$h_{i}(\mathbf{x})$，权重为<strong>1</strong>的<strong>线性组合</strong>: $\hat{F}(\mathbf{x})=\sum_{i=1}^{M}h_{i}(\mathbf{x})+\text { const. }$。用于确定<strong>每轮基学习器</strong>的优化目标（损失函数），<strong>增广了正则项</strong>（预测时，仅用${\hat {F}}(\mathbf{x})$，无需正则项）：$$\begin{split} F_{m}(\mathbf{x}) &= F_{m-1}(\mathbf{x})+\underset{h_{m} \in \mathcal{H}}{\arg \min }\left[\sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]+\Omega(F_{m-1}\left(\mathbf{x}\right)+h_{m}\left(\mathbf{x}\right)) \\&= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]+\Omega(h_{m}\left(\mathbf{x}\right)) +\text { const. }\end{split}$$，其中$\Omega(h_{m}\left(\mathbf{x}\right)) = \gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2}$为<strong>正则项</strong>，$T$为决策树$h_{m}$中的叶子结点的数目，$w_{j}$为第$j$个叶子结点的权重（代表的<strong>分数</strong>，一般设为叶子节点中的<strong>样本均值</strong>），即用<strong>叶子结点的个数</strong>和叶子结点<strong>权重的平滑程度</strong>，来描述模型的复杂度。</p>
+<p>由<strong>二阶泰勒展开</strong>$f(x+\Delta x) \simeq f(x)+f^{\prime}(x) \Delta x+\frac{1}{2} f^{\prime \prime}(x) \Delta x^{2}$可得，$$\begin{split}Obj &= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]+\Omega(h_{m}\left(\mathbf{x}\right)) +\text { const. }\\ &\simeq  \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)+\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2}\nabla_{F_{m-1}}^2 L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)h_{m}^2\left(\mathbf{x}_{i}\right)\right]+\Omega(h_{m}\left(\mathbf{x}\right)) + \text { const. } \\ &= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)+g_{m-1}(\mathbf{x}_{i}) h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2}k_{m-1}(\mathbf{x}_{i}) h_{m}^2\left(\mathbf{x}_{i}\right)\right]+ \Omega(h_{m}\left(\mathbf{x}\right)) + \text { const. } \\&= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[g_{m-1}(\mathbf{x}_{i}) h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2}k_{m-1}(\mathbf{x}_{i}) h_{m}^2\left(\mathbf{x}_{i}\right)\right]+ \gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2} + \text { const. }\\&=\underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{m-1}(\mathbf{x}_{i})\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} k_{m-1}(\mathbf{x}_{i})+\lambda\right) w_{j}^{2}\right]+\gamma T + \text { const. }, 其中h_{m}(x)=w_{q(x)} \\ &= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{j=1}^{T}\left[G_j w_{j}+\frac{1}{2}\left(K_j+\lambda\right) w_{j}^{2}\right]+\gamma T + \text { const. }, 二次函数\end{split}$$</p>
+<p>假设树的<strong>结构确定</strong>，叶子结点的权重（代表的<strong>分数</strong>）为$w_{j}^{*}=-\frac{G_{j}}{K_{j}+\lambda}$时，<strong>优化目标取到最小</strong>值$Obj=-\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{K_{i}+\lambda}+\gamma T$（也称“<strong>结构分数</strong>”，Structure Score，代表树结构<strong>所能达到的最小损失</strong>，<strong>结构分越小</strong>，该树的<strong>结构越好</strong>）。然而树的结构<strong>未知</strong>（无限可能），通过“<strong>结构分下降</strong>”<strong>贪婪</strong>地<strong>分裂</strong>叶子节点，以生产决策树。即，对每一个<strong>叶子结点</strong>计算：$$\begin{aligned} \text {Gain} &=\text {Obj}_{\text {split}}-\text {Obj}_{\text {split}} =\frac{1}{2}\left[\frac{G_{L}^{2}}{K_{L}+\lambda}+\frac{G_{R}^{2}}{K_{R}+\lambda}-\frac{\left(G_{L}+G_{R}\right)^{2}}{K_{L}+K_{R}+\lambda}\right]-\gamma\left(T_{\text {split}}-T_{\text {unsplit}}\right) \end{aligned}$$</p>
+<p><strong>预剪枝</strong>在$\text {Gain} &gt; 0$时，分裂该叶子结点，分割点的选择<strong>同上述</strong>（决策树方法）；<strong>后剪枝</strong>在生成<strong>指定深度</strong>的决策树后，去除$\text {Gain} &lt; 0$的叶子结点。对于类变量（categorical variables），可以根据取值进行<strong>多分裂</strong>，或者使用<strong>热独编码</strong>（one-hot embeding，每纬度为新变量）。</p>
+<h1 id="五-Reference"><a href="#五-Reference" class="headerlink" title="五. Reference"></a>五. Reference</h1><a href="/2019/11/29/model-ensemble/" title="Blog: Model Ensemble">Blog: Model Ensemble</a><br>
+<a href="/2019/11/24/tree-based-learning-algorithms-part-2/" title="Blog: Tree-Based Learning Algorithms - Part 2">Blog: Tree-Based Learning Algorithms - Part 2</a> <br>
+<a href="/2019/11/19/tree-based-learning-algorithms-part-1/" title="Blog: Tree-Based Learning Algorithms - Part 1">Blog: Tree-Based Learning Algorithms - Part 1</a> <br>
+<p><a href="https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf" target="_blank" rel="noopener">PPT: Introduction to Boosted Trees</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/14/interview-ensemble/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">机器学习：集成学习（Ensemble Learning）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/11/compact-convex-optimization/">
+                <span class="level-item">数学：凸优化与拉格朗日乘子法</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="机器学习：树型模型（Tree-Based Learning Algorithms）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

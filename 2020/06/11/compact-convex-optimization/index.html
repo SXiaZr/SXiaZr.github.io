@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>数学：凸优化与拉格朗日乘子法 - DeepBlog</title>
+
+
+    <meta name="description" content="一. 凸优化（Convex optimaztion） 凸函数（Convex funcitons）：Let $f$ be a function defined over some domain $\operatorname{dom} f$. $f$ is said to be convex, iff$$\forall \mathbf{a}, \mathbf{b} \in \operatorname{">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学：凸优化与拉格朗日乘子法">
+<meta property="og:url" content="http://sxiazr.github.io/2020/06/11/compact-convex-optimization/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="一. 凸优化（Convex optimaztion） 凸函数（Convex funcitons）：Let $f$ be a function defined over some domain $\operatorname{dom} f$. $f$ is said to be convex, iff$$\forall \mathbf{a}, \mathbf{b} \in \operatorname{">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-08-13T14:21:04.804Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数学：凸优化与拉格朗日乘子法">
+<meta name="twitter:description" content="一. 凸优化（Convex optimaztion） 凸函数（Convex funcitons）：Let $f$ be a function defined over some domain $\operatorname{dom} f$. $f$ is said to be convex, iff$$\forall \mathbf{a}, \mathbf{b} \in \operatorname{">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="数学：凸优化与拉格朗日乘子法" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-11T16:00:00.000Z">2020-06-12</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 minutes read (About 1688 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                数学：凸优化与拉格朗日乘子法
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-凸优化（Convex-optimaztion）"><a href="#一-凸优化（Convex-optimaztion）" class="headerlink" title="一. 凸优化（Convex optimaztion）"></a>一. <strong>凸优化</strong>（Convex optimaztion）</h1><blockquote>
+<p>凸函数（Convex funcitons）：<br>Let $f$ be a function defined over some domain $\operatorname{dom} f$. $f$ is said to be convex, iff$$\forall \mathbf{a}, \mathbf{b} \in \operatorname{dom} f, \forall k \in[0 , 1], f(k \mathbf{a}+(1-k) \mathbf{b}) \leq k f(\mathbf{a})+(1-k) f(\mathbf{b})$$<br>性质1: 凸函数的任一极小点为其<strong>全局极小点</strong>。<br>性质2: 凸的<strong>充要条件</strong>：函数<strong>二阶可微</strong>（$\nabla^{2} f(\mathbf{x})$存在），且$\nabla^{2} f(\mathbf{x})$在定义域内<strong>半正定</strong>（$\forall \mathbf{w}, \mathbf{w}^T\mathbf{A}\mathbf{w}\geq 0$)，即$\nabla^{2} f(\mathbf{x}) \succeq 0$。</p>
+</blockquote>
+<a id="more"></a>
+
+<p align="center">
+  <img src="./convex-func.jpg" alt="Convex function" width="400px">
+</p>
+
+<p><strong>凸优化</strong>，或叫凸最小化，研究<strong>凸函数的最小化</strong>的问题。</p>
+<h1 id="二-拉格朗日乘数法（Lagrangian）"><a href="#二-拉格朗日乘数法（Lagrangian）" class="headerlink" title="二. 拉格朗日乘数法（Lagrangian）"></a>二. <strong>拉格朗日乘数法</strong>（Lagrangian）</h1><p>拉格朗日乘数法，是<strong>多元函数</strong>在其变量受到一个或多个<strong>条件的约束时</strong>，寻找其<strong>极值</strong>的方法，它将有$d$个变量与$k$个约束条件的最优化问题，转换为有$d+k$个变量的<strong>无约束优化</strong>问题求解。</p>
+<h3 id="等式约束："><a href="#等式约束：" class="headerlink" title="等式约束："></a><strong>等式约束</strong>：
+$\begin{array}{ll}\min & f(\mathbf{x}) \\ s.t. & h(\mathbf{x})=0\end{array}$
+</h3><p>设$f(\mathbf{x})$与$h(\mathbf{x})$连续、可导，$f(\mathbf{x})$在$h(\mathbf{x})=0$约束下<strong>取极值</strong>时，两者的<strong>等高线在极值处相切</strong>，即有<strong>共线的法向量</strong>，又因为<strong>梯度向量是等高线的法线</strong>，假设$\mathbf{x}^{\star}$为满足约束条件的最优解，可得$\nabla f(\mathbf{x}^{\star})+\lambda \nabla g(\mathbf{x}^{\star})=\mathbf{0}$。</p>
+<p align="center">
+  <img src="./equal-constraint.jpg" alt="Equality Constraint" width="350px">
+</p>
+
+<p>定义Lagrangian函数：$L(\mathbf{x}, \lambda)=f(\mathbf{x})+\lambda h(\mathbf{x})$，Lagrangian无约束优化问题<strong>最优解</strong>（最大、最小化）在其<strong>导数为0</strong>处取到，即：
+$$\begin{aligned} \nabla_{\mathbf{x}} L&=\frac{\partial L}{\partial \mathbf{x}}=\nabla f(\mathbf{x}^{\star})+\lambda \nabla g(\mathbf{x}^{\star})=\mathbf{0} \quad \text{(stationary equation)}\\\nabla_{\lambda} L&=\frac{\partial L}{\partial \lambda}=g(\mathbf{x})=0\end{aligned}$$
+所得上式，恰为<strong>原等式约束优化</strong>问题<strong>最优点</strong>需<strong>满足的条件</strong>（曲线相切、等式约束）。Lagrangian无约束优化与原等式约束优化，<strong>在相同处取到的最优解</strong>。</p>
+<h3 id="不等式约束："><a href="#不等式约束：" class="headerlink" title="不等式约束："></a><strong>不等式约束</strong>：
+$\begin{array}{ll}\min & f(\mathbf{x}) \\ s.t. & g(\mathbf{x})\leq0\end{array}$
+</h3><p>假设$\mathbf{x}^{\star}$为满足约束条件的最优解：</p>
+<ul>
+<li>$g(\mathbf{x}^{\star})&lt;0$，最优解位于<strong>可行域</strong>的内部，此时<strong>约束条件无效</strong>，约束优化问题退化为无约束优化问题，$\lambda=0$。</li>
+<li>$g(\mathbf{x}^{\star})=0$，最优解位于<strong>可行域</strong>的边界，此时<strong>约束条件有效</strong>。又因为<strong>梯度方向</strong>指向函数<strong>上升最快</strong>的方向，故$\nabla_{g}(\mathbf{x}^{\star})$应该<strong>指向可行域的外部</strong>，$\nabla_{f}(\mathbf{x}^{\star})$应<strong>指向内部</strong>(否则，内部有更小值），故$\nabla f(\mathbf{x}^{\star})=-\lambda \nabla g(\mathbf{x}^{\star})$，$\lambda&gt;0$。</li>
+</ul>
+<p>故综上，可得$\lambda \geq 0$（dual feasibility）、$\lambda g(\mathbf{x}^{\star}) = 0$（complementary slackness）。</p>
+<h3 id="多个等式与不等式约束"><a href="#多个等式与不等式约束" class="headerlink" title="多个等式与不等式约束"></a><strong>多个等式与不等式约束</strong></h3><p>推广至多个等式与不等式约束的情况，一般的<strong>约束最优化问题</strong>可写成如下形式(<strong>原问题，primal problem</strong>)：</p>
+
+$$\begin{array}{ll}\min & f(\mathbf{x}) \\ s.t. & g_{i}(\mathbf{x}) \leq 0, \quad i=1, \ldots, m \\ & h_{i}(\mathbf{x})=0, \quad i=1, \ldots, p\end{array}$$
+，其对应的Lagrangian函数为：$$L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu})=f(\mathbf{x})+\sum_{i=1}^{m} \lambda_{i} g_{i}(\mathbf{x})+\sum_{i=1}^{p} \mu_{i} h_{i}(\mathbf{x})$$，设$\mathbf{x}^{\star}$、$\boldsymbol{\lambda}^{\star}$、$\boldsymbol{\mu}^{\star}$为满足约束条件的最优解，其满足“KKT条件”：
+<ul>
+<li>primal feasibility：$g\left(\mathbf{x}^{\star}\right) \leq 0, h\left(\mathbf{x}^{\star}\right)=0$</li>
+<li>dual feasibility：$\lambda^{\star} \geq 0$</li>
+<li>complementary slackness：$\lambda_{i}^{\star} g_{i}\left(\mathbf{x}^{\star}\right)=0 \quad \forall i=1, \ldots, m \quad$</li>
+<li>stationarity: $\nabla f\left(\mathbf{x}^{\star}\right)+\sum_{i=1}^{m} \lambda_{i}^{\star} \nabla g_{i}\left(\mathbf{x}^{\star}\right)+\sum_{i=1}^{p} \mu_{i}^{\star} \nabla h_{i}\left(\mathbf{x}^{\star}\right)=0$</li>
+</ul>
+<h1 id="三-原问题与对偶问题（Primal-Dual）"><a href="#三-原问题与对偶问题（Primal-Dual）" class="headerlink" title="三. 原问题与对偶问题（Primal/Dual）"></a>三. <strong>原问题与对偶问题</strong>（Primal/Dual）</h1><p>所以可得，$$ \text{Primal}= \min_{\mathbf{x}}f(\mathbf{x})=\min_\mathbf{x}\max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) = p^{\star}$$显然，由于$h\left(\mathbf{x}\right)=0$、$\lambda g\left(\mathbf{x}\right)\geq 0$，有$\max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu})=f(\mathbf{x})$，即前述所说的“Lagrangian无约束优化与原约束优化，<strong>在相同处取到的最优解</strong>”。</p>
+<p>定义<strong>对偶函数</strong>$\Gamma(\boldsymbol{\lambda}, \boldsymbol{\mu})=\inf _{\mathbf{x} \in \mathbb{D}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) \leq L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu})\leq f(\mathbf{x})$，其代表了主问题<strong>最优值的下界</strong>（由$\boldsymbol{\lambda}$、$\boldsymbol{\mu}$决定），<strong>对偶问题（dual problem）</strong>：$$\text{Dual} = \max _{\boldsymbol{\lambda}\succeq0, \boldsymbol{\mu}} \Gamma(\boldsymbol{\lambda}, \boldsymbol{\mu}) = \max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} \min_\mathbf{x} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) = d^{\star}$$， 给出了基于对偶函数能获得的<strong>最好下界</strong>。</p>
+<h3 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a><strong>对偶性</strong></h3><p>由于$d^{\star}$是主问题的一个<strong>下界</strong>，故有$d^{\star} \leq p^{\star}$，这称为”<strong>弱对偶性</strong>“ (weak duality)，若$d^{\star} = p^{\star}$， 则称为”<strong>强对偶性</strong>“ (strong duality)。</p>
+<p align="center">
+  <img src="./duality.jpg" alt="Equality Constraint" width="500px">
+</p>
+
+<p>对偶性与KKT条件：</p>
+<ul>
+<li><p>对于一般（或<strong>非凸优化</strong>）优化问题：<br>当强对偶性成立时，原问题、对偶问题在<strong>相同点</strong>（相同的$\mathbf{x}^{\star}$、$\boldsymbol{\lambda}^{\star}$、$\boldsymbol{\mu}^{\star}$）处取得最优值，其<strong>满足KKT条件</strong>）。KKT是最优性的<strong>必要</strong>条件，此时，<strong>满足KKT条件的</strong>的点，不一定为最优点。</p>
+</li>
+<li><p>对于<strong>凸优化</strong>问题（$f(\mathbf{x})$、$g(\mathbf{x})$为<strong>凸函数</strong>，$h(x)$为<strong>仿射函数</strong>）：<br>且满足<strong>Slater条件</strong>（可行域中至少有一点<strong>使不等式约束$g(\mathbf{x})&lt; 0$严格成立</strong>），<strong>强对偶性</strong>成立，那么KKT条件是最优性的<strong>充要条件</strong>。此时，<span style="color:red;">可以通过<strong>求解KKT条件</strong>，来求解优化问题</span>。</p>
+</li>
+</ul>
+<blockquote>
+<p>无论原问题（Primal problem）是什么形式，对问题（Dual problem）<strong>总是一个凸优化问题</strong>。</p>
+</blockquote>
+<p>于是，对于<strong>难以求解</strong>的原问题，可以通过优化（或随机代入）对偶问题来得到原问题的下界估计。在<strong>强对偶性成立</strong>时，可以通过<strong>求解对偶问题</strong>，来获得原问题的最优值（$d^{\star} = p^{\star}$）。在<strong>SVM中</strong>，便是如此这样做的。</p>
+<h1 id="四-Reference"><a href="#四-Reference" class="headerlink" title="四. Reference"></a>四. Reference</h1><p><a href="https://zhuanlan.zhihu.com/p/38163970" target="_blank" rel="noopener">Zhihu: Karush-Kuhn-Tucker (KKT)条件</a><br><a href="https://www.zhihu.com/question/38586401" target="_blank" rel="noopener">Zhihu@戏言玩家/徐廷霆回复: 如何理解拉格朗日乘子法？</a><br><a href="https://www.jianshu.com/p/96db9a1d16e9" target="_blank" rel="noopener">Blog: 凸优化（八）——Lagrange对偶问题</a><br><a href="http://ludovicarnold.altervista.org/teaching/optimization/convex-functions/" target="_blank" rel="noopener">Blog: Convex functions</a><br><a href="https://cosx.org/2014/03/svm-series-add-1-duality/" target="_blank" rel="noopener">Blog: “支持向量机系列” 的番外篇一: Duality</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/12/interview-tree/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">机器学习：树型模型（Tree-Based Learning Algorithms）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/06/10/interview-SVM/">
+                <span class="level-item">机器学习：支持向量机（Support Vector Machine）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="数学：凸优化与拉格朗日乘子法" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

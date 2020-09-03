@@ -154,6 +154,357 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-11T16:00:00.000Z">2020-06-12</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 minutes read (About 1688 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/06/11/compact-convex-optimization/">数学：凸优化与拉格朗日乘子法</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-凸优化（Convex-optimaztion）"><a href="#一-凸优化（Convex-optimaztion）" class="headerlink" title="一. 凸优化（Convex optimaztion）"></a>一. <strong>凸优化</strong>（Convex optimaztion）</h1><blockquote>
+<p>凸函数（Convex funcitons）：<br>Let $f$ be a function defined over some domain $\operatorname{dom} f$. $f$ is said to be convex, iff$$\forall \mathbf{a}, \mathbf{b} \in \operatorname{dom} f, \forall k \in[0 , 1], f(k \mathbf{a}+(1-k) \mathbf{b}) \leq k f(\mathbf{a})+(1-k) f(\mathbf{b})$$<br>性质1: 凸函数的任一极小点为其<strong>全局极小点</strong>。<br>性质2: 凸的<strong>充要条件</strong>：函数<strong>二阶可微</strong>（$\nabla^{2} f(\mathbf{x})$存在），且$\nabla^{2} f(\mathbf{x})$在定义域内<strong>半正定</strong>（$\forall \mathbf{w}, \mathbf{w}^T\mathbf{A}\mathbf{w}\geq 0$)，即$\nabla^{2} f(\mathbf{x}) \succeq 0$。</p>
+</blockquote>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/06/11/compact-convex-optimization/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-10T16:00:00.000Z">2020-06-11</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 minutes read (About 2470 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/06/10/interview-SVM/">机器学习：支持向量机（Support Vector Machine）</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>支持向量机（Support Vector Machine，SVM）是经典的<strong>二分类</strong>模型，其<strong>直观地</strong>定义为特征空间上，<strong>间隔最大</strong>（最鲁棒）的<strong>线性分类器</strong>。SVM学习的优化目标是最大化间隔，可以转化为<strong>凸二次规划</strong>（convex quadratic programming）问题。在线性模型的基础上，引入<strong>核函数</strong>（核技巧）可以得到<strong>非线性</strong>模型。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/06/10/interview-SVM/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-06T16:00:00.000Z">2020-06-07</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 minutes read (About 3709 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/06/06/interview-linear-model/">机器学习：线性模型（Linear Model）</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>给定样本$\mathbf{x} = (x_1, x_2, …,x_d)$，<strong>线性模型（linear model）</strong>通过<strong>属性的线性组合</strong>来进行预测，即：<br>$$f(\mathbf{x}) = w_1x_1 + w_2x_2 + … + w_dx_x + b$$一般写作向量形式：$f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$，其中<strong>权重</strong>向量$\mathbf{w}$和<strong>偏置</strong>项$b$为模型需要学习的参数。</p>
+<p>线性模型有良好的<strong>可解释性</strong>，<strong>权重</strong>表达了对应属性的<strong>重要性</strong>。在线性模型的基础上，引入<strong>高维映射</strong>可以得到<strong>非线性</strong>模型。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/06/06/interview-linear-model/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 minutes read (About 3199 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/12/09/build-transformer-from-scratch-part-1/">Build Transformer from Scratch - Part 1</a>
+            
+        </h1>
+        <div class="content">
+            <p>The Transformer from <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">“Attention is All You Need”</a> is a new architecture that utilizes the  <strong>Attention</strong> concept to help improve the performance of NLP tasks. This passage follows the <strong>pytorch</strong> implementation in <a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank" rel="noopener">“The Annotated Transformer”</a> of Harvard’s NLP group to compactly illustrate the structure of the Transformer.</p>
+<h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><p>In <strong>traditional (RNN or CNN) models</strong>, the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, which makes it more <strong>difficult to learn dependencies</strong> between <strong>distant positions</strong>. </p>
+<p>To solve the issue above, the Transformer comes into being, which <strong>reduces the operations to a constant number</strong>. It <strong>eschews recurrence or convolution and relies entirely on an attention mechanism</strong> to draw global dependencies between input and output.</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/12/09/build-transformer-from-scratch-part-1/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 minutes read (About 996 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/11/30/entropy-in-information-theory/">Entropy in Information Theory</a>
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" title="Entropy (information theory)" target="_blank" rel="noopener">Entropy (information theory)</a>, also called Shannon entropy, a measure of the unpredictability or information content of a message source.</p>
+<h1 id="Huffman-Coding-Tree"><a href="#Huffman-Coding-Tree" class="headerlink" title="Huffman Coding Tree"></a>Huffman Coding Tree</h1><p>To <strong>shorten the length</strong> of symbol <strong>encoding</strong>, people naturally hope that the <strong>higher the frequency</strong> of symbols, the <strong>shorter its encoding</strong>, so as to save the storage space.</p>
+<p><a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" rel="noopener"><strong>Huffman coding</strong></a> is a kind of <strong>data compression</strong> (encoding) algorithm based on a special <strong>binary tree</strong> (<strong>Huffman coding tree</strong>) and can solve the issue above. It assigns codes to characters (or any <strong>discrete source symbols</strong>) such that the <strong>length</strong> of the code <strong>depends on the relative frequency</strong> or weight of the corresponding character.</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/11/30/entropy-in-information-theory/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 minutes read (About 1299 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/11/29/model-ensemble/">Model Ensemble</a>
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>Unity is strength.</p>
+</blockquote>
+<p><strong><a href="https://en.wikipedia.org/wiki/Ensemble_learning" target="_blank" rel="noopener">Ensemble methods</a></strong> combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone.</p>
+<p>The main hypothesis is that when weak learning algorithms (<strong>weak learners</strong>) are correctly combined, we can obtain more accurate and/or robust models.</p>
+<p>Most of the time, these <strong>weak learners</strong> perform not so well by themselves either because they have a <strong>high bias or variance</strong>. Then, the idea of ensemble methods is to try reducing bias and/or variance of such <strong>weak learners</strong> by combining several of them to create a <strong>strong learner</strong> with better performances. </p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/11/29/model-ensemble/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes read (About 2272 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/11/24/tree-based-learning-algorithms-part-2/">Tree-Based Learning Algorithms - Part 2</a>
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>Decision tree can be very <strong>non-robust</strong>. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.</p>
+</blockquote>
+<p>To resolve the problem above, some techniques, often called <strong><a href="/2019/11/29/model-ensemble/" title="ensemble methods">ensemble methods</a></strong>, construct multiple decision trees that are combined to yield a single and better consensus prediction.</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/11/24/tree-based-learning-algorithms-part-2/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-11-19T16:00:00.000Z">2019-11-20</time>
                 
                 
@@ -304,342 +655,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-31T16:00:00.000Z">2019-11-01</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    16 minutes read (About 2370 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/31/model-selection-&-bias–variance-tradeoff/">Model Selection &amp; Bias–Variance Tradeoff</a>
-            
-        </h1>
-        <div class="content">
-            <p>In this passage, I summarize some basic concepts in Machine Learning, which mainly include <strong>model validation</strong> methods in model selection and the <strong>interpretation</strong> in bias–variance tradeoff.</p>
-<h1 id="Probabilistic-Setup"><a href="#Probabilistic-Setup" class="headerlink" title="Probabilistic Setup"></a>Probabilistic Setup</h1><p>In the following, we set up a general <strong>probabilistic view</strong> on the data.</p>
-<p>Assume that the data is generated as (<strong>Data Generation Model</strong>) $$y=f(\mathbf{x})+\varepsilon$$, where $f$ is some <strong>arbitrary and unknown</strong> function and $\mathbf{x}$ is generated according to some ﬁxed but <strong>unknown</strong> distribution $\mathcal{D}_{\mathbf{x}}$ . </p>
-<p>$\varepsilon$ is an <strong>additive noise</strong> with distribution $\mathcal{D}_{\varepsilon}$, which is independent from sample to sample and independent from the data. Assume $\varepsilon$ has <strong>zero mean</strong> (otherwise this constant can be absorbed into $f$). </p>
-<p>There is an <strong>unknown</strong> underlying joint distribution $\mathcal{D}$ on pairs $(\mathbf{x}, y)$, with range $\mathcal{X} \times \mathcal{Y}$. The data set $\mathcal{S}$ we see consists of <strong>independent and identically distributed</strong>(<strong>i.i.d.</strong>) samples from $\mathcal{D}$:</p>
-
-$$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\right\}_{n=1}^{N}$$
-
-<p>Write $f_{\mathcal{S}} = \mathcal{A}(\mathcal{S})$, where $\mathcal{A}$ denotes the learning algorithm, $f_{\mathcal{S}}$ is the resulting prediction function or <strong>model</strong> which depends on the data subset $\mathcal{S}$ we are given. If we want to indicate that $f_{\mathcal{S}}$ also depends on hyper-parameters of the model, we can add a subscript to write $f_{\mathcal{S, \lambda}}$.</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/31/model-selection-&-bias–variance-tradeoff/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-21T16:00:00.000Z">2019-10-22</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 minutes read (About 1079 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/21/google-cloud-for-deep-learning-part-2/">Google Cloud for Deep Learning - Part 2</a>
-            
-        </h1>
-        <div class="content">
-            <p>The series of passages to use the Google Cloud for deep learning has two parts: <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" title="The first part">The first part</a> is about creating a VM instance on the Google cloud and <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" title="the second part">the second part</a> is about installing some deep learning related configurations (jupyter notebook and GPUs). Now, Let’s move to the Part 2!</p>
-<h1 id="Configure-the-Deep-Learning-Enviroment"><a href="#Configure-the-Deep-Learning-Enviroment" class="headerlink" title="Configure the Deep Learning Enviroment"></a>Configure the Deep Learning Enviroment</h1><h2 id="Step-1-Install-GPU-Drivers-and-CUDA"><a href="#Step-1-Install-GPU-Drivers-and-CUDA" class="headerlink" title="Step 1: Install GPU Drivers and CUDA"></a>Step 1: <a href="https://cloud.google.com/compute/docs/gpus/add-gpus#install-gpu-driver" target="_blank" rel="noopener">Install GPU Drivers and CUDA</a></h2><p>After you create an instance with one or more GPUs, your system requires device drivers so that your applications can access the device.</p>
-<p>Install CUDA, which includes the NVIDIA driver. Following steps to install CUDA and the associated drivers for NVIDIA® GPUs.</p>
-<ul>
-<li>Run command line to create a script:  <figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim installNvidia.sh</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/21/google-cloud-for-deep-learning-part-2/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-17T16:00:00.000Z">2019-10-18</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 minutes read (About 798 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/17/google-cloud-for-deep-learning-part-1/">Google Cloud for Deep Learning - Part 1</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p><a href="https://cloud.google.com" target="_blank" rel="noopener">Google Cloud</a> is a suite of <strong>cloud computing services</strong> that runs on the same infrastructure that Google uses internally for its end-user products.</p>
-</blockquote>
-<p><a href="https://cloud.google.com/compute/docs/instances/" target="_blank" rel="noopener">Google compute engine instance</a> is a virtual machine (VM) hosted on Google Cloud where you could run our GPU-enabled deep learning project. What the most important is that a $300 trial credit is offered by google to try this cloud services!</p>
-<p>The series of passages aiming to use the Google Cloud for deep learning has two parts: <a href="/2019/10/17/google-cloud-for-deep-learning-part-1/" title="The first part">The first part</a> is about creating a VM instance on the Google cloud and <a href="/2019/10/21/google-cloud-for-deep-learning-part-2/" title="the second part">the second part</a> is about installing some deep learning related configurations (jupyter notebook and GPUs). Let’s take a step to the Part 1!</p>
-<h1 id="Create-a-VM-Instance"><a href="#Create-a-VM-Instance" class="headerlink" title="Create a VM Instance"></a>Create a VM Instance</h1><h2 id="Step-1-Create-a-Google-Account-with-Credit"><a href="#Step-1-Create-a-Google-Account-with-Credit" class="headerlink" title="Step 1: Create a Google Account with Credit"></a>Step 1: Create a Google Account with Credit</h2><p>You should activate your free trial to get <strong>$300</strong> credit for the trial. </p>
-<p>Your payment information will be required but you <strong>won’t be charged</strong> unless you manually upgrade to a paid account. So don’t be too worried about the autocharge!</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/17/google-cloud-for-deep-learning-part-1/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-16T16:00:00.000Z">2019-10-17</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    9 minutes read (About 1305 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/16/optimization-algorithm-in-deep-learning/">Optimization Algorithm in Deep Learning</a>
-            
-        </h1>
-        <div class="content">
-            <p>An <a href="https://en.wikipedia.org/wiki/Mathematical_optimization#Optimization_algorithms" target="_blank" rel="noopener">optimization algorithm</a> is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorithms commonly used in deep learning.</p>
-<h1 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h1><blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">Gradient descent</a> is a first-order iterative optimization algorithm for finding the minimum of a function. </p>
-</blockquote>
-<p>To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point as following:$$w = w - \eta \nabla Q(w) $$</p>
-<h2 id="Batch-Gradient-Descent"><a href="#Batch-Gradient-Descent" class="headerlink" title="Batch Gradient Descent"></a>Batch Gradient Descent</h2><blockquote>
-<p>Batch gradient descent is a variation of the gradient descent algorithm that calculates the error for each example in the training dataset, but <strong>only updates</strong> the model <strong>after all training examples</strong> have been evaluated.</p>
-</blockquote>
-<ul>
-<li>Batch gradient descent decreases update frequency but takes much more time per iteration.</li>
-<li>Batch gradient descent has a <strong>more stable</strong> cost gradient and the cost goes down on every iteration. However, it may result in <strong>premature convergence</strong> of the model to a local minimum. It is an <strong>estimate</strong> of the function gradient.</li>
-<li>Batch gradient descent requires the entire training dataset in memory and available to the algorithm, which is <strong>memory-consuming</strong>.</li></ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/16/optimization-algorithm-in-deep-learning/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-14T16:00:00.000Z">2019-10-15</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    11 minutes read (About 1634 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/14/normalization-in-deep-learning/">Normalization in Deep Learning</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Normalization_(statistics)" target="_blank" rel="noopener">Normalization</a> refers to a process that makes something more normal or regular. </p>
-</blockquote>
-<p>In statistics, normalization means adjusting values measured on different scales to a common scale, or adjustments to bring the entire probability distributions of adjusted values into alignment. Normalization in deep learning can make the model to train efficiently.</p>
-<h1 id="Why-does-Normalization-work"><a href="#Why-does-Normalization-work" class="headerlink" title="Why does Normalization work?"></a>Why does Normalization work?</h1><h2 id="Intuition-1-Input-Normalization-frac-X-mu-sigma"><a href="#Intuition-1-Input-Normalization-frac-X-mu-sigma" class="headerlink" title="Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$"></a>Intuition 1: Input Normalization $\frac{X - \mu}{\sigma}$</h2><blockquote>
-<p>Make training less sensitive to the scale of features.</p>
-</blockquote>
-<p>After optimization, the feature with a large scale will always be weighted with a small value ($\omega_{small}$), and vise versa ($\omega_{large}$). Because of the large scale of the feature, a tiny change in the small weight ($\omega_{small}$) will change the prediction by a lot compared to the same change in the large weight ($\omega_{large}$). It means that setting $\omega_{small}$ correctly might dominate the optimization process and the feature with a large scale is of more importance which actually makes no sense.</p>
-<blockquote>
-<p>Make optimization well-conditioned.</p>
-</blockquote>
-<p>The rough intuition is that the cost function will be more round and easier to optimize when features are all on similar scales. </p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/14/normalization-in-deep-learning/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-22T11:10:45.148Z">2019-08-22</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute read (About 121 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/22/hello-world/">Hello World</a>
-            
-        </h1>
-        <div class="content">
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="hljs-string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -647,7 +662,7 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
         <div class="pagination-previous">
             <a class="is-flex-grow has-text-black-ter" href="/">Previous</a>
         </div>
-        <div class="pagination-next is-invisible is-hidden-mobile">
+        <div class="pagination-next">
             <a class="is-flex-grow has-text-black-ter" href="/page/3/">Next</a>
         </div>
         <ul class="pagination-list is-hidden-mobile">
@@ -655,6 +670,8 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             <li><a class="pagination-link has-text-black-ter" href="/">1</a></li>
             
             <li><a class="pagination-link is-current" href="/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/3/">3</a></li>
             
         </ul>
     </nav>
@@ -704,7 +721,7 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        26
                     </p>
                 </div>
             </div>
@@ -807,6 +824,44 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
         
         <article class="media">
             
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -862,44 +917,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/09/stack/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time></div>
-                    <a href="/2020/07/09/stack/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/04/linked-list/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：链表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:00:00.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/04/linked-list/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：链表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -918,7 +935,18 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1006,6 +1034,44 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
         
         <article class="media">
             
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -1061,44 +1127,6 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/09/stack/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time></div>
-                    <a href="/2020/07/09/stack/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/04/linked-list/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：链表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:00:00.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/04/linked-list/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：链表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1117,7 +1145,18 @@ $$S=\left\{ \left(\mathbf{x}_{n}, y_{n}\right) \text {i.i.d.} \sim \mathcal{D}\r
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>

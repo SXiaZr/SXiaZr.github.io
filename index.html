@@ -154,6 +154,103 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 minutes read (About 597 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/07/24/classic-problems/">算法例题：经典题型</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="一-nSum问题"><a href="#一-nSum问题" class="headerlink" title="一. nSum问题"></a>一. nSum问题</h2><h3 id="1-2Sum：Leetcode-1-Two-Sum"><a href="#1-2Sum：Leetcode-1-Two-Sum" class="headerlink" title="1. 2Sum：Leetcode 1. Two Sum"></a>1. 2Sum：<a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">Leetcode 1. Two Sum</a></h3><p><strong>有且只有</strong>一个答案，例如：[1,2,4]，3</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">twoSum</span><span class="hljs-params">(self, nums, target)</span>:</span></span><br><span class="line">        table_dict = &#123;&#125; <span class="hljs-comment"># 基于hash table，t=O(n)，s=O(n)</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> index, number <span class="hljs-keyword">in</span> enumerate(nums):</span><br><span class="line">            complement = target - number</span><br><span class="line">            <span class="hljs-keyword">if</span> complement <span class="hljs-keyword">in</span> table_dict:</span><br><span class="line">                <span class="hljs-keyword">return</span> (index, table_dict[complement])</span><br><span class="line">            <span class="hljs-keyword">else</span>:</span><br><span class="line">                table_dict[number] = index</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/07/24/classic-problems/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 minutes read (About 1724 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/07/19/sort/">算法思维：排序算法</a>
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://zh.wikipedia.org/zh-cn/排序算法" target="_blank" rel="noopener">排序算法</a>（Sorting algorithm）是能将一串数据<strong>依照特定排序方式</strong>进行排列的一种算法，最常用到的排序方式是<strong>数值顺序</strong>以及<strong>字典顺序</strong>。常见的<strong>比较排序</strong>算法如下：</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/07/19/sort/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time>
                 
                 
@@ -460,57 +557,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-09T16:00:00.000Z">2019-12-10</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    21 minutes read (About 3199 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/12/09/build-transformer-from-scratch-part-1/">Build Transformer from Scratch - Part 1</a>
-            
-        </h1>
-        <div class="content">
-            <p>The Transformer from <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">“Attention is All You Need”</a> is a new architecture that utilizes the  <strong>Attention</strong> concept to help improve the performance of NLP tasks. This passage follows the <strong>pytorch</strong> implementation in <a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank" rel="noopener">“The Annotated Transformer”</a> of Harvard’s NLP group to compactly illustrate the structure of the Transformer.</p>
-<h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><p>In <strong>traditional (RNN or CNN) models</strong>, the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, which makes it more <strong>difficult to learn dependencies</strong> between <strong>distant positions</strong>. </p>
-<p>To solve the issue above, the Transformer comes into being, which <strong>reduces the operations to a constant number</strong>. It <strong>eschews recurrence or convolution and relies entirely on an attention mechanism</strong> to draw global dependencies between input and output.</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/09/build-transformer-from-scratch-part-1/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-11-30T16:00:00.000Z">2019-12-01</time>
+                <time class="level-item has-text-grey" datetime="2020-06-14T16:00:00.000Z">2020-06-15</time>
                 
                 
                 <span class="level-item has-text-grey">
@@ -525,20 +572,27 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/11/30/entropy-in-information-theory/">Entropy in Information Theory</a>
+                <a class="has-link-black-ter" href="/2020/06/14/interview-ensemble/">机器学习：集成学习（Ensemble Learning）</a>
             
         </h1>
         <div class="content">
-            <p><a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" title="Entropy (information theory)" target="_blank" rel="noopener">Entropy (information theory)</a>, also called Shannon entropy, a measure of the unpredictability or information content of a message source.</p>
-<h1 id="Huffman-Coding-Tree"><a href="#Huffman-Coding-Tree" class="headerlink" title="Huffman Coding Tree"></a>Huffman Coding Tree</h1><p>To <strong>shorten the length</strong> of symbol <strong>encoding</strong>, people naturally hope that the <strong>higher the frequency</strong> of symbols, the <strong>shorter its encoding</strong>, so as to save the storage space.</p>
-<p><a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" rel="noopener"><strong>Huffman coding</strong></a> is a kind of <strong>data compression</strong> (encoding) algorithm based on a special <strong>binary tree</strong> (<strong>Huffman coding tree</strong>) and can solve the issue above. It assigns codes to characters (or any <strong>discrete source symbols</strong>) such that the <strong>length</strong> of the code <strong>depends on the relative frequency</strong> or weight of the corresponding character.</p>
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>集成学习（Ensemble Learning）：结合<strong>弱学习器（weak learners）</strong>，降低<strong>偏差（bias）</strong>或<strong>方差（variance）</strong>，以获得（泛化）性能显著优越的<strong>强学习器（strong learner）</strong>。</p>
+<p>同质学习器（Homogeneous learners）：用<strong>相同的学习算法</strong>，以<strong>同一参数</strong>，在<strong>不同数据集</strong>（采样或加权差异）上训练得到的学习器。</p>
+<p>异质学习器（Heterogeneous learners）：用<strong>不相同的学习算法</strong>，在<strong>相同数据集</strong>上训练得到的学习器。</p>
+<blockquote>
+<p>经验法则（Rule of Thumb）</p>
+<ol>
+<li>要获得<strong>好的集成</strong>，即<strong>比最好的弱学习器更好</strong>的性能，弱学习器应<strong>“好而不同”</strong>，具有“准确性”和“多样性”（学习器间具有差异）。</li>
+<li>弱学习器的选择应<strong>与集成方法</strong>一致，若选择“低偏差，高方差”的基本学习器，则应使用倾向于“减少方差”的集成方法，反之亦然。</li>
+</ol>
+</blockquote>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/11/30/entropy-in-information-theory/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2020/06/14/interview-ensemble/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -560,13 +614,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-11-29T16:00:00.000Z">2019-11-30</time>
+                <time class="level-item has-text-grey" datetime="2020-06-12T16:00:00.000Z">2020-06-13</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    9 minutes read (About 1299 words)
+                    24 minutes read (About 3641 words)
                 </span>
                 
                 
@@ -575,74 +629,18 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/11/29/model-ensemble/">Model Ensemble</a>
+                <a class="has-link-black-ter" href="/2020/06/12/interview-tree/">机器学习：树型模型（Tree-Based Learning Algorithms）</a>
             
         </h1>
         <div class="content">
-            <blockquote>
-<p>Unity is strength.</p>
-</blockquote>
-<p><strong><a href="https://en.wikipedia.org/wiki/Ensemble_learning" target="_blank" rel="noopener">Ensemble methods</a></strong> combine multiple learning algorithms to obtain better predictive performance than any of the constituent learning algorithms alone.</p>
-<p>The main hypothesis is that when weak learning algorithms (<strong>weak learners</strong>) are correctly combined, we can obtain more accurate and/or robust models.</p>
-<p>Most of the time, these <strong>weak learners</strong> perform not so well by themselves either because they have a <strong>high bias or variance</strong>. Then, the idea of ensemble methods is to try reducing bias and/or variance of such <strong>weak learners</strong> by combining several of them to create a <strong>strong learner</strong> with better performances. </p>
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>树型模型基于<strong>决策树</strong>与<strong>集成学习</strong>，该模型将特征空间划分为一组<strong>多面体</strong>，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍<a href="https://en.wikipedia.org/wiki/Decision_tree" target="_blank" rel="noopener">Decision tree</a>, <a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">Random forest</a>, <a href="https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/" target="_blank" rel="noopener">Boosted trees</a>。</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/11/29/model-ensemble/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-11-24T16:00:00.000Z">2019-11-25</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    15 minutes read (About 2272 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/11/24/tree-based-learning-algorithms-part-2/">Tree-Based Learning Algorithms - Part 2</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p>Decision tree can be very <strong>non-robust</strong>. A small change in the training data can result in a large change in the tree and, consequently, the final predictions.</p>
-</blockquote>
-<p>To resolve the problem above, some techniques, often called <strong><a href="/2019/11/29/model-ensemble/" title="ensemble methods">ensemble methods</a></strong>, construct multiple decision trees that are combined to yield a single and better consensus prediction.</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/11/24/tree-based-learning-algorithms-part-2/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2020/06/12/interview-tree/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -673,6 +671,8 @@
             <li><a class="pagination-link is-current" href="/">1</a></li>
             
             <li><a class="pagination-link has-text-black-ter" href="/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/3/">3</a></li>
             
         </ul>
     </nav>
@@ -722,7 +722,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        26
                     </p>
                 </div>
             </div>
@@ -825,6 +825,44 @@
         
         <article class="media">
             
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -880,44 +918,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/09/stack/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time></div>
-                    <a href="/2020/07/09/stack/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/04/linked-list/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：链表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:00:00.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/04/linked-list/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：链表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -936,7 +936,18 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1024,6 +1035,44 @@
         
         <article class="media">
             
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -1079,44 +1128,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/09/stack/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：栈">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-09T16:00:00.000Z">2020-07-10</time></div>
-                    <a href="/2020/07/09/stack/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：栈</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/07/04/linked-list/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：链表">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:00:00.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/04/linked-list/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：链表</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1135,7 +1146,18 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>机器学习：线性模型（Linear Model） - DeepBlog</title>
+
+
+    <meta name="description" content="一. 概念给定样本$\mathbf{x} = (x_1, x_2, …,x_d)$，线性模型（linear model）通过属性的线性组合来进行预测，即：$$f(\mathbf{x}) = w_1x_1 + w_2x_2 + … + w_dx_x + b$$一般写作向量形式：$f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$，其中权重向量$\mathbf{w}">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习：线性模型（Linear Model）">
+<meta property="og:url" content="http://sxiazr.github.io/2020/06/06/interview-linear-model/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="一. 概念给定样本$\mathbf{x} = (x_1, x_2, …,x_d)$，线性模型（linear model）通过属性的线性组合来进行预测，即：$$f(\mathbf{x}) = w_1x_1 + w_2x_2 + … + w_dx_x + b$$一般写作向量形式：$f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$，其中权重向量$\mathbf{w}">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-08-11T09:30:30.549Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习：线性模型（Linear Model）">
+<meta name="twitter:description" content="一. 概念给定样本$\mathbf{x} = (x_1, x_2, …,x_d)$，线性模型（linear model）通过属性的线性组合来进行预测，即：$$f(\mathbf{x}) = w_1x_1 + w_2x_2 + … + w_dx_x + b$$一般写作向量形式：$f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$，其中权重向量$\mathbf{w}">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="机器学习：线性模型（Linear Model）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-06T16:00:00.000Z">2020-06-07</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 minutes read (About 3709 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                机器学习：线性模型（Linear Model）
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>给定样本$\mathbf{x} = (x_1, x_2, …,x_d)$，<strong>线性模型（linear model）</strong>通过<strong>属性的线性组合</strong>来进行预测，即：<br>$$f(\mathbf{x}) = w_1x_1 + w_2x_2 + … + w_dx_x + b$$一般写作向量形式：$f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$，其中<strong>权重</strong>向量$\mathbf{w}$和<strong>偏置</strong>项$b$为模型需要学习的参数。</p>
+<p>线性模型有良好的<strong>可解释性</strong>，<strong>权重</strong>表达了对应属性的<strong>重要性</strong>。在线性模型的基础上，引入<strong>高维映射</strong>可以得到<strong>非线性</strong>模型。</p>
+<a id="more"></a>
+<h1 id="二-线性回归（Linear-regression）"><a href="#二-线性回归（Linear-regression）" class="headerlink" title="二. 线性回归（Linear regression）"></a>二. 线性回归（Linear regression）</h1><p>“<strong>线性回归</strong>”试图<strong>学得</strong>线性模型（参数$\mathbf{w}$和$b$），使其预测值尽可能准确：$f\left(\boldsymbol{x}_{i}\right)=\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\simeq y_{i}$。</p>
+<h3 id="最小二乘法（Least-square-method）与均方误差（Mean-square-error）"><a href="#最小二乘法（Least-square-method）与均方误差（Mean-square-error）" class="headerlink" title="最小二乘法（Least square method）与均方误差（Mean square error）"></a><strong>最小二乘法</strong>（Least square method）与<strong>均方误差</strong>（Mean square error）</h3><p>最小二乘法用于<strong>参数估计</strong>，其找到使所有样本与其<strong>欧氏距离之和</strong>最小的直线，是常见的线性回归方法。最小二乘法求解$\mathbf{w}$和$b$，使<strong>均方误差</strong>（<strong>mean square error, MSE</strong>）最小，即使$E_{(\mathbf{w}, b)}=\frac{1}{m}\sum_{i=1}^{m}\left(y_{i}-\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}-b\right)^{2}$最小。将$E_{(\mathbf{w}, b)}$（<strong>凸函数</strong>，二阶导数在区间上非负）对$\mathbf{w}$与$b$求导，可获得最优解的解析解。</p>
+<h1 id="三-广义线性模型（Generalized-linear-model）"><a href="#三-广义线性模型（Generalized-linear-model）" class="headerlink" title="三. 广义线性模型（Generalized linear model）"></a>三. 广义线性模型（Generalized linear model）</h1><p>除了让线性模型预测值逼近真实值$y$，还可以让其<strong>逼近</strong>$y$的<strong>衍生物</strong>，即：<br>$$g(y) = \mathbf{w^Tx} + b \Rightarrow y = g^{-1}(\mathbf{w^Tx} + b)$$，其认为真实值$y$<strong>在</strong>$g(y)$<strong>尺度上</strong>线性变化，$g(\cdot)$ 称为<strong>联系函数</strong>（单调可微）。广义线性模型可实现<strong>非线性映射</strong>功能，例如，<strong>对数线性回归</strong>（log-linear regression，$g(y) = ln(y)$）、<strong>对数几率回归</strong>（logistic regression，$g^{-1}(z) = \frac{1}{1+e^{-z}}$，$g(y) = \ln{\frac{y}{1-y}}$）。</p>
+<h3 id="对数几率回归（Logistic-regression）"><a href="#对数几率回归（Logistic-regression）" class="headerlink" title="对数几率回归（Logistic regression）"></a><strong>对数几率回归</strong>（Logistic regression）</h3><p>逻辑回归用于<strong>分类任务</strong>，其标记是离散值，而线性模型的输出是实值，需要<strong>单调可微的联系函数</strong>将两者联系。使用<strong>对数几率函数</strong>（logistic function，<strong>近似单位阶跃函数</strong>，$g^{-1}(z) = \frac{1}{1+e^{-z}}$）作为联系函数，代入得：$$y = \frac{1}{1+ e^{-(\mathbf{w^Tx} + b)}}$$，是一种<strong>Sigmoid函数</strong>（即，形似S的函数），也可写作：<br>$$\ln{\frac{y}{1-y}} = \mathbf{w^Tx} + b$$其中，$\frac{y}{1-y}$ 称作<strong>几率（odds）</strong>，$y$/$1-y$表示<strong>样本是正/反例</strong>的概率，几率表示<strong>该样本为正例的相对可能性</strong>，对几率取对数得到<strong>对数几率（log odds，也称logit）</strong>。所以，对数几率回归的<strong>实质</strong>，是让线性回归模型的预测值逼近（分类任务）真实标记的对数几率。对数几率回归，不仅可预测出类别，还能得到该<strong>预测的概率</strong>。</p>
+<h3 id="极大似然法（Maximum-likelihood）与对数损失（Log-loss）"><a href="#极大似然法（Maximum-likelihood）与对数损失（Log-loss）" class="headerlink" title="极大似然法（Maximum likelihood）与对数损失（Log loss）"></a><strong>极大似然法</strong>（Maximum likelihood）与<strong>对数损失</strong>（Log loss）</h3><p>极大似然法用于<strong>参数估计</strong>，其找到使<strong>已观测的样本</strong>出现<strong>概率最大</strong>的<strong>模型参数</strong>（于线性模型中，即$\mathbf{w}$和$b$）。极大似然法求解$\mathbf{w}$和$b$，令所有样本概率$p=\prod_{\mathbf{x}} p(y^{True} \mid \mathbf{x})$最大，即使得<strong>对数损失</strong>（Log-loss）最小。对概率积求对数，得到<strong>对数似然</strong>（log-likelihood）：</p>
+$$\ell(\mathbf{w},b) = \sum_{i=1}^m \ln p(y^{True}_i | \mathbf{x_i})
+= \sum_{i=1}^m \ln (y_i^{True}p(y_i^{True}=1|\mathbf{x}) + (1-y_i^{True})p(y_i^{True}=0|\mathbf{x}))$$其中，$p(y^{True}=1|\mathbf{x}) = \frac{e^{\mathbf{w^Tx} + b}}{1+e^{\mathbf{w^Tx} + b}}$，$p(y^{True}=0|\mathbf{x}) = 1-p(y^{True}=1|\mathbf{x}) = \frac{1}{1+e^{\mathbf{w^Tx} + b}}$分别代表样本被预测为第1类、第0类的概率。
+
+
+<p><strong>对数损失（Log loss）</strong>，定义如下：$$\text{Log-loss} = -\frac{1}{n} \sum_{i=1}^{n}\left(\left(y_{i}^{True} \log p_{i}\right)+\left(1-y_{i}^{True}\right) \log \left(1-p_{i}\right)\right)$$，其是<strong>交叉熵损失</strong>（Cross entropy loss = -$\frac{1}{N} \sum_{i}\sum_{c=1}^{M} y_{i c}^{True} \log \left(p_{i c}\right)$）在二分类时的特殊情况。所以说<strong>最大化似然函数</strong>等价于<strong>最小化对数损失函数</strong>。</p>
+<p>对数几率回归为什么<strong>不使用均方误差</strong>？</p>
+<ul>
+<li>$\begin{aligned} g^{\prime}(z) =\frac{d}{d z} \frac{1}{1+e^{-z}} =\frac{1}{\left(1+e^{-z}\right)^{2}}\left(e^{-z}\right) =\frac{1}{\left(1+e^{-z}\right)} \cdot\left(1-\frac{1}{\left(1+e^{-z}\right)}\right) =g(z)(1-g(z)) \end{aligned}$，所以当$g(z)$接近0或1（<strong>优化目标</strong>）时，有<strong>梯度消失</strong>的问题。</li>
+<li>均方误差与对数几率函数的<strong>组合函数</strong>（$M S E\left(y, \sigma\left(X^{T} w\right)\right)$）是<strong>非凸</strong>的（non-convex，二阶导数在区间上可负），而对数误差与对数几率函数的<strong>组合函数</strong>是<strong>凸函数</strong>，详见<a href="https://towardsdatascience.com/why-not-mse-as-a-loss-function-for-logistic-regression-589816b5e03c" target="_blank" rel="noopener">参考</a>。</li>
+</ul>
+<h1 id="四-线性判别分析（Linear-Discriminant-Analysis）"><a href="#四-线性判别分析（Linear-Discriminant-Analysis）" class="headerlink" title="四. 线性判别分析（Linear Discriminant Analysis）"></a>四. 线性判别分析（Linear Discriminant Analysis）</h1><p>线性判别分析（Linear Discriminant Analysis，LDA）同样是一种线性学习方法，其将所有样例<strong>投影到一条直线上</strong>，使得<strong>同类样例</strong>投影尽可能<strong>近</strong>，<strong>不同类样例</strong>的投影尽可能<strong>远</strong>。</p>
+<p>$\mu_i$、$\Sigma_i$分别表示第$i \in{0,1}$类示例的<strong>均值向量</strong>、<strong>协方差矩阵</strong>($\Sigma_{i j}=\operatorname{cov}\left(X_{i}, X_{j}\right)=\mathrm{E}\left[\left(X_{i}-\mu_{i}\right)\left(X_{j}-\mu_{j}\right)^{\mathrm{T}}\right]$)。若将样本点投影到直线$\mathbf{w}$上， 则样本<strong>投影的均值、方差</strong>分别为$\mathbf{w}^T\mu$、$\mathbf{w}^T\Sigma\mathbf{w}$。</p>
+<p>同类样例的投影近，意味着同类样例投影的<strong>协方差</strong>应尽可能<strong>小</strong>（下式分母）；异类样例的投影远，意味着异类投影<strong>中心</strong>之间的距离尽可能<strong>大</strong>（下式分子），即<strong>最大化</strong>：<br>$$J = \frac{\Vert \mathbf{w}^T\mu_0 - \mathbf{w}^T\mu_1 \Vert^2_2}{\mathbf{w}^T\Sigma_0\mathbf{w}+\mathbf{w}^T\Sigma_1\mathbf{w}}\<br>= \frac{\mathbf{w}^T(\mu_0 - \mu_1)(\mu_0 - \mu_1)^T\mathbf{w}}{\mathbf{w}^T(\Sigma_0+\Sigma_1)\mathbf{w}}$$</p>
+<h1 id="五-基于二分类的多分类器"><a href="#五-基于二分类的多分类器" class="headerlink" title="五. 基于二分类的多分类器"></a>五. 基于二分类的多分类器</h1><p>有些二分类方法可以<strong>推广到多分类</strong>（如LDA），但现实中<strong>更多地</strong>是把多分类任务<strong>分解为多个二分类任务</strong>，利用二分类模型来解决问题。三种最经典的拆分策略，如下所示：</p>
+<h3 id="一对一（One-vs-One，OvO）"><a href="#一对一（One-vs-One，OvO）" class="headerlink" title="一对一（One vs. One，OvO）"></a><strong>一对一</strong>（One vs. One，OvO）</h3><p>把类别<strong>两两配对</strong>，假设有$N$个类别，OvO会产生$\frac{N(N-1)}{2}$个二分类子任务，得到对应的二分类器。<strong>测试时</strong>，新样本输入到这些模型，产生$\frac{N(N-1)}{2}$个分类结果，最终预测由<strong>投票产生</strong>。</p>
+<h3 id="一对其余（One-vs-Rest，OvR）"><a href="#一对其余（One-vs-Rest，OvR）" class="headerlink" title="一对其余（One vs. Rest，OvR）"></a><strong>一对其余</strong>（One vs. Rest，OvR）</h3><p>把一个类的样例<strong>当作正例</strong>，其他类的样例<strong>当作反例</strong>，OvR产生$N$个二分类子任务（每个子任务都使用<strong>完整数据集</strong>）。<strong>测试时</strong>，新样本输入到这些模型，产生$N$ 个分类结果：若<strong>仅有一个</strong>模型预测为正，其<strong>对应的类别</strong>为预测结果；若有<strong>多个模型</strong>预测为正，则选择<strong>置信度最大</strong>的类别。<br>OvO和OvR<strong>优劣</strong>：OvO需要训练<strong>较多分类器</strong>，<strong>存储开销和测试开销大</strong>；OvR训练需要要用到所有样例，<strong>训练时间开大</strong>。</p>
+<h3 id="多对多（Many-vs-Many，MvM）"><a href="#多对多（Many-vs-Many，MvM）" class="headerlink" title="多对多（Many vs. Many，MvM）"></a><strong>多对多</strong>（Many vs. Many，MvM）</h3><p>将多个类作为正例，其他类作为反例，OvO和OvR均为MvM的<strong>特例</strong>，<strong>纠错输出码</strong>（Error Correcting Outputs Codes，ECOC）是一种常用的MvM技术，其工作过程分两步：</p>
+<ul>
+<li>编码：训练。对$N$个类别做$M$次划分，每次划分将部分类划为<strong>正类</strong>，剩余类划分为<strong>反类</strong>，最终得到$M$个模型。每个类别在$M$次划分中，被划为正类<strong>记作+1</strong>，被划为负类<strong>记作-1</strong>，于是可以表示为一个<strong>$M$维的编码</strong>。</li>
+<li>解码：预测。将新样本输入$M$个模型，所得的$M$个预测结果也<strong>组成一个预测编码</strong>。将<strong>预测编码</strong>和<strong>类别编码</strong>进行比较，<strong>距离最小</strong>的类别为最终预测结果。</li>
+</ul>
+<p>类别划分由<strong>编码矩阵（coding matrix）</strong>表示，常见的有二元码（<strong>正类为+1</strong>，<strong>负类为-1</strong>）和三元码（<strong>停用类</strong>为<strong>0</strong>，表示不使用该类），例子如下所示：</p>
+<p align="center">
+  <img src="./coding-matrix.jpg" alt="Coding Matrix" width="600px">
+</p>
+
+<p>ECOC编码对<strong>分类器的错误</strong>有一定的<strong>纠错能力</strong>。<strong>编码越长，纠错能力越强</strong>，但需要训练<strong>更多分类器</strong>；对<strong>等长编码</strong>，类别之间的<strong>编码距离越远，纠错能力越强</strong>（实际中，一般不需要获取最优编码）。</p>
+<h1 id="六-样本平衡"><a href="#六-样本平衡" class="headerlink" title="六. 样本平衡"></a>六. 样本平衡</h1><p>若训练集中，不同类别的样例数目<strong>稍有差别</strong>，通常<strong>影响不</strong>大，但若<strong>差别很大</strong>，则会对学习过程造成困扰。例如，若有998个反例，2个正例，那么一个<strong>永远</strong>将新样本<strong>预测为反例</strong>的学习器，就能达到99.8%的精度，这样的学习器<strong>没有价值</strong>。</p>
+<p>若直接用<strong>类别不平衡</strong>的数据集进行训练，所得模型会<strong>偏向</strong>所占比较大的类别（即，有<strong>很高概率</strong>被预测为较大占比的类），通常有以下解决方法（<strong>默认正类样例较少</strong>）：</p>
+<h3 id="欠采样"><a href="#欠采样" class="headerlink" title="欠采样"></a><strong>欠采样</strong></h3><p>欠采样（undersampling）<strong>去除部分反例</strong>，使得正、反类的样例<strong>数目相当</strong>。</p>
+<ul>
+<li>随机采样<br>由于去掉部分反例，所以训练<strong>时间减少</strong>，但<strong>随机丢弃反例</strong>可能会<strong>丢失重要信息</strong>。</li>
+<li>集成学习<br>一种解决方法是利用<strong>集成学习</strong>，将反例划分为多个集合，用于训练不同的模型，从而使得<strong>每个模型都进行欠采样</strong>，但<strong>全局上并无信息损失</strong>：EasyEnsemble（Bagging）、BalanceCascade（Boosting）。</li>
+<li>数据清洗<br>清洗重叠的数据，通常<strong>配合SMOTE</strong>一同使用：SMOTE+Tomek、SMOTE+ENN<ul>
+<li>Tomek Link：若两个样本<strong>互为最近邻</strong>且<strong>分属不同类别</strong>，则它们形成了一个Tomek Link，<strong>移除Tomek Link</strong>就能清洗重叠样本。</li>
+<li>Edited Nearest Neighbours(ENN)：对于<strong>多数类</strong>的一个样本，如果其<strong>K个近邻点</strong>有<strong>超过一半</strong>都不属于多数类，则<strong>剔除</strong>这个样本。</li>
+</ul>
+</li>
+</ul>
+<h3 id="过采样"><a href="#过采样" class="headerlink" title="过采样"></a><strong>过采样</strong></h3><p>过采样（oversampling）<strong>增加正例</strong>，使得正、反类的样例数目相当。由于增加了正例，所以训练<strong>时间增加</strong>。过采样<strong>不能</strong>简单地通过<strong>重复来增加正例</strong>，这会引起严重的<strong>过拟合</strong>。常见的做法是对已有正例进行<strong>插值</strong>产生新的正例，常见方法如下：</p>
+<ul>
+<li>SMOTE(synthetic minority oversampling technique)<br>基于<strong>K近邻法</strong>，求出对于<strong>每一</strong>个<strong>少数类样本</strong>$\mathbf{x}_{i}$，距离最近的<strong>k个少数类样本</strong>，其中距离为样本间的<strong>欧氏距离</strong>。然后，从这k个近邻点中<strong>随机选取</strong>$\hat{\mathbf{x}}_i$，根据$\mathbf{x}_{\text {new}}=\mathbf{x}_{i}+\left(\hat{\mathbf{x}}_{i}-\mathbf{x}_{i}\right) \times \delta$生成样本，$\delta \in [0, 1]$为<strong>随机数</strong>。</li>
+<li>Border-line SMOTE<br>SMOTE<strong>没有考虑周边样本</strong>的情况，容易带来两个问题：1）若选取的<strong>少数类样本周围也是少数类样本</strong>，则新合成的样本<strong>不会增广信息</strong>；2）如果选取的少数类样本<strong>周围都是多数类样本</strong>，则新合成的样本可能是<strong>噪音</strong>。我们希望<strong>新合成的少数类</strong>样本能处于两个<strong>类别的边界</strong>附近，提供足够的信息用以分类。<br>Border-line SMOTE对此<strong>改进</strong>，将少数样本分为三类：<strong>noise</strong>（<strong>所有</strong>k近邻样本都属于<strong>多数类</strong>）、<strong>danger</strong>（<strong>超过一半</strong>的k近邻样本属于<strong>多数类</strong>）、<strong>safe</strong>（<strong>超过一半</strong>的k近邻样本属于<strong>少数类</strong>）。算法从<strong>danger</strong>样本中随机选择，然后用<strong>SMOTE算法</strong>产生新样本。</li>
+<li>ADASYN（adaptive synthetic sampling）<br>SMOTE中，每个少数类样本合成<strong>等量样本</strong>，而ADASYN最大的特点是<strong>利用分布</strong>，决定每个少数类样本<strong>需要合成</strong>样本的数量。<strong>周围多数类样本点较多</strong>的少数类样本，合成<strong>更多</strong>样本。其缺点是，<strong>易受离群点</strong>的影响。<ul>
+<li>计算需要合成的样本总量：$G=\left(S_{m a j}-S_{m i n}\right) \times \beta$</li>
+<li>对于每个少类样本$\mathbf{x}_i$，找出其<strong>K近邻个点</strong>，并计算分布$\Gamma_{i}=\frac{\Delta_{i} / K}{Z}$，其中$\Delta_{i}$为K领域中<strong>多数类样本的数量</strong>，$Z$为规范化因子（确保$\Gamma_{i}$<strong>构成分布</strong>）。</li>
+<li>最后，对<strong>每个</strong>少类别样本$\mathbf{x}_i$，计算<strong>需要合成的样本数量</strong>$g_{i}=\Gamma_{i} \times G$，再用<strong>SMOTE</strong>算法合成新样本。</li>
+</ul>
+</li>
+</ul>
+<h3 id="阈值移动"><a href="#阈值移动" class="headerlink" title="阈值移动"></a><strong>阈值移动</strong></h3><p>阈值移动（threshold-moving）利用的是<strong>再缩放</strong>思想。</p>
+<p>例如，在<strong>对数几率回归</strong>中，预测值$y&gt;0.5$的样本预测为<strong>正例</strong>，$y$实际上表达了<strong>正例的可能性</strong>，<strong>阔值0.5</strong>恰表明分类器认为<strong>正、反例可能性相同</strong>（即，假设了样本的真实分布为正、反例<strong>各一半</strong>）。若正例数目为 $m^+$，反例数目为 $m^-$，可以重定义：$y&gt; \frac{m^+}{m^- + m^+}$为正例。</p>
+<p>但必须注意，再缩放（rescaling）是<strong>基于观测几率近似真实几率</strong>的假设，现实任务中未必成立。</p>
+<h1 id="七-Reference"><a href="#七-Reference" class="headerlink" title="七. Reference"></a>七. Reference</h1><p><a href="https://item.jd.com/11867803.html" target="_blank" rel="noopener">Book: 机器学习，周志华</a><br><a href="http://sofasofa.io/forum_main_post.php?postid=1001792" target="_blank" rel="noopener">Forum: 二元分类为什么不能用MSE做为损失函数？</a><br><a href="https://www.cnblogs.com/massquantity/p/9382710.html" target="_blank" rel="noopener">Blog: 机器学习之类别不平衡问题 (3) —— 采样方法</a><br><a href="https://zhuanlan.zhihu.com/p/33862078" target="_blank" rel="noopener">Zhihu: 图解SMOTE方法</a><br><a href="https://towardsdatascience.com/why-not-mse-as-a-loss-function-for-logistic-regression-589816b5e03c" target="_blank" rel="noopener">Blog: Why not Mean Squared Error(MSE) as a loss function for Logistic Regression?</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/10/interview-SVM/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">机器学习：支持向量机（Support Vector Machine）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/12/09/build-transformer-from-scratch-part-1/">
+                <span class="level-item">Build Transformer from Scratch - Part 1</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="机器学习：线性模型（Linear Model）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
