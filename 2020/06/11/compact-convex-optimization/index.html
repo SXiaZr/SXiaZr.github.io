@@ -19,7 +19,7 @@
 <meta property="og:description" content="一. 凸优化（Convex optimaztion） 凸函数（Convex funcitons）：Let $f$ be a function defined over some domain $\operatorname{dom} f$. $f$ is said to be convex, iff$$\forall \mathbf{a}, \mathbf{b} \in \operatorname{">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-08-13T14:21:04.804Z">
+<meta property="og:updated_time" content="2020-09-17T09:29:36.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数学：凸优化与拉格朗日乘子法">
 <meta name="twitter:description" content="一. 凸优化（Convex optimaztion） 凸函数（Convex funcitons）：Let $f$ be a function defined over some domain $\operatorname{dom} f$. $f$ is said to be convex, iff$$\forall \mathbf{a}, \mathbf{b} \in \operatorname{">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1688 words)
+                    11 minutes read (About 1687 words)
                 </span>
                 
                 
@@ -217,7 +217,7 @@ $$\begin{array}{ll}\min & f(\mathbf{x}) \\ s.t. & g_{i}(\mathbf{x}) \leq 0, \qua
 <li>complementary slackness：$\lambda_{i}^{\star} g_{i}\left(\mathbf{x}^{\star}\right)=0 \quad \forall i=1, \ldots, m \quad$</li>
 <li>stationarity: $\nabla f\left(\mathbf{x}^{\star}\right)+\sum_{i=1}^{m} \lambda_{i}^{\star} \nabla g_{i}\left(\mathbf{x}^{\star}\right)+\sum_{i=1}^{p} \mu_{i}^{\star} \nabla h_{i}\left(\mathbf{x}^{\star}\right)=0$</li>
 </ul>
-<h1 id="三-原问题与对偶问题（Primal-Dual）"><a href="#三-原问题与对偶问题（Primal-Dual）" class="headerlink" title="三. 原问题与对偶问题（Primal/Dual）"></a>三. <strong>原问题与对偶问题</strong>（Primal/Dual）</h1><p>所以可得，$$ \text{Primal}= \min_{\mathbf{x}}f(\mathbf{x})=\min_\mathbf{x}\max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) = p^{\star}$$显然，由于$h\left(\mathbf{x}\right)=0$、$\lambda g\left(\mathbf{x}\right)\geq 0$，有$\max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu})=f(\mathbf{x})$，即前述所说的“Lagrangian无约束优化与原约束优化，<strong>在相同处取到的最优解</strong>”。</p>
+<h1 id="三-原问题与对偶问题（Primal-Dual）"><a href="#三-原问题与对偶问题（Primal-Dual）" class="headerlink" title="三. 原问题与对偶问题（Primal/Dual）"></a>三. <strong>原问题与对偶问题</strong>（Primal/Dual）</h1><p>所以可得，$$ \text{Primal}= \min_{\mathbf{x}}f(\mathbf{x})=\min_\mathbf{x}\max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) = p^{\star}$$显然，由于$h\left(\mathbf{x}\right)=0$、$\lambda g\left(\mathbf{x}\right)= 0$，有$\max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu})=f(\mathbf{x})$，即前述所说的“Lagrangian无约束优化与原约束优化，<strong>在相同处取到的最优解</strong>”。</p>
 <p>定义<strong>对偶函数</strong>$\Gamma(\boldsymbol{\lambda}, \boldsymbol{\mu})=\inf _{\mathbf{x} \in \mathbb{D}} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) \leq L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu})\leq f(\mathbf{x})$，其代表了主问题<strong>最优值的下界</strong>（由$\boldsymbol{\lambda}$、$\boldsymbol{\mu}$决定），<strong>对偶问题（dual problem）</strong>：$$\text{Dual} = \max _{\boldsymbol{\lambda}\succeq0, \boldsymbol{\mu}} \Gamma(\boldsymbol{\lambda}, \boldsymbol{\mu}) = \max_{\boldsymbol{\lambda} \succeq 0, \boldsymbol{\mu}} \min_\mathbf{x} L(\mathbf{x}, \boldsymbol{\lambda}, \boldsymbol{\mu}) = d^{\star}$$， 给出了基于对偶函数能获得的<strong>最好下界</strong>。</p>
 <h3 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a><strong>对偶性</strong></h3><p>由于$d^{\star}$是主问题的一个<strong>下界</strong>，故有$d^{\star} \leq p^{\star}$，这称为”<strong>弱对偶性</strong>“ (weak duality)，若$d^{\star} = p^{\star}$， 则称为”<strong>强对偶性</strong>“ (strong duality)。</p>
 <p align="center">
@@ -343,7 +343,7 @@ $$\begin{array}{ll}\min & f(\mathbf{x}) \\ s.t. & g_{i}(\mathbf{x}) \leq 0, \qua
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        36
                     </p>
                 </div>
             </div>
@@ -568,7 +568,18 @@ $$\begin{array}{ll}\min & f(\mathbf{x}) \\ s.t. & g_{i}(\mathbf{x}) \leq 0, \qua
                     <span class="level-item">June 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>

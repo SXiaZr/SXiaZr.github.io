@@ -19,7 +19,7 @@
 <meta property="og:description" content="An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorit">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-11-02T15:00:53.008Z">
+<meta property="og:updated_time" content="2020-09-02T01:14:25.144Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Optimization Algorithm in Deep Learning">
 <meta name="twitter:description" content="An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Here, we introduce some optimization algorit">
@@ -221,14 +221,14 @@
 </blockquote>
 <p>AdaGrad has a <strong>base learning</strong> rate $\eta$, but this is multiplied with the elements of a vector ($G_{j, j}$) which is the diagonal of the matrix:$$G = \sum_{\tau=1}^t g_\tau g_\tau^T$$</p>
 <p>where $g_\tau = \nabla Q_i(w)$, the stochastic gradient at iteration $\tau$. The diagonal is given by $G_{j,j} = \sum_{\tau=1}^t g_{\tau,j}^2$. </p>
-<p>The formula for an update is now:$$w = w - \eta, diag(G)^{-\frac{1}{2}} \circ g$$, where the $\circ$ is the element-wise product. It can also be written as per-parameter updates $w_j = w_j - \frac{\eta}{\sqrt{G_{j,j}}} g_j.$</p>
+<p>The formula for an update is now:$$w = w - \eta\ diag(G)^{-\frac{1}{2}} \circ g$$, where the $\circ$ is the element-wise product. It can also be written as per-parameter updates $w_j = w_j - \frac{\eta}{\sqrt{G_{j,j}}} g_j.$</p>
 <ul>
 <li>AdaGrad increases the learning rate for sparser parameters and decreases the learning rate for ones that are less sparse. This strategy often improves convergence performance over  sparse data. </li>
-<li>The intuition behind is that: with the number of updates increases, it is getting closer to the optimal solution, the learning rate supposed to be down to avoid oscillations. In AdaGrad, the learning rate will shrink with large updates or frequent updates.<h2 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h2><blockquote>
+<li>The intuition behind is that: with the number of updates increases, it is getting closer to the optimal solution, the learning rate supposed to be down to avoid oscillations. In AdaGrad, the learning rate will shrink with large updates or frequent updates.</li>
+</ul>
+<h2 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h2><blockquote>
 <p>RMSProp (<strong>Root Mean Square Propagation</strong>) is also a method in which the learning rate is adapted for each of the parameters. </p>
 </blockquote>
-</li>
-</ul>
 <p>The idea is to divide the learning rate by an exponentially weighted average (detailed described in <a href="/2019/10/14/normalization-in-deep-learning/" title="my previous blog">my previous blog</a>) of the magnitudes of recent gradients. </p>
 <p>The formula for an update is shown below:<br>$$\begin{cases}<br>v_w=\gamma v_w+(1-\gamma)(\nabla Q(w))^2 \\<br>w=w-\frac{\eta}{\sqrt{v_w+\epsilon}}\nabla Q(w)<br>\end{cases}$$</p>
 <p>where, $\gamma$ is the forgetting factor, $(\nabla Q(w))^2$ is component-wise squared and $\epsilon$ is set to ${10}^{-8}$ to avoid blow up.</p>
@@ -366,7 +366,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        36
                     </p>
                 </div>
             </div>
@@ -591,7 +591,18 @@
                     <span class="level-item">June 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>

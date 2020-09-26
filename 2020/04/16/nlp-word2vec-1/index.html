@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Neural NLP：词向量 - DeepBlog</title>
+
+
+    <meta name="description" content="一. 概念使用机器学习算法处理自然语言，通常需要将自然语言进行数学表示（numerical representations），词向量/词嵌入（word vector/word embedding）是将自然语言数学化的一种方式，它通常使用字典将词映射到向量。 词嵌入可以大致分为两类：基于频率表示（Frequency-based representation）、分布式表示（Distributed Re">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neural NLP：词向量">
+<meta property="og:url" content="http://sxiazr.github.io/2020/04/16/nlp-word2vec-1/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="一. 概念使用机器学习算法处理自然语言，通常需要将自然语言进行数学表示（numerical representations），词向量/词嵌入（word vector/word embedding）是将自然语言数学化的一种方式，它通常使用字典将词映射到向量。 词嵌入可以大致分为两类：基于频率表示（Frequency-based representation）、分布式表示（Distributed Re">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-08-29T01:42:22.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neural NLP：词向量">
+<meta name="twitter:description" content="一. 概念使用机器学习算法处理自然语言，通常需要将自然语言进行数学表示（numerical representations），词向量/词嵌入（word vector/word embedding）是将自然语言数学化的一种方式，它通常使用字典将词映射到向量。 词嵌入可以大致分为两类：基于频率表示（Frequency-based representation）、分布式表示（Distributed Re">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Neural NLP：词向量" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-04-16T16:00:00.000Z">2020-04-17</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes read (About 2249 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Neural NLP：词向量
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>使用<strong>机器学习算法</strong>处理<strong>自然语言</strong>，通常需要将自然语言进行<strong>数学表示</strong>（numerical representations），<strong>词向量/词嵌入</strong>（word vector/word embedding）是将自然语言数学化的一种方式，它通常<strong>使用字典</strong>将词<strong>映射到向量</strong>。</p>
+<p>词嵌入可以大致分为两类：<strong>基于频率</strong>表示（Frequency-based representation）、<strong>分布式</strong>表示（Distributed Representation）</p>
+<a id="more"></a>
+<h1 id="二-基于频率表示（Frequency-based-representation）"><a href="#二-基于频率表示（Frequency-based-representation）" class="headerlink" title="二. 基于频率表示（Frequency-based representation）"></a>二. <strong>基于频率</strong>表示（Frequency-based representation）</h1><h2 id="1-热独表示（one-hot-representation）"><a href="#1-热独表示（one-hot-representation）" class="headerlink" title="1. 热独表示（one-hot representation）"></a>1. 热独表示（one-hot representation）</h2><p>热独表示，将词视为<strong>离散（discrete）</strong>的随机变量，通过语料库（Corpus）<strong>建立词典</strong>（Dictionary，大小为$V$），并给词典中的每个词<strong>分配一个index</strong>；其将词<strong>稀疏</strong>表示为长度为$V$的向量，且<strong>仅在</strong>该词<strong>对应的index位置</strong>有非零元素1。例如，词典$[\text{who}:0, \text{is}:1, \text{him}:2, \text{her}:3, \text{and}:4]$，him可以表示为$[0,0,1,0,0]$。</p>
+<p>将词当做<strong>离散（discrete）</strong>的随机变量，造成了如下的<strong>局限性</strong>：</p>
+<ul>
+<li><strong>one-hot向量</strong>的维度为<strong>词典的大小</strong>，对较大的语料库，将面临着严重的<strong>维度灾难</strong>（The Curse of Dimensionality），导致<strong>高维空间</strong>数据<strong>稀疏化</strong>；</li>
+</ul>
+<blockquote>
+<p>维度灾难表现一：1假设维度取值范围在$[0, 1]$之间。</p>
+<ul>
+<li>若在<strong>一维空间</strong>中，$N$个样本<strong>均匀分布</strong>，那么相邻样本<strong>在同一维度</strong>上的<strong>平均距离</strong>为$\frac{1}{N}$；</li>
+<li>若在<strong>二维空间</strong>中，$N$个样本<strong>均匀分布</strong>，那么相邻样本<strong>在同一维度</strong>上的<strong>平均距离</strong>为$\frac{1}{N^{-1/2}}$；</li>
+<li>若在<strong>p维空间</strong>中，$N$个样本<strong>均匀分布</strong>，相邻样本<strong>在同一维度</strong>上的<strong>平均距离</strong>为$\frac{1}{N^{-1/p}}$；<br>可以看出在<strong>样本量固定</strong>时，相邻样本在的同维度上平均距离<strong>随维度指数上升</strong>。这将导致样本稀疏（样本不够），得到<strong>过拟合</strong>的模型。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>维度灾难表现一：假设维度取值范围在$[0, 1]$之间，且样本均匀分布，计算距离中心（原点）的距离为$\frac{1}{2}$的<strong>样本占比</strong>。</p>
+<ul>
+<li>若在一维空间中，占比为$\frac{1}{2}$；</li>
+<li>若在二维空间中，占比为$\frac{1}{4}$；</li>
+<li>若在<strong>p维空间</strong>中，占比为$\frac{1}{2^p}$；<br>当维数较大时，中心区域的样本稀疏，大部分数据对中心原点的<strong>距离相似</strong>。这种情况下，一些度量相异性的<strong>距离指标</strong>（如，欧式距离）效果会大大折扣（大部分点有相似距离，<strong>无法度量差异</strong>），从而导致一些<strong>基于这些指标的分类器</strong>（如KNN，随着维数的增加，最近邻居的选择实际上是随机的）<strong>表现下降</strong>。</li>
+</ul>
+</blockquote>
+<ul>
+<li>任意两个词间都是<strong>孤立的</strong>，<strong>没有考虑</strong>词与词之间，内在的（语义层面的）<strong>相似性</strong>（similarity）；</li>
+</ul>
+<h3 id="1-1-基于热独的文本表示"><a href="#1-1-基于热独的文本表示" class="headerlink" title="1.1 基于热独的文本表示"></a>1.1 基于<strong>热独</strong>的文本表示</h3><h4 id="Count-Vector"><a href="#Count-Vector" class="headerlink" title="Count Vector"></a><strong>Count Vector</strong></h4><p>Count vector，也称Bag of Words（BOW)，是在one-hot<strong>词嵌入</strong>的基础上，对<strong>文本</strong>进行数学表示的方式。Counter vector由文本中<strong>词</strong>的one-hot表示<strong>相加</strong>得到，其对<strong>字典中</strong>的词在<strong>文本中出现的频次</strong>进行记录。例如“who is him and who is her”将表示为$[2, 2, 1, 1, 1]$。</p>
+<p>Count Vector面临以下问题：<strong>维度灾难</strong>和<strong>语意鸿沟</strong>、没有考虑<strong>句中词的</strong>顺序（不同句子，可能得到<strong>相同</strong>的词向量）、（没有实际意义的）停词有<strong>较高的</strong>出现频率（重要性）。</p>
+<h4 id="TF-IDF"><a href="#TF-IDF" class="headerlink" title="TF-IDF"></a><strong>TF-IDF</strong></h4><p>TF-IDF解决了上述，没有实际意义的停词，却有<strong>较高的</strong>出现频率（重要性）的问题。</p>
+<ul>
+<li>词频（term frequency，TF），用来衡量<strong>词在文档中的重要性</strong>：TF =（<strong>该词</strong>在<strong>该文档</strong>中出现的频率）/（文档中<strong>总词数</strong>）。</li>
+<li>逆文档频率（inverse document frequency，IDF），用来衡量词（在所有文档中）的<strong>常见程度</strong>。若某词出现在<strong>所有文档</strong>中，对特定文档的重要性就较低：IDF = log(<strong>文档总数</strong>/<em>带有该词*</em>的文档数 + 1(optional)）。</li>
+<li>TF-IDF = TF * IDF。</li>
+</ul>
+<p>假设语料库为[“who is him”, “who is her”]，TF(is, Document1）= 1/3，IDF(is) = log_e(2/2) = 0，停词is的TF-IDF：TF-IDF(is, Document1)=0；同理TF-IDF(who, Document1) = 0，TF-IDF(him, Document1) = 0.3，则“who is him”可表示为$[0, 0, 0.3, 0, 0]$</p>
+<h4 id="N-gram"><a href="#N-gram" class="headerlink" title="N-gram"></a><strong>N-gram</strong></h4><p>N-gram一定程度上改善了Count vector中<strong>没有考虑词序</strong>的问题。N-gram通过<strong>在词典中</strong>增加N-gram<strong>词组</strong>，获取局部的上下文信息（但是<strong>词表的维度</strong>也会急剧<strong>增大</strong>）。</p>
+<p>例如增加bigram词组，语料库[“who is him”, “who is her”]对应的词典由$[\text{who}:0, \text{is}:1, \text{him}:2, \text{her}:3]$，变为[$[\text{who}:0, \text{is}:1, \text{him}:2, \text{her}:3, \text{who is}:4, \text{is her}:5, \text{is him}:6]$，“who is him”可以表示为[1, 1, 1, 1, 1, 0]。</p>
+<h1 id="三-分布式表示（Distributed-Representation）"><a href="#三-分布式表示（Distributed-Representation）" class="headerlink" title="三. 分布式表示（Distributed Representation）"></a>三. 分布式表示（Distributed Representation）</h1><p>分布式表示将词<strong>嵌入</strong>到另一个空间，表示成<strong>定长的稠密向量</strong>，且这些向量间能够存在<strong>语义上的联系</strong>，克服one-hot表示的缺点。</p>
+<h2 id="1-共现矩阵（Co-occurrence-matrix）"><a href="#1-共现矩阵（Co-occurrence-matrix）" class="headerlink" title="1. 共现矩阵（Co-occurrence matrix）"></a>1. 共现矩阵（Co-occurrence matrix）</h2><p>共现矩阵（Co-occurrence matrix）是<strong>指定窗口大小</strong>（[—,—,$\star$,—,—]，窗口大小为5），通过<strong>统计窗口内的单词共现次数</strong>，构成的矩阵，其大小为$V \times V$（$V$为语料<strong>词典大小</strong>）。显然地，共现矩阵也会存在<strong>维数过大</strong>的问题，可以采取<strong>矩阵分解</strong>（如，SVD）等手段来进行<strong>降维</strong>。</p>
+<h3 id="1-1-Singular-Value-Decomposition-SVD"><a href="#1-1-Singular-Value-Decomposition-SVD" class="headerlink" title="1.1 Singular Value Decomposition (SVD)"></a>1.1 Singular Value Decomposition (<a href="https://zh.wikipedia.org/wiki/%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3" target="_blank" rel="noopener">SVD</a>)</h3><p>SVD，奇异值矩阵分解是指，任何矩阵$\boldsymbol{A}$都可以做如下分解：$$
+\boldsymbol{A}_{M \times N}=\boldsymbol{U}_{M \times M} \boldsymbol{S}_{M \times N} \boldsymbol{V}_{N \times N}^{T}
+$$</p>
+<p>由下图可知，$\boldsymbol{U}$和$\boldsymbol{V}$是正交矩阵，即$\boldsymbol{U}\boldsymbol{U}^T = \boldsymbol{I}$，且分别称为左、右<strong>奇异值向量</strong>（left、right singular vectors），$\boldsymbol{S}$仅对角线元素有<strong>非零值</strong>（<strong>奇异值</strong>，Singular Value，且<strong>从大到小</strong>排列）。</p>
+<p align="center">
+  <img src="./full-SVD.png" alt="Full Singular Value Decomposition" height="300px" width="500px">
+</p>
+
+<p>选择奇异值中最大的$k$个，并取其<strong>对应的奇异值向量</strong>，如下图所示。</p>
+<p align="center">
+  <img src="./truncated-SVD.png" alt="Truncated Singular Value Decomposition" height="300px" width="500px">
+</p>
+
+<p>我们称$\hat{\boldsymbol{A}}_{M \times N}=\boldsymbol{U}_{M \times k} \boldsymbol{S}_{k \times k} \boldsymbol{V}_{k \times N}^{T}$为$\boldsymbol{A}$在<strong>Frobenius范数</strong>（Frobenius norm，$
+\|\boldsymbol{A}\|_{F}^{2}:=\sum_{i, j}\left|\boldsymbol{A}_{i, j}\right|^{2}
+$）上<strong>最好的k阶近似</strong>，即$
+\|\boldsymbol{A}- \underbrace{\boldsymbol{A}\boldsymbol{C}\boldsymbol{R}}_{\hat{\boldsymbol{A}}}\|_{F}^{2}
+$<strong>最小</strong>（其中，$\boldsymbol{C}_{N \times k}$、$\boldsymbol{R}_{k \times N}$分别为<strong>压缩</strong>、<strong>还原</strong>矩阵，且$\boldsymbol{C}_{N \times k} = \boldsymbol{V}_{N \times k}$、$\boldsymbol{R}_{k \times N}^T = \boldsymbol{V}_{k \times N}$）。</p>
+<p>在<strong>PCA</strong>中，通常用$\boldsymbol{A}\boldsymbol{C}$，即<strong>右奇异矩阵</strong>$\boldsymbol{A}\boldsymbol{V}_{N \times k}$来代表<strong>对列</strong>（<strong>特征</strong>）进行压缩（或左奇异矩阵$\boldsymbol{U}_{k \times m}^T\boldsymbol{A}$<strong>对行</strong>(数据)，进行压缩）。</p>
+<h3 id="1-2-共现矩阵降维"><a href="#1-2-共现矩阵降维" class="headerlink" title="1.2 共现矩阵降维"></a>1.2 共现矩阵降维</h3><p>共现矩阵基于上述的<strong>SVD</strong>算法<strong>降低维度</strong>（本质可视为<strong>矩阵分解</strong>），一般用$\boldsymbol{U}_{k \times m}$或$\boldsymbol{A}\boldsymbol{V}_{N \times k}$，作为<strong>压缩后</strong>的<strong>词向量矩阵</strong>。</p>
+<p>基于<strong>SVD</strong>，得到了稠密词向量，相比one-hot表示有<strong>一定提升</strong>：</p>
+<ul>
+<li>降低了词向量的维度；</li>
+<li>保留了词之间的<strong>语义关系</strong>，例如，“man”和“women”往往比“man”和“apple”在向量空间中<strong>更接近</strong>。</li>
+</ul>
+<p>但依旧有<strong>不足之处</strong>：</p>
+<ul>
+<li>分解共现矩阵，即SVD是一个<strong>计算复杂度高</strong>；</li>
+<li>一个词对应单一的词向量，无法解决<strong>一词多义</strong>问题；</li>
+<li>不方便处理<strong>新的语料</strong>，若加入新语料，需要<strong>重新进行</strong>SVD。</li>
+</ul>
+<h2 id="2-神经网络语言模型（NNLM）"><a href="#2-神经网络语言模型（NNLM）" class="headerlink" title="2. 神经网络语言模型（NNLM）"></a>2. 神经网络语言模型（NNLM）</h2><p>如<a href="/2020/04/14/nlp-language-model/" title="上一篇博文">上一篇博文</a>所描述的，通过<strong>训练语言模型</strong>任务（NNLM），可以得到<strong>副产物</strong>：词向量矩阵$C$。但Softmax的计算复杂度为$O(V)$，计算量大，导致训练速度过慢。</p>
+<h2 id="3-Word2Vec"><a href="#3-Word2Vec" class="headerlink" title="3. Word2Vec"></a>3. Word2Vec</h2><p>为解决NNLM<strong>训练速度慢</strong>的问题，Tomas Mikolov‬的论文<a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf" target="_blank" rel="noopener">[6]</a>、<a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">[7]</a>在NNLM的<strong>基础上</strong>上，对<strong>运算效率</strong>进行了<strong>优化</strong>，提出了Word2Vec模型。</p>
+<p>接下文：<a href="/2020/04/19/nlp-word2vec-2/" title="Word2Vec模型">Word2Vec模型</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/19/nlp-word2vec-2/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Neural NLP：Word2vec</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/14/nlp-language-model/">
+                <span class="level-item">Neural NLP：语言模型</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        36
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Neural NLP：词向量" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

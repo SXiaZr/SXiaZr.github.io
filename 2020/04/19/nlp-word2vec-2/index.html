@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Neural NLP：Word2vec - DeepBlog</title>
+
+
+    <meta name="description" content="3. Word2Vec接下文：Neural NLP：词向量，为解决NNLM训练速度慢的问题，Tomas Mikolov‬的论文[6]、[7]在NNLM的基础上上，对运算效率进行了优化，提出了Word2Vec模型。">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neural NLP：Word2vec">
+<meta property="og:url" content="http://sxiazr.github.io/2020/04/19/nlp-word2vec-2/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="3. Word2Vec接下文：Neural NLP：词向量，为解决NNLM训练速度慢的问题，Tomas Mikolov‬的论文[6]、[7]在NNLM的基础上上，对运算效率进行了优化，提出了Word2Vec模型。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-08-29T18:51:21.804Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neural NLP：Word2vec">
+<meta name="twitter:description" content="3. Word2Vec接下文：Neural NLP：词向量，为解决NNLM训练速度慢的问题，Tomas Mikolov‬的论文[6]、[7]在NNLM的基础上上，对运算效率进行了优化，提出了Word2Vec模型。">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Neural NLP：Word2vec" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-04-19T16:00:00.000Z">2020-04-20</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    27 minutes read (About 4075 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Neural NLP：Word2vec
+            
+        </h1>
+        <div class="content">
+            <h2 id="3-Word2Vec"><a href="#3-Word2Vec" class="headerlink" title="3. Word2Vec"></a>3. Word2Vec</h2><p>接下文：<a href="/2020/04/16/nlp-word2vec-1/" title="Neural NLP：词向量">Neural NLP：词向量</a>，为解决NNLM<strong>训练速度慢</strong>的问题，Tomas Mikolov‬的论文<a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf" target="_blank" rel="noopener">[6]</a>、<a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">[7]</a>在NNLM的<strong>基础上</strong>上，对<strong>运算效率</strong>进行了<strong>优化</strong>，提出了Word2Vec模型。</p>
+<a id="more"></a>
+<h3 id="3-1-Word2Vec模型"><a href="#3-1-Word2Vec模型" class="headerlink" title="3.1 Word2Vec模型"></a>3.1 Word2Vec模型</h3><p>Word2Vec是<strong>轻量级</strong>神经网络，模型仅仅包括<strong>输入层</strong>、<strong>隐藏层</strong>和<strong>输出层</strong>，与NNLM相比较，word2vec去掉了耗时的（隐含层）<strong>非线性激活函数</strong>、输入与输出间的<strong>直接连接</strong>（direct<br>connections），并优化了<strong>输出层SoftMax</strong>函数。根据<strong>模型框架</strong>的不同，Word2Vec主要包括了<strong>CBOW</strong>和<strong>Skip-gram</strong>模型。</p>
+<p>指定窗口大小（例如，[—,—,$\star$,—,—]，窗口大小为5，中心词$\star$和上下文词汇-），通过<strong>滑动窗口法</strong>，<strong>生成</strong>数据集当<strong>中心词</strong>位于<strong>边缘</strong>时，窗口大小减小，如下图所示：</p>
+<p align="center">
+  <img src="./sliding-window.jpg" alt="Data generation by sliding-window.jpg" width="300px">
+</p>
+
+<h4 id="CBOW"><a href="#CBOW" class="headerlink" title="CBOW"></a><strong>CBOW</strong></h4><p>连续词袋模型Continuous Bag-of-Words（CBOW），其训练样本为(data:[—,—,—,—]，label:$\star$)，即<strong>每滑动一次窗口</strong>生成一个训练数据。设第$t$个中心词为$w_{t}$，窗口内其他词为$\text{context}(w_{t})$，CBOW的<strong>核心思想</strong>为，<strong>运用上下文预测中心词</strong>。</p>
+<p align="center">
+  <img src="./CBOW.jpg" alt="Continuous Bag-of-Words, CBOW" width="300px">
+</p>
+
+<p>如上，网络分为<strong>三层</strong>：</p>
+<ul>
+<li><strong>input layer</strong>：<ul>
+<li>输入为<strong>One-hot embedding</strong>，通常为$B\times C \times V$的矩阵$X$，其中$B$为batch size，$V$为词典尺寸，$C$为<strong>上下文大小</strong>（context size，一般为<strong>窗口大小减一</strong>）；</li>
+</ul>
+</li>
+<li><strong>hidden layer</strong>：<ul>
+<li>$\mathbf{W}$为embedding matrix（$V \times d$），其第$i$行$\mathbf{W}_i$代表$i$的word vector；</li>
+<li>输出$\mathbf{h}$是context word vectors $\mathbf{v}_{w}$的均值：$$
+\begin{aligned}
+\mathbf{h} &=\frac{1}{C} \mathbf{W}^{T}\left(\mathbf{x}_{1}+\mathbf{x}_{2}+\cdots+\mathbf{x}_{C}\right)
+=\frac{1}{C}\left(\mathbf{v}_{w_{1}}+\mathbf{v}_{w_{2}}+\cdots+\mathbf{v}_{w_{C}}\right)^{T}
+\end{aligned}
+$$    </li>
+</ul>
+</li>
+<li><strong>Output layer</strong>：<ul>
+<li>隐藏层到输出层的权重矩阵为$\mathbf{U}$（维度为$d \times V$），其将$\mathbf{h}$投影至输出向量：$\mathbf{y}=\mathbf{h}\mathbf{U}$；</li>
+<li>优化的SoftMax层，输出条件概率：$\hat{P}\left(w_{t} \mid \text{context}(w_{t})\right)={\text{SoftMax}(\mathbf{y})}_{w_{t}}$。</li>
+</ul>
+</li>
+</ul>
+<p>同样，模型的<strong>训练</strong>基于<strong>极大似然估计</strong>，即优化模型参数使<strong>训练集的log-likelihood最大</strong>，<strong>等价于</strong>使用cross-entropy损失函数：$$<br>L=- \frac{1}{T} \sum_{t=1}^T \log \hat{P}(w_{t} \mid \text{context}(w_{t})）<br>$$其中，label的通常为$B\times 1$的矩阵，$\theta$为模型参数， $R(\theta)$为正则项。若使用<strong>批量梯度下降</strong>：<br>$$<br>\theta \leftarrow \theta-\varepsilon  \frac{\frac{1}{B}\sum_{t}\partial \log \hat{P}\left(w_{t} \mid \text{context}(w_{t});\theta\right)}{\partial \theta}<br>$$</p>
+<h4 id="Skip-gram"><a href="#Skip-gram" class="headerlink" title="Skip-gram"></a><strong>Skip-gram</strong></h4><p>Skip-gram，其训练样本为(data:[[$\star$],[$\star$],[$\star$],[$\star$]]，label:[[—],[—],[—],[—]])，即<strong>每滑动一次窗口</strong>生成$N-1$($N$为窗口大小)个训练数据。设第$t$个中心词为$w_{t}$，窗口内其他词为$\text{context}(w_{t})$，CBOW的<strong>核心思想</strong>为，<strong>运用中心词预测上下文</strong>。</p>
+<p align="center">
+  <img src="./skip-gram.jpg" alt="Skip-gram" width="300px">
+</p>
+
+<p>网络结构和CBOW基本相同，除了输入部分仅为<strong>中心词</strong>的one-hot。同样采用<strong>极大似然估计</strong>（即，cross entropy loss）为优化目标：$$<br>\frac{1}{T} \sum_{t=1}^{T} \sum_{j \in \text{context}(w_t)} \log p\left(w_{t+j} \mid w_{t}\right)<br>$$</p>
+<h3 id="3-2-SoftMax"><a href="#3-2-SoftMax" class="headerlink" title="3.2 SoftMax"></a>3.2 SoftMax</h3><p>输出层的<strong>SoftMax</strong>，对于<strong>每个训练数据</strong>，都需要计算词表中<strong>所有词</strong>的SoftMax概率，然而词表较大，导致计算复杂（$O(V)$）。</p>
+<h4 id="Hierarchical-Softmax"><a href="#Hierarchical-Softmax" class="headerlink" title="Hierarchical Softmax"></a><strong>Hierarchical Softmax</strong></h4><p>分层Softmax（Hierarchical softmax ）是一种计算softmax的高效方式，简而言之，其通过<strong>构造Huffman树</strong>，将复杂的<strong>概率归一化问题</strong>，转化为<strong>一系列二分类</strong>的<strong>条件概率相乘</strong>的形式，将目标概率的计算复杂度从$O(V)$<strong>降低</strong>到了$O(\log V)$。</p>
+<p align="center">
+  <img src="./hierarchical-softmax.jpg" alt="Hierarchical SoftMax" width="300px">
+</p>
+
+<p>如上图，Hierachical Softmax是Huffman树（二叉树，<strong>注*</strong>）结构，每个<strong>非叶子节点</strong>是<strong>二分类器</strong>（$V-1$个，因为节点只有0、2分叉），每个<strong>叶子节点</strong>对应词表中的单词（$V$个），该Huffman树基于<strong>训练语料</strong>，根据<strong>词频</strong>而建立。</p>
+<p>对于huffman树中的某个<strong>叶子结点</strong>，假设其<strong>对应</strong>词典中的$w$，预设如下变量：</p>
+<ul>
+<li>$\mathbf{P}^w$：从根节点到叶节点$w$的<strong>路径</strong>。例如图中，$\mathbf{P}^{w_2}=[p^{w_2}_1,p^{w_2}_2,p^{w_2}_3,w_2]$，其中p^{w_2}_1为根节点；</li>
+<li>$l^w$：路径$\mathbf{P}^w$中包含的<strong>节点个数</strong>；</li>
+<li>$\mathbf{D}^w$：路径$\mathbf{P}^w$对应的<strong>霍夫曼编码</strong>（$l^w-1$位），左子节点编码为1，右子节点编码为0。例如图中，霍夫曼编码为$[d^{w_2}_2,d^{w_2}_3,d^{w_2}_4]=[1, 1, 0]$，其中$d^{w_2}_4]$对应叶子节点的编码；</li>
+<li>$\Theta^w$：路径$\mathbf{P}^w$中非叶子结点对应的<strong>向量</strong>。例如图中，$[\Theta^{w_2}_1, \Theta^{w_2}_2, \Theta^{w_2}_3]$，其中$\Theta^{w}_i$用于<strong>非叶子节点</strong>处的<strong>二分类器</strong>。在非叶子节点处定义<strong>二分类器</strong>（逻辑回归），分到<strong>左边为正类</strong>，<strong>右边为负类</strong>（与Huffman编码对应），其分为正、负类的概率为：$$
+P\left(d_{j}^{w} \mid \mathbf{h}_{w}, \Theta_{j-1}^{w}\right)=\left\{\begin{array}{ll}
+\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right), & d_{j}^{w}=1 \\
+1-\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right), & d_{j}^{w}=0
+\end{array}\right.={[\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right)]}^{d_{j}^{w}} {[1-\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right)]}^{d_{j}^{w}}
+$$其中，$\sigma\left((\Theta^{w})^T \mathbf{h}_{w}\right)= \frac{1}{1+e^{-(\Theta^{w})^T \mathbf{h}_{w}}}$，$\mathbf{h}_{w}$为预测词为$w$时，投影层的输出。
+
+</li>
+</ul>
+<p>假设<strong>根节点</strong>表示词典$\boldsymbol{D}$，则第二层的子节点表示$\boldsymbol{D}$的两个子集$\boldsymbol{D}_1$和$\boldsymbol{D}_2$…故从根节点沿着路径$\mathbf{P}^w$传递至叶子结点，表示了类似“<strong>决策树</strong>”的划分过程，将路径中的预测概率相乘，则得到目标词的条件概率：$$
+P(w \mid \text{context}(w))=\prod_{j}^{p^{w}_j \in \mathbf{P}^{w}} P\left(d_{j}^{w} \mid \mathbf{h}_{w}, \Theta_{j-1}^{w}\right) = \prod_{j}^{p^{w}_j \in \mathbf{P}^{w}}{[\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right)]}^{d_{j}^{w}} + [1-\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right)]^{1-d_{j}^{w}}
+$$取对数可得：$$\log P(w \mid \text{context}(w)) = {d_{j}^{w}} \log [\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right)] + (1-{d_{j}^{w}}) \log [1-\sigma\left((\Theta_{j-1}^{w})^T \mathbf{h}_{w}\right)]$$之后可按照前述的<strong>最大似然法</strong>（交叉熵损失）进行优化。</p>
+<p><strong>注*</strong>：Huffman树是<strong>带权路径最小</strong>（叶结点权重$\times$根叶路径长）的二叉树，根据词频构建的Huffman树，<strong>高频词</strong>离根结点<strong>近</strong>，而<strong>低频词远</strong>，详见<a href="/2019/11/30/entropy-in-information-theory/" title="这篇博文">这篇博文</a>。</p>
+<h3 id="3-3-Negative-sampling"><a href="#3-3-Negative-sampling" class="headerlink" title="3.3 Negative sampling"></a>3.3 Negative sampling</h3><p>用Hierachical SoftMax替代传统的SoftMax，可以提高训练效率；但若预测的目标词$w$是<strong>生僻</strong>（低频）词，在Huffman树中<strong>从根到叶</strong>就需走<strong>很长</strong>的路径。实际训练中，大多采用<strong>训练速度更快</strong>（词向量<strong>质量更高</strong>）的<strong>负采样</strong>（Negative Sampling，NEG）算法。简而言之，NEG使用<strong>随机负采样</strong>，并训练模型，让<strong>正例预测概率大</strong>，<strong>负例的概率小</strong>，从而提升性能与速度。</p>
+<h4 id="Noise-Contrastive-Estimation"><a href="#Noise-Contrastive-Estimation" class="headerlink" title="Noise-Contrastive Estimation"></a><strong>Noise-Contrastive Estimation</strong></h4><p><strong>噪声对比估计</strong>（Noise-Contrastive Estimation，NCE）算法预设如下变量：</p>
+<ul>
+<li><strong>数据（经验）分布</strong>为$P(w \mid \text{context}(w))$，从中采样<strong>一个正确的样本</strong>$w$；</li>
+<li><strong>噪声分布</strong>为$Q(w)$（可为任意已知分布，例如<strong>均匀分布</strong>），从中<strong>采样$K$个噪声样本</strong>（即<strong>相同特征</strong>，<strong>错误标签</strong>）；</li>
+</ul>
+<p>则此时<strong>混合数据</strong>的(<strong>未归一化</strong>)分布为:</p>
+
+$$
+\tilde{P}(u \mid \text{context}(w))=\left\{\begin{array}{ll}
+\frac{K}{1+K} * Q(u) & \text { if } \quad u \neq w\\
+\frac{1}{1+K} * P(u \mid \text{context}(w)) & \text { if } \quad u=w
+\end{array}\right.
+\underbrace{=}_{归一化}
+\left\{\begin{array}{ll}
+\frac{K Q(u)}{P(u \mid \text{c}(w)) + K Q(u)}  & \text { if } \quad u \neq w\\
+\frac{P(u \mid \text{c}(w))}{P(u \mid \text{c}(w)) + K Q(u)} & \text { if } \quad u=w
+\end{array}\right.
+$$
+
+
+<p>NCE将<strong>分母中</strong>的$P(u \mid \text{c}(w))$变成<strong>可学习</strong>的参数，用（逻辑回归等）模型预测结果$\hat{P}(u \mid \text{c}(w))$近似，并通过<strong>最小化损失函数</strong>，来<strong>优化模型</strong>，从而<strong>避免概率归一</strong>的复杂计算：$$
+L=-\sum_{w\in T}\left[\log \tilde{P}(u=w \mid \text{c}(w))+\sum_{i=1, u \sim Q}^{K} \log \tilde{P}(u \neq w \mid \text{c}(w))\right]$$</p>
+<h4 id="Negative-sampling"><a href="#Negative-sampling" class="headerlink" title="Negative sampling"></a><strong>Negative sampling</strong></h4><p>Negative sampling（NEG）是<strong>噪声对比估计</strong>（Noise-Contrastive Estimation，NCE）算法的<strong>简化</strong>，<strong>基本思想</strong>相同：每采样一个正确的样本，就采样k个噪声样本。不同于NCE，NEG在定义$\tilde{P}(u \mid \text{context}(w))$时，采取了<strong>更简单的实现</strong>：$$\tilde{P}(u \mid \text{context}(w))=\left\{\begin{array}{ll}
+\sigma\left((\Theta^{u})^T \mathbf{h}_{w}\right), & u=w \\
+1-\sigma\left((\Theta^{u})^T \mathbf{h}_{w}\right), & u \neq w
+\end{array}\right.$$其中，$\Theta^{u}$表示<strong>词$u$对应</strong>的待训练<strong>辅助向量</strong>（预测<strong>不同词</strong>，采用<strong>不同向量</strong>）。在Word2vec中，负样本<strong>按词频率</strong>（即unigram distribution）采样，即$Q(u)=\frac{\text{count(u)}}{\sum_{w \in V}\text{Count(w)}}$（实际上用了，$Q(u)=\frac{{\text{count(u)}}^{\frac{3}{4}}}{\sum_{w \in V}{\text{Count(w)}}^{\frac{3}{4}}}$），对每个正例，采样$K$（5-20）个反例，此时对应的<strong>联合概率</strong>为：$$
+G(w \mid \text{context}(w)) = \sigma\left((\Theta^{w})^T \mathbf{h}_{w}\right) \prod_{u \in NEG(w)}[1-\sigma\left((\Theta^{u})^T \mathbf{h}_{w}\right)]
+$$取对数可得：$$
+\log G(w \mid \text{context}(w)) = \log [\sigma\left((\Theta^{w})^T \mathbf{h}_{w}\right)] + \sum_{u \in NEG(w)}\log [1-\sigma\left((\Theta^{u})^T \mathbf{h}_{w}\right)]
+$$之后可按照前述的<strong>最大似然法</strong>（交叉熵损失）进行优化。可以看出，其<strong>最大化</strong>$\sigma\left((\Theta^{w})^T \mathbf{h}_{w}\right)$（正样本的概率）的同时，<strong>最小化</strong>$\sigma\left((\Theta^{u})^T \mathbf{h}_{w}\right)$（负样本的概率）。</p>
+<h3 id="3-3-其他细节"><a href="#3-3-其他细节" class="headerlink" title="3.3 其他细节"></a>3.3 其他细节</h3><h4 id="Tricks"><a href="#Tricks" class="headerlink" title="Tricks"></a><strong>Tricks</strong></h4><ul>
+<li>高频词处理：下采样（subsampling）。<strong>高频词</strong>（如，停词）往往只提供较少的信息，下采样的<strong>基本思想</strong>是：在训练时，对<strong>频率</strong>高于一定值词，按概率进行抛弃：<br>$$<br>P_{\text {discard}}(w)=1-\sqrt{\frac{t}{f(w)}}<br>$$其中，参数$t$一般取为$10^{−5}$，$f(w)$是$w$在语料中<strong>出现的概率</strong>（$f(w)&gt;t$时，按概率进行抛弃）；</li>
+<li>低频词处理：在词典中剔除出现次数少于min_count次的词；</li>
+</ul>
+<h4 id="优点与局限"><a href="#优点与局限" class="headerlink" title="优点与局限"></a><strong>优点与局限</strong></h4><p>优点：</p>
+<ul>
+<li>获得<strong>定长的稠密</strong>词向量，且词向量间存在<strong>内在的联系</strong>；</li>
+<li>除<strong>相似词距离较近</strong>外，还能反应如下关系：<ul>
+<li>语义相似性：vec(“Paris”) is closest to vec(“Berlin”) - vec(“Germany”) + vec(“France”) according to the <strong>cosine distance</strong>（即<strong>向量间的余弦值</strong>，又称余弦相似性，体现向量在<strong>方向上的差异</strong>）.</li>
+<li>语法相似性：vec(“quick”) is closest to vec(“slowly”) - vec(“slow”) + vec(“quickly”) according to the <strong>cosine distance</strong>.</li>
+</ul>
+</li>
+</ul>
+<p>局限：</p>
+<ul>
+<li>模型训练过程中，<strong>仅考虑</strong>context中的<strong>局部语料</strong>，而忽略的全局信息；</li>
+<li>仅考虑了词的<strong>共现性</strong>，而忽略的了彼此间的<strong>顺序</strong>；</li>
+<li>每个词对应<strong>固定的向量表示</strong>，无法解决<strong>一词多义</strong>的问题。</li>
+</ul>
+<h2 id="4-Glove"><a href="#4-Glove" class="headerlink" title="4.Glove"></a>4.Glove</h2><p>参考<a href="https://www.cnblogs.com/sandwichnlp/p/11596848.html" target="_blank" rel="noopener">[16]</a><a href="https://blog.csdn.net/coderTC/article/details/73864097" target="_blank" rel="noopener">[17]</a><a href="https://zhuanlan.zhihu.com/p/42073620" target="_blank" rel="noopener">[18]</a>，简要总结如下，<a href="https://nlp.stanford.edu/pubs/glove.pdf" target="_blank" rel="noopener">论文</a>未看。</p>
+<p>在word2vec模型训练中，仅仅考虑context中的<strong>局部语料</strong>，没有考虑到全局信息，而基于共现矩阵（Co-occurrence matrix，包含<strong>全局的统计信息</strong>）的GloVe（Global Vectors for Word Representation）应运而生。</p>
+<p>预设如下变量：</p>
+<ul>
+<li>设共现矩阵为$X$，其元素为$X_{i,j}$，代表单词$i$、$j$在同一个窗口中的出现频率。</li>
+<li>$X_{i} = \sum{k}X_{i,k}$，表示出现在单词$i$的context中的<strong>总词数</strong>；</li>
+<li>$P_{i,j} = \frac{X_{i,j}}{X_{i}}$，表示单词$j$出现在单词$i$的context中的<strong>概率</strong>；</li>
+<li>$\text{ratio}_{i,j,k} = \frac{P_{i,k}}{P_{j,k}}$，表现了单词$i$、$j$、$k$之间的相关性，如下图所示：
+可以看出：<ul>
+<li>若$\text{ratio}_{i,j,k}$远大于1，则单词$i$、$k$相关，单词$i$、$k$不相关；</li>
+<li>若$\text{ratio}_{i,j,k}$接近1，则单词$i$、$k$相关、单词$j$、$k$相关，或者单词$i$、$k$不相关、单词$j$、$k$也不相关；</li>
+<li>若$\text{ratio}_{i,j,k}$远小于1，则单词$i$、$k$不相关，单词$i$、$k$相关；</li>
+</ul>
+</li>
+</ul>
+<p align="center">
+  <img src="./glove-example.jpg" alt="GLoVe example" width="400px">
+</p>
+
+<p>设$i$、$j$、$k$的词向量为$v_i$、$v_j$、$v_k$，<strong>训练函数</strong> $g(v_i, v_j, v_k)$ <strong>拟合</strong> $\text{ratio}_{i,j,k}$ 所代表的<strong>相关性</strong>，GLoVe认为这样得到的词向量，能够<strong>包含共现矩阵中的全局信息</strong>。</p>
+<p>GLoVe设计 $g(v_i, v_j, v_k)=\frac{e^{v_i^T v_k}}{e^{v_j^T v_k}}$ 拟合 $\text{ratio}_{i,j,k} = \frac{P_{i,k}}{P_{j,k}}$（详细思路过程，见<a href="https://blog.csdn.net/coderTC/article/details/73864097" target="_blank" rel="noopener">[17]</a>）：</p>
+<ul>
+<li>等价于使用 $v_i^T v_k$ 拟合 $\log (P_{i,k})$，然而 $v_i^T v_k = v_k^T v_i$，这雨 $\log (P_{i,k})\neq\log (P_{k,i})$<strong>矛盾</strong>。</li>
+<li>稍作修改（<strong>加入偏置项</strong>，破坏对称），因为$\log (P_{i,k})=\log (X_{i,k}) - \log (X_{i})$，使用 $v_i^T v_k + b_i + b_k$ 拟合 $\log (X_{i,k})$ ，可使$\log (P_{i,k})\neq\log (P_{k,i})$，且 $X_{i,k} = X_{k, i}$。</li>
+</ul>
+<p>此时损失函数（均方损失）为 $L=\sum_{i, k}((v_i^T v_k + b_i + b_k - \log (X_{i,k}))^2$，高频词应有更大的权重，<strong>加权损失函数</strong>，最终损失函数：$$L=f(X_{i,k})\sum_{i, k}((v_i^T v_k + b_i + b_k - \log (X_{i,k}))^2$$其中，$f(x)=\left\{\begin{array}{cc}\left(x / x_{\max }\right)^{\alpha} & \text { if } x< x_{\max } \\ 1 & \text { otherwise }\end{array}\right.$，词频过高时（停词），权重<strong>不应过大</strong>。</p>
+<h1 id="七-Reference"><a href="#七-Reference" class="headerlink" title="七. Reference"></a>七. Reference</h1><p><a href="https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/" target="_blank" rel="noopener">[1]Blog: An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec</a><br><a href="https://www.jiqizhixin.com/articles/2018-11-07-15" target="_blank" rel="noopener">[2]Blog: 从离散到分布，盘点常见的文本表示方法</a><br><a href="https://www.cnblogs.com/LeftNotEasy/archive/2011/01/19/svd-and-applications.html" target="_blank" rel="noopener">[3]Blog: 机器学习中的数学(5)-强大的矩阵奇异值分解(SVD)及其应用</a><br><a href="https://zhuanlan.zhihu.com/p/37777074" target="_blank" rel="noopener">[4]Zhihu: 主成分分析（PCA）原理详解</a><br><a href="https://www.zhihu.com/question/27836140" target="_blank" rel="noopener">[5]Zhihu: 怎样理解 Curse of Dimensionality（维数灾难）?@shuffle @无冬之城</a><br><a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf" target="_blank" rel="noopener">[6]Paper: Distributed Representations of Words and Phrases and their Compositionality</a><br><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">[7]Paper: Efficient Estimation of Word Representations in Vector Space</a><br><a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">[8]Paper: word2vec Parameter Learning Explained</a><br><a href="https://mp.weixin.qq.com/s/N1URSIG0eZeeaYgd7SDPuw" target="_blank" rel="noopener">[9]Blog: Word2Vec原理篇 | 基于Hierarchical Softmax的模型</a><br><a href="https://mp.weixin.qq.com/s/JueP4ADiNQ4dghLVj360Lw" target="_blank" rel="noopener">[10]Blog: 语言模型系列】原理篇一：从one-hot到Word2vec</a><br><a href="https://zhuanlan.zhihu.com/p/59396559" target="_blank" rel="noopener">[11]Zhihu: Embedding之word2vec</a><br><a href="https://zhuanlan.zhihu.com/p/114538417" target="_blank" rel="noopener">[12]Zhihu: 深入浅出Word2Vec原理解析</a><br><a href="https://jalammar.github.io/illustrated-word2vec/" target="_blank" rel="noopener">[13]Blog: The Illustrated Word2vec</a><br><a href="https://zhuanlan.zhihu.com/p/37052987" target="_blank" rel="noopener">[14]Blog: CMU NLP课程笔记番外篇—Word2Vec高效率实现(讲解NCE)</a><br><a href="https://carlos9310.github.io/2019/10/15/Approximating-the-Softmax/#noise-contrastive-estimation" target="_blank" rel="noopener">[15]Blog: softmax的近似之NCE详解</a><br><a href="https://www.cnblogs.com/sandwichnlp/p/11596848.html" target="_blank" rel="noopener">[16]Blog: 词向量(one-hot/SVD/NNLM/Word2Vec/GloVe)</a><br><a href="https://blog.csdn.net/coderTC/article/details/73864097" target="_blank" rel="noopener">[17]Blog: 理解GloVe模型（Global vectors for word representation）</a><br><a href="https://zhuanlan.zhihu.com/p/42073620" target="_blank" rel="noopener">[18]ZHihu: （十五）通俗易懂理解——Glove算法原理</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/22/nlp-rnn/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Neural NLP：RNN</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/16/nlp-word2vec-1/">
+                <span class="level-item">Neural NLP：词向量</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        36
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Neural NLP：Word2vec" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

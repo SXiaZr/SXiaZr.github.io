@@ -19,7 +19,7 @@
 <meta property="og:description" content="一. 概念树型模型基于决策树与集成学习，该模型将特征空间划分为一组多面体，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍Decision tree, Random forest, Boosted trees。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-08-07T10:08:26.319Z">
+<meta property="og:updated_time" content="2020-09-22T10:49:37.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习：树型模型（Tree-Based Learning Algorithms）">
 <meta name="twitter:description" content="一. 概念树型模型基于决策树与集成学习，该模型将特征空间划分为一组多面体，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍Decision tree, Random forest, Boosted trees。">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    24 minutes read (About 3641 words)
+                    25 minutes read (About 3774 words)
                 </span>
                 
                 
@@ -187,13 +187,18 @@
 </ul>
 <h2 id="1-划分选择"><a href="#1-划分选择" class="headerlink" title="1. 划分选择"></a>1. 划分选择</h2><p>随着划分不断进行，我们希望决策树的分支结点所包含的<strong>样本尽可能接近</strong>，即结点的“<strong>纯度</strong>” 越来越高，“纯度”可由以下指标描述：</p>
 <ul>
-<li>信息增益（Information gain）<br>信息熵越大，纯度越低，于<a href="https://en.wikipedia.org/wiki/ID3_algorithm" title="ID3 algorithm" target="_blank" rel="noopener">ID3</a>、<a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>中用于<strong>分类任务</strong>，定义如下:$$\mathrm{H}(T)=\mathrm{I}_{E}\left(p_{1}, p_{2}, \ldots, p_{J}\right)=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i} > 0$$, 其中$p_{1},p_{2},...$代表类别占比，总和为1。
-那么，信息增益定义如下：$$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{H}(T)}_{\text {Entropy (parent) }}-\quad \underbrace{\mathrm{H}(T | a)}_{\text {Weighted Sum of Entropy (Children) }} \\&=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i}-\sum_{a} p(a) \sum_{i=1}^{J}-p(i | a) \log _{2} p(i | a) \end{split}$$</li>
-<li>基尼指数（Gini impurity）<br>基尼指数，反映了从集合中<strong>随机抽取</strong>两个样本，其类别标记不一致的概率，在<a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>中用于分类任务，定义如下：  $$\operatorname{Gini}(T)=\sum_{i=1}^{J} p_{i} \sum_{k \neq i} p_{k}=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)
+<li><p>信息增益（Information gain）<br>信息熵越大，纯度越低，于<a href="https://en.wikipedia.org/wiki/ID3_algorithm" title="ID3 algorithm" target="_blank" rel="noopener">ID3</a>、<a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>中用于<strong>分类任务</strong>，定义如下:</p>
+$$\mathrm{H}(T)=\mathrm{I}_{E}\left(p_{1}, p_{2}, \ldots, p_{J}\right)=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i} > 0$$, 其中$p_{1},p_{2},...$代表类别占比，总和为1。
+<p>那么，信息增益定义如下：$$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{H}(T)}_{\text {Entropy (parent) }}-\quad \underbrace{\mathrm{H}(T | a)}_{\text {Weighted Sum of Entropy (Children) }} \\&=-\sum_{i=1}^{J} p_{i} \log _{2} p_{i}-\sum_{a} p(a) \sum_{i=1}^{J}-p(i | a) \log _{2} p(i | a) \end{split}$$信息增益准对<strong>可取值数目较多</strong>的属性有所偏好，为减少这种偏好可能带来的不利影响，<a href="https://en.wikipedia.org/wiki/C4.5_algorithm" title="C4.5 algorithm" target="_blank" rel="noopener">C4.5</a>中提出了<strong>增益率</strong>（gain ratio）：$GR(T,a)=\frac{IG(T, a)}{IV(T ,a)}$，其中$<br>\mathrm{IV}(T, a)=-\sum_{v=1}^{V} \frac{\left|D^{v}\right|}{|D|} \log _{2} \frac{\left|D^{v}\right|}{|D|}<br>$。</p>
+</li>
+<li><p>基尼指数（Gini impurity）<br>基尼指数，反映了从集合中<strong>随机抽取</strong>两个样本，其类别标记不一致的概率，在<a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>中用于分类任务，定义如下：</p>
+  $$\operatorname{Gini}(T)=\sum_{i=1}^{J} p_{i} \sum_{k \neq i} p_{k}=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)
 	$$, 其中$J$代表类别数量，$i\in \{1,2,...,J\}$。 基尼增益定义如下：
   
-	$$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{Gini}(T)}_{\text {Gini (parent) }}-\quad \underbrace{\mathrm{Gini}(T | a)}_{\text {Weighted Sum of Gini (Children) }} \\&=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)-\sum_{a} p(a) \sum_{i=1}^{J}-\operatorname{P}(i | a) (1- \operatorname{P}(i | a))\end{split}$$</li>
-<li>方差下降（Variance reduction）<br>方差反应了数据的<strong>离散程度</strong>，方差下降在<a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>中用于回归任务，定义如下：$$\begin{split} I_{V}(N)=&\frac{1}{|S|^{2}} \sum_{i \in S} \sum_{j \in S} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\\&-\underbrace{\left(\frac{1}{\left|S_{t}\right|^{2}} \sum_{i \in S_{t}} \sum_{j \in S_{t}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}+\frac{1}{\left|S_{f}\right|^{2}} \sum_{i \in S_{f}} \sum_{j \in S_{f}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\right)}_{\text {Minimum: Largest Homogeneity}}\end{split}$$
+	$$\begin{split}{IG(T, a)}&=  \underbrace{\mathrm{Gini}(T)}_{\text {Gini (parent) }}-\quad \underbrace{\mathrm{Gini}(T | a)}_{\text {Weighted Sum of Gini (Children) }} \\&=\sum_{i=1}^{J} p_{i}\left(1-p_{i}\right)-\sum_{a} p(a) \sum_{i=1}^{J}-\operatorname{P}(i | a) (1- \operatorname{P}(i | a))\end{split}$$
+</li>
+<li><p>方差下降（Variance reduction）<br>方差反应了数据的<strong>离散程度</strong>，方差下降在<a href="https://en.wikipedia.org/wiki/Predictive_analytics#Classification_and_regression_trees_.28CART.29" title="Predictive analytics" target="_blank" rel="noopener">CART</a>中用于回归任务，定义如下：</p>
+$$\begin{split} I_{V}(N)=&\frac{1}{|S|^{2}} \sum_{i \in S} \sum_{j \in S} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\\&-\underbrace{\left(\frac{1}{\left|S_{t}\right|^{2}} \sum_{i \in S_{t}} \sum_{j \in S_{t}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}+\frac{1}{\left|S_{f}\right|^{2}} \sum_{i \in S_{f}} \sum_{j \in S_{f}} \frac{1}{2}\left(x_{i}-x_{j}\right)^{2}\right)}_{\text {Minimum: Largest Homogeneity}}\end{split}$$
 
 </li>
 </ul>
@@ -228,12 +233,12 @@ $$r_{im}=\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right
 <p>与Adaboost相比，GBDT基于梯度下降法（最速下降法），可以更容易地适应大量的损失函数。</p>
 <h2 id="3-Xgboost"><a href="#3-Xgboost" class="headerlink" title="3. Xgboost"></a>3. Xgboost</h2><p>Xgboost使用<strong>解析法</strong>，求得损失函数<strong>二阶近似</strong>，取最小值时的<strong>解析解</strong>，用<strong>解析解作为Gain</strong>来建立决策树，使损失函数<strong>最优</strong>。在Xgboost中, 学习器${\hat {F}}(\mathbf{x})$可视为<strong>基学习器</strong>$h_{i}(\mathbf{x})$，权重为<strong>1</strong>的<strong>线性组合</strong>: $\hat{F}(\mathbf{x})=\sum_{i=1}^{M}h_{i}(\mathbf{x})+\text { const. }$。用于确定<strong>每轮基学习器</strong>的优化目标（损失函数），<strong>增广了正则项</strong>（预测时，仅用${\hat {F}}(\mathbf{x})$，无需正则项）：$$\begin{split} F_{m}(\mathbf{x}) &= F_{m-1}(\mathbf{x})+\underset{h_{m} \in \mathcal{H}}{\arg \min }\left[\sum_{i=1}^{n} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]+\Omega(F_{m-1}\left(\mathbf{x}\right)+h_{m}\left(\mathbf{x}\right)) \\&= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]+\Omega(h_{m}\left(\mathbf{x}\right)) +\text { const. }\end{split}$$，其中$\Omega(h_{m}\left(\mathbf{x}\right)) = \gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2}$为<strong>正则项</strong>，$T$为决策树$h_{m}$中的叶子结点的数目，$w_{j}$为第$j$个叶子结点的权重（代表的<strong>分数</strong>，一般设为叶子节点中的<strong>样本均值</strong>），即用<strong>叶子结点的个数</strong>和叶子结点<strong>权重的平滑程度</strong>，来描述模型的复杂度。</p>
 <p>由<strong>二阶泰勒展开</strong>$f(x+\Delta x) \simeq f(x)+f^{\prime}(x) \Delta x+\frac{1}{2} f^{\prime \prime}(x) \Delta x^{2}$可得，$$\begin{split}Obj &= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)+h_{m}\left(\mathbf{x}_{i}\right)\right)\right]+\Omega(h_{m}\left(\mathbf{x}\right)) +\text { const. }\\ &\simeq  \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)+\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2}\nabla_{F_{m-1}}^2 L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)h_{m}^2\left(\mathbf{x}_{i}\right)\right]+\Omega(h_{m}\left(\mathbf{x}\right)) + \text { const. } \\ &= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[ L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right)+g_{m-1}(\mathbf{x}_{i}) h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2}k_{m-1}(\mathbf{x}_{i}) h_{m}^2\left(\mathbf{x}_{i}\right)\right]+ \Omega(h_{m}\left(\mathbf{x}\right)) + \text { const. } \\&= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{i=1}^{n}\left[g_{m-1}(\mathbf{x}_{i}) h_{m}\left(\mathbf{x}_{i}\right) + \frac{1}{2}k_{m-1}(\mathbf{x}_{i}) h_{m}^2\left(\mathbf{x}_{i}\right)\right]+ \gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2} + \text { const. }\\&=\underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{m-1}(\mathbf{x}_{i})\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} k_{m-1}(\mathbf{x}_{i})+\lambda\right) w_{j}^{2}\right]+\gamma T + \text { const. }, 其中h_{m}(x)=w_{q(x)} \\ &= \underset{h_{m} \in \mathcal{H}}{\arg \min }\sum_{j=1}^{T}\left[G_j w_{j}+\frac{1}{2}\left(K_j+\lambda\right) w_{j}^{2}\right]+\gamma T + \text { const. }, 二次函数\end{split}$$</p>
-<p>假设树的<strong>结构确定</strong>，叶子结点的权重（代表的<strong>分数</strong>）为$w_{j}^{*}=-\frac{G_{j}}{K_{j}+\lambda}$时，<strong>优化目标取到最小</strong>值$Obj=-\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{K_{i}+\lambda}+\gamma T$（也称“<strong>结构分数</strong>”，Structure Score，代表树结构<strong>所能达到的最小损失</strong>，<strong>结构分越小</strong>，该树的<strong>结构越好</strong>）。然而树的结构<strong>未知</strong>（无限可能），通过“<strong>结构分下降</strong>”<strong>贪婪</strong>地<strong>分裂</strong>叶子节点，以生产决策树。即，对每一个<strong>叶子结点</strong>计算：$$\begin{aligned} \text {Gain} &=\text {Obj}_{\text {split}}-\text {Obj}_{\text {split}} =\frac{1}{2}\left[\frac{G_{L}^{2}}{K_{L}+\lambda}+\frac{G_{R}^{2}}{K_{R}+\lambda}-\frac{\left(G_{L}+G_{R}\right)^{2}}{K_{L}+K_{R}+\lambda}\right]-\gamma\left(T_{\text {split}}-T_{\text {unsplit}}\right) \end{aligned}$$</p>
+<p>假设树的<strong>结构确定</strong>，叶子结点的权重（代表的<strong>分数</strong>）为$w_{j}^{*}=-\frac{G_{j}}{K_{j}+\lambda}$时，<strong>优化目标取到最小</strong>值$Obj=-\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{K_{i}+\lambda}+\gamma T$（也称“<strong>结构分数</strong>”，Structure Score，代表树结构<strong>所能达到的最小损失</strong>，<strong>结构分越小</strong>，该树的<strong>结构越好</strong>）。然而树的结构<strong>未知</strong>（无限可能），通过“<strong>结构分下降</strong>”<strong>贪婪</strong>地<strong>分裂</strong>叶子节点，以生产决策树。即，对每一个<strong>叶子结点</strong>计算：$$\begin{aligned} \text {Gain} &=\text {Obj}_{\text {split}}-\text {Obj}_{\text {unsplit}} =\frac{1}{2}\left[\frac{G_{L}^{2}}{K_{L}+\lambda}+\frac{G_{R}^{2}}{K_{R}+\lambda}-\frac{\left(G_{L}+G_{R}\right)^{2}}{K_{L}+K_{R}+\lambda}\right]-\gamma\left(T_{\text {split}}-T_{\text {unsplit}}\right) \end{aligned}$$</p>
 <p><strong>预剪枝</strong>在$\text {Gain} &gt; 0$时，分裂该叶子结点，分割点的选择<strong>同上述</strong>（决策树方法）；<strong>后剪枝</strong>在生成<strong>指定深度</strong>的决策树后，去除$\text {Gain} &lt; 0$的叶子结点。对于类变量（categorical variables），可以根据取值进行<strong>多分裂</strong>，或者使用<strong>热独编码</strong>（one-hot embeding，每纬度为新变量）。</p>
 <h1 id="五-Reference"><a href="#五-Reference" class="headerlink" title="五. Reference"></a>五. Reference</h1><a href="/2019/11/29/model-ensemble/" title="Blog: Model Ensemble">Blog: Model Ensemble</a><br>
 <a href="/2019/11/24/tree-based-learning-algorithms-part-2/" title="Blog: Tree-Based Learning Algorithms - Part 2">Blog: Tree-Based Learning Algorithms - Part 2</a> <br>
 <a href="/2019/11/19/tree-based-learning-algorithms-part-1/" title="Blog: Tree-Based Learning Algorithms - Part 1">Blog: Tree-Based Learning Algorithms - Part 1</a> <br>
-<p><a href="https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf" target="_blank" rel="noopener">PPT: Introduction to Boosted Trees</a></p>
+<p><a href="https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf" target="_blank" rel="noopener">PPT: Introduction to Boosted Trees</a><br><a href="https://snaildove.github.io/2018/10/02/get-started-XGBoost/#%E6%A0%91%E7%9A%84%E8%B4%AA%E5%A9%AA%E5%AD%A6%E4%B9%A0-Greedy-Learning-of-the-Tree" target="_blank" rel="noopener">Blog: Xgboost原理和底层实现剖析</a></p>
 
         </div>
         
@@ -341,7 +346,7 @@ $$r_{im}=\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        36
                     </p>
                 </div>
             </div>
@@ -566,7 +571,18 @@ $$r_{im}=\nabla_{F_{m-1}} L\left(y_{i}, F_{m-1}\left(\mathbf{x}_{i}\right)\right
                     <span class="level-item">June 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>

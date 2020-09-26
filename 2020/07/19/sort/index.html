@@ -19,7 +19,7 @@
 <meta property="og:description" content="排序算法（Sorting algorithm）是能将一串数据依照特定排序方式进行排列的一种算法，最常用到的排序方式是数值顺序以及字典顺序。常见的比较排序算法如下：">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-07-23T17:07:15.689Z">
+<meta property="og:updated_time" content="2020-09-20T17:47:25.359Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法思维：排序算法">
 <meta name="twitter:description" content="排序算法（Sorting algorithm）是能将一串数据依照特定排序方式进行排列的一种算法，最常用到的排序方式是数值顺序以及字典顺序。常见的比较排序算法如下：">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1724 words)
+                    12 minutes read (About 1725 words)
                 </span>
                 
                 
@@ -209,7 +209,7 @@
 
 <p><strong>主要思路</strong>：A <strong>Divide and Conquer</strong> algorithm；It <strong>divides input array in two halves</strong>, <strong>calls itself for the two halves</strong> and then <strong>merges the two sorted halves</strong>；<strong>t=O(nlgn), s=O(n)</strong>。</p>
 <p>例子：<br><a href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" rel="noopener">Leetcode 88. Merge Sorted Array</a><br><a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/" target="_blank" rel="noopener">Leetcode 315. Count of Smaller Numbers After Self</a></p>
-<h3 id="6-快速排序"><a href="#6-快速排序" class="headerlink" title="6. 快速排序"></a>6. 快速排序</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">quick_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sort</span><span class="hljs-params">(nums, left, right)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">if</span> left &gt;= right: <span class="hljs-comment"># 注意停止条件</span></span><br><span class="line">            <span class="hljs-keyword">return</span> </span><br><span class="line">        pivot_pos = partition(nums, left, right) <span class="hljs-comment"># 实际上是conquer的过程</span></span><br><span class="line">        sort(nums, left, pivot_pos<span class="hljs-number">-1</span>)</span><br><span class="line">        sort(nums, pivot_pos+<span class="hljs-number">1</span>, right)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">partition</span><span class="hljs-params">(nums, left, right)</span>:</span></span><br><span class="line">        pivot = nums[right]</span><br><span class="line">        lower_idx = left - <span class="hljs-number">1</span> <span class="hljs-comment"># lower_idx左侧为小于pivot的数，右侧为大于pivot的数</span></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(left, right): <span class="hljs-comment"># nums[right]作为pivot，未被遍历</span></span><br><span class="line">            <span class="hljs-keyword">if</span> nums[i] &lt; pivot:</span><br><span class="line">                lower_idx += <span class="hljs-number">1</span></span><br><span class="line">                nums[i], nums[lower_idx] = nums[lower_idx], nums[i]</span><br><span class="line">        nums[lower_idx+<span class="hljs-number">1</span>], nums[right] = nums[right], nums[lower_idx+<span class="hljs-number">1</span>] <span class="hljs-comment"># 将pivot放到确定位置处</span></span><br><span class="line">        <span class="hljs-keyword">return</span> i+<span class="hljs-number">1</span></span><br><span class="line">    </span><br><span class="line">    sort(nums, <span class="hljs-number">0</span>, len(nums)<span class="hljs-number">-1</span>)</span><br><span class="line">    <span class="hljs-keyword">return</span> nums</span><br></pre></td></tr></table></figure>
+<h3 id="6-快速排序"><a href="#6-快速排序" class="headerlink" title="6. 快速排序"></a>6. 快速排序</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">quick_sort</span><span class="hljs-params">(nums)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sort</span><span class="hljs-params">(nums, left, right)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">if</span> left &gt;= right: <span class="hljs-comment"># 注意停止条件</span></span><br><span class="line">            <span class="hljs-keyword">return</span> </span><br><span class="line">        pivot_pos = partition(nums, left, right) <span class="hljs-comment"># 实际上是conquer的过程</span></span><br><span class="line">        sort(nums, left, pivot_pos<span class="hljs-number">-1</span>)</span><br><span class="line">        sort(nums, pivot_pos+<span class="hljs-number">1</span>, right)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">partition</span><span class="hljs-params">(nums, left, right)</span>:</span></span><br><span class="line">        pivot = nums[right]</span><br><span class="line">        lower_idx = left - <span class="hljs-number">1</span> <span class="hljs-comment"># lower_idx左侧为小于pivot的数，右侧为大于pivot的数</span></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(left, right): <span class="hljs-comment"># nums[right]作为pivot，未被遍历</span></span><br><span class="line">            <span class="hljs-keyword">if</span> nums[i] &lt; pivot:</span><br><span class="line">                lower_idx += <span class="hljs-number">1</span></span><br><span class="line">                nums[i], nums[lower_idx] = nums[lower_idx], nums[i]</span><br><span class="line">        nums[lower_idx+<span class="hljs-number">1</span>], nums[right] = nums[right], nums[lower_idx+<span class="hljs-number">1</span>] <span class="hljs-comment"># 将pivot放到确定位置处</span></span><br><span class="line">        <span class="hljs-keyword">return</span> lower_idx+<span class="hljs-number">1</span></span><br><span class="line">    </span><br><span class="line">    sort(nums, <span class="hljs-number">0</span>, len(nums)<span class="hljs-number">-1</span>)</span><br><span class="line">    <span class="hljs-keyword">return</span> nums</span><br></pre></td></tr></table></figure>
 
 <p><strong>主要思路</strong>：采用<strong>分而治之</strong>的思想；针对特殊情况（<strong>顺序数组</strong>或者<strong>逆序数组</strong>），最好<strong>随机化选择</strong>基准，否则将导致，子问题划分<strong>不平均</strong>，时间复杂度提高为<strong>O(n^2)</strong>；时间复杂度<strong>t=O(nlogn)～t=O(n^2)</strong>，<strong>s=O(lgn)～O(n)</strong>（占用的空间主要是<strong>栈空间</strong>）。</p>
 <p>算法具体如下:</p>
@@ -335,7 +335,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        36
                     </p>
                 </div>
             </div>
@@ -560,7 +560,18 @@
                     <span class="level-item">June 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>

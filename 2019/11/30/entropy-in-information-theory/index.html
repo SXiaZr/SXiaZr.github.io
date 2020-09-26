@@ -19,7 +19,7 @@
 <meta property="og:description" content="Entropy (information theory), also called Shannon entropy, a measure of the unpredictability or information content of a message source. Huffman Coding TreeTo shorten the length of symbol encoding, pe">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-08-09T13:46:40.735Z">
+<meta property="og:updated_time" content="2020-08-25T11:10:27.572Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Entropy in Information Theory">
 <meta name="twitter:description" content="Entropy (information theory), also called Shannon entropy, a measure of the unpredictability or information content of a message source. Huffman Coding TreeTo shorten the length of symbol encoding, pe">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 minutes read (About 996 words)
+                    7 minutes read (About 1019 words)
                 </span>
                 
                 
@@ -201,7 +201,7 @@
 </ul>
 <h1 id="Entropy"><a href="#Entropy" class="headerlink" title="Entropy"></a>Entropy</h1><p>Generally, entropy refers to <strong>disorder or uncertainty</strong> (a large entropy represent a great disorder), and the <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" target="_blank" rel="noopener"><strong>entropy</strong> used in information theory</a> can reflect the <strong>informative extent</strong> of the event. </p>
 <p>When the data source produces a low-probability event, the <strong>event carries more “information”</strong> than when the high-probability event. Obviously, it has the <strong>same inner logic</strong> as <strong>Huffman Coding</strong>, so the probability of the event can be encoded by Huffman Coding Tree, and from it, we can compute the <strong>amount of information</strong> (<strong>information entropy</strong>)  the event carries. </p>
-<p><strong>Information entropy</strong>  is defined as the <strong>expected rate (bits)</strong>, which is actually the <strong>expected length of the Huffman Coding Tree path</strong> (one edge in path represents 1 bit coding). The measure of information entropy is the negative logarithm of the probability mass function for the value:$$S=-\sum _{i}P_{i}\underbrace{\log {P_{i}}}_\text{Length of Huffman Tree Path}=-\operatorname {E} _{P}[\log P]\geq0$$, where  ${E} _{P}[X]=\sum _{i}P_{i}X_{i}$ is the expectation defined by the probability  $P$.</p>
+<p><strong>Information entropy</strong>  is defined as the <strong>expected rate (bits)</strong>, which is actually the <strong>expected length of the Huffman Coding Tree path</strong> (one edge in path represents 1 bit coding). The measure of information entropy is the negative logarithm of the probability mass function for the value:$$S=-\sum _{i}P_{i}\underbrace{\log {P_{i}}}_\text{Length of Huffman Tree Path}=-\operatorname {E} _{P}[\log P]\geq0$$, where  ${E} _{P}[X]=\sum _{i}P_{i}X_{i}$ is the expectation defined by the probability  $P$. $-\log P$ is also called <strong><a href="https://en.wikipedia.org/wiki/Information_content" target="_blank" rel="noopener">information content</a></strong>, which decreases as the probability of an event increases.</p>
 <p>For example: </p>
 <ul>
 <li><p>A discrete random variable $X$ whose distribution $Q$ has three events: $A: \frac{1}{2}$, $\quad B: \frac{1}{4}$, $\quad C: \frac{1}{4}$. So the events $A, B,C$ can be encoded by Huffman Tree as below:</p>
@@ -334,7 +334,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        36
                     </p>
                 </div>
             </div>
@@ -559,7 +559,18 @@
                     <span class="level-item">June 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>

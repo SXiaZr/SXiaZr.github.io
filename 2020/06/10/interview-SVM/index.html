@@ -19,7 +19,7 @@
 <meta property="og:description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-08-13T23:27:06.529Z">
+<meta property="og:updated_time" content="2020-08-14T16:58:27.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习：支持向量机（Support Vector Machine）">
 <meta name="twitter:description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    16 minutes read (About 2470 words)
+                    24 minutes read (About 3540 words)
                 </span>
                 
                 
@@ -216,7 +216,7 @@ a_{i}\left(y_{i} f\left(\mathbf{x}_{i}\right)-1\right)=0, \quad i=1,2,...,m\\
 
 <p>由第三条（complementary slackness）可得，对任何一个样本$\mathbf{x}_i$而言：</p>
 <ul>
-<li>若$y_i f(\mathbf{x}_i) \neq 1$，则拉格朗日乘子$a_i$为0，此时样本$\mathbf{x}_i$对<strong>预测模型</strong>（$\sum_{i=1}^m a_i^{\star} y_i \mathbf{x}_i^T \mathbf{x} + b^{\star}$）无影响；</li>
+<li>若$y_i f(\mathbf{x}_i) \neq 1$，则拉格朗日乘子$a_i^{\star}$为0，此时样本$\mathbf{x}_i$对<strong>预测模型</strong>（$\sum_{i=1}^m a_i^{\star} y_i \mathbf{x}_i^T \mathbf{x} + b^{\star}$）无影响；</li>
 <li>若$y_i f(\mathbf{x}_i) = 1$，此时样本$\mathbf{x}_i$位于<strong>最大间隔边界上</strong>，是支持向量。将支持向量表示为$(\mathbf{x}_s, y_s)$，则$y_{s}\left( \mathbf{w^{\star}}^T \mathbf{x}_{s}+b^{\star}\right)=1$，故理论上，可选取<strong>任意支持向量</strong>获得$b^{\star}$ (均值$b^{\star}=\frac{1}{|S|} \sum_{s \in S}\left(\frac{1}{y_{s}}-\mathbf{w^{\star}}^T \mathbf{x}_{s}\right)$更为鲁棒)。</li>
 </ul>
 <p>它揭示了SVM的一个重要性质：<strong>最终模型只与支持向量有关</strong>。</p>
@@ -242,12 +242,78 @@ $$
  \max_{\mathbf{a}} \sum_{i=1}^m a_i - \frac{1}{2} \sum_{i=1}^m\sum_{j=1}^m a_i a_j y_i y_j \kappa\left(\mathbf{x}_{i}, \mathbf{x}_{j}\right) \\
  \text{s.t.} \quad \sum_{i=1}^m a_i y_i = 0, \quad a_i \geq 0, \quad i=1,2,...,m
 $$
-<p><strong>函数模型</strong>变为：$$\begin{aligned} f(\mathbf{x}) &=\mathbf{w^{\star}}^T \phi(\mathbf{x})+b^{\star} =\sum_{i=1}^{m} a_{i}^{\star} y_{i} \phi\left(\mathbf{x}_{i}\right)^T \phi(\mathbf{x})+b^{\star} \\ &=\sum_{i=1}^{m} a_{i}^{\star} y_{i} \kappa\left(\mathbf{x}, \mathbf{x}_{i}\right)+b^{\star} \end{aligned}$$</p>
-<p>，若己知合适映射 cþ(.) 的具体形式，则可写出核函数 κ(. ， .).但在现实 任务中我们通常不知道 cþ(.) 是什么形式，</p>
-<p>需注意的是，在不知道特征映射的形 式时，我们并不知道什么样的核函数是合适的，而核函数也仅是隐式地走义了</p>
-<p>这个特征空间.于是，”核函数选择”成为支持向量机的最大变数.</p>
-<p>核函数是一个把特征从低维空间映射到高维空间并保证计算开销与低维度空间相当的做法。 也可以说是既要马儿跑又要马儿不吃草的神奇操作。 核函数有很多，常用的有rbf，高斯核， polynomial 核等等。 核函数的研究在学界也是一个曾经一度很热的领域。 这里不提各种核的用法，想简单推导一下核的原理，顺便展现dual 形式求解的价值。</p>
-<h1 id="五-软间隔与正则化"><a href="#五-软间隔与正则化" class="headerlink" title="五. 软间隔与正则化"></a>五. 软间隔与正则化</h1><h1 id="六-支持向量回归"><a href="#六-支持向量回归" class="headerlink" title="六. 支持向量回归"></a>六. 支持向量回归</h1><h1 id="七-Reference"><a href="#七-Reference" class="headerlink" title="七. Reference"></a>七. Reference</h1><p><a href="https://item.jd.com/11867803.html" target="_blank" rel="noopener">Book: 机器学习，周志华</a><br><a href="https://zhuanlan.zhihu.com/p/91267375" target="_blank" rel="noopener">Zhihu: SVM（二）：从凸优化聊到SVM对偶式的推导</a></p>
+<p><strong>函数模型</strong>变为：$$\begin{aligned} f(\mathbf{x}) &=\mathbf{w^{\star}}^T \phi(\mathbf{x})+b^{\star} =\sum_{i=1}^{m} a_{i}^{\star} y_{i} \phi\left(\mathbf{x}_{i}\right)^T \phi(\mathbf{x})+b^{\star} \\ &=\sum_{i=1}^{m} a_{i}^{\star} y_{i} \kappa\left(\mathbf{x}_{i}, \mathbf{x}\right)+b^{\star} \end{aligned}$$<br>在现实任务中，<strong>通常不知道</strong>$\phi(\mathbf{x})$的形式，也不知合适的核函数，于是，“<strong>核函数选择</strong>”成为SVM的最大变数。常见的核函数有：</p>
+$$
+\begin{array}{lll}
+\hline \text {名称} & \text {表达式 } & \text { 参数 } \\
+\hline \text { 线性核 } & \kappa\left(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}\right)=\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{x}_{j} \\
+\text { 多项式核 } & \kappa\left(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}\right)=\left(\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{x}_{j}\right)^{d} & d \geqslant 1 \text { 为多项式的次数 } \\
+\text { 高斯核 } & \kappa\left(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}\right)=\exp \left(-\frac{\left\|\boldsymbol{x}_{i}-\boldsymbol{x}_{j}\right\|^{2}}{2 \sigma^{2}}\right) & \sigma>0 \text { 为高斯核的带宽(width) } \\
+\text { 拉普拉斯核 } & \kappa\left(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}\right)=\exp \left(-\frac{\left\|\boldsymbol{x}_{i}-\boldsymbol{x}_{j}\right\|}{\sigma}\right) & \sigma>0 \\
+\hline
+\end{array}
+$$
+<p>此外，核函数的<strong>函数组合</strong>（例如，线性组合），可以生成新的核函数。</p>
+<h1 id="五-软间隔与正则化"><a href="#五-软间隔与正则化" class="headerlink" title="五. 软间隔与正则化"></a>五. 软间隔与正则化</h1><p>然而，在现实任务中，往往<strong>很难确定合适的核函数</strong>，使得训练样本线性可分；即便找到，也难以保证其没有<strong>过拟合</strong>，例如，<strong>拟合了</strong>训练样本中的<strong>噪声</strong>，使得分类器<strong>间隔变小</strong>，如下图。</p>
+<p align="center">
+  <img src="./svm-overfitting.png" alt="SVM Overfitting" width="300px">
+</p>
+
+<p>缓解Overfitting的方法是引入<strong>软间隔</strong>（soft margin），<strong>允许</strong>一些样本允许<strong>不满足约束</strong>（$y_i(\mathbf{w}^T\mathbf{x}_i+b) \geq 1$），但对这些样本进行<strong>惩罚</strong>。于是优化目标可以写为：</p>
+$$\min_{\mathbf{w},b} \frac{1}{2} \Vert \mathbf{w} \Vert^2 + C \sum_{i=1}^m \ell_{0/1}(y_i(\mathbf{w}^T\mathbf{x}_i+b)-1) $$
+<p>其中，0/1损失函数$\ell_{0/1}(z)$，通常用<strong>连续凸函数</strong>$\ell_{hinge}(z) = \max (0,1-z)$<strong>替代</strong>，上式可重写为：$$\min_{\mathbf{w},b} \frac{1}{2} \Vert \mathbf{w} \Vert^2 + C \sum_{i=1}^m \max(0, 1-y_i(\mathbf{w}^T\mathbf{x}+b))$$为<strong>方便优化</strong>，引入<strong>松弛变量</strong>（slack variables）$\xi_i \geq 0$，将上式重写为<strong>标准</strong>约束优化问题：</p>
+
+$$\min_{\mathbf{w},b} \frac{1}{2} \Vert \mathbf{w} \Vert^2 + C \sum_{i=1}^m \xi_i \\\text{s.t.} \quad y_i(\mathbf{w}^T\mathbf{x}_i+b) \geq 1-\xi_i, \quad \xi_i \geq 0, \quad i=1,2,...,m$$
+
+<h3 id="松弛变量"><a href="#松弛变量" class="headerlink" title="松弛变量"></a><strong>松弛变量</strong></h3><p>每个样本对应着一个<strong>松弛变量</strong>，用以表示<strong>样本误分类的程度</strong>，松弛变量的值越大，程度越高。</p>
+<p>同样，使用<strong>拉格朗日乘法</strong>求解对偶问题，拉格朗日函数为：</p>
+
+$$
+\begin{aligned}
+L(\mathbf{w}, b, \boldsymbol{a}, \boldsymbol{\xi}, \boldsymbol{\mu})= \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} +\sum_{i=1}^{m} a_{i}\left(1-\xi_{i}-y_{i}\left(\mathbf{w}^{\mathrm{T}} \mathbf{x}_{i}+b\right)\right)-\sum_{i=1}^{m} \mu_{i} \xi_{i}
+\end{aligned}
+$$
+
+<p>将拉格朗日函数分别对<strong>$\mathbf{w}$、$b$、$\xi_{i}$求偏导</strong>，并令<strong>导数为0</strong>，可得$
+\mathbf{w}^{\star} = \sum_{i=1}^m a_i y_i \mathbf{x}_i$、$0 = \sum_{i=1}^m a_i y_i$、$C = a_i + \mu_i$（本质为KKT条件），回代可得<strong>对偶问题</strong>：$$
+ \max_{\mathbf{a}} \sum_{i=1}^m a_i - \frac{1}{2} \sum_{i=1}^m\sum_{j=1}^m a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j \\
+ \text{s.t.} \quad \sum_{i=1}^m a_i y_i = 0, \quad C \geq a_i \geq 0, \quad i=1,2,...,m
+$$</p>
+<p>同样由KKT条件：</p>
+$$
+\left\{\begin{array}{l}
+a^{\star}_{i} \geqslant 0, \quad \mu_{i}^{\star} \geqslant 0, \quad \xi_{i}^{\star} \geqslant 0 \\
+a^{\star}_{i}\left(y_{i} f\left(\mathbf{x}_{i}\right)-1+\xi_{i}^{\star}\right)=0 \\
+\mu^{\star}_{i} \xi_{i}^{\star}=0
+\end{array}\right.
+$$
+<ul>
+<li>若$y_i f(\mathbf{x}_i) \neq 1-\xi_{i}^{\star}$，则拉格朗日乘子$a_i^{\star}$为0，此时样本$\mathbf{x}_i$对<strong>预测模型</strong>（$\sum_{i=1}^m a_i^{\star} y_i \mathbf{x}_i^T \mathbf{x} + b^{\star}$）无影响；</li>
+<li>若$y_i f(\mathbf{x}_i) = 1-\xi_{i}^{\star}$，$\mathbf{x}_i$仅可能为边界上的<strong>支持向量</strong>，或<strong>不满足约束的点</strong>，否则$y_i f(\mathbf{x}_i) -1+\xi_{i}^{\star}>0$。</li>
+</ul>
+<p>它揭示了软间隔SVM的一个重要性质：<strong>最终模型只与支持向量和不满足约束的点有关</strong>。</p>
+<h1 id="六-支持向量回归"><a href="#六-支持向量回归" class="headerlink" title="六. 支持向量回归"></a>六. 支持向量回归</h1><p>线性回归模型，通过$f(\mathbf{x})=\mathbf{w}^T\mathbf{x}+b$来预测，并希望<strong>预测值</strong>和<strong>真实值</strong>尽可能<strong>相近</strong>。<strong>SVR</strong>（support vector regression）是SVM对回归问题的运用：传统的回归模型通过<strong>最小化均方误差</strong>，来训练模型/计算参数，SVR则不然。</p>
+<p>SVR假设最多能<strong>容忍$\epsilon$的偏差</strong>，只有当真实值和预测值之间<strong>相差超出了$\epsilon$</strong>时，才<strong>计算损失</strong>。之后，通过<strong>最小化损失</strong>（使<strong>大部分点落入间隔</strong>之内），来拟合/确定线性模型，如下图：</p>
+<p align="center">
+  <img src="./SVR.jpg" alt="SVR" width="400px">
+</p>
+
+<p>故SVR问题可以写作：</p>
+$$\min_{\mathbf{w},b} \frac{1}{2} \Vert \mathbf{w} \Vert^2 + C \sum_{i=1}^m \ell_{\epsilon}(f(\mathbf{x}_i) - y_i) $$
+<p>其中，$\ell_{\epsilon}(z)=
+\left
+\{\begin{array}
+\\0, \quad if\ |z| \leq \epsilon
+\\|z|-\epsilon, \quad otherwise
+\end{array}
+\right.$，同样引入<strong>松弛变量</strong>$\xi_i$和$\hat{\xi}_i$（间隔带两侧的松弛程度可有所不同），可以重写为<strong>标准形式</strong>：</p>
+
+$$\begin{aligned}\min_{\mathbf{w},b} &\frac{1}{2} \Vert \mathbf{w} \Vert^2 + C \sum_{i=1}^m (\xi_i + \hat{\xi}_i)\\
+\text{s.t.} \quad & \ f(\mathbf{x}_i) - y_i \leq \epsilon + \xi_i,\\
+&y_i - f(\mathbf{x}_i) \leq \epsilon + \xi_i\\
+&\xi_i \geq 0, \hat{\xi}_i \geq 0, i=1,2,...,m.
+\end{aligned}$$
+<h1 id="七-Reference"><a href="#七-Reference" class="headerlink" title="七. Reference"></a>七. Reference</h1><p><a href="https://item.jd.com/11867803.html" target="_blank" rel="noopener">Book: 机器学习，周志华</a><br><a href="https://zhuanlan.zhihu.com/p/91267375" target="_blank" rel="noopener">Zhihu: SVM（二）：从凸优化聊到SVM对偶式的推导</a><br><a href="https://github.com/familyld/Machine_Learning" target="_blank" rel="noopener">Github: Machine_Learning</a><br><a href="https://towardsdatascience.com/an-introduction-to-support-vector-regression-svr-a3ebc1672c2" target="_blank" rel="noopener">Blog: An Introduction to Support Vector Regression (SVR)</a></p>
 
         </div>
         
@@ -355,7 +421,7 @@ $$
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        36
                     </p>
                 </div>
             </div>
@@ -580,7 +646,18 @@ $$
                     <span class="level-item">June 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>

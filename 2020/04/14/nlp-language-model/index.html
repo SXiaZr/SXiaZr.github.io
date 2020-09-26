@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Neural NLP：语言模型 - DeepBlog</title>
+
+
+    <meta name="description" content="一. 概念统计语言模型（language model，注*）是用于计算文本概率的模型，在语音识别、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$依次组成，其联合概率被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$由贝叶斯（Bayes）公式，此概率可被链式分解（chain rule）为：$$P(S) = P">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neural NLP：语言模型">
+<meta property="og:url" content="http://sxiazr.github.io/2020/04/14/nlp-language-model/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="一. 概念统计语言模型（language model，注*）是用于计算文本概率的模型，在语音识别、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$依次组成，其联合概率被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$由贝叶斯（Bayes）公式，此概率可被链式分解（chain rule）为：$$P(S) = P">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-08-31T09:11:50.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neural NLP：语言模型">
+<meta name="twitter:description" content="一. 概念统计语言模型（language model，注*）是用于计算文本概率的模型，在语音识别、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$依次组成，其联合概率被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$由贝叶斯（Bayes）公式，此概率可被链式分解（chain rule）为：$$P(S) = P">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Neural NLP：语言模型" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-04-14T16:00:00.000Z">2020-04-15</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2662 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Neural NLP：语言模型
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p><strong>统计</strong>语言模型（language model，<strong>注*</strong>）是用于计算<strong>文本概率</strong>的模型，在<strong>语音识别</strong>、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$<strong>依次</strong>组成，其<strong>联合概率</strong>被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$<br>由贝叶斯（Bayes）公式，此概率可被<strong>链式分解</strong>（chain rule）为：$$P(S) = P(w_1, w_2, \ldots, w_T) = \prod_{t=1}^T P(w_t \mid w_1, \ldots, w_{t-1})$$式中的<strong>条件概率</strong>$P(w_t \mid w_1, \ldots, w_{t-1})=\frac{P(w_1, \ldots, w_{t})}{P(w_1, \ldots, w_{t-1})}$，即为<strong>语言模型的参数</strong>。关于该参数的计算，常见的方法有：决策树、最大熵模型、n-gram模型、神经网络等方法。本文只讨论<strong>n-gram模型</strong>和<strong>神经网络</strong>两种方法。</p>
+<p><strong>注*</strong>：此外还有基于文法规则的，<strong>文法型</strong>语言模型，不作讨论。</p>
+<a id="more"></a>
+<h1 id="二-N-gram模型"><a href="#二-N-gram模型" class="headerlink" title="二. N-gram模型"></a>二. N-gram模型</h1><h3 id="基本理论"><a href="#基本理论" class="headerlink" title="基本理论"></a><strong>基本理论</strong></h3><p>考虑语言模型参数的<strong>近似计算</strong>，根据<strong>大数定理</strong>，当语料库足够大时，$$P(w_t \mid w_1, \ldots, w_{t-1}) \simeq \frac{\text{Count}(w_1, \ldots, w_{t})}{\text{Count}(w_1, \ldots, w_{t-1})}$$其中，$\text{Count}(w_1, \ldots, w_{t})$表示词串$w_1, w_2, \ldots, w_t$在<strong>语料中出现的次数</strong>。显然，当<strong>序列长度增加</strong>时，计算多个词共同出现的概率的复杂度会<strong>指数增加</strong>，即<strong>参数空间过大</strong>（$N^T$种可能性，$N$为词典大小）。</p>
+<p>N-gram通过<strong>马尔可夫假设</strong>简化语言模型的计算：假设一个词的出现<strong>仅与</strong>该词前的$n-1$个词关联，<strong>而非</strong>前面的<strong>所有词</strong>（越近的词，越相关）。此时，观测到序列$w_1,\ldots,w_T$的概率$P(w_1,\ldots,w_m)$可被<strong>近似为</strong>:<br>$$P(w_1,\ldots,w_T) = \prod^T_{t=1} P(w_t\mid w_1,\ldots,w_{t-1})<br> \approx \prod^T_{t=1} P(w_t\mid w_{t-(n-1)},\ldots,w_{t-1})$$</p>
+<p>理论上，$n$越大，<strong>依赖范围</strong>越大，模型效果越好（当$n$大到一定程度时，模型效果的<strong>提升幅度会变小</strong>）；模型<strong>参数量级</strong>却是$O(N^n)$（详见<a href="https://zhuanlan.zhihu.com/p/28080127" target="_blank" rel="noopener">例子</a>），$n$不能过大。权衡<strong>复杂度</strong>、<strong>准确性</strong>，通常取$n&lt;4$，当$n$为1、2、3时，模型分别称作unigram、bigram、trigram。</p>
+<h3 id="平滑处理"><a href="#平滑处理" class="headerlink" title="平滑处理"></a><strong>平滑处理</strong></h3><p>在测试时，若出现了训练集（即，词典中）中<strong>未出现过</strong>的N-gram（Out of Vocabulary, <strong>OOV</strong>），其概率为<strong>0</strong>，并将导致<strong>语言模型</strong>输出概率为0。显然不合理，因此需赋予OOV N-gram<strong>非零概率</strong>，可以通过语言模型<strong>平滑</strong>来实现。</p>
+<p>常见的平滑方法（详见<a href="http://www.cs.columbia.edu/~mcollins/lm-spring2013.pdf" target="_blank" rel="noopener">[2]</a><a href="https://zhuanlan.zhihu.com/p/96826160" target="_blank" rel="noopener">[3]</a>）有：<strong>折扣</strong>（分出非零N-gram<strong>一些概率质量</strong>，例如Laplace平滑、Good-Turing），<strong>回退</strong>（Backoff，根据<strong>N-1-gram计数</strong>，来建立N-gram模型），<strong>插值</strong>（Interpolation）等。</p>
+<ul>
+<li>Laplace平滑，也称<strong>加$\delta$平滑</strong>，其假设<strong>每个N-gram至少出现$\delta$次</strong>，即对每个N-gram，其计数为$\text{Count}+\delta$，所得概率如下：$$<br>P_{add}\left(w_{i} \mid w_{i-n+1}^{i-1}\right)=\frac{\delta+c\left(w_{i-n+1}^{i}\right)}{\delta|V|+\sum_{w_{i}} c\left(w_{i-n+1}^{i}\right)}<br>$$</li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%9B%BE%E7%81%B5%E4%BC%B0%E8%AE%A1" target="_blank" rel="noopener">Good-Turing估计</a>中，设<strong>实际出现$r$次</strong>的N-gram的<strong>类数</strong>为$n_r$，将$r$<strong>修正</strong>为：$r^{\star}=(r+1)\frac{n_{r+1}}{n_r}$。设$N = \sum_{r=1}^\infty r N_r$，则概率为：$$P(r) = \frac{r^{\star}}{N}$$此后，还需对seen N-grams的概率renormalize，详见<a href="http://rstudio-pubs-static.s3.amazonaws.com/165358_78fd356d6e124331bd66981c51f7ad7c.html" target="_blank" rel="noopener">例子</a>。</li>
+</ul>
+<h3 id="细节处理"><a href="#细节处理" class="headerlink" title="细节处理"></a><strong>细节处理</strong></h3><ul>
+<li>当$n&gt;1$时，为使<strong>句首词的条件概率</strong>有意义，需给原序列加上<strong>起始符&lt;s&gt;</strong>。</li>
+<li>N-gram常以<strong>结束符&lt;/s&gt;</strong>结尾（见<a href="https://zhuanlan.zhihu.com/p/34219483" target="_blank" rel="noopener">例子</a>），加上结束符，可使由<strong>词表中的N-gram组成的</strong>所有可能句子，<strong>概率和</strong>为1；若不加结束符，N-gram无法对<strong>任意长度</strong>的序列，进行概率分布建模。</li>
+</ul>
+<h3 id="N-gram的应用与局限性"><a href="#N-gram的应用与局限性" class="headerlink" title="N-gram的应用与局限性"></a><strong>N-gram的应用与局限性</strong></h3><p>N-gram的应用：</p>
+<ul>
+<li>搜索引擎，搜索内容的补全；</li>
+<li><strong>输入法</strong>，输入拼音，对可能汉字的推测；</li>
+</ul>
+<p>N-gram将词当做<strong>离散（discrete）的随机变量</strong>，造成了如下的<strong>局限性</strong>：</p>
+<ul>
+<li><strong>参数空间</strong>随$N$<strong>指数增长</strong>（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&lt;4$）；</li>
+<li><strong>没有考虑</strong>词与词之间，内在的（语义层面的）<strong>相似性</strong>（similarity），无法<strong>泛化到类似的词</strong>。比如：即便训练集中“store open on Wednesday”出现多次，但只要“store open Tuesday”没有在训练数据中出现，那么其概率就很小；</li>
+<li>离散随机变量对应到<strong>one-hot向量</strong>（<strong>维度为词典的大小</strong>），将面临着严重的<strong>维度灾难</strong>（The Curse of Dimensionality）：数据稀疏，测试数据难免会出现<strong>OOV</strong>问题。</li>
+</ul>
+<h1 id="三-神经网络语言模型"><a href="#三-神经网络语言模型" class="headerlink" title="三. 神经网络语言模型"></a>三. 神经网络语言模型</h1><p>神经网络语言模型（Neural Network Language Model，NNLM）在<a href="https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="noopener">[7]</a>中提出，通过<strong>神经网络</strong>来建模语言概率，计算<strong>条件概率</strong>$P(w_t \mid w_1, \ldots, w_{t-1})$。为降低计算复杂度，NNLM也利用了<strong>马尔可夫假设</strong>：$$P(w_t\mid w_1,\ldots,w_{t-1})<br> \approx P(w_t\mid w_{t-(n-1)},\ldots,w_{t-1})$$与N-gram不同的是，NNLM<strong>不通过计数</strong>对条件概率进行估计，而是通过神经网络对其建模求解。</p>
+<h3 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a><strong>模型结构</strong></h3><p>文章提出如下的神经网络语言模型：</p>
+<p align="center">
+  <img src="./nnlm.jpg" alt="Neural Network Language Model" width="400px">
+</p>
+
+<p>网络分为<strong>三层</strong>：</p>
+<ul>
+<li><strong>Projection layer</strong>：<ul>
+<li>输入为<strong>One-hot embedding</strong>，通常为$B\times N-1 \times V$的矩阵$W$，其中$B$为batch size，$V$为词典尺寸；</li>
+<li>$C$为embedding matrix（$V \times m$），其第$i$行$C(i)$代表i的word vector；</li>
+<li>输出$x$为<strong>concatenation</strong> of word vectors：$<br>x=\left[C\left(w_{t-1}\right), C\left(w_{t-2}\right), \cdots, C\left(w_{t-n+1}\right)\right]。<br>$</li>
+</ul>
+</li>
+<li><strong>Hidden layer</strong>：为激活函数为$\text{tanh}$的<strong>全连接层</strong>（fully connected layer）：$$<br>y=b+W x+U \tanh (d+H x)<br>$$<ul>
+<li>输入为$x$, 输出向量$y$的维度为$V$；</li>
+<li>隐藏层权重$H$为$h \times (N-1)m$的矩阵，$U$为$V \times h$矩阵，$W$为$V \times (N-1)m$（<strong>optionally zero</strong> if no direct connections)；</li>
+</ul>
+</li>
+<li><strong>SoftMax layer</strong>：输出预测结果的<strong>概率分布</strong>（概率和为1）：$$<br>\hat{P}\left(w_{t} \mid w_{t-1}, \cdots w_{t-n+1}\right)=\frac{e^{y_{w_{t}}}}{\sum_{i} e^{y_{i}}}<br>$$</li>
+</ul>
+<p>模型的<strong>训练</strong>基于<strong>极大似然估计</strong>，即优化模型参数使<strong>训练集的log-likelihood最大</strong>，<strong>等价于</strong>使用cross-entropy损失函数：$$<br>L=- \frac{1}{T} \sum_{t} \log \hat{P}\left(w_{t} \mid w_{t-1}, \cdots w_{t-n+1};\theta\right)+R(\theta)<br>$$其中，label的通常为$B\times 1$的矩阵，$\theta$为模型参数， $R(\theta)$为正则项。若使用<strong>批量梯度下降</strong>：<br>$$<br>\theta \leftarrow \theta-\varepsilon  \frac{\frac{1}{B}\sum_{t}\partial \log \hat{P}\left(w_{t} \mid w_{t-1}, \cdots w_{t-n+1};\theta\right)}{\partial \theta}<br>$$</p>
+<h3 id="NNLM局限性"><a href="#NNLM局限性" class="headerlink" title="NNLM局限性"></a><strong>NNLM局限性</strong></h3><p>NNLM<strong>解决了N-gram的局限性</strong>：</p>
+<ul>
+<li>参数空间较小，可以使用<strong>较大的$N$</strong>，例如文中$N = 6$；</li>
+<li>相似词具有<strong>similar feature vector</strong>， 而且（NNLM建模的）概率函数是<strong>连续光滑函数</strong>，<strong>较小的特征变化</strong>只会导致<strong>较小的概率变化</strong>。因此，<strong>一个句子的出现</strong>将会<strong>增加所有相似句子的概率</strong>；</li>
+<li>离散的词标签映射到<strong>低维连续的向量空间</strong>，且概率函数解决了<strong>词典范围内</strong>，未见过的N-gram造成的<strong>OOV</strong>问题；词向量矩阵$C$是NNLM<strong>副产物</strong>。</li>
+</ul>
+<p><strong>NNLM的局限性</strong>：</p>
+<ul>
+<li>基于<strong>前馈神经网络</strong>（feed-forward neural network）的NNLM所处理$N$依旧<strong>有限</strong>且<strong>定长</strong>，基于<strong><a href="https://zh.wikipedia.org/wiki/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C" target="_blank" rel="noopener">循环神经网络（recurrent neural network）</a></strong>的模型应运而生；</li>
+<li>Softmax的计算复杂度为$O(V)$，计算量大，导致训练速度过慢。</li>
+</ul>
+<h1 id="四-语言模型的评价标准"><a href="#四-语言模型的评价标准" class="headerlink" title="四. 语言模型的评价标准"></a>四. 语言模型的评价标准</h1><p><strong>困惑度（Perplexity，PPL）</strong>通常被用于语言模型的<strong>评价指标</strong>，其<strong>基本思想</strong>为：测试集中是<strong>正常的句子</strong>，给测试集句子<strong>较高概率</strong>的语言模型较好。</p>
+<p>这个概率$\hat{P}(s) = \hat{P}(w_1, w_2, \ldots, w_T) = \prod_{t=1}^T \hat{P}(w_t \mid w_1, \ldots, w_{t-1})$，可用WLL（per-word log-likelihood，即<strong>cross entropy loss</strong>）表示为：$$\text{WLL}(s) = -\frac{1}{T} \sum_{t=1}^T \log \hat{P}(w_{t} \mid w_1^{t-1})$$困惑度定义为$\text{Perplexity}(s) =2^{\text{WLL}(s)}$，公式为：$$\text{Perplexity}(S) = \frac{1}{|S|}\sum_{s \in S}\text{Perplexity}(s)\\\text{Perplexity}(s) = \hat{P}\left(w_{1}, w_{2}, w_{3}, \ldots, w_{T}\right)^{-1 / T} = (\prod_{t=1}^{T}\hat{P}(w_t \mid w_{1}^{t-1}))^{-1 / T}  $$可以看出，模型<strong>越好</strong>，（交叉）熵（WWL）<strong>越小</strong>，困惑度<strong>越小</strong>。</p>
+<p><strong>注*</strong>，熵的基本知识：</p>
+<ul>
+<li>（信息）熵，根据<strong>信息的概率分布</strong>，对其编码所需的<strong>最短平均编码</strong>长度。信息量$log_2(P)$，表示使用<strong>二进制</strong>编码的位数：$$S = \sum_i P_ilog_2(P_i)$$可以看出，<strong>高频词</strong>用<strong>更少的位</strong>来编码，低频词则相反。</li>
+<li>交叉熵，根据<strong>预测的</strong>信息的概率分布，进行编码，但<strong>实际概率分布</strong>下，所需的<strong>平均编码</strong>长度：<br>$$H(P, Q) = \sum_i Q_ilog_2(P_i)$$</li>
+</ul>
+<h1 id="五-Reference"><a href="#五-Reference" class="headerlink" title="五. Reference"></a>五. Reference</h1><p><a href="https://zh.d2l.ai/chapter_recurrent-neural-networks/lang-model.html" target="_blank" rel="noopener">[1]Github: 6.1. 语言模型</a><br><a href="http://www.cs.columbia.edu/~mcollins/lm-spring2013.pdf" target="_blank" rel="noopener">[2]Course: Michael Collins, Course notes for NLP, Chapter 1: language modelling</a><br><a href="https://zhuanlan.zhihu.com/p/96826160" target="_blank" rel="noopener">[3]知乎：N-gram 平滑</a><br><a href="https://zh.wikipedia.org/wiki/%E5%9B%BE%E7%81%B5%E4%BC%B0%E8%AE%A1" target="_blank" rel="noopener">[4]Wiki：图灵估计</a><br><a href="https://blog.csdn.net/qjf42/article/details/79761786#1_Ngram_1" target="_blank" rel="noopener">[5]Blog：N-gram语言模型 &amp; Perplexity &amp; 平滑</a><br><a href="http://fancyerii.github.io/dev287x/lm/#%E9%AB%98%E7%BA%A7%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">[6]Blog：李理-语言模型</a><br><a href="https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="noopener">[7]Paper：A Neural Probabilistic Language Model</a><br><a href="https://www.zhihu.com/question/58482430" target="_blank" rel="noopener">[8]Zhihu：求通俗解释NLP里的perplexity是什么？@习翔宇</a></p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/16/nlp-word2vec-1/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Neural NLP：词向量</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/14/nlp-xlnet/">
+                <span class="level-item">Neural NLP：语言模型</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        36
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Neural NLP：语言模型" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

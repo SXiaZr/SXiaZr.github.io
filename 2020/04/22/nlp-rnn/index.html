@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Neural NLP：RNN - DeepBlog</title>
+
+
+    <meta name="description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neural NLP：RNN">
+<meta property="og:url" content="http://sxiazr.github.io/2020/04/22/nlp-rnn/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-09-02T15:01:31.111Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neural NLP：RNN">
+<meta name="twitter:description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Neural NLP：RNN" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-04-22T16:00:00.000Z">2020-04-23</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes read (About 903 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Neural NLP：RNN
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>n-gram语言模型（详见，<a href="/2020/04/14/nlp-language-model/" title="这篇博文">这篇博文</a>），因为其<strong>参数空间</strong>随$N$<strong>指数增长</strong>（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&lt;4$）。而<strong>循环神经网络</strong>（recurrent neural network）语言模型，通过<strong>隐藏状态</strong>来存储<strong>之前</strong>（时间步）的信息，可以建立更长的依赖。</p>
+<a id="more"></a>
+<h1 id="二-循环神经网络（RNN）"><a href="#二-循环神经网络（RNN）" class="headerlink" title="二. 循环神经网络（RNN）"></a>二. 循环神经网络（RNN）</h1><p>RNN可视为<strong>同一神经网络</strong>的多次赋值，该网络每次的输出（<strong>状态</strong>）将被作为网络<strong>下一次的输入</strong>，这个过程可以<strong>展开</strong>，如下图：</p>
+<p align="center">
+  <img src="./The-standard-RNN-and-unfolded-RNN.png" alt="Recurrent Neural Network" width="400px">
+</p>
+
+<p>其中，RNN在$t$时，接收到<strong>输入</strong> $\mathbf{x}_{t}$后，<strong>隐藏层</strong>的值为$\mathbf{h}_t$，<strong>输出</strong>为$\mathbf{o}_t$，$U$、$V$、$W$表示<strong>权值</strong>矩阵，<strong>前向传播</strong>过程如下：$$
+\mathbf{h}_t = \phi (U\mathbf{x}_{t-1} + W\mathbf{h}_{t-1} + \mathbf{b}_{hid})\\
+\mathbf{o}_t = V\mathbf{h}_{t} + \mathbf{b}_{out}
+$$其中，激活函数$\phi$通常为$\text{tanh}$。</p>
+<p>RNN无法处理<strong>长距离的依赖</strong>，序列过长（时间步$t$较大时）会出现<strong>梯度消失</strong>的问题。假设$t$时刻，损失函数为$L_t$，$L = \sum_{t=0}^T L_t$：</p>
+$$\frac{\partial L_{t}}{\partial V}=\frac{\partial L_{t}}{\partial \mathbf{o}_{t}} \frac{\partial \mathbf{o}_{t}}{\partial V}\\
+\frac{\partial L_{t}}{\partial U}=\frac{\partial L_{t}}{\partial \mathbf{o}_{t}} \frac{\partial \mathbf{o}_{t}}{\partial \mathbf{h}_{t}} \frac{\partial \mathbf{h}_{t}}{\partial U} + \frac{\partial L_{t}}{\partial \mathbf{o}_{t}} \frac{\partial \mathbf{o}_{t}}{\partial \mathbf{h}_{t}} \frac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}} \frac{\partial \mathbf{h}_{t-1}}{\partial U} + \cdots + \frac{\partial L_{t}}{\partial \mathbf{o}_{t}} \frac{\partial \mathbf{o}_{t}}{\partial \mathbf{h}_{t}} \frac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}} ... \frac{\partial \mathbf{h}_{0}}{\partial U} = \sum_{i=0}^t \frac{\partial L_{t}}{\partial \mathbf{o}_{t}} \frac{\partial \mathbf{o}_{t}}{\partial \mathbf{h}_{t}}(\prod_{j=i+1}^{t}\frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}})\frac{\partial \mathbf{h}_{i}}{\partial U} \\ \frac{\partial L_{t}}{\partial V} = \sum_{i=0}^t \frac{\partial L_{t}}{\partial \mathbf{o}_{t}} \frac{\partial \mathbf{o}_{t}}{\partial \mathbf{h}_{t}}(\prod_{j=i+1}^{t}\frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}})\frac{\partial \mathbf{h}_{i}}{\partial W}
+$$
+<p>其中，因为：$L_t$是$\mathbf{h}_{t}$的函数，$\mathbf{h}_{t}$是$W$的函数；同时，$\mathbf{h}_{t}$是$\mathbf{h}_{t-1}$的函数，$\mathbf{h}_{t-1}$也是$W$的函数，故导数可写作上述的<strong>链式偏导</strong>求和的形式（Backpropagation through time，<strong>BPTT</strong>）。</p>
+$\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}}$是“梯度消失”的主要原因，因$\mathbf{h}_t = \text{tanh} (U\mathbf{x}_{t-1} + W\mathbf{h}_{t-1} + \mathbf{b}_{hid})$，则$\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}} = \prod_{j=i+1}^{t}\text{tanh}^{'}W $，$\text{tanh}^{'}$如下所示：
+<p align="center">
+  <img src="./tanh.png" alt="tanh and it's derivative" width="400px">
+</p>
+
+<p>可见，$\text{tanh}^{‘} &lt; 1$，权重$W$一般位于0-1之间，那么 $\prod_{j=i+1}^{t}\text{tanh}^{‘}W$ 在$i$较小时（<strong>距$t$较远</strong>），趋近于0。当然，总<strong>梯度（和）不会消失</strong>，只是<strong>远距离的梯度</strong>消失（远距离的<strong>输入</strong>$x_i$，将<strong>不</strong>对最终的梯度值有<strong>贡献</strong>），即梯度被近距离梯度主导，导致模型难以学到远距离的依赖关系。</p>
+<h1 id="二-LSTM"><a href="#二-LSTM" class="headerlink" title="二. LSTM"></a>二. LSTM</h1><h2 id="2-1-LSTM模型"><a href="#2-1-LSTM模型" class="headerlink" title="2.1 LSTM模型"></a>2.1 LSTM模型</h2><p>长短时记忆网络(Long Short Term Memory Network, LSTM)，通过<strong>门控制</strong>，将<strong>短期</strong>、<strong>长期记忆</strong>相结合，一定程度上解决了梯度消失问题。</p>
+<h2 id="2-2-双向LSTM"><a href="#2-2-双向LSTM" class="headerlink" title="2.2 双向LSTM"></a>2.2 双向LSTM</h2><h2 id="2-3-深度LSTM"><a href="#2-3-深度LSTM" class="headerlink" title="2.3 深度LSTM"></a>2.3 深度LSTM</h2><h2 id="2-4-LSTM并行"><a href="#2-4-LSTM并行" class="headerlink" title="2.4 LSTM并行"></a>2.4 LSTM并行</h2><h1 id="三-GRU"><a href="#三-GRU" class="headerlink" title="三. GRU"></a>三. GRU</h1><h2 id="3-1-RNN模型"><a href="#3-1-RNN模型" class="headerlink" title="3.1 RNN模型"></a>3.1 RNN模型</h2><h1 id="四-应用方法"><a href="#四-应用方法" class="headerlink" title="四. 应用方法"></a>四. 应用方法</h1><p>四大任务</p>
+<h2 id="分类任务"><a href="#分类任务" class="headerlink" title="分类任务"></a>分类任务</h2><h2 id="翻译任务"><a href="#翻译任务" class="headerlink" title="翻译任务"></a>翻译任务</h2><p>teaching force</p>
+<p>## </p>
+<h1 id="五-Reference"><a href="#五-Reference" class="headerlink" title="五. Reference"></a>五. Reference</h1>
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/06/03/interview-clustering/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">机器学习：聚类（Clustering）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/19/nlp-word2vec-2/">
+                <span class="level-item">Neural NLP：Word2vec</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        36
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/queue/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Neural NLP：RNN" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
