@@ -10,19 +10,19 @@
 <title>Neural NLP：RNN - DeepBlog</title>
 
 
-    <meta name="description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
+    <meta name="description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(V^n)$），故$n$不能过大，无法建立过长的依赖（$n&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Neural NLP：RNN">
 <meta property="og:url" content="http://sxiazr.github.io/2020/04/22/nlp-rnn/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
+<meta property="og:description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(V^n)$），故$n$不能过大，无法建立过长的依赖（$n&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-09-02T15:01:31.111Z">
+<meta property="og:updated_time" content="2020-10-04T13:52:35.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neural NLP：RNN">
-<meta name="twitter:description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
+<meta name="twitter:description" content="一. 概念n-gram语言模型（详见，这篇博文），因为其参数空间随$N$指数增长（$O(V^n)$），故$n$不能过大，无法建立过长的依赖（$n&amp;lt;4$）。而循环神经网络（recurrent neural network）语言模型，通过隐藏状态来存储之前（时间步）的信息，可以建立更长的依赖。">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 minutes read (About 903 words)
+                    15 minutes read (About 2265 words)
                 </span>
                 
                 
@@ -178,7 +178,7 @@
             
         </h1>
         <div class="content">
-            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>n-gram语言模型（详见，<a href="/2020/04/14/nlp-language-model/" title="这篇博文">这篇博文</a>），因为其<strong>参数空间</strong>随$N$<strong>指数增长</strong>（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&lt;4$）。而<strong>循环神经网络</strong>（recurrent neural network）语言模型，通过<strong>隐藏状态</strong>来存储<strong>之前</strong>（时间步）的信息，可以建立更长的依赖。</p>
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>n-gram语言模型（详见，<a href="/2020/04/14/nlp-language-model/" title="这篇博文">这篇博文</a>），因为其<strong>参数空间</strong>随$N$<strong>指数增长</strong>（$O(V^n)$），故$n$不能过大，无法建立过长的依赖（$n&lt;4$）。而<strong>循环神经网络</strong>（recurrent neural network）语言模型，通过<strong>隐藏状态</strong>来存储<strong>之前</strong>（时间步）的信息，可以建立更长的依赖。</p>
 <a id="more"></a>
 <h1 id="二-循环神经网络（RNN）"><a href="#二-循环神经网络（RNN）" class="headerlink" title="二. 循环神经网络（RNN）"></a>二. 循环神经网络（RNN）</h1><p>RNN可视为<strong>同一神经网络</strong>的多次赋值，该网络每次的输出（<strong>状态</strong>）将被作为网络<strong>下一次的输入</strong>，这个过程可以<strong>展开</strong>，如下图：</p>
 <p align="center">
@@ -199,12 +199,94 @@ $\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}}$是
   <img src="./tanh.png" alt="tanh and it's derivative" width="400px">
 </p>
 
-<p>可见，$\text{tanh}^{‘} &lt; 1$，权重$W$一般位于0-1之间，那么 $\prod_{j=i+1}^{t}\text{tanh}^{‘}W$ 在$i$较小时（<strong>距$t$较远</strong>），趋近于0。当然，总<strong>梯度（和）不会消失</strong>，只是<strong>远距离的梯度</strong>消失（远距离的<strong>输入</strong>$x_i$，将<strong>不</strong>对最终的梯度值有<strong>贡献</strong>），即梯度被近距离梯度主导，导致模型难以学到远距离的依赖关系。</p>
-<h1 id="二-LSTM"><a href="#二-LSTM" class="headerlink" title="二. LSTM"></a>二. LSTM</h1><h2 id="2-1-LSTM模型"><a href="#2-1-LSTM模型" class="headerlink" title="2.1 LSTM模型"></a>2.1 LSTM模型</h2><p>长短时记忆网络(Long Short Term Memory Network, LSTM)，通过<strong>门控制</strong>，将<strong>短期</strong>、<strong>长期记忆</strong>相结合，一定程度上解决了梯度消失问题。</p>
-<h2 id="2-2-双向LSTM"><a href="#2-2-双向LSTM" class="headerlink" title="2.2 双向LSTM"></a>2.2 双向LSTM</h2><h2 id="2-3-深度LSTM"><a href="#2-3-深度LSTM" class="headerlink" title="2.3 深度LSTM"></a>2.3 深度LSTM</h2><h2 id="2-4-LSTM并行"><a href="#2-4-LSTM并行" class="headerlink" title="2.4 LSTM并行"></a>2.4 LSTM并行</h2><h1 id="三-GRU"><a href="#三-GRU" class="headerlink" title="三. GRU"></a>三. GRU</h1><h2 id="3-1-RNN模型"><a href="#3-1-RNN模型" class="headerlink" title="3.1 RNN模型"></a>3.1 RNN模型</h2><h1 id="四-应用方法"><a href="#四-应用方法" class="headerlink" title="四. 应用方法"></a>四. 应用方法</h1><p>四大任务</p>
-<h2 id="分类任务"><a href="#分类任务" class="headerlink" title="分类任务"></a>分类任务</h2><h2 id="翻译任务"><a href="#翻译任务" class="headerlink" title="翻译任务"></a>翻译任务</h2><p>teaching force</p>
-<p>## </p>
-<h1 id="五-Reference"><a href="#五-Reference" class="headerlink" title="五. Reference"></a>五. Reference</h1>
+<p>可见，$\text{tanh}^{‘} &lt; 1$，若权重$W$位于0-1之间，那么 $\prod_{j=i+1}^{t}\text{tanh}^{‘}W$ 在$i$较小时（<strong>距$t$较远</strong>），趋近于0（所谓<strong>梯度消失</strong>）；若权重$W$较大，则会趋近于无穷，导致所谓<strong>梯度爆炸</strong>。</p>
+<p>当然，总<strong>梯度（和）不会消失</strong>，<strong>RNN中的梯度消失</strong>只是指，<strong>远距离的梯度</strong>消失（远距离的<strong>输入</strong>$x_i$/<strong>隐藏状态</strong>$\mathbf{h}_i$，将<strong>不</strong>对最终的梯度值有<strong>贡献</strong>），即梯度被近距离梯度主导，导致模型难以学到远距离的依赖关系。</p>
+<h1 id="二-LSTM"><a href="#二-LSTM" class="headerlink" title="二. LSTM"></a>二. LSTM</h1><h2 id="2-1-LSTM模型"><a href="#2-1-LSTM模型" class="headerlink" title="2.1 LSTM模型"></a>2.1 <a href="https://en.wikipedia.org/wiki/Long_short-term_memory" target="_blank" rel="noopener">LSTM</a>模型</h2><p><strong>裁剪梯度</strong>可以应对RNN中的<strong>梯度爆炸</strong>，但无法解决梯度消失的问题。长短时记忆网络(Long Short Term Memory Network, LSTM)，通过<strong>门控制</strong>，将<strong>短期</strong>、<strong>长期记忆</strong>相结合，一定程度上解决了RNN中的<strong>梯度消失</strong>问题（<a href="https://zhuanlan.zhihu.com/p/28749444" target="_blank" rel="noopener">数学解释</a>）。</p>
+<p align="center">
+  <img src="./LSTM.png" alt="LSTM" width="400px">
+</p>
+
+<p>LSTM中引入了单元状态(cell state，也称长期状态、记忆状态)，用于保存<strong>长期的状态</strong>，并用三个开关：<strong>输入门$\mathbf{i}_t$</strong>（input gate）、<strong>遗忘门$\mathbf{f}_t$</strong>（forget gate）和<strong>输出门$\mathbf{o}_t$</strong>（output gate），对单元、隐藏状态中的<strong>信息流动</strong>进行控制。</p>
+$$\begin{align}
+\mathbf{f}_t &= \sigma_g(W_{f} \mathbf{x}_t + U_{f} \mathbf{h}_{t-1} + \mathbf{b}_f) \\
+\mathbf{i}_t &= \sigma_g(W_{i} \mathbf{x}_t + U_{i} \mathbf{h}_{t-1} + \mathbf{b}_i) \\
+\mathbf{o}_t &= \sigma_g(W_{o} \mathbf{x}_t + U_{o} \mathbf{h}_{t-1} + \mathbf{b}_o)
+\end{align}
+$$ 
+<p>$\sigma_g$ 为sigmoid函数，故门向量元素值域为[0,1]，通过使用<strong>按元素乘</strong> $\circ$ 来实现状态控制：</p>
+$$\begin{align}
+\tilde{\mathbf{c}_t} &= \sigma_c(W_{c} \mathbf{x}_t + U_{c} \mathbf{h}_{t-1} + \mathbf{b}_c) \\
+\mathbf{c}_t &= \mathbf{f}_t \circ \mathbf{c}_{t-1} + \mathbf{i}_t \circ  \tilde{\mathbf{c}_t}\\
+\mathbf{h}_t &= \mathbf{o}_t \circ \sigma_h(\mathbf{c}_t)
+\end{align}
+$$
+
+<ul>
+<li>$\tilde{\mathbf{c}_t}$为<strong>候选状态</strong>，$\sigma_c$为$\text{tanh}$函数，故其值域为[-1,1]；</li>
+<li>通过<strong>遗忘门</strong>和<strong>输入门</strong>，控制<strong>记忆状态</strong>和<strong>候选状态</strong>的信息流动，对<strong>当前时间步</strong>的记忆状态进行更新；</li>
+<li>$\sigma_h$也为$\text{tanh}$函数，<strong>输出门</strong>控制<strong>记忆状态</strong>到<strong>隐藏状态</strong>的信息流动，隐藏状态将供输出层使用。</li>
+</ul>
+<h2 id="2-2-GRU模型"><a href="#2-2-GRU模型" class="headerlink" title="2.2 GRU模型"></a>2.2 <a href="https://en.wikipedia.org/wiki/Gated_recurrent_unit" target="_blank" rel="noopener">GRU</a>模型</h2><p>GRU (Gated Recurrent Unit)是LSTM的一种<strong>变体</strong>，它简化了LSTM，并保持着和LSTM<strong>接近的效果</strong>。GRU对LSTM做了两个<strong>简化</strong>：</p>
+<ul>
+<li>将输入门、遗忘门、输出门<strong>合并</strong>为：<strong>更新门$\mathbf{z}_t$</strong>（Update Gate）和<strong>重置门$\mathbf{r}_t$</strong>（Reset Gate）；</li>
+<li>将单元状态与隐藏<strong>合并为一个隐藏状态</strong>。</li>
+</ul>
+<p align="center">
+  <img src="./GRU.png" alt="GRU" width="420px">
+</p>
+
+$$
+\begin{align}
+\mathbf{z}_t &= \sigma_g(W_{z} \mathbf{x}_t + U_{z} \mathbf{h}_{t-1} + \mathbf{b}_z) \\
+\mathbf{r}_t &= \sigma_g(W_{r} \mathbf{x}_t + U_{r} \mathbf{h}_{t-1} + \mathbf{b}_r)
+\end{align}
+$$
+
+<p>$\sigma_g$ 为sigmoid函数，故门向量元素值域为[0,1]，同样通过使用<strong>按元素乘</strong> $\circ$ 来实现状态控制：</p>
+$$
+\begin{align}
+\tilde{\mathbf{h}_t} &= \phi_h(W_{h} \mathbf{x}_t + U_{h} (\mathbf{r}_t \circ \mathbf{h}_{t-1}) + \mathbf{b}_h) \\
+\mathbf{h}_t &=  (1 - \mathbf{z}_t) \circ \mathbf{h}_{t-1} + \mathbf{z}_t \circ \tilde{\mathbf{h}_t}
+\end{align}
+$$
+<ul>
+<li>$\tilde{\mathbf{h}_t}$ 为<strong>候选隐藏状态</strong>，$\phi_h$为$\text{tanh}$函数；</li>
+<li><strong>重置门</strong>控制了<strong>隐藏状态</strong>的信息如何<strong>流入</strong>当前时间步的<strong>候选隐藏状态</strong>（丢弃<strong>无关的</strong>历史信息）；</li>
+<li><strong>更新门</strong> $\mathbf{z}_t$ 控制上一时间步的<strong>隐藏状态</strong>和当前时间步的候<strong>选隐藏状态</strong>的<strong>信息组合</strong>。</li>
+</ul>
+<h2 id="2-2-双向LSTM"><a href="#2-2-双向LSTM" class="headerlink" title="2.2 双向LSTM"></a>2.2 双向LSTM</h2><p>双向循环神经网络认为，<strong>当前时间步</strong>不仅由<strong>较早时间步</strong>决定，也可能由后面<strong>较晚时间步</strong>决定，例如句子前面的用词会根据后面的词进行修改。</p>
+<p align="center">
+  <img src="./bi-directional-lstm.png" alt="Bi-direcitonal LSTM" width="250px">
+</p>
+
+<p>双向循环神经网络增加从后往前传递信息的隐藏层，网络通过<strong>从前往后</strong>、<strong>从后往前</strong>的双向信息传递来建模这个过程：</p>
+$$\begin{align}
+\overrightarrow{\mathbf{h}}_{t} &= \text{LSTM}(\overrightarrow{\mathbf{h}}_{t-1}, \mathbf{x}_{t})\\
+\overleftarrow{\mathbf{h}}_{t} &= \text{LSTM}(\overleftarrow{\mathbf{h}}_{t+1}, \mathbf{x}_{t})\\
+\mathbf{h}_{t} &= \text{Concat}(\overrightarrow{\mathbf{h}}_{t}, \overleftarrow{\mathbf{h}}_{t})
+\end{align}
+$$其中，LSTM可被替换为其他循环神经网络。
+
+<h2 id="2-3-深度LSTM"><a href="#2-3-深度LSTM" class="headerlink" title="2.3 深度LSTM"></a>2.3 深度LSTM</h2><p>在深度学习中，通常会<strong>堆叠</strong>多个隐藏层，获得<strong>较深</strong>的循环神经网络，经验上，通常能获得更好的效果。</p>
+<p align="center">
+  <img src="./deep-lstm.png" alt="Deep LSTM" width="280px">
+</p>
+
+$$\begin{align}
+\mathbf{h}_{t}^{(1)} &= \text{LSTM}(\mathbf{h}_{t-1}^{(1)}, \mathbf{x}_{t}), \quad \text{Input layer}\\
+\mathbf{h}_{t}^{(l)} &= \text{LSTM}(\mathbf{h}_{t-1}^{(l)}, \mathbf{h}_{t}^{(l-1)}), \quad \text{Hidden layer}
+\end{align}
+$$
+
+<p>深层双向LSTM (RNN)通常有以下两种形式，<a href="https://stackoverflow.com/questions/49242266/difference-between-bidirectional-dynamic-rnn-and-stack-bidirectional-dynamic-rnn" target="_blank" rel="noopener">参考</a>：</p>
+<p align="center">
+  <img src="./deep-bi-lstm.png" alt="Deep Bi-RNN" width="550px">
+</p>
+
+<p>左图表示，<strong>前向</strong>信息传播与<strong>后向</strong>信息传播，独立必行，仅在<strong>最后</strong>的输出层作<strong>拼接</strong>。右图表示，<strong>每层</strong>中，<strong>前向</strong>和<strong>后向</strong>传播的信息都进行拼接，并馈送到下一层的前向、后向层。</p>
+<h2 id="2-4-LSTM并行"><a href="#2-4-LSTM并行" class="headerlink" title="2.4 LSTM并行"></a>2.4 LSTM并行</h2><p>RNN在 $t$ 时刻隐层状态依赖 $t$ 时刻的输入 $\mathbf{x}_{t}$ 与 $t-1$ 时刻隐层状态 $\mathbf{h}_{t-1}$，<strong>很难</strong>进行<strong>不同时间步</strong>间的并行。RNN的并行是指，同一时间步，<strong>不同数据间</strong>的<strong>并行</strong>，即同步计算不同数据由 $t$ 至 $t+1$ 时刻的状态变化。</p>
+<h1 id="三-Reference"><a href="#三-Reference" class="headerlink" title="三. Reference"></a>三. Reference</h1><p><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">Blog: Understanding LSTM Networks</a><br><a href="https://www.cnblogs.com/xumaomao/articles/11071744.html" target="_blank" rel="noopener">Blog: LSTM如何解决梯度消失问题</a><br><a href="https://zhuanlan.zhihu.com/p/28687529" target="_blank" rel="noopener">Zhihu: RNN梯度消失和爆炸的原因</a><br><a href="https://zhuanlan.zhihu.com/p/28749444" target="_blank" rel="noopener">Zhihu: LSTM如何解决梯度消失问题</a><br><a href="https://zh.d2l.ai/chapter_recurrent-neural-networks/index.html" target="_blank" rel="noopener">D2l: 6. 循环神经网络</a><br><a href="https://stackoverflow.com/questions/49242266/difference-between-bidirectional-dynamic-rnn-and-stack-bidirectional-dynamic-rnn" target="_blank" rel="noopener">Stackoverflow: Difference between bidirectional_dynamic_rnn and stack_bidirectional_dynamic_rnn in Tensorflow</a><br><a href="https://zhuanlan.zhihu.com/p/54743941" target="_blank" rel="noopener">Zhihu: 放弃幻想，全面拥抱Transformer：自然语言处理三大特征抽取器（CNN/RNN/TF）比较</a></p>
+
         </div>
         
         
@@ -311,7 +393,7 @@ $\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}}$是
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        36
+                        38
                     </p>
                 </div>
             </div>
@@ -452,6 +534,25 @@ $\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}}$是
         
         <article class="media">
             
+            <a href="/2020/07/17/dynamic-programming/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：动态规划">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-17T16:00:00.000Z">2020-07-18</time></div>
+                    <a href="/2020/07/17/dynamic-programming/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：动态规划</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -488,25 +589,6 @@ $\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}}$是
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/14/queue/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
-                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -525,7 +607,7 @@ $\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}}$是
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -547,7 +629,7 @@ $\prod_{j=i+1}^{t} \frac{\partial \mathbf{h}_{j}}{\partial \mathbf{h}_{j-1}}$是
                     <span class="level-item">April 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>

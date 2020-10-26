@@ -19,7 +19,7 @@
 <meta property="og:description" content="一. 概念统计语言模型（language model，注*）是用于计算文本概率的模型，在语音识别、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$依次组成，其联合概率被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$由贝叶斯（Bayes）公式，此概率可被链式分解（chain rule）为：$$P(S) = P">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-08-31T09:11:50.171Z">
+<meta property="og:updated_time" content="2020-10-02T18:23:51.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neural NLP：语言模型">
 <meta name="twitter:description" content="一. 概念统计语言模型（language model，注*）是用于计算文本概率的模型，在语音识别、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$依次组成，其联合概率被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$由贝叶斯（Bayes）公式，此概率可被链式分解（chain rule）为：$$P(S) = P">
@@ -181,9 +181,9 @@
             <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p><strong>统计</strong>语言模型（language model，<strong>注*</strong>）是用于计算<strong>文本概率</strong>的模型，在<strong>语音识别</strong>、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$<strong>依次</strong>组成，其<strong>联合概率</strong>被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$<br>由贝叶斯（Bayes）公式，此概率可被<strong>链式分解</strong>（chain rule）为：$$P(S) = P(w_1, w_2, \ldots, w_T) = \prod_{t=1}^T P(w_t \mid w_1, \ldots, w_{t-1})$$式中的<strong>条件概率</strong>$P(w_t \mid w_1, \ldots, w_{t-1})=\frac{P(w_1, \ldots, w_{t})}{P(w_1, \ldots, w_{t-1})}$，即为<strong>语言模型的参数</strong>。关于该参数的计算，常见的方法有：决策树、最大熵模型、n-gram模型、神经网络等方法。本文只讨论<strong>n-gram模型</strong>和<strong>神经网络</strong>两种方法。</p>
 <p><strong>注*</strong>：此外还有基于文法规则的，<strong>文法型</strong>语言模型，不作讨论。</p>
 <a id="more"></a>
-<h1 id="二-N-gram模型"><a href="#二-N-gram模型" class="headerlink" title="二. N-gram模型"></a>二. N-gram模型</h1><h3 id="基本理论"><a href="#基本理论" class="headerlink" title="基本理论"></a><strong>基本理论</strong></h3><p>考虑语言模型参数的<strong>近似计算</strong>，根据<strong>大数定理</strong>，当语料库足够大时，$$P(w_t \mid w_1, \ldots, w_{t-1}) \simeq \frac{\text{Count}(w_1, \ldots, w_{t})}{\text{Count}(w_1, \ldots, w_{t-1})}$$其中，$\text{Count}(w_1, \ldots, w_{t})$表示词串$w_1, w_2, \ldots, w_t$在<strong>语料中出现的次数</strong>。显然，当<strong>序列长度增加</strong>时，计算多个词共同出现的概率的复杂度会<strong>指数增加</strong>，即<strong>参数空间过大</strong>（$N^T$种可能性，$N$为词典大小）。</p>
-<p>N-gram通过<strong>马尔可夫假设</strong>简化语言模型的计算：假设一个词的出现<strong>仅与</strong>该词前的$n-1$个词关联，<strong>而非</strong>前面的<strong>所有词</strong>（越近的词，越相关）。此时，观测到序列$w_1,\ldots,w_T$的概率$P(w_1,\ldots,w_m)$可被<strong>近似为</strong>:<br>$$P(w_1,\ldots,w_T) = \prod^T_{t=1} P(w_t\mid w_1,\ldots,w_{t-1})<br> \approx \prod^T_{t=1} P(w_t\mid w_{t-(n-1)},\ldots,w_{t-1})$$</p>
-<p>理论上，$n$越大，<strong>依赖范围</strong>越大，模型效果越好（当$n$大到一定程度时，模型效果的<strong>提升幅度会变小</strong>）；模型<strong>参数量级</strong>却是$O(N^n)$（详见<a href="https://zhuanlan.zhihu.com/p/28080127" target="_blank" rel="noopener">例子</a>），$n$不能过大。权衡<strong>复杂度</strong>、<strong>准确性</strong>，通常取$n&lt;4$，当$n$为1、2、3时，模型分别称作unigram、bigram、trigram。</p>
+<h1 id="二-N-gram模型"><a href="#二-N-gram模型" class="headerlink" title="二. N-gram模型"></a>二. N-gram模型</h1><h3 id="基本理论"><a href="#基本理论" class="headerlink" title="基本理论"></a><strong>基本理论</strong></h3><p>考虑语言模型参数的<strong>近似计算</strong>，根据<strong>大数定理</strong>，当语料库足够大时，$$P(w_t \mid w_1, \ldots, w_{t-1}) \simeq \frac{\text{Count}(w_1, \ldots, w_{t})}{\text{Count}(w_1, \ldots, w_{t-1})}$$其中，$\text{Count}(w_1, \ldots, w_{t})$表示词串$w_1, w_2, \ldots, w_t$在<strong>语料中出现的次数</strong>。显然，当<strong>序列长度增加</strong>时，计算多个词共同出现的概率的复杂度会<strong>指数增加</strong>，即<strong>参数空间过大</strong>（$V^T$种可能性，$V$为词典大小）。</p>
+<p>N-gram通过<strong>马尔可夫假设</strong>简化语言模型的计算：假设一个词的出现<strong>仅与</strong>该词前的$n-1$个词关联，<strong>而非</strong>前面的<strong>所有词</strong>（越近的词，越相关）。此时，观测到序列$w_1,\ldots,w_T$的概率$P(w_1,\ldots,w_T)$可被<strong>近似为</strong>:<br>$$P(w_1,\ldots,w_T) = \prod^T_{t=1} P(w_t\mid w_1,\ldots,w_{t-1})<br> \approx \prod^T_{t=1} P(w_t\mid w_{t-(n-1)},\ldots,w_{t-1})$$</p>
+<p>理论上，$n$越大，<strong>依赖范围</strong>越大，模型效果越好（当$n$大到一定程度时，模型效果的<strong>提升幅度会变小</strong>）；模型<strong>参数量级</strong>却是$O(V^n)$（详见<a href="https://zhuanlan.zhihu.com/p/28080127" target="_blank" rel="noopener">例子</a>），$n$不能过大。权衡<strong>复杂度</strong>、<strong>准确性</strong>，通常取$n&lt;4$，当$n$为1、2、3时，模型分别称作unigram、bigram、trigram。</p>
 <h3 id="平滑处理"><a href="#平滑处理" class="headerlink" title="平滑处理"></a><strong>平滑处理</strong></h3><p>在测试时，若出现了训练集（即，词典中）中<strong>未出现过</strong>的N-gram（Out of Vocabulary, <strong>OOV</strong>），其概率为<strong>0</strong>，并将导致<strong>语言模型</strong>输出概率为0。显然不合理，因此需赋予OOV N-gram<strong>非零概率</strong>，可以通过语言模型<strong>平滑</strong>来实现。</p>
 <p>常见的平滑方法（详见<a href="http://www.cs.columbia.edu/~mcollins/lm-spring2013.pdf" target="_blank" rel="noopener">[2]</a><a href="https://zhuanlan.zhihu.com/p/96826160" target="_blank" rel="noopener">[3]</a>）有：<strong>折扣</strong>（分出非零N-gram<strong>一些概率质量</strong>，例如Laplace平滑、Good-Turing），<strong>回退</strong>（Backoff，根据<strong>N-1-gram计数</strong>，来建立N-gram模型），<strong>插值</strong>（Interpolation）等。</p>
 <ul>
@@ -201,7 +201,7 @@
 </ul>
 <p>N-gram将词当做<strong>离散（discrete）的随机变量</strong>，造成了如下的<strong>局限性</strong>：</p>
 <ul>
-<li><strong>参数空间</strong>随$N$<strong>指数增长</strong>（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&lt;4$）；</li>
+<li><strong>参数空间</strong>随$n$<strong>指数增长</strong>（$O(V^n)$），故$n$不能过大，无法建立过长的依赖（$n&lt;4$）；</li>
 <li><strong>没有考虑</strong>词与词之间，内在的（语义层面的）<strong>相似性</strong>（similarity），无法<strong>泛化到类似的词</strong>。比如：即便训练集中“store open on Wednesday”出现多次，但只要“store open Tuesday”没有在训练数据中出现，那么其概率就很小；</li>
 <li>离散随机变量对应到<strong>one-hot向量</strong>（<strong>维度为词典的大小</strong>），将面临着严重的<strong>维度灾难</strong>（The Curse of Dimensionality）：数据稀疏，测试数据难免会出现<strong>OOV</strong>问题。</li>
 </ul>
@@ -267,15 +267,15 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/16/nlp-word2vec-1/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/14/nlp-transformer/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Neural NLP：词向量</span>
+                <span class="level-item">Neural NLP：Transformer</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/14/nlp-xlnet/">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/14/nlp-bert-roberta/">
                 <span class="level-item">Neural NLP：语言模型</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
@@ -353,7 +353,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        36
+                        38
                     </p>
                 </div>
             </div>
@@ -494,6 +494,25 @@
         
         <article class="media">
             
+            <a href="/2020/07/17/dynamic-programming/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：动态规划">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-17T16:00:00.000Z">2020-07-18</time></div>
+                    <a href="/2020/07/17/dynamic-programming/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：动态规划</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -530,25 +549,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/14/queue/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
-                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -567,7 +567,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -589,7 +589,7 @@
                     <span class="level-item">April 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>

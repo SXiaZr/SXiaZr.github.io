@@ -19,7 +19,7 @@
 <meta property="og:description" content="一. 概念无监督学习（unsupervised learning）基于无标记的训练样本来解决各种问题，其主要运用包含：聚类分析（cluster analysis）、维度缩减（dimensionality reduce）、关系规则（association rule）等，本文主要讨论常见的聚类方法。 聚类试图将训练样本划分为若干不相交子集，每个子集称为一个”簇“ (cluster)，可能对应于一些潜在">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-09-24T19:03:13.369Z">
+<meta property="og:updated_time" content="2020-10-01T13:21:16.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习：聚类（Clustering）">
 <meta name="twitter:description" content="一. 概念无监督学习（unsupervised learning）基于无标记的训练样本来解决各种问题，其主要运用包含：聚类分析（cluster analysis）、维度缩减（dimensionality reduce）、关系规则（association rule）等，本文主要讨论常见的聚类方法。 聚类试图将训练样本划分为若干不相交子集，每个子集称为一个”簇“ (cluster)，可能对应于一些潜在">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    12 minutes read (About 1789 words)
+                    19 minutes read (About 2894 words)
                 </span>
                 
                 
@@ -181,24 +181,25 @@
             <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>无监督学习（unsupervised learning）基于<strong>无标记的训练样本</strong>来解决各种问题，其主要运用包含：<strong>聚类分析</strong>（cluster analysis）、<strong>维度缩减</strong>（dimensionality reduce）、<strong>关系规则</strong>（association rule）等，本文主要讨论常见的聚类方法。</p>
 <p>聚类试图将训练样本划分为若干<strong>不相交子集</strong>，每个子集称为一个”<strong>簇</strong>“ (cluster)，可能对应于一些潜在的概念。聚类可用于找寻数据内在的分布，也可作为<strong>分类</strong>等其他学习任务的<strong>前驱</strong>。</p>
 <a id="more"></a>
-<h1 id="二-性能度量"><a href="#二-性能度量" class="headerlink" title="二. 性能度量"></a>二. 性能度量</h1><p>我们基于某种形式的<strong>距离</strong>来定义”相似度” (similarity)，距离越大，相似度越小，反之亦然。常见的距离度量有：曼哈顿距离（Manhattan distance, 1-norm）、欧式距离（2-norm）、余弦相似性等。</p>
-<h3 id="误差平方和-Sum-of-Squared-Error-SSE）"><a href="#误差平方和-Sum-of-Squared-Error-SSE）" class="headerlink" title="误差平方和(Sum of Squared Error, SSE）"></a><strong>误差平方和</strong>(Sum of Squared Error, SSE）</h3><p>SSE为每个点到其簇内质心<strong>距离平方</strong>和，SSE越小表示数据点<strong>越接近</strong>于其质心，聚类效果越好。</p>
+<h1 id="二-距离度量"><a href="#二-距离度量" class="headerlink" title="二. 距离度量"></a>二. 距离度量</h1><p>聚类（Clustering)，简单地说就是把相似的东西分到一组。通常，我们基于某种形式的距离来定义”相似度” (similarity)，距离越大，相似度越小，反之亦然。</p>
+<p>常见的距离度量有：<strong>曼哈顿距离</strong>（Manhattan distance, 1-norm）、<strong>欧式距离</strong>（2-norm）、<strong>余弦相似性</strong>等。</p>
+<h1 id="三-性能度量"><a href="#三-性能度量" class="headerlink" title="三. 性能度量"></a>三. 性能度量</h1><h3 id="误差平方和-Sum-of-Squared-Error-SSE）"><a href="#误差平方和-Sum-of-Squared-Error-SSE）" class="headerlink" title="误差平方和(Sum of Squared Error, SSE）"></a><strong>误差平方和</strong>(Sum of Squared Error, SSE）</h3><p>SSE为每个点到其簇内质心<strong>距离平方</strong>和，SSE越小表示数据点<strong>越接近</strong>于其质心，聚类效果越好。</p>
 <p>然而，随着聚类数K的增大，样本划分<strong>更加精细</strong>，每个<strong>簇的聚合程度</strong>会逐渐<strong>提高</strong>，那么误差平方和自然会逐渐变小，故而有<strong>手肘法</strong>（K-Means为例）：</p>
 <ul>
 <li>当K小于真实聚类数时，K的增大，会<strong>大幅增加</strong>每个簇的聚合程度，SSE的下降幅度很大；</li>
 <li>当K达到真实聚类数时，K的增大，使聚合程度<strong>回报迅速变小</strong>，故SSE的下降幅度骤减几，并趋于平缓；</li>
-<li>SSE鱼K的关系图为<strong>手肘形</strong>，而这个<strong>肘部</strong>K值对应<strong>真实聚类数</strong>。</li>
+<li>SSE与K的关系图为<strong>手肘形</strong>，而这个<strong>肘部</strong>K值对应<strong>真实聚类数</strong>。</li>
 </ul>
 <h3 id="轮廓系数（Silhouette-Coefficient）"><a href="#轮廓系数（Silhouette-Coefficient）" class="headerlink" title="轮廓系数（Silhouette Coefficient）"></a><strong>轮廓系数</strong>（Silhouette Coefficient）</h3><p>轮廓系数结合<strong>内聚度</strong>和<strong>分离度</strong>两种因素。</p>
 <blockquote>
 <ol>
 <li>计算样本$x_i$到同一簇其他样本的平均距离$a_i$（<strong>簇内均距</strong>），也可称为样本$x_i$的<strong>簇内不相似度</strong>；</li>
 <li>计算样本$x_i$到他某簇$C_j$所有样本的平均距离$b_{ij}$（<strong>簇外均距</strong>），称为样本$x_i$与簇$C_j$的不相似度。定义为样本$x_i$的<strong>簇间不相似度</strong>：$b_i = \text{min}\left\{b_{i1}, b_{i2}, ..., b_{ik}\right\}$；</li>
-<li>根据样本$x_i$的簇内不相似度$a_i$和簇间不相似度$b_i$ ，定义样本$x_i$的轮廓系数：$s(i)=\frac{b(i)-a(i)}{\max {a(i), b(i)}}$；</li>
+<li>根据样本$x_i$的簇内不相似度$a_i$和簇间不相似度$b_i$ ，定义样本$x_i$的轮廓系数：$s(i)=\frac{b(i)-a(i)}{\max \left\{a(i), b(i)\right\}}$；</li>
 <li>所有样本的$s(i)$均值称为<strong>聚类结果的轮廓系数</strong>，定义为$S$。其取值在$[-1,1]$之间，值越大，说明同类样本相距约近，不同样本相距越远，则聚类效果越好。</li>
 </ol>
 </blockquote>
-<h1 id="三-K-Means"><a href="#三-K-Means" class="headerlink" title="三. K-Means"></a>三. K-Means</h1><p>K-Means假设数据之间的相似度可用<strong>欧氏距离</strong>度量，例如下图，“瑞士卷”上数据的相似性便无法用欧式距离度量。</p>
+<h1 id="四-K-Means"><a href="#四-K-Means" class="headerlink" title="四. K-Means"></a>四. K-Means</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>K-Means假设数据之间的相似度可用<strong>欧氏距离</strong>度量，例如下图，“瑞士卷”上数据的相似性便无法用欧式距离度量。</p>
 <p align="center">
   <img src="./swiss-roll.jpg" alt="Coding Matrix" width="400px">
 </p>
@@ -222,27 +223,85 @@
 <li><strong>重复步骤</strong>1.2，直至选出K个聚类中心。</li>
 </ol>
 </blockquote>
-<h1 id="四-高斯混合模型（Gaussian-Mixture-Model，GMM）"><a href="#四-高斯混合模型（Gaussian-Mixture-Model，GMM）" class="headerlink" title="四. 高斯混合模型（Gaussian Mixture Model，GMM）"></a>四. 高斯混合模型（Gaussian Mixture Model，GMM）</h1><p>多元高丝分布定义如下：$$<br>p(\boldsymbol{x}|\boldsymbol{\mu}, \boldsymbol{\Sigma})=\frac{1}{(2 \pi)^{\frac{n}{2}}|\boldsymbol{\Sigma}|^{\frac{1}{2}}} e^{-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})}<br>$$其中，$|\boldsymbol{\Sigma}|$为协方差矩阵$\Sigma$（$\Sigma_{ij}$为第$i$与第$j$个随机变量间的<strong>协方差</strong>，$\operatorname{cov}(X, Y) = \operatorname{E}[(X - \mu) (Y - \nu)]$）的行列式。</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li>简单、快速（$O(NKT)$），可处理较大数据集；</li>
+<li>对初始值敏感、对噪声敏感（噪点<strong>占据</strong>一类）；</li>
+<li>不能解决<strong>非凸（non-convex）数据</strong>，需要对数据进行高维映射。</li>
+</ul>
+<h1 id="五-高斯混合模型聚类（Gaussian-Mixture-Model，GMM）"><a href="#五-高斯混合模型聚类（Gaussian-Mixture-Model，GMM）" class="headerlink" title="五. 高斯混合模型聚类（Gaussian Mixture Model，GMM）"></a>五. 高斯混合模型聚类（Gaussian Mixture Model，GMM）</h1><p>多元高丝分布定义如下：$$<br>p(\boldsymbol{x}|\boldsymbol{\mu}, \boldsymbol{\Sigma})=\frac{1}{(2 \pi)^{\frac{n}{2}}|\boldsymbol{\Sigma}|^{\frac{1}{2}}} e^{-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})}<br>$$其中，$|\boldsymbol{\Sigma}|$为协方差矩阵$\Sigma$（$\Sigma_{ij}$为第$i$与第$j$个随机变量间的<strong>协方差</strong>，$\operatorname{cov}(X, Y) = \operatorname{E}[(X - \mu) (Y - \nu)]$）的行列式。</p>
 <p>可定义高斯混合分布如下：$$
 p_{\mathcal{M}}(\boldsymbol{x})=\sum_{i=1}^{k} p(z=i) \cdot p\left(\boldsymbol{x} \mid \boldsymbol{\mu}_{i}, \boldsymbol{\Sigma}_{i}\right)
-$$其由$k$个高斯分布混合而成，$p(z=i)$为选择第$i$个成分的<strong>先验概率</strong>。<strong>EM算法</strong>（Expectation- Maximization）用于含有隐变量（Hidden variable，<strong>未观测</strong>）的概率模型参数，的最大似然估计。上述式自中，$z$为隐变量，故GMM可以通过EM算法进行<strong>迭代优化</strong>。</p>
-<p>其基本思想是：</p>
+$$其由<strong>$k$个高斯分布混合</strong>而成，$p(z=i)$为选择第$i$个成分的<strong>先验概率</strong>。上述式自中，$z$为隐变量，故GMM可以通过EM算法进行<strong>迭代优化</strong>。</p>
 <blockquote>
+<p><strong>EM算法</strong>（Expectation- Maximization）用于含有隐变量（Hidden variable，<strong>未观测</strong>）的概率模型参数，的最大似然估计。其基本思想是：</p>
 <ol>
-<li>E步：若（概率模型）<strong>参数己知</strong>， 根据<strong>训练数据</strong>与<strong>当前参数</strong>，推测隐变量的<strong>（后验概率）分布</strong>，用以计算<strong>隐变量的期望</strong>，或训练数据的<strong>对数似然</strong>；</li>
-<li>M步：最大化对数似然，迭代概率模型参数；</li>
+<li>E步：若（概率模型）<strong>参数己知</strong>， 根据<strong>训练数据</strong>与<strong>当前参数</strong>：推测隐变量的<strong>分布</strong>，用以计算<strong>隐变量的期望</strong> $\mathbf{Z}^t$ ；或推测隐变量的后验分布$<br>P\left(\mathbf{Z} \mid \mathbf{X}, \Theta^{t}\right)<br>$；</li>
+<li>M步：计算训练数据的<strong>对数似然</strong>，最大化对数似然，迭代概率模型参数；</li>
 </ol>
 </blockquote>
-<p>在GMM中具体表现如下：</p>
-<p>这里不具体介绍一般性的 EM 算法（通过 Jensen 不等式得出似然函数的下界 Lower bound，通过极大化下界做到极大化似然函数），只介绍怎么在高斯混合模型里应用从来推算出模型参数。</p>
-<p>通过 EM 迭代更新高斯混合模型参数的方法（我们有样本数据 [公式] 和一个有 [公式] 个子模型的高斯混合模型，想要推算出这个高斯混合模型的最佳参数）：</p>
-<p>首先初始化参数<br>E-step：依据当前参数，计算每个数据 [公式] 来自子模型 [公式] 的可能性<br>[公式]</p>
-<p>M-step：计算新一轮迭代的模型参数<br>[公式]</p>
-<p>[公式] （用这一轮更新后的 [公式] ）</p>
-<p>[公式]</p>
-<p>重复计算 E-step 和 M-step 直至收敛 （ [公式] , [公式] 是一个很小的正数，表示经过一次迭代之后参数变化非常小）</p>
-<p>EM 算法是一种迭代算法，1977 年由 Dempster 等人总结提出，用于含有隐变量（Hidden variable）的概率模型参数的最大似然估计。</p>
-<h1 id="七-Reference"><a href="#七-Reference" class="headerlink" title="七. Reference"></a>七. Reference</h1><p><a href="https://item.jd.com/11867803.html" target="_blank" rel="noopener">Book: 机器学习，周志华</a><br><a href="https://blog.csdn.net/qq_27825451/article/details/94436488" target="_blank" rel="noopener">Blog: 基于sklearn的聚类算法的聚类效果指标</a><br><a href="https://zhuanlan.zhihu.com/p/61948331" target="_blank" rel="noopener">Zhihu: 聚类分析学习笔记</a><br><a href="https://towardsdatascience.com/why-not-mse-as-a-loss-function-for-logistic-regression-589816b5e03c" target="_blank" rel="noopener">Blog: Why not Mean Squared Error(MSE) as a loss function for Logistic Regression?</a></p>
+<h2 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h2><h3 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h3><p>初始化概率模型参数 $\boldsymbol{\mu_i}$、$\boldsymbol{\Sigma_i}$，与先验概率 $p\left(z=i\right)$。</p>
+<h3 id="2-E步"><a href="#2-E步" class="headerlink" title="2. E步"></a>2. E步</h3><p>若训练集$D=\left\{\boldsymbol{x}_{1}, \boldsymbol{x}_{2}, \ldots, \boldsymbol{x}_{m}\right\}$由GMM生成，根据<strong>贝叶斯定理</strong>，$z$的后验分布为：$$
+\begin{aligned}
+p\left(z=i \mid \boldsymbol{x}_j\right) &=\frac{p\left(z=i\right) \cdot p_{\mathcal{M}}\left(\boldsymbol{x}_j \mid z=i\right)}{p_{\mathcal{M}}\left(\boldsymbol{x}_j\right)} =\frac{p(z=i) \cdot p\left(\boldsymbol{x}_j \mid \boldsymbol{\mu}_{i}, \boldsymbol{\Sigma}_{i}\right)}{\sum_{l=1}^{k} p(z=l) \cdot p\left(\boldsymbol{x}_j \mid \boldsymbol{\mu}_{l}, \boldsymbol{\Sigma}_{l}\right)}
+\end{aligned}
+$$其给出了给出了样本 $\boldsymbol{x}_j$ 由第 $i$ 个高斯混合成分生成的<strong>后验概率</strong>，记为$\gamma_{ji}$。样本集的的对数似然为：</p>
+$$
+\begin{aligned}
+L L(D) &=\ln \left(\prod_{j=1}^{m} p_{\mathcal{M}}\left(\boldsymbol{x}_{j}\right)\right) =\sum_{j=1}^{m} \ln \left(\sum_{i=1}^{k} \alpha_{i} \cdot p\left(\boldsymbol{x}_{j} \mid \boldsymbol{\mu}_{i}, \boldsymbol{\Sigma}_{i}\right)\right)
+\end{aligned}
+$$
+
+<h3 id="3-M步"><a href="#3-M步" class="headerlink" title="3. M步"></a>3. M步</h3><p>最大化似然函数，令$\frac{\partial L L(D)}{\partial \boldsymbol{\mu_{i}}}=0$、$\frac{\partial L L(D)}{\partial \boldsymbol{\Sigma_{i}}}=0$，可得：</p>
+$$
+\boldsymbol{\mu_{i}}=\frac{\sum_{j=1}^{m} \gamma_{j i} \boldsymbol{x}_{j}}{\sum_{j=1}^{m} \gamma_{j i}}, \quad \boldsymbol{\Sigma}_{i}=\frac{\sum_{j=1}^{m} \gamma_{j i}\left(\boldsymbol{x}_{j}-\boldsymbol{\mu}_{i}\right)\left(\boldsymbol{x}_{j}-\boldsymbol{\mu}_{i}\right)^{\mathrm{T}}}{\sum_{j=1}^{m} \gamma_{j i}}, \quad \alpha_{i}=\frac{1}{m} \sum_{j=1}^{m} \gamma_{j i}
+$$
+<ul>
+<li>各混合成分的<strong>均值</strong>、<strong>方差</strong>可通过<strong>样本加权平均</strong>来估计，权重是样本属于该成分的<strong>后验概率</strong>；</li>
+<li>每个高斯成分的<strong>混合系数</strong>，为样本属于该成分的<strong>平均后验概率</strong>。</li>
+</ul>
+<h3 id="4-聚类"><a href="#4-聚类" class="headerlink" title="4. 聚类"></a>4. 聚类</h3><p>重复 E步 和 M步 直至收敛，确定高斯混合分布。聚类样本，每个样本的<strong>簇</strong>为：$\lambda_{j}=\underset{i \in{1,2, \ldots, k}}{\arg \max } \gamma_{j i}$。</p>
+<h2 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li><strong>“软”划分</strong>：使用概率，所以每个数据点可<strong>按概率分属于</strong>不同簇；</li>
+<li>计算<strong>复杂</strong>度高，执行效率低；</li>
+<li>不能解决<strong>非凸（non-convex）数据</strong>，需要对数据进行高维映射。</li>
+</ul>
+<h1 id="六-密度聚类（DBSCAN）"><a href="#六-密度聚类（DBSCAN）" class="headerlink" title="六. 密度聚类（DBSCAN）"></a>六. 密度聚类（DBSCAN）</h1><h2 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h2><p><a href="https://zh.wikipedia.org/wiki/DBSCAN" target="_blank" rel="noopener">DBSCAN</a> (Density-Based spatial Clustering of Applications with Noise) 是基于密度的聚类，其用<strong>样本密度</strong>来考察样本间的<strong>可连接性</strong>，逐步连接<strong>领域内的高密度点</strong>。</p>
+<p>参数 ($\epsilon$，$\text{MinPts}$) 被来刻画样本的密度：</p>
+<ul>
+<li><strong>核心点</strong>：如果点在距离 $\epsilon$ 范围内，有至少 $\text{MinPts}$ 个点(包括自己)，则被称为核心点；</li>
+<li><strong>密度直达</strong>：核心点 $\epsilon$-临域内的点，可由核心点密度直达；</li>
+<li><strong>密度可达</strong>：若存在一条路径$p_1, …, p_n$，有 $p_1 = p$、$p_n = q$， 且 $p_{i+1}$ 由 $p_i$ 密度直达，则称 $q$ 由 $p$ 密度可达；显然，路径上除了 $q$ 外，<strong>一定都是核心点</strong>。</li>
+</ul>
+<p align="center">
+  <img src="./DBSCAN.png" alt="DBSCAN" width="400px">
+</p>
+
+<p>DBSCAN 将”簇”定义为：由<strong>密度可达</strong>关系导出的最大的<strong>连接样本集合</strong>。<strong>不属于任何簇</strong>，即不由任何核心点密度可达的点，被称为局外点、或噪声 (noise)。</p>
+<h2 id="优缺点-2"><a href="#优缺点-2" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li>自适聚类，无需提前设定类别数量；</li>
+<li>对噪声不敏感，能够较好地判断离群点；</li>
+<li>能发现<strong>任意形状的簇</strong>；</li>
+<li>对参数$\epsilon$、$\text{MinPts}$的设置敏感，难以设定。</li>
+</ul>
+<h1 id="七-层次聚类-Hierarchical-Clustering"><a href="#七-层次聚类-Hierarchical-Clustering" class="headerlink" title="七. 层次聚类(Hierarchical Clustering)"></a>七. 层次聚类(Hierarchical Clustering)</h1><h2 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h2><p>层次聚类 (hierarchical clustering) 在不同层次对数据进行划分，从而形成<strong>树形的聚类结构</strong>。 层次聚类算法常有”自底向上”、”自顶向下”两种策略，AGNES是一种常见的<strong>自底 向上</strong>聚合的层次聚类算法。</p>
+<p>自下而上的算法：首先将每个数据视为初始簇，然后连续地<strong>聚合距离最近的两个簇</strong>，直到聚合至唯一簇。关键是簇（样本集合）之间的<strong>距离的计算</strong>，即集合距离：</p>
+<ul>
+<li>Single Linkage：<strong>最小距离</strong>（<strong>欧式距离</strong>），将集合间<strong>距离最近</strong>的两个数据点间距离，作为集合距离；</li>
+<li>Complete Linkage：<strong>最大距离</strong>，将集合间<strong>距离最远</strong>的两个数据点间距离，作为集合距离；</li>
+<li>Average Linkage：<strong>平均距离</strong>，将集合间<strong>所有距离的均值</strong>，作为集合距离。</li>
+</ul>
+<p align="center">
+  <img src="./Hierarchical-clustering.jpg" alt="Hierarchical Clustering" width="400px">
+</p>
+
+<p>层次聚类后，可以通过两种方式获得<strong>聚类结果</strong>：<strong>指定临界距离</strong> $d$，取该距离以下<strong>未合并</strong>结果；是指定聚类的数量 $k$。</p>
+<h2 id="优缺点-3"><a href="#优缺点-3" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li>聚类结果稳定，可重复生成；</li>
+<li>计算复杂度太高 $O(n^3)$；</li>
+<li>在选用<strong>最小距离</strong>、<strong>最大距离</strong>作为聚合标准是，易受噪点影响；</li>
+<li>不能解决<strong>非凸（non-convex）数据</strong>。</li>
+</ul>
+<h1 id="八-Reference"><a href="#八-Reference" class="headerlink" title="八. Reference"></a>八. Reference</h1><p><a href="https://item.jd.com/11867803.html" target="_blank" rel="noopener">Book: 机器学习，周志华</a><br><a href="https://blog.csdn.net/qq_27825451/article/details/94436488" target="_blank" rel="noopener">Blog: 基于sklearn的聚类算法的聚类效果指标</a><br><a href="https://zhuanlan.zhihu.com/p/61948331" target="_blank" rel="noopener">Zhihu: 聚类分析学习笔记</a><br><a href="https://zhuanlan.zhihu.com/p/30483076" target="_blank" rel="noopener">Zhihu: 高斯混合模型（GMM）</a><br><a href="https://www.zhihu.com/question/34554321" target="_blank" rel="noopener">Zhihu: 用于数据挖掘的聚类算法有哪些，各有何优势？</a><br><a href="https://blog.csdn.net/m0_37324740/article/details/78764814" target="_blank" rel="noopener">Blog: 常见空间聚类算法优劣概述</a><br><a href="https://blog.csdn.net/randompeople/article/details/91351177" target="_blank" rel="noopener">Blog: 聚类算法总结 - 优缺点对比</a></p>
 
         </div>
         
@@ -350,7 +409,7 @@ $$其由$k$个高斯分布混合而成，$p(z=i)$为选择第$i$个成分的<str
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        36
+                        38
                     </p>
                 </div>
             </div>
@@ -491,6 +550,25 @@ $$其由$k$个高斯分布混合而成，$p(z=i)$为选择第$i$个成分的<str
         
         <article class="media">
             
+            <a href="/2020/07/17/dynamic-programming/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：动态规划">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-17T16:00:00.000Z">2020-07-18</time></div>
+                    <a href="/2020/07/17/dynamic-programming/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：动态规划</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -527,25 +605,6 @@ $$其由$k$个高斯分布混合而成，$p(z=i)$为选择第$i$个成分的<str
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/14/queue/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
-                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -564,7 +623,7 @@ $$其由$k$个高斯分布混合而成，$p(z=i)$为选择第$i$个成分的<str
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -586,7 +645,7 @@ $$其由$k$个高斯分布混合而成，$p(z=i)$为选择第$i$个成分的<str
                     <span class="level-item">April 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>

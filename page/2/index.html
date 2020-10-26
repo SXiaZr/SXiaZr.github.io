@@ -154,6 +154,54 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-12T16:00:00.000Z">2020-06-13</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 minutes read (About 3774 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/06/12/interview-tree/">机器学习：树型模型（Tree-Based Learning Algorithms）</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>树型模型基于<strong>决策树</strong>与<strong>集成学习</strong>，该模型将特征空间划分为一组<strong>多面体</strong>，然后于多面体中拟合简单的模型（如常数）。本博客主要介绍<a href="https://en.wikipedia.org/wiki/Decision_tree" target="_blank" rel="noopener">Decision tree</a>, <a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank" rel="noopener">Random forest</a>, <a href="https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/" target="_blank" rel="noopener">Boosted trees</a>。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/06/12/interview-tree/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-06-11T16:00:00.000Z">2020-06-12</time>
                 
                 
@@ -258,7 +306,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    25 minutes read (About 3709 words)
+                    25 minutes read (About 3710 words)
                 </span>
                 
                 
@@ -307,7 +355,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    12 minutes read (About 1789 words)
+                    19 minutes read (About 2894 words)
                 </span>
                 
                 
@@ -356,7 +404,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 minutes read (About 903 words)
+                    15 minutes read (About 2265 words)
                 </span>
                 
                 
@@ -369,7 +417,7 @@
             
         </h1>
         <div class="content">
-            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>n-gram语言模型（详见，<a href="/2020/04/14/nlp-language-model/" title="这篇博文">这篇博文</a>），因为其<strong>参数空间</strong>随$N$<strong>指数增长</strong>（$O(N^n)$），故$N$不能过大，无法建立过长的依赖（$N&lt;4$）。而<strong>循环神经网络</strong>（recurrent neural network）语言模型，通过<strong>隐藏状态</strong>来存储<strong>之前</strong>（时间步）的信息，可以建立更长的依赖。</p>
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>n-gram语言模型（详见，<a href="/2020/04/14/nlp-language-model/" title="这篇博文">这篇博文</a>），因为其<strong>参数空间</strong>随$N$<strong>指数增长</strong>（$O(V^n)$），故$n$不能过大，无法建立过长的依赖（$n&lt;4$）。而<strong>循环神经网络</strong>（recurrent neural network）语言模型，通过<strong>隐藏状态</strong>来存储<strong>之前</strong>（时间步）的信息，可以建立更长的依赖。</p>
         </div>
         
         
@@ -495,13 +543,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-04-14T16:00:00.000Z">2020-04-15</time>
+                <time class="level-item has-text-grey" datetime="2020-04-15T16:00:00.000Z">2020-04-16</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    18 minutes read (About 2662 words)
+                    4 minutes read (About 637 words)
                 </span>
                 
                 
@@ -510,19 +558,18 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/04/14/nlp-language-model/">Neural NLP：语言模型</a>
+                <a class="has-link-black-ter" href="/2020/04/15/nlp-tasks/">Neural NLP：Tasks</a>
             
         </h1>
         <div class="content">
-            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p><strong>统计</strong>语言模型（language model，<strong>注*</strong>）是用于计算<strong>文本概率</strong>的模型，在<strong>语音识别</strong>、机器翻译等领域广泛应用。假设文本长度为$T$，由词$w_1, w_2, \ldots, w_T$<strong>依次</strong>组成，其<strong>联合概率</strong>被称为语言模型，如下：$$P(S) = P(w_1, w_2, \ldots, w_T)$$<br>由贝叶斯（Bayes）公式，此概率可被<strong>链式分解</strong>（chain rule）为：$$P(S) = P(w_1, w_2, \ldots, w_T) = \prod_{t=1}^T P(w_t \mid w_1, \ldots, w_{t-1})$$式中的<strong>条件概率</strong>$P(w_t \mid w_1, \ldots, w_{t-1})=\frac{P(w_1, \ldots, w_{t})}{P(w_1, \ldots, w_{t-1})}$，即为<strong>语言模型的参数</strong>。关于该参数的计算，常见的方法有：决策树、最大熵模型、n-gram模型、神经网络等方法。本文只讨论<strong>n-gram模型</strong>和<strong>神经网络</strong>两种方法。</p>
-<p><strong>注*</strong>：此外还有基于文法规则的，<strong>文法型</strong>语言模型，不作讨论。</p>
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>通常而言，大部分 NLP 问题可以归入<strong>序列标注</strong>、<strong>分类任务</strong>、<strong>句子关系判断</strong>、<strong>生成式任务</strong>四类任务中，本文简要介绍不同任务的<strong>模型结构</strong>。</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/04/14/nlp-language-model/#more">Read More</a>
+                <a class="button is-size-7 is-light" href="/2020/04/15/nlp-tasks/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -571,54 +618,6 @@
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/2020/04/14/nlp-xlnet/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-04-14T16:00:00.000Z">2020-04-15</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 minutes read (About 229 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/04/14/nlp-elmo/">Neural NLP：ELMo</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>支持向量机（Support Vector Machine，SVM）是经典的<strong>二分类</strong>模型，其<strong>直观地</strong>定义为特征空间上，<strong>间隔最大</strong>（最鲁棒）的<strong>线性分类器</strong>。SVM学习的优化目标是最大化间隔，可以转化为<strong>凸二次规划</strong>（convex quadratic programming）问题。在线性模型的基础上，引入<strong>核函数</strong>（核技巧）可以得到<strong>非线性</strong>模型。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/04/14/nlp-elmo/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -702,7 +701,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        36
+                        38
                     </p>
                 </div>
             </div>
@@ -843,6 +842,25 @@
         
         <article class="media">
             
+            <a href="/2020/07/17/dynamic-programming/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：动态规划">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-17T16:00:00.000Z">2020-07-18</time></div>
+                    <a href="/2020/07/17/dynamic-programming/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：动态规划</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -879,25 +897,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/14/queue/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
-                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -916,7 +915,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -938,7 +937,7 @@
                     <span class="level-item">April 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -1064,6 +1063,25 @@
         
         <article class="media">
             
+            <a href="/2020/07/17/dynamic-programming/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：动态规划">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-17T16:00:00.000Z">2020-07-18</time></div>
+                    <a href="/2020/07/17/dynamic-programming/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：动态规划</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/16/back-track/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
@@ -1100,25 +1118,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/14/queue/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="数据结构：队列">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
-                    <a href="/2020/07/14/queue/" class="title has-link-black-ter is-size-6 has-text-weight-normal">数据结构：队列</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1137,7 +1136,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1159,7 +1158,7 @@
                     <span class="level-item">April 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>

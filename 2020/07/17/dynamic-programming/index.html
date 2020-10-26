@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>算法思维：动态规划 - DeepBlog</title>
+
+
+    <meta name="description" content="动态规划（Dynamic programming，DP）把原问题分解为子问题求解复杂问题，其适用于有重叠子问题和最优子结构性质的问题，所耗时间往往远少于朴素解法（空间换时间）。   最优子结构：如果问题的最优解中包含了子问题的最优解，则该问题具有最优子机构。 重叠子问题：用于原问题求解的递归算法，反复地解同样的子问题，而非产生新的子问题。   动态规划法步骤如下：   描述最优解的结构； 递归定义">
+<meta name="keywords" content="Deep Learning, Machine Learning, NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法思维：动态规划">
+<meta property="og:url" content="http://sxiazr.github.io/2020/07/17/dynamic-programming/index.html">
+<meta property="og:site_name" content="DeepBlog">
+<meta property="og:description" content="动态规划（Dynamic programming，DP）把原问题分解为子问题求解复杂问题，其适用于有重叠子问题和最优子结构性质的问题，所耗时间往往远少于朴素解法（空间换时间）。   最优子结构：如果问题的最优解中包含了子问题的最优解，则该问题具有最优子机构。 重叠子问题：用于原问题求解的递归算法，反复地解同样的子问题，而非产生新的子问题。   动态规划法步骤如下：   描述最优解的结构； 递归定义">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-10-01T08:31:46.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法思维：动态规划">
+<meta name="twitter:description" content="动态规划（Dynamic programming，DP）把原问题分解为子问题求解复杂问题，其适用于有重叠子问题和最优子结构性质的问题，所耗时间往往远少于朴素解法（空间换时间）。   最优子结构：如果问题的最优解中包含了子问题的最优解，则该问题具有最优子机构。 重叠子问题：用于原问题求解的递归算法，反复地解同样的子问题，而非产生新的子问题。   动态规划法步骤如下：   描述最优解的结构； 递归定义">
+<meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="算法思维：动态规划" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-17T16:00:00.000Z">2020-07-18</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2768 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                算法思维：动态规划
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://zh.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92" target="_blank" rel="noopener">动态规划</a>（Dynamic programming，DP）把原问题分解为子问题求解复杂问题，其适用于有<strong>重叠子问题</strong>和<strong>最优子结构</strong>性质的问题，所耗时间往往远少于朴素解法（<strong>空间换时间</strong>）。</p>
+<blockquote>
+<ol>
+<li>最优子结构：如果问题的<strong>最优解</strong>中<strong>包含了</strong>子问题的最优解，则该问题具有最优子机构。</li>
+<li>重叠子问题：用于原问题求解的递归算法，反复地解同样的子问题，而非产生新的子问题。</li>
+</ol>
+</blockquote>
+<p>动态规划法步骤如下：</p>
+<blockquote>
+<ol>
+<li>描述最优解的结构；</li>
+<li><strong>递归</strong>定义最优解的值，即<strong>递推公式</strong>；</li>
+<li>自底向上计算<strong>子问题</strong>的最优解，并记录，便于<strong>查表</strong>。</li>
+</ol>
+</blockquote>
+<p>动态规划问题的<strong>常见形式</strong>就是<strong>求最值</strong>，例如最长递增子序列、最小编辑距离等。</p>
+<a id="more"></a>
+
+<h2 id="一-凑零钱"><a href="#一-凑零钱" class="headerlink" title="一. 凑零钱"></a>一. 凑零钱</h2><blockquote>
+<p><a href="https://leetcode.com/problems/coin-change/" target="_blank" rel="noopener">Leetcode 322. Coin Change</a>：<br>$k$种面值的硬币，面值分别为$c_1, c_2 … c_k$，问<strong>最</strong>少需要几枚硬币凑出金额amount，若无法凑出，返回-1。</p>
+</blockquote>
+<p>当然，使用基于<strong>回朔算法</strong>的穷举算法可以解决问题，但动态规划可获得更优解，递推公式如下: $$\text{dp}(n) = \min \left\{\text{dp}(n-\operatorname{coin})+1 \mid \operatorname{coin} \in \operatorname{coin} s\right\}, n>0$$</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">coinChange</span><span class="hljs-params">(coins, amount)</span>:</span></span><br><span class="line">    table = [amount+<span class="hljs-number">1</span>] * (amount+<span class="hljs-number">1</span>) <span class="hljs-comment"># 最小值问题，初始化为最大值</span></span><br><span class="line">    table[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span> <span class="hljs-comment"># table[i]表示最优子问题，即凑出金额i，所需的最少硬币数</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(amount + <span class="hljs-number">1</span>):</span><br><span class="line">        <span class="hljs-keyword">for</span> coin <span class="hljs-keyword">in</span> coins:</span><br><span class="line">            <span class="hljs-keyword">if</span> i &lt; coin:</span><br><span class="line">                <span class="hljs-keyword">continue</span></span><br><span class="line">            table[i] = min(table[i-coin] + <span class="hljs-number">1</span>, table[i])</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span> <span class="hljs-keyword">if</span> table[amount] == (amount + <span class="hljs-number">1</span>) <span class="hljs-keyword">else</span> table[amount]</span><br></pre></td></tr></table></figure>
+
+<p><strong>注$\star$</strong>：求<strong>最小值</strong>，dp table 通常<strong>初始化为极大值</strong>，反之亦然。</p>
+<blockquote>
+<p><a href="https://leetcode.com/problems/coin-change-2/" target="_blank" rel="noopener">Leetcode 518. Coin Change 2</a>：<br>$k$种面值的硬币，面值分别为$c_1, c_2 … c_k$，问有几种方式可以凑出金额amount，若无法凑出，返回0。</p>
+</blockquote>
+<p>回朔算法可行，动态规划可优化，重复子问题的求解。采用<strong>完全背包问题</strong>（物品数量<strong>无限制</strong>）的思想，定义$\text{dp}[i][j]$：使用<strong>前$i$类</strong>币，凑出金额$j$的方式数。若不使用<strong>第$i$类</strong>币，$\text{dp}[i][j]=\text{dp}[i-1][j]$；若使用第$i$类币，拿出一个$i$类币，$\text{dp}[i][j] = \text{dp}[i][j-coins[i]]$。故其递推公式为：$$\text{dp}[i][j] = \text{dp}[i-1][j] + \text{dp}[i][j-coins[i]])$$。</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">coinChange</span><span class="hljs-params">(amount, coins)</span>:</span></span><br><span class="line">    table = [[<span class="hljs-number">0</span>] * (amount + <span class="hljs-number">1</span>) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(len(coins) + <span class="hljs-number">1</span>)]</span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(coins) + <span class="hljs-number">1</span>): <span class="hljs-comment"># amount = 0的时候，只有1种方法</span></span><br><span class="line">        table[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len(coins) + <span class="hljs-number">1</span>):</span><br><span class="line">        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, amount + <span class="hljs-number">1</span>):</span><br><span class="line">            <span class="hljs-keyword">if</span> j &lt; coin[i<span class="hljs-number">-1</span>]:</span><br><span class="line">                table[i][j] = table[i<span class="hljs-number">-1</span>][j]</span><br><span class="line">            <span class="hljs-keyword">else</span>:</span><br><span class="line">                table[i][j] = table[i<span class="hljs-number">-1</span>][j] + table[i][j-coin[i<span class="hljs-number">-1</span>]]</span><br><span class="line">    <span class="hljs-keyword">return</span> table[len(coins)][amount]</span><br></pre></td></tr></table></figure>
+
+<h2 id="二-切钢条问题"><a href="#二-切钢条问题" class="headerlink" title="二. 切钢条问题"></a>二. 切钢条问题</h2><blockquote>
+<p>不同长度$l_i$的钢条的售价为$v_i$，问长度为$n$的钢条最高售价。</p>
+</blockquote>
+<p>同上，也是<strong>完全背包问题</strong>，可以用一个二维DP解决，定义$\text{dp}[i][j]$：使用<strong>前$i$类</strong>切割，长度为$j$的钢条最高售价。递推公式为：$$\text{dp}[i][j] = \text{max}(\text{dp}[i-1][j], \text{dp}[i][j-l[i]])$$</p>
+<p>1维DP，定义$\text{dp}[i]$：度为$i$的钢条最高售价，$$\text{dp}[i] = \text{max}(\text{dp}[i-l_j] + \text{vals}[j]\mid l_j \in l)$$</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">MaxPrice</span><span class="hljs-params">(ls, vals, n)</span>:</span></span><br><span class="line">    table = [<span class="hljs-number">0</span>] * (n + <span class="hljs-number">1</span>)</span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, n + <span class="hljs-number">1</span>):</span><br><span class="line">        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len(ls)):</span><br><span class="line">            <span class="hljs-keyword">if</span> ls[j] &lt; i:</span><br><span class="line">                table[i] = max(table[i], table[i-ls[j]] + vals[j])</span><br><span class="line">    <span class="hljs-keyword">return</span> table[<span class="hljs-number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="三-背包问题"><a href="#三-背包问题" class="headerlink" title="三. 背包问题"></a>三. 背包问题</h2><blockquote>
+<p><a href="https://leetcode.com/problems/partition-equal-subset-sum/" target="_blank" rel="noopener">Leetcode 416. Partition Equal Subset Sum</a>：<br>背包最大载重为$W$，$N$个物品，其中第$i$个物品的重量为$\text{w}_i$，价值为$\text{val}_i$，问起最多能装的价值是多少？</p>
+</blockquote>
+<p>定义$\text{dp}[i][w]$：对于<strong>前$i$个</strong>物品，当背包的容量为$w$时，可以装载的最大价值。若不装第$i$个物品，$\text{dp}[i][w]=\text{dp}[i-1][w]$；若装第$i$个物品，$\text{dp}[i][w] = \text{dp}[i-1][w-ws[i]] +vals[i]$。故其递推公式为：$$\text{dp}[i][w] = max(\text{dp}[i-1][w], \text{dp}[i-1][w-ws[i]] + val[i])$$</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">knapsack</span><span class="hljs-params">(ws, vals, W)</span>:</span></span><br><span class="line">    N = len(ws)</span><br><span class="line">    dp  = [[<span class="hljs-number">0</span>] * (W + <span class="hljs-number">1</span>) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(N + <span class="hljs-number">1</span>)] <span class="hljs-comment"># 最大化问题，初始化为极小值</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, N+<span class="hljs-number">1</span>):</span><br><span class="line">        <span class="hljs-keyword">for</span> w <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, W+<span class="hljs-number">1</span>):</span><br><span class="line">            <span class="hljs-keyword">if</span> w &lt; ws[i<span class="hljs-number">-1</span>]:</span><br><span class="line">                dp[i][w] = dp[i<span class="hljs-number">-1</span>][w] <span class="hljs-comment"># 若装不下第i个物品，则不装入</span></span><br><span class="line">            <span class="hljs-keyword">else</span>:</span><br><span class="line">                dp[i][w] = max(dp[i<span class="hljs-number">-1</span>][w], dp[i<span class="hljs-number">-1</span>][w-ws[i<span class="hljs-number">-1</span>]] + vals[i<span class="hljs-number">-1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sackchoice</span><span class="hljs-params">(dp)</span>:</span> <span class="hljs-comment"># 计算放入背包的具体物品</span></span><br><span class="line">        res = []</span><br><span class="line">        w = W</span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(N, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):</span><br><span class="line">            <span class="hljs-keyword">if</span> dp[i][w] == dp[i<span class="hljs-number">-1</span>][w-ws[i<span class="hljs-number">-1</span>]] + vals[i<span class="hljs-number">-1</span>]: <span class="hljs-comment"># 当等号取到时，即物品i-1被放入</span></span><br><span class="line">                res.append(i<span class="hljs-number">-1</span>)</span><br><span class="line">                w -= ws[i<span class="hljs-number">-1</span>]</span><br><span class="line">        <span class="hljs-keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> dp[N][W], sackchoice(dp)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注$\star$</strong>：1. 背包问题的形式为，元素$i$有价值$v_i$与重量$w_i$，求符合“重量和约束”或“价值和约束”下的的最优值；<br><strong>注$\star$</strong>：2. 背包问题主要就是围绕，<strong>前$i$个</strong>元素，设计$\text{dp}[i]$；再通过对<strong>第$i$个元素</strong>的选择，递推$\text{dp}[i]$。</p>
+<h2 id="四-股票问题"><a href="#四-股票问题" class="headerlink" title="四. 股票问题"></a>四. 股票问题</h2><h3 id="1-一次股票交易："><a href="#1-一次股票交易：" class="headerlink" title="1. 一次股票交易："></a>1. 一次股票交易：</h3><blockquote>
+<p><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">121. 买卖股票的最佳时机</a></p>
+</blockquote>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(self, prices)</span>:</span> </span><br><span class="line">        minPrice, maxProfit = float(<span class="hljs-string">"inf"</span>), -float(<span class="hljs-string">"inf"</span>)</span><br><span class="line">        <span class="hljs-keyword">for</span> price <span class="hljs-keyword">in</span> prices:</span><br><span class="line">            minPrice = min(price, minPrice) <span class="hljs-comment"># 单次遍历，记录至指针处，买入价格的历史最小值</span></span><br><span class="line">            maxProfit = max(maxProfit, price - minPrice) <span class="hljs-comment"># 单次遍历，记录至指针处，卖出收益的历史最大值</span></span><br><span class="line">        <span class="hljs-keyword">return</span> maxProfit</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-不限次股票交易："><a href="#2-不限次股票交易：" class="headerlink" title="2. 不限次股票交易："></a>2. 不限次股票交易：</h3><blockquote>
+<p><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">122. 买卖股票的最佳时机 II</a></p>
+</blockquote>
+<p>使用2d-DP解决，定义：$\text{dp}[i][1]$为第$i$日，<strong>持有股票</strong>时的最大收益；$\text{dp}[i][1]$为第$i$日，<strong>未持有股票</strong>时的最大收益；最终结果为$\text{dp}[N][0]$。</p>
+<p>第$i$日，<strong>持有股票</strong>时，最大收益$\text{dp}[i][1]$为：若第$i$日，没有买入股票，则$i-1$日就持有股票，故$\text{dp}[i][1] = \text{dp}[i-1][1]$；若第$i$日，买入股票，则$i-1$日必然<strong>未持有</strong>股票，故$\text{dp}[i][1] = \text{dp}[i-1][0] - \text{prices}[i]$；那么，综合可知道，第$i$日<strong>持有股票</strong>时的递推公式：$$\text{dp}[i][1] = \text{max}(\text{dp}[i-1][0] - \text{prices}[i], \text{dp}[i-1][1])$$同理，第$i$日，<strong>未持有股票</strong>时递推公式为：$$\text{dp}[i][0] = \text{max}(\text{dp}[i-1][1] + \text{prices}[i], \text{dp}[i-1][0])$$</p>
+<p><strong>初始化$\star$</strong>：第0天，若持有股票，收益为-inf；第0天，若持不持有股票，收益为0。</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(self, prices)</span>:</span></span><br><span class="line">        N = len(prices)</span><br><span class="line">        table = [[<span class="hljs-number">0</span>] * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(N + <span class="hljs-number">1</span>)]</span><br><span class="line">        table[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] = -float(<span class="hljs-string">"inf"</span>) <span class="hljs-comment"># 第0天，若持有股票，收益为-inf；第0天，若持不持有股票，收益为0。</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, N+<span class="hljs-number">1</span>):</span><br><span class="line">            table[i][<span class="hljs-number">1</span>] = max(table[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>], table[i<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>] - prices[i<span class="hljs-number">-1</span>]) </span><br><span class="line">            table[i][<span class="hljs-number">0</span>] = max(table[i<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>], table[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>] + prices[i<span class="hljs-number">-1</span>])</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment"># 新状态只与相邻的一个状态有关，故可简化为</span></span><br><span class="line">            <span class="hljs-comment"># table_i_1, table_i_0 = max(table_i_1, table_i_0 - prices[i-1]), max(table_i_0, table_i_1 + prices[i-1])</span></span><br><span class="line">        <span class="hljs-keyword">return</span> table[N][<span class="hljs-number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p>进一步简化，统计所有$\text{prices}_i - \text{prices}_{i-1} > 0$：</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(self, prices)</span>:</span></span><br><span class="line">        profit = <span class="hljs-number">0</span></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len(prices)):</span><br><span class="line">            profit += max(<span class="hljs-number">0</span>, prices[i] - prices[i<span class="hljs-number">-1</span>])</span><br><span class="line">        <span class="hljs-keyword">return</span> profit</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank" rel="noopener">309. 最佳买卖股票时机含冷冻期</a></p>
+</blockquote>
+<p>卖出之后，需等待一天再交易。故第$i$日持有股票，若其为第$i$日买入，那么<strong>第$i-2$日</strong>，<strong>必不持有</strong>股票。递推公式为：</p>
+$$\text{dp}[i][0] = \text{max}(\text{dp}[i-1][1] + \text{prices}[i], \text{dp}[i-1][0])\\
+\text{dp}[i][1] = \text{max}(\text{dp}[i-2][0] - \text{prices}[i], \text{dp}[i-1][1])
+$$
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(self, prices)</span>:</span></span><br><span class="line">        N = len(prices)</span><br><span class="line">        table = [[<span class="hljs-number">0</span>] * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(N+<span class="hljs-number">1</span>)]</span><br><span class="line">        table[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] = -float(<span class="hljs-string">"inf"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, N+<span class="hljs-number">1</span>):</span><br><span class="line">            table[i][<span class="hljs-number">1</span>] = max(table[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>], table[i<span class="hljs-number">-2</span>][<span class="hljs-number">0</span>] - prices[i<span class="hljs-number">-1</span>]) <span class="hljs-comment"># table[-1][0]恰巧为0</span></span><br><span class="line">            table[i][<span class="hljs-number">0</span>] = max(table[i<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>], table[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>] + prices[i<span class="hljs-number">-1</span>])</span><br><span class="line">        <span class="hljs-keyword">return</span> table[N][<span class="hljs-number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/" target="_blank" rel="noopener">714. 买卖股票的最佳时机含手续费</a></p>
+</blockquote>
+$$\text{dp}[i][0] = \text{max}(\text{dp}[i-1][1] + \text{prices}[i] - \text{fee}, \text{dp}[i-1][0])\\
+\text{dp}[i][1] = \text{max}(\text{dp}[i-1][0] - \text{prices}[i], \text{dp}[i-1][1])
+$$
+
+<h3 id="3-有限次数股票交易："><a href="#3-有限次数股票交易：" class="headerlink" title="3. 有限次数股票交易："></a>3. 有限次数股票交易：</h3><blockquote>
+<p><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/" target="_blank" rel="noopener">123. 买卖股票的最佳时机 III</a>、<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">188. 买卖股票的最佳时机 IV</a></p>
+</blockquote>
+<p>此时，需要增加一维状态，用以表示交易次数（<strong>每买入一次</strong>，进入一笔新交易），需要用到3d-DP。递推公式为：</p>
+$$\text{dp}[i][k][0] = \text{max}(\text{dp}[i-1][k][1] + \text{prices}[i], \text{dp}[i-1][k][0])\\
+\text{dp}[i][k][1] = \text{max}(\text{dp}[i-1][k-1][0] - \text{prices}[i], \text{dp}[i-1][k][1])
+$$
+
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(self, K, prices)</span>:</span></span><br><span class="line">        N = len(prices)</span><br><span class="line">        <span class="hljs-keyword">if</span> K &gt; N / <span class="hljs-number">2</span>: <span class="hljs-comment"># 相当于无限次数交易</span></span><br><span class="line">            table = [[<span class="hljs-number">0</span>] * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(N + <span class="hljs-number">1</span>)]</span><br><span class="line">            table[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] = -float(<span class="hljs-string">"inf"</span>) <span class="hljs-comment"># 第0天，若持有股票，收益为-inf；第0天，若持不持有股票，收益为0。</span></span><br><span class="line">            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, N+<span class="hljs-number">1</span>):</span><br><span class="line">                table[i][<span class="hljs-number">1</span>] = max(table[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>], table[i<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>] - prices[i<span class="hljs-number">-1</span>]) </span><br><span class="line">                table[i][<span class="hljs-number">0</span>] = max(table[i<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>], table[i<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>] + prices[i<span class="hljs-number">-1</span>])</span><br><span class="line">            <span class="hljs-keyword">return</span> table[N][<span class="hljs-number">0</span>]</span><br><span class="line">        <span class="hljs-keyword">else</span>:</span><br><span class="line">            table = [[[<span class="hljs-number">0</span>] * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(K+<span class="hljs-number">1</span>)] <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(N+<span class="hljs-number">1</span>)]</span><br><span class="line">            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(K+<span class="hljs-number">1</span>):</span><br><span class="line">                table[<span class="hljs-number">0</span>][k][<span class="hljs-number">1</span>] = -float(<span class="hljs-string">"inf"</span>) <span class="hljs-comment"># 和前面一样，第0日，持有股票的收益为-inf</span></span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, N+<span class="hljs-number">1</span>):</span><br><span class="line">                <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, K+<span class="hljs-number">1</span>):</span><br><span class="line">                    table[i][k][<span class="hljs-number">1</span>] = max(table[i<span class="hljs-number">-1</span>][k][<span class="hljs-number">1</span>], table[i<span class="hljs-number">-1</span>][k<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>] - prices[i<span class="hljs-number">-1</span>])</span><br><span class="line">                    table[i][k][<span class="hljs-number">0</span>] = max(table[i<span class="hljs-number">-1</span>][k][<span class="hljs-number">0</span>], table[i<span class="hljs-number">-1</span>][k][<span class="hljs-number">1</span>] + prices[i<span class="hljs-number">-1</span>])</span><br><span class="line">            <span class="hljs-keyword">return</span> table[N][K][<span class="hljs-number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>注$\star$</strong>：和前面保持一样，第0日，持有股票时的收益为-inf。</p>
+<h2 id="五-蓄水问题"><a href="#五-蓄水问题" class="headerlink" title="五. 蓄水问题"></a>五. 蓄水问题</h2><h2 id="六-最小编辑距离-最长子序列"><a href="#六-最小编辑距离-最长子序列" class="headerlink" title="六. 最小编辑距离/最长子序列"></a>六. 最小编辑距离/最长子序列</h2><blockquote>
+<p><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">Leetcode 72. 编辑距离</a>，<a href="https://www.nowcoder.com/practice/05fed41805ae4394ab6607d0d745c8e4?tpId=191&&tqId=35237&rp=1&ru=/ta/job-code-high-algorithm&qru=/ta/job-code-high-algorithm/question-ranking" target="_blank" rel="noopener">变体</a></p>
+</blockquote>
+<p>定义$\text{dp}[i][j]$：word1前$i$个字符，转换至word2前$j$个字符，所需要的最小编辑距离。递推公式为：$$\text{dp}[i][j] = \text{dp}[i-1][j-1]\quad \text{if } \text{word}[i] = \text{word}[j] \\ \text{dp}[i][j] = \text{min}(\text{dp}[i-1][j], \text{dp}[i-1][j-1], \text{dp}[i][j-1]) + 1\quad \text{if } \text{word}[i] \neq \text{word}[j]
+$$</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minDistance</span><span class="hljs-params">(self, word1, word2)</span>:</span></span><br><span class="line">        len1, len2 = len(word1), len(word2)</span><br><span class="line">        dp = [[<span class="hljs-number">0</span>] * (len2 + <span class="hljs-number">1</span>) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(len1 + <span class="hljs-number">1</span>)]</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len1 + <span class="hljs-number">1</span>): <span class="hljs-comment"># 第一行，第一列的初始化</span></span><br><span class="line">            dp[i][<span class="hljs-number">0</span>] = dp[i<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>] + <span class="hljs-number">1</span></span><br><span class="line">        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len2 + <span class="hljs-number">1</span>):</span><br><span class="line">            dp[<span class="hljs-number">0</span>][j] = dp[<span class="hljs-number">0</span>][j<span class="hljs-number">-1</span>] + <span class="hljs-number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len1 + <span class="hljs-number">1</span>):</span><br><span class="line">            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len2 + <span class="hljs-number">1</span>):</span><br><span class="line">                <span class="hljs-keyword">if</span> word1[i<span class="hljs-number">-1</span>] == word2[j<span class="hljs-number">-1</span>]:</span><br><span class="line">                    dp[i][j]  = dp[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>]</span><br><span class="line">                <span class="hljs-keyword">else</span>:</span><br><span class="line">                    dp[i][j] = min(dp[i<span class="hljs-number">-1</span>][j], dp[i][j<span class="hljs-number">-1</span>], dp[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>]) + <span class="hljs-number">1</span></span><br><span class="line">        <span class="hljs-keyword">return</span> dp[<span class="hljs-number">-1</span>][<span class="hljs-number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="四-Reference"><a href="#四-Reference" class="headerlink" title="四. Reference"></a>四. Reference</h2><p><a href="https://mp.weixin.qq.com/s/RXfnhSpVBmVneQjDSUSAVQ" target="_blank" rel="noopener">Blog: 经典动态规划：0-1 背包问题</a><br><a href="https://mp.weixin.qq.com/s/Cw39C9MY9Wr2JlcvBQZMcA" target="_blank" rel="noopener">Blog: 动态规划详解（修订版）</a><br><a href="https://mp.weixin.qq.com/s/OzdkF30p5BHelCi6inAnNg" target="_blank" rel="noopener">Blog: 经典动态规划：0-1背包问题的变体</a><br><a href="https://labuladong.gitbook.io/algo/dong-tai-gui-hua-xi-lie/tuan-mie-gu-piao-wen-ti" target="_blank" rel="noopener">Blog: 团灭 LeetCode 股票买卖问题</a><br>切割钢条问题,Floyd最短路问题,最大不下降子序列,矩阵链乘,凸多边形三角剖分,0-1背包,最长公共子序列,最优二分搜索树</p>
+
+        </div>
+        
+        
+        
+        
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5d5e5688c60153001277c466&amp;product=inline-share-buttons' async='async'></script>
+
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/19/sort/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">算法思维：排序算法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/16/back-track/">
+                <span class="level-item">算法思维：回溯法</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '0UMdpjsaIDv3QIm6TvTb5dMg-MdYXbMMI',
+        app_key: 'WV1yT5spokAKC90uiItn48tR',
+        lang: 'en',
+        placeholder: 'Welcome your ideas',
+	visitor: 'true'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/./images/profile-pic.jpg" alt="Shengzhao Xia">
+                        </figure>
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        Shengzhao Xia
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Master Student
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>EPFL, Lausanne</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        38
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="column-right-shadow  ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/24/classic-problems/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法例题：经典题型">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-24T16:00:00.000Z">2020-07-25</time></div>
+                    <a href="/2020/07/24/classic-problems/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法例题：经典题型</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/19/sort/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：排序算法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-19T16:00:00.000Z">2020-07-20</time></div>
+                    <a href="/2020/07/19/sort/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：排序算法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/17/dynamic-programming/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：动态规划">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-17T16:00:00.000Z">2020-07-18</time></div>
+                    <a href="/2020/07/17/dynamic-programming/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：动态规划</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/16/back-track/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：回溯法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-16T16:00:00.000Z">2020-07-17</time></div>
+                    <a href="/2020/07/16/back-track/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：回溯法</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/14/binary-search/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="算法思维：二分查找">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-14T16:00:00.000Z">2020-07-15</time></div>
+                    <a href="/2020/07/14/binary-search/" class="title has-link-black-ter is-size-6 has-text-weight-normal">算法思维：二分查找</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">9</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="算法思维：动态规划" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Shengzhao Xia&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_pv" class="theme-info">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                <span id="busuanzi_container_site_uv" class="theme-info">
+                <span id="busuanzi_value_site_pv">0</span> times
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

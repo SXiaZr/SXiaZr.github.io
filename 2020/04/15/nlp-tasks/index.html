@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Neural NLP：ELMo - DeepBlog</title>
+<title>Neural NLP：Tasks - DeepBlog</title>
 
 
-    <meta name="description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
+    <meta name="description" content="一. 概念通常而言，大部分 NLP 问题可以归入序列标注、分类任务、句子关系判断、生成式任务四类任务中，本文简要介绍不同任务的模型结构。">
 <meta name="keywords" content="Deep Learning, Machine Learning, NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Neural NLP：ELMo">
-<meta property="og:url" content="http://sxiazr.github.io/2020/04/14/nlp-elmo/index.html">
+<meta property="og:title" content="Neural NLP：Tasks">
+<meta property="og:url" content="http://sxiazr.github.io/2020/04/15/nlp-tasks/index.html">
 <meta property="og:site_name" content="DeepBlog">
-<meta property="og:description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
+<meta property="og:description" content="一. 概念通常而言，大部分 NLP 问题可以归入序列标注、分类任务、句子关系判断、生成式任务四类任务中，本文简要介绍不同任务的模型结构。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://sxiazr.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-08-23T16:05:00.358Z">
+<meta property="og:updated_time" content="2020-10-04T13:54:56.206Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Neural NLP：ELMo">
-<meta name="twitter:description" content="一. 概念支持向量机（Support Vector Machine，SVM）是经典的二分类模型，其直观地定义为特征空间上，间隔最大（最鲁棒）的线性分类器。SVM学习的优化目标是最大化间隔，可以转化为凸二次规划（convex quadratic programming）问题。在线性模型的基础上，引入核函数（核技巧）可以得到非线性模型。">
+<meta name="twitter:title" content="Neural NLP：Tasks">
+<meta name="twitter:description" content="一. 概念通常而言，大部分 NLP 问题可以归入序列标注、分类任务、句子关系判断、生成式任务四类任务中，本文简要介绍不同任务的模型结构。">
 <meta name="twitter:image" content="http://sxiazr.github.io/images/og_image.png">
 
 
@@ -98,7 +98,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Neural NLP：ELMo" height="28">
+                <img src="/images/logo.svg" alt="Neural NLP：Tasks" height="28">
             
             </a>
         </div>
@@ -154,13 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-04-14T16:00:00.000Z">2020-04-15</time>
+                <time class="level-item has-text-grey" datetime="2020-04-15T16:00:00.000Z">2020-04-16</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    2 minutes read (About 229 words)
+                    4 minutes read (About 637 words)
                 </span>
                 
                 
@@ -174,14 +174,38 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Neural NLP：ELMo
+                Neural NLP：Tasks
             
         </h1>
         <div class="content">
-            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>支持向量机（Support Vector Machine，SVM）是经典的<strong>二分类</strong>模型，其<strong>直观地</strong>定义为特征空间上，<strong>间隔最大</strong>（最鲁棒）的<strong>线性分类器</strong>。SVM学习的优化目标是最大化间隔，可以转化为<strong>凸二次规划</strong>（convex quadratic programming）问题。在线性模型的基础上，引入<strong>核函数</strong>（核技巧）可以得到<strong>非线性</strong>模型。</p>
+            <h1 id="一-概念"><a href="#一-概念" class="headerlink" title="一. 概念"></a>一. 概念</h1><p>通常而言，大部分 NLP 问题可以归入<strong>序列标注</strong>、<strong>分类任务</strong>、<strong>句子关系判断</strong>、<strong>生成式任务</strong>四类任务中，本文简要介绍不同任务的<strong>模型结构</strong>。</p>
 <a id="more"></a>
-<h1 id="二-硬间隔-Hard-margin"><a href="#二-硬间隔-Hard-margin" class="headerlink" title="二. 硬间隔(Hard margin)"></a>二. 硬间隔(Hard margin)</h1><p>SVM试图找到位于两类样本<strong>正中间</strong>的超平面，因为其<strong>鲁棒性</strong>最好，泛化能力最强。</p>
-<h1 id="七-Reference"><a href="#七-Reference" class="headerlink" title="七. Reference"></a>七. Reference</h1><p><a href="https://item.jd.com/11867803.html" target="_blank" rel="noopener">Book: 机器学习，周志华</a><br><a href="https://zhuanlan.zhihu.com/p/91267375" target="_blank" rel="noopener">Zhihu: SVM（二）：从凸优化聊到SVM对偶式的推导</a><br><a href="https://github.com/familyld/Machine_Learning" target="_blank" rel="noopener">Github: Machine_Learning</a><br><a href="https://towardsdatascience.com/an-introduction-to-support-vector-regression-svr-a3ebc1672c2" target="_blank" rel="noopener">Blog: An Introduction to Support Vector Regression (SVR)</a></p>
+<h1 id="二-注意力机制"><a href="#二-注意力机制" class="headerlink" title="二. 注意力机制"></a>二. 注意力机制</h1><p>在使用RNN<strong>对序列建模</strong>的过程中，主要<strong>假设</strong>是：</p>
+<ul>
+<li>当前时间步的状态，保存了<strong>到目前为止</strong>所看到的所有输入信息（那么，RNN的<strong>最终状态</strong>，应包含有关该序列的所有信息）。</li>
+</ul>
+<p>这个假设的成立是<strong>存疑</strong>的，注意力机制建议，应查看<strong>整个输入序列</strong>的隐藏状态，并<strong>关注重点状态</strong>。该“重点”通过Attention中的<strong>相似度</strong>来确定，即与当前状态相似的状态将被“着重关注”：</p>
+$$
+\begin{aligned}
+\alpha_{i, j}&=\frac{e^{\operatorname{score}(Q u e r y(i), K e y(j))}}{\sum_{k=1}^{t} e^{\operatorname{score}(Q u e r y(i), K e y(k))}} \\c_{i}&=\sum_{j=1}^{n} \alpha_{i, j} Value(j)
+\end{aligned}
+$$
+
+<p>所有状态的<strong>相似度加权和</strong>，即上下文状态（context vector）将用于后续过程。score即为相似度的计算，常见的方法有：</p>
+<ul>
+<li>点乘：$\operatorname{score}(\mathbf{q}, \mathbf{k}) = \mathbf{q}^T\mathbf{k}$；</li>
+<li>余弦相似度：$\operatorname{score}(\mathbf{q}, \mathbf{k}) = \frac{\mathbf{q}^T\mathbf{k}}{||\mathbf{q}||\cdot||\mathbf{k}||}$；</li>
+<li>拼接：$\operatorname{score}(\mathbf{q}, \mathbf{k}) = W[\mathbf{q}, \mathbf{k}]$；</li>
+<li>多层感知机，<a href="https://arxiv.org/pdf/1409.0473v7.pdf" target="_blank" rel="noopener">出自</a>：$\operatorname{score}(\mathbf{q}, \mathbf{k}) = v_a^T\text{tanh}(W\mathbf{q} + U\mathbf{k})$。</li>
+</ul>
+<p>Attention具体原理，详见<a href="/2019/12/09/build-transformer-from-scratch-part-1/" title="这篇博文">这篇博文</a>。</p>
+<h1 id="三-常见的NLP任务"><a href="#三-常见的NLP任务" class="headerlink" title="三. 常见的NLP任务"></a>三. 常见的NLP任务</h1><h2 id="序列标注"><a href="#序列标注" class="headerlink" title="序列标注"></a>序列标注</h2><p>序列标注任务是对<strong>每个时间步</strong>的输入，均返回一个输出，例如：中文分词，词性标注（part of speech labeling），命名实体识别（entity recognition）等任务。</p>
+<p align="center">
+  <img src="./seq-labeling.png" alt="Sequence Labeling without/with Attention" width="600px">
+</p>
+
+<h2 id="分类任务"><a href="#分类任务" class="headerlink" title="分类任务"></a>分类任务</h2><h2 id="翻译任务"><a href="#翻译任务" class="headerlink" title="翻译任务"></a>翻译任务</h2><p>teaching force</p>
+<h1 id="四-Reference"><a href="#四-Reference" class="headerlink" title="四. Reference"></a>四. Reference</h1><p><a href="https://zhuanlan.zhihu.com/p/54743941" target="_blank" rel="noopener">Zhihu: 放弃幻想，全面拥抱Transformer：自然语言处理三大特征抽取器（CNN/RNN/TF）比较</a><br><a href="https://medium.com/@shashank7.iitd/understanding-attention-mechanism-35ff53fc328e" target="_blank" rel="noopener">Medium: Understanding Attention Mechanism</a><br><a href="https://medium.com/@pkqiang49/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82-attention-%E6%9C%AC%E8%B4%A8%E5%8E%9F%E7%90%86-3%E5%A4%A7%E4%BC%98%E7%82%B9-5%E5%A4%A7%E7%B1%BB%E5%9E%8B-e4fbe4b6d030" target="_blank" rel="noopener">Blog: 一文看懂 Attention（本质原理+3大优点+5大类型）</a><br><a href="https://arxiv.org/pdf/1409.0473v7.pdf" target="_blank" rel="noopener">Paper: NEURAL MACHINE TRANSLATION BY JOINTLY LEARNING TO ALIGN AND TRANSLATE</a></p>
 
         </div>
         
@@ -203,16 +227,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/14/nlp-xlnet/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/16/nlp-word2vec-1/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Neural NLP：语言模型</span>
+                <span class="level-item">Neural NLP：词向量</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/14/nlp-cnn/">
-                <span class="level-item">Neural NLP：ELMo</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/14/nlp-xlnet/">
+                <span class="level-item">Neural NLP：语言模型</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -606,7 +630,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Neural NLP：ELMo" height="28">
+                    <img src="/images/logo.svg" alt="Neural NLP：Tasks" height="28">
                 
                 </a>
                 <p class="is-size-7">
